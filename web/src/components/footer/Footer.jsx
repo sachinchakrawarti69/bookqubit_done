@@ -8,7 +8,6 @@ import LegalFooter from "./components/LegalFooter";
 import AIAssistant from "./components/AIAssistant";
 import GoUpButton from "./components/GoUpButton";
 import ExplorePage from "./components/ExplorePage";
-import "./Footer.module.css";
 
 const Footer = () => {
   const { theme, themeName } = useTheme();
