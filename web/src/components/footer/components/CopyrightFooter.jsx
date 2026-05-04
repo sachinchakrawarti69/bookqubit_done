@@ -5,10 +5,10 @@ import { useTheme } from "@/themes/useTheme";
 
 const CopyrightFooter: React.FC = () => {
   const { theme, themeName } = useTheme();
-  const currentYear = new Date().getFullYear();
+  const currentYear: number = new Date().getFullYear();
 
   // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const isDarkMode: boolean = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   // Dynamic footer theme based on current theme
   const footerTheme = {

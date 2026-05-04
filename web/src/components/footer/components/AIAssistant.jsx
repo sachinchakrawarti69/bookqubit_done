@@ -14,6 +14,11 @@ const AIAssistant = () => {
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Guard against undefined theme
+  if (!theme) {
+    return null;
+  }
+
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
@@ -22,6 +27,7 @@ const AIAssistant = () => {
   const dragThreshold = useRef(false);
   const clickPrevented = useRef(false);
   const messagesEndRef = useRef(null);
+  const buttonRef = useRef(null);
 
   // Scroll to bottom of messages
   useEffect(() => {
@@ -36,19 +42,19 @@ const AIAssistant = () => {
     e.preventDefault();
   };
 
-  const handleMouseMove = (e) => {
-    if (isDragging) {
+  const handleMouseMove = useCallback((e) => {
+    if (isDragging && buttonRef.current) {
       // Constrain to viewport
       const newX = Math.min(Math.max(e.clientX - 30, 0), window.innerWidth - 60);
       const newY = Math.min(Math.max(e.clientY - 30, 0), window.innerHeight - 60);
       setAiPosition({ x: newX, y: newY });
       dragThreshold.current = true;
     }
-  };
+  }, [isDragging]);
 
-  const handleMouseUp = () => {
+  const handleMouseUp = useCallback(() => {
     setIsDragging(false);
-  };
+  }, []);
 
   // Long press handlers - only for hiding
   const handleTouchStart = () => {
@@ -130,7 +136,7 @@ const AIAssistant = () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging]);
+  }, [handleMouseMove, handleMouseUp]);
 
   useEffect(() => {
     return () => {
@@ -146,6 +152,7 @@ const AIAssistant = () => {
     <>
       {/* AI Button */}
       <div
+        ref={buttonRef}
         style={{
           position: "fixed",
           left: aiPosition.x,
