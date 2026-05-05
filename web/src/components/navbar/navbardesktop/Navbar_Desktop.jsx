@@ -32,19 +32,34 @@ const Navbar_Desktop = () => {
 
   // Dark mode toggle - switches between light and dark only
   const toggleDarkMode = () => {
-    if (themeName === 'dark') {
-      changeTheme('light');
+    if (themeName === "dark") {
+      changeTheme("light");
     } else {
-      changeTheme('dark');
+      changeTheme("dark");
     }
   };
 
   // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
+
+  // Get theme-based classes
+  const getButtonClasses = () => {
+    return `navbar-desktop-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
+  };
+
+  const getTextHighlightClass = () =>
+    theme.textColors?.highlight ||
+    (isDarkMode ? "text-blue-400" : "text-sky-600");
+  const getTextSecondaryClass = () =>
+    theme.textColors?.secondary ||
+    (isDarkMode ? "text-gray-400" : "text-gray-500");
 
   return (
     <nav
-      className={`navbar-desktop ${theme.background?.section || ''} ${theme.ringEffect || ''}`}
+      className={`navbar-desktop ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} ${theme.ringEffect || ""}`}
     >
       {/* ====================== TOP ROW ====================== */}
       <div className="navbar-desktop-top-row">
@@ -56,7 +71,7 @@ const Navbar_Desktop = () => {
             className="navbar-desktop-logo-img"
           />
           <span
-            className={`navbar-desktop-logo-text ${theme.textColors?.highlight || ''}`}
+            className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}
           >
             BookQubit
           </span>
@@ -72,29 +87,28 @@ const Navbar_Desktop = () => {
           {/* DARK MODE TOGGLE BUTTON */}
           <button
             onClick={toggleDarkMode}
-            className={`navbar-desktop-darkmode-button ${
-              isDarkMode ? "darkmode-active" : ""
-            } ${theme.background?.navigationDots || ''} ${theme.border?.button || ''}`}
+            className={getButtonClasses()}
             aria-label="Toggle dark mode"
+            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
             {isDarkMode ? (
-              <FaSun className={theme.textColors?.highlight || ''} />
+              <FaSun className={getTextHighlightClass()} size={18} />
             ) : (
-              <FaMoon className={theme.textColors?.secondary || ''} />
+              <FaMoon className={getTextSecondaryClass()} size={18} />
             )}
           </button>
 
-          {/* CONTROL DROPDOWN (Theme Switcher) */}
+          {/* CONTROL DROPDOWN (Theme & Font Switcher) */}
           <Control />
 
           {/* AI TOOL BUTTON */}
           <Link
             href="/bookqubitai"
-            className={`navbar-desktop-ai-button ${theme.border?.default || ''}`}
+            className={`navbar-desktop-ai-button ${theme.border?.default || ""}`}
           >
-            <FaRobot className={theme.textColors?.highlight || ''} />
+            <FaRobot className={getTextHighlightClass()} size={18} />
             <span
-              className={`navbar-desktop-ai-text ${theme.textColors?.highlight || ''}`}
+              className={`navbar-desktop-ai-text ${getTextHighlightClass()}`}
             >
               AI
             </span>
@@ -112,8 +126,9 @@ const Navbar_Desktop = () => {
             <Link
               href="/auth/login"
               className={`navbar-desktop-signup-button ${
-                theme.buttonColors?.primaryButton?.background || ''
-              } ${theme.buttonColors?.primaryButton?.hoverBackground || ''}`}
+                theme.buttonColors?.primaryButton?.background ||
+                "bg-gradient-to-r from-sky-600 to-sky-500"
+              } ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"}`}
             >
               Login
             </Link>
@@ -125,7 +140,7 @@ const Navbar_Desktop = () => {
 
       {/* ====================== NAV LINKS ====================== */}
       <div
-        className={`navbar-desktop-links ${theme.background?.navigationDots || ''}`}
+        className={`navbar-desktop-links ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
       >
         <div className="navbar-desktop-links-container">
           <NavItem />
