@@ -57,7 +57,7 @@ const ExploreBooks = () => {
 
   return (
     <section
-      className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      className={`${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
         <div className="text-center mb-8 md:mb-12">
@@ -78,7 +78,7 @@ const ExploreBooks = () => {
             {featuredBooks.map((book) => (
               <div key={book.id} className="px-2 outline-none h-full">
                 <div
-                  className={`${theme.background?.bookCoverSide || ''} ${theme.border?.default || ''} ${theme.shadow?.container || ''} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
+                  className={`${theme.background?.bookCoverSide || 'bg-white dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
                 >
                   <div className="flex justify-center mb-3">
                     <img
@@ -117,8 +117,9 @@ const ExploreBooks = () => {
                       </svg>
                     ))}
                   </div>
+                  {/* Know More Button - Points to book details page */}
                   <Link
-                    href={book.buttons?.knowMore || `/books/${book.slug || book.id}`}
+                    href={`/bookdeatils/${book.slug || book.id}`}
                     className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
                   >
                     Know More
@@ -130,8 +131,9 @@ const ExploreBooks = () => {
         </div>
 
         <div className="text-center">
+          {/* Browse All Books Button - Points to bookslist page */}
           <Link
-            href="/books"
+            href="/bookslist"
             className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
             Browse All Books

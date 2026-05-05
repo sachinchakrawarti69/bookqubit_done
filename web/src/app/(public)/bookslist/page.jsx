@@ -1,0 +1,454 @@
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
+import booksData from "@/data/books/BooksData";
+// Correct import paths with exact filenames
+import BookSquareCard from "@/features/book/booklist/ui/BookSquareCard";
+import BookRectangleCard from "@/features/book/booklist/ui/BookRectangleCard";
+import BooksSearch from "@/features/book/booklist/components/Books_Search";
+import BooksFilter from "@/features/book/booklist/components/Books_Filter";
+import BookViewChanger from "@/features/book/booklist/actions/Book_View_Changer";
+import PaginationBooks from "@/features/book/booklist/components/PaginationBooks";
+import { useTheme } from "@/themes/useTheme";
+
+const BooksPage = () => {
+  const { theme, themeName } = useTheme();
+
+  // State for search and display
+  const [searchTerm, setSearchTerm] = useState("");
+  const [viewType, setViewType] = useState("grid");
+  const [isMobile, setIsMobile] = useState(false);
+
+  // State for filters
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCollections, setSelectedCollections] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+
+  // State for sorting and display
+  const [sortOption, setSortOption] = useState("title-asc");
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [showAdvancedControls, setShowAdvancedControls] = useState(false);
+
+  // Check if current theme is dark mode
+  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Check screen size on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (mobile) {
+        setViewType("grid");
+        setShowAdvancedControls(false);
+      }
+    };
+
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
+  // Extract all filter options from books data
+  const { allTags, allAuthors, allCategories, allCollections, allSubjects } =
+    useMemo(() => {
+      return {
+        allTags: Array.from(
+          new Set(booksData.flatMap((book) => book.tags || [])),
+        ).filter(Boolean),
+        allAuthors: Array.from(
+          new Set(booksData.map((book) => book.author)),
+        ).filter(Boolean),
+        allCategories: Array.from(
+          new Set(booksData.map((book) => book.category)),
+        ).filter(Boolean),
+        allCollections: Array.from(
+          new Set(booksData.map((book) => book.collection)),
+        ).filter(Boolean),
+        allSubjects: Array.from(
+          new Set(booksData.flatMap((book) => book.subjects || [])),
+        ).filter(Boolean),
+      };
+    }, [booksData]);
+
+  // Sort books based on sort option
+  const sortBooks = (books) => {
+    const sortedBooks = [...books];
+
+    switch (sortOption) {
+      case "title-asc":
+        return sortedBooks.sort((a, b) => a.title.localeCompare(b.title));
+      case "title-desc":
+        return sortedBooks.sort((a, b) => b.title.localeCompare(a.title));
+      case "author-asc":
+        return sortedBooks.sort((a, b) => a.author.localeCompare(b.author));
+      case "author-desc":
+        return sortedBooks.sort((a, b) => b.author.localeCompare(a.author));
+      case "date-newest":
+        return sortedBooks.sort(
+          (a, b) =>
+            new Date(b.publishedDate || 0) - new Date(a.publishedDate || 0),
+        );
+      case "date-oldest":
+        return sortedBooks.sort(
+          (a, b) =>
+            new Date(a.publishedDate || 0) - new Date(b.publishedDate || 0),
+        );
+      case "popular":
+        return sortedBooks.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      case "rating":
+        return sortedBooks.sort(
+          (a, b) => (b.popularity || 0) - (a.popularity || 0),
+        );
+      default:
+        return sortedBooks;
+    }
+  };
+
+  // Filter books based on all criteria
+  const filteredBooks = useMemo(() => {
+    const filtered = booksData.filter((book) => {
+      // Search term matching
+      const matchesSearch =
+        searchTerm === "" ||
+        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (book.description &&
+          book.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      // Filter category matching
+      const matchesTags =
+        selectedTags.length === 0 ||
+        (book.tags && selectedTags.some((tag) => book.tags?.includes(tag)));
+
+      const matchesAuthors =
+        selectedAuthors.length === 0 || selectedAuthors.includes(book.author);
+
+      const matchesCategories =
+        selectedCategories.length === 0 ||
+        (book.category && selectedCategories.includes(book.category));
+
+      const matchesCollections =
+        selectedCollections.length === 0 ||
+        (book.collection && selectedCollections.includes(book.collection));
+
+      const matchesSubjects =
+        selectedSubjects.length === 0 ||
+        (book.subjects &&
+          selectedSubjects.some((sub) => book.subjects?.includes(sub)));
+
+      return (
+        matchesSearch &&
+        matchesTags &&
+        matchesAuthors &&
+        matchesCategories &&
+        matchesCollections &&
+        matchesSubjects
+      );
+    });
+
+    // Apply sorting
+    return sortBooks(filtered);
+  }, [
+    searchTerm,
+    selectedTags,
+    selectedAuthors,
+    selectedCategories,
+    selectedCollections,
+    selectedSubjects,
+    sortOption,
+  ]);
+
+  // Reset all filters
+  const resetFilters = () => {
+    setSelectedTags([]);
+    setSelectedAuthors([]);
+    setSelectedCategories([]);
+    setSelectedCollections([]);
+    setSelectedSubjects([]);
+    setSearchTerm("");
+    setSortOption("title-asc");
+    setCurrentPage(1);
+  };
+
+  // Determine which view to display based on viewType
+  const renderBooksView = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, filteredBooks.length);
+    const currentBooks = filteredBooks.slice(startIndex, endIndex);
+
+    switch (viewType) {
+      case "grid":
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {currentBooks.map((book) => (
+              <BookSquareCard key={book.id} book={book} onTagClick={(tag) => {
+                setSelectedTags(prev => prev.includes(tag) ? prev : [...prev, tag]);
+                setCurrentPage(1);
+              }} />
+            ))}
+          </div>
+        );
+
+      case "list":
+        return (
+          <div className="space-y-6">
+            {currentBooks.map((book) => (
+              <BookRectangleCard key={book.id} book={book} onTagClick={(tag) => {
+                setSelectedTags(prev => prev.includes(tag) ? prev : [...prev, tag]);
+                setCurrentPage(1);
+              }} />
+            ))}
+          </div>
+        );
+
+      default:
+        return (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {currentBooks.map((book) => (
+              <BookSquareCard key={book.id} book={book} onTagClick={(tag) => {
+                setSelectedTags(prev => prev.includes(tag) ? prev : [...prev, tag]);
+                setCurrentPage(1);
+              }} />
+            ))}
+          </div>
+        );
+    }
+  };
+
+  // Handle search input change
+  const handleSearchChange = (value) => {
+    setSearchTerm(value);
+    setCurrentPage(1);
+  };
+
+  // Toggle advanced controls
+  const toggleAdvancedControls = () => {
+    setShowAdvancedControls(!showAdvancedControls);
+  };
+
+  // Helper function for toggle filter
+  const toggleFilter = (filter, category, setCategory) => {
+    if (category.includes(filter)) {
+      setCategory(category.filter((item) => item !== filter));
+    } else {
+      setCategory([...category, filter]);
+    }
+    setCurrentPage(1);
+  };
+
+  // No results component
+  const NoResults = () => (
+    <div className="text-center py-12">
+      <svg
+        className={`mx-auto h-12 w-12 ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1}
+          d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+        />
+      </svg>
+      <h3 className={`mt-2 text-lg font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
+        No books found
+      </h3>
+      <p className={`mt-1 ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+        Try adjusting your search or filter criteria
+      </p>
+      <div className="mt-6">
+        <button
+          onClick={resetFilters}
+          className={`
+            px-4 py-2 
+            ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'}
+            ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'}
+            ${theme.buttonColors?.primaryButton?.textColor || 'text-white'}
+            rounded-lg
+            shadow-md
+            hover:shadow-lg
+            transition-all duration-200
+          `}
+        >
+          Reset all filters
+        </button>
+      </div>
+    </div>
+  );
+
+  return (
+    <div
+      className={`min-h-screen ${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} overflow-x-hidden`}
+    >
+      <div className="container mx-auto p-4 space-y-6 max-w-full">
+        {/* Search & Controls Bar */}
+        <div
+          className={`
+          flex flex-col md:flex-row items-center justify-between gap-4 
+          sticky top-0 z-10 
+          ${theme.background?.section || 'bg-white dark:bg-gray-900'} 
+          ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'}
+          ${theme.shadow?.container || 'shadow-lg'}
+          p-4 rounded-lg
+          backdrop-blur-sm bg-opacity-90
+          w-full
+        `}
+        >
+          <BooksSearch
+            searchTerm={searchTerm}
+            setSearchTerm={handleSearchChange}
+          />
+
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <BookViewChanger
+              viewType={viewType}
+              setViewType={setViewType}
+              isMobile={isMobile}
+              showFilters={showFilters}
+              setShowFilters={setShowFilters}
+              sortOption={sortOption}
+              setSortOption={setSortOption}
+              itemsPerPage={itemsPerPage}
+              setItemsPerPage={setItemsPerPage}
+              showAdvancedControls={showAdvancedControls}
+            />
+
+            {/* Advanced Controls Toggle */}
+            {!isMobile && (
+              <button
+                onClick={toggleAdvancedControls}
+                className={`
+                  p-2 rounded-md transition-all duration-200
+                  ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500'}
+                  ${theme.buttonColors?.secondaryButton?.hoverBackground || 'hover:bg-sky-50 dark:hover:bg-sky-900/20'}
+                  ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600 dark:text-sky-400'}
+                  shadow-md
+                  hover:shadow-lg
+                  flex-shrink-0
+                `}
+                title={
+                  showAdvancedControls
+                    ? "Hide Advanced Controls"
+                    : "Show Advanced Controls"
+                }
+              >
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Filters Panel */}
+        {showFilters && (
+          <div
+            className={`${theme.background?.bookCoverSide || 'bg-gray-50 dark:bg-gray-800'} rounded-lg p-4 ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} overflow-x-auto`}
+          >
+            <BooksFilter
+              showFilters={showFilters}
+              resetFilters={resetFilters}
+              allTags={allTags}
+              allAuthors={allAuthors}
+              allCategories={allCategories}
+              allCollections={allCollections}
+              allSubjects={allSubjects}
+              selectedTags={selectedTags}
+              selectedAuthors={selectedAuthors}
+              selectedCategories={selectedCategories}
+              selectedCollections={selectedCollections}
+              selectedSubjects={selectedSubjects}
+              toggleFilter={toggleFilter}
+              setSelectedTags={setSelectedTags}
+              setSelectedAuthors={setSelectedAuthors}
+              setSelectedCategories={setSelectedCategories}
+              setSelectedCollections={setSelectedCollections}
+              setSelectedSubjects={setSelectedSubjects}
+            />
+          </div>
+        )}
+
+        {/* Results Count and View Info */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+            Found {filteredBooks.length}{" "}
+            {filteredBooks.length === 1 ? "book" : "books"}
+            {(selectedTags.length > 0 ||
+              selectedAuthors.length > 0 ||
+              selectedCategories.length > 0 ||
+              selectedCollections.length > 0 ||
+              selectedSubjects.length > 0) && (
+              <span> matching your filters</span>
+            )}
+          </div>
+
+          <div
+            className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} flex items-center gap-2 flex-wrap`}
+          >
+            <span className="flex items-center gap-1 whitespace-nowrap">
+              <svg
+                className="h-3 w-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                />
+              </svg>
+              Sorted by:{" "}
+              {sortOption
+                .replace("-", " ")
+                .replace(/\b\w/g, (l) => l.toUpperCase())}
+            </span>
+            <span className="hidden sm:inline">•</span>
+            <span className="whitespace-nowrap">
+              View: {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+            </span>
+          </div>
+        </div>
+
+        {/* Book Cards Grid */}
+        {filteredBooks.length > 0 ? (
+          <div className="w-full">{renderBooksView()}</div>
+        ) : (
+          <NoResults />
+        )}
+
+        {/* Pagination - Only show if there are books */}
+        {filteredBooks.length > 0 && (
+          <PaginationBooks
+            currentPage={currentPage}
+            totalPages={Math.ceil(filteredBooks.length / itemsPerPage)}
+            onPageChange={setCurrentPage}
+            itemsPerPage={itemsPerPage}
+            onItemsPerPageChange={setItemsPerPage}
+            totalItems={filteredBooks.length}
+          />
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default BooksPage;

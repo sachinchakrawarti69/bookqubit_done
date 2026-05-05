@@ -29,7 +29,7 @@ export const NAVIGATION_CONFIG = {
     {
       name: "Books",
       icon: <FaBook />,
-      path: "/books",
+      path: "/bookslist",
       dropdown: [
         { name: "Best Sellers", path: "/books/bestsellers", icon: <FaStar /> },
         { name: "New Releases", path: "/books/new", icon: <FaFire /> },

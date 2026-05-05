@@ -9,6 +9,11 @@ const GoUpButton = () => {
   const [showGoUp, setShowGoUp] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
+  // Guard against undefined theme
+  if (!theme) {
+    return null;
+  }
+
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
@@ -17,6 +22,9 @@ const GoUpButton = () => {
     const handleScroll = () => {
       setShowGoUp(window.scrollY > 200);
     };
+    
+    // Initial check
+    handleScroll();
     
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);

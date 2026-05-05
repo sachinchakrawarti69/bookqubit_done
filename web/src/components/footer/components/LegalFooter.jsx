@@ -1,99 +1,64 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
-import SocialFooter from "./SocialFooter";
-import LegalFooter from "./LegalFooter";
 
-const Footer = () => {
+const LegalFooter = () => {
   const { theme, themeName } = useTheme();
+
+  // Guard against undefined theme
+  if (!theme) {
+    return null;
+  }
+
+  // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
+  const legalLinks = [
+    { name: "Terms of Service", path: "/terms" },
+    { name: "Privacy Policy", path: "/privacy" },
+    { name: "Cookie Policy", path: "/cookies" },
+    { name: "Copyright Policy", path: "/copyright" },
+    { name: "GDPR Compliance", path: "/gdpr" },
+    { name: "Accessibility", path: "/accessibility" },
+  ];
+
   return (
-    <footer className={`${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-800'} border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
-      {/* Main Footer Content */}
-      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4 py-8`}>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Column */}
-          <div>
-            <h3 className={`text-lg font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-4`}>
-              BookQubit
-            </h3>
-            <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-              Your gateway to endless stories and knowledge.
-            </p>
-          </div>
+    <section
+      className={`
+        ${theme.background?.section || 'bg-white dark:bg-gray-900'}
+        border-t 
+        ${isDarkMode ? "border-gray-800" : "border-gray-200"}
+        py-6
+      `}
+    >
+      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4`}>
+        {/* Legal Links */}
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 mb-4">
+          {legalLinks.map((link) => (
+            <Link
+              key={link.name}
+              href={link.path}
+              className={`
+                text-xs
+                ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}
+                hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}
+                transition-colors duration-200
+              `}
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
 
-          {/* Quick Links Column */}
-          <div>
-            <h3 className={`text-lg font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-4`}>
-              Quick Links
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="/about" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  Contact
-                </a>
-              </li>
-              <li>
-                <a href="/faq" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  FAQ
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Explore Column */}
-          <div>
-            <h3 className={`text-lg font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-4`}>
-              Explore
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a href="/books" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  Books
-                </a>
-              </li>
-              <li>
-                <a href="/comics" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  Comics
-                </a>
-              </li>
-              <li>
-                <a href="/authors" className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} transition`}>
-                  Authors
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Column */}
-          <div>
-            <h3 className={`text-lg font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-4`}>
-              Get in Touch
-            </h3>
-            <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-2`}>
-              Email: support@bookqubit.com
-            </p>
-            <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-              Follow us on social media
-            </p>
-          </div>
+        {/* Copyright */}
+        <div className={`text-center text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+          <p>© {new Date().getFullYear()} BookQubit. All rights reserved.</p>
         </div>
       </div>
-
-      {/* Social Footer */}
-      <SocialFooter />
-      
-      {/* Legal Footer */}
-      <LegalFooter />
-    </footer>
+    </section>
   );
 };
 
-export default Footer;
+export default LegalFooter;
