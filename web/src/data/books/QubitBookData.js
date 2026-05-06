@@ -142,6 +142,8 @@ Masnavi_ye_Manavi:"https://i.pinimg.com/736x/60/e9/94/60e994c7419204b4c6b44d18ad
     Priyalness:"https://i.pinimg.com/736x/49/1a/83/491a832e21595049d7bc319268623aa3.jpg",
     Ugly_Loser_and_Brainless:"https://i.pinimg.com/736x/99/a6/d3/99a6d38b8d179f974b893af3b9c140cb.jpg",
     Order_of_Disorder:"https://i.pinimg.com/736x/9d/76/ff/9d76ffe7d42bf1a99ef7faf5e9561dd1.jpg",
+    TheLoveAngle:"https://i.pinimg.com/736x/e2/80/c3/e280c3101afb89704630f6dacc2ca06a.jpg",
+    BoycottedMan:"https://i.pinimg.com/736x/6c/9b/e4/6c9be47094c395d3180aa8b6041dae3a.jpg",
 
    // Financial Collection
    Trading_in_the_Zone:"https://i.pinimg.com/736x/1a/2b/c7/1a2bc7c20c998c37dbe81e7be1d61162.jpg",

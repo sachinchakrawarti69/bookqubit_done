@@ -4200,7 +4200,82 @@ const books = [
     "readSummary": "#",
     "listenAudiobook": "#"
   }
-}
+},
+
+{
+  "id": 96,
+  "title": "The Love Angle ❤️",
+  "slug": "the-love-angle",
+  "author": "Sachin Chakrawarti",
+  "collection": ["Chakrawarti Collection"],
+  "description": "The Love Angle ❤️ is an emotional and philosophical journey that explores the meaning of true love through the story of two souls connected beyond time and distance. The author reflects on the beauty, pain, sacrifice, and purity of the last two true loves in a changing world.",
+  "category": "Romantic Philosophy & Emotional Fiction",
+  "genre": "",
+  "country": "",
+  "price": "$12.99",
+  "imageUrl": QubitBookData.TheLoveAngle,
+  "rating": 4.8,
+  "keyPoints": [
+    "Story of the last two true lovers",
+    "Emotional depth and heartfelt connection",
+    "Philosophical thoughts on love and destiny",
+    "Love beyond time, pain, and separation"
+  ],
+  "tags": ["True Love", "Romance", "Emotions", "Destiny", "Soul Connection"],
+  "isbn": "9789356780003",
+  "pageCount": 310,
+  "published": "2026",
+  "format": "Paperback",
+  "publisher": "BookQubit Publications",
+  "language": "English",
+  "genres": ["Romance", "Philosophy", "Drama"],
+  "subjects": ["True Love", "Soulmates", "Emotional Journey", "Human Connection"],
+  "summary": "‘The Love Angle ❤️’ presents a touching exploration of true love in its purest form. Through emotional storytelling and reflective philosophy, Sachin Chakrawarti portrays the final two lovers whose bond survives misunderstandings, distance, and time itself — proving that real love never fades.",
+  "buttons": {
+    "knowMore": "/books/the-love-angle",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 97,
+  "title": "Boycotted Man ⚡",
+  "slug": "boycotted-man",
+  "author": "Sachin Chakrawarti",
+  "collection": ["Chakrawarti Collection"],
+  "description": "Boycotted Man ⚡ is a powerful psychological and social drama about a man rejected by society for being different. The book explores loneliness, judgment, identity, betrayal, and the struggle of a misunderstood individual trying to survive in a world that fears uniqueness.",
+  "category": "Psychological Drama & Social Fiction",
+  "genre": "",
+  "country": "",
+  "price": "$13.49",
+  "imageUrl": QubitBookData.BoycottedMan,
+  "rating": 4.6,
+  "keyPoints": [
+    "Story of a socially rejected man",
+    "Explores identity and emotional isolation",
+    "Critique of society’s double standards",
+    "Journey from pain to self-discovery"
+  ],
+  "tags": ["Boycotted", "Psychology", "Society", "Identity", "Loneliness"],
+  "isbn": "9789356780004",
+  "pageCount": 340,
+  "published": "2026",
+  "format": "Paperback",
+  "publisher": "BookQubit Publications",
+  "language": "English",
+  "genres": ["Drama", "Psychology", "Social Fiction"],
+  "subjects": ["Isolation", "Human Nature", "Social Judgment", "Mental Strength"],
+  "summary": "‘Boycotted Man ⚡’ tells the emotional story of a man constantly judged, ignored, and rejected for thinking differently. Through pain, anger, and reflection, the novel questions why society forces everyone to be the same and boycotts those who dare to stand apart.",
+  "buttons": {
+    "knowMore": "/books/boycotted-man",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
 
 ];
 

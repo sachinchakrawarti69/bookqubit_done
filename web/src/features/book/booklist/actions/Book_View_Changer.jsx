@@ -22,7 +22,7 @@ const BookViewChanger = ({
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  // Only grid and list views
+  // View options with Grid, Compact, and List views
   const viewOptions = [
     {
       id: "grid",
@@ -42,7 +42,30 @@ const BookViewChanger = ({
           />
         </svg>
       ),
-      description: "Compact card display",
+      description: "Card grid layout",
+      previewIcon: "⊞"
+    },
+    {
+      id: "compact",
+      label: "Compact View",
+      icon: (
+        <svg
+          className="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <rect x="4" y="5" width="16" height="14" rx="1" strokeWidth="1.5" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1.5}
+            d="M8 9h8M8 12h6M8 15h4"
+          />
+        </svg>
+      ),
+      description: "Horizontal compact cards",
+      previewIcon: "⧉"
     },
     {
       id: "list",
@@ -63,6 +86,7 @@ const BookViewChanger = ({
         </svg>
       ),
       description: "Detailed list display",
+      previewIcon: "≡"
     },
   ];
 
@@ -90,6 +114,10 @@ const BookViewChanger = ({
     { id: "normal", label: "Normal", icon: "☰" },
     { id: "spacious", label: "Spacious", icon: "⧉" },
   ];
+
+  // Get current view option label
+  const currentViewLabel = viewOptions.find((v) => v.id === viewType)?.label || "Grid View";
+  const currentViewIcon = viewOptions.find((v) => v.id === viewType)?.icon;
 
   // Get button styles based on theme
   const getButtonClasses = (isActive = false) => {
@@ -157,10 +185,8 @@ const BookViewChanger = ({
               className={getButtonClasses()}
               title="Change View"
             >
-              {viewOptions.find((v) => v.id === viewType)?.icon}
-              <span className="hidden sm:inline">
-                {viewOptions.find((v) => v.id === viewType)?.label}
-              </span>
+              <span className="mr-1">{currentViewIcon}</span>
+              <span className="hidden sm:inline">{currentViewLabel}</span>
               <svg
                 className={`h-4 w-4 transition-transform ${showViewOptions ? "rotate-180" : ""}`}
                 fill="none"
@@ -183,50 +209,53 @@ const BookViewChanger = ({
                   <div className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-400'}`}>
                     View Options
                   </div>
-                  {viewOptions.map((option) => (
-                    <button
-                      key={option.id}
-                      onClick={() => {
-                        setViewType(option.id);
-                        setShowViewOptions(false);
-                      }}
-                      className={`
-                        flex items-center w-full px-4 py-3 text-left 
-                        transition-all duration-200 hover:opacity-80
-                        ${viewType === option.id 
-                          ? `${theme.background?.selected || 'bg-sky-50 dark:bg-sky-900/20'} ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`
-                          : theme.textColors?.primary || 'text-gray-900 dark:text-white'
-                        }
-                      `}
-                    >
-                      <div className="flex items-center justify-center w-8">
-                        {option.icon}
-                      </div>
-                      <div className="ml-3">
-                        <div className="text-sm font-medium">
-                          {option.label}
+                  {viewOptions.map((option) => {
+                    const isActive = viewType === option.id;
+                    return (
+                      <button
+                        key={option.id}
+                        onClick={() => {
+                          setViewType(option.id);
+                          setShowViewOptions(false);
+                        }}
+                        className={`
+                          flex items-center w-full px-4 py-3 text-left 
+                          transition-all duration-200 hover:opacity-80
+                          ${isActive 
+                            ? `${theme.background?.selected || 'bg-sky-50 dark:bg-sky-900/20'} ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`
+                            : theme.textColors?.primary || 'text-gray-900 dark:text-white'
+                          }
+                        `}
+                      >
+                        <div className="flex items-center justify-center w-8">
+                          {option.icon}
                         </div>
-                        <div className={`text-xs ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-400'}`}>
-                          {option.description}
+                        <div className="ml-3">
+                          <div className="text-sm font-medium">
+                            {option.label}
+                          </div>
+                          <div className={`text-xs ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-400'}`}>
+                            {option.description}
+                          </div>
                         </div>
-                      </div>
-                      {viewType === option.id && (
-                        <svg
-                          className={`ml-auto h-5 w-5 ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`}
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M5 13l4 4L19 7"
-                          />
-                        </svg>
-                      )}
-                    </button>
-                  ))}
+                        {isActive && (
+                          <svg
+                            className={`ml-auto h-5 w-5 ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M5 13l4 4L19 7"
+                            />
+                          </svg>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             )}
