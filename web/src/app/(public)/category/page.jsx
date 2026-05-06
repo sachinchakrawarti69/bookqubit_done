@@ -1,316 +1,367 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
+import books from "@/data/books/BooksData";
 import { useTheme } from "@/themes/useTheme";
-import { 
-  FaBook, 
-  FaTheaterMasks, 
-  FaFlask, 
-  FaDragon, 
-  FaSearch, 
-  FaUserSecret, 
-  FaHeart, 
-  FaUserGraduate,
-  FaRocket,
-  FaSkull,
-  FaMagic,
-  FaRobot,
-  FaCompass,
-  FaStar,
-  FaFire,
-  FaNewspaper
-} from "react-icons/fa";
 
-export default function CategoryPage() {
+const Category = () => {
   const { theme, themeName } = useTheme();
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [showCategoryFilter, setShowCategoryFilter] = useState(false);
 
+  // Guard against undefined theme
+  if (!theme) {
+    return null;
+  }
+
+  // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  // Category data
-  const categories = [
-    {
-      id: 1,
-      name: "Fiction",
-      icon: <FaBook />,
-      description: "Imaginative stories that explore human experiences and emotions",
-      color: "text-blue-500",
-      bgColor: "bg-blue-50 dark:bg-blue-900/20",
-      path: "/category/fiction",
-      subcategories: ["Literary Fiction", "Historical Fiction", "Contemporary Fiction", "Short Stories"]
-    },
-    {
-      id: 2,
-      name: "Non-Fiction",
-      icon: <FaUserGraduate />,
-      description: "Educational and informative books based on facts and reality",
-      color: "text-green-500",
-      bgColor: "bg-green-50 dark:bg-green-900/20",
-      path: "/category/non-fiction",
-      subcategories: ["Biography", "History", "Science", "Self-Help", "Business"]
-    },
-    {
-      id: 3,
-      name: "Science Fiction",
-      icon: <FaRocket />,
-      description: "Futuristic concepts, advanced technology, and space exploration",
-      color: "text-cyan-500",
-      bgColor: "bg-cyan-50 dark:bg-cyan-900/20",
-      path: "/category/sci-fi",
-      subcategories: ["Cyberpunk", "Space Opera", "Time Travel", "Dystopian", "Apocalyptic"]
-    },
-    {
-      id: 4,
-      name: "Fantasy",
-      icon: <FaDragon />,
-      description: "Magical worlds, mythical creatures, and epic adventures",
-      color: "text-purple-500",
-      bgColor: "bg-purple-50 dark:bg-purple-900/20",
-      path: "/category/fantasy",
-      subcategories: ["High Fantasy", "Urban Fantasy", "Dark Fantasy", "Sword & Sorcery"]
-    },
-    {
-      id: 5,
-      name: "Mystery",
-      icon: <FaSearch />,
-      description: "Puzzles, crimes, and investigations that keep you guessing",
-      color: "text-red-500",
-      bgColor: "bg-red-50 dark:bg-red-900/20",
-      path: "/category/mystery",
-      subcategories: ["Detective", "Thriller", "Noir", "Cozy Mystery", "Psychological Thriller"]
-    },
-    {
-      id: 6,
-      name: "Romance",
-      icon: <FaHeart />,
-      description: "Love stories that touch the heart and soul",
-      color: "text-pink-500",
-      bgColor: "bg-pink-50 dark:bg-pink-900/20",
-      path: "/category/romance",
-      subcategories: ["Contemporary Romance", "Historical Romance", "Paranormal Romance", "Young Adult Romance"]
-    },
-    {
-      id: 7,
-      name: "Horror",
-      icon: <FaSkull />,
-      description: "Terrifying tales that haunt your imagination",
-      color: "text-gray-700 dark:text-gray-400",
-      bgColor: "bg-gray-50 dark:bg-gray-900/20",
-      path: "/category/horror",
-      subcategories: ["Psychological Horror", "Supernatural Horror", "Gothic", "Body Horror"]
-    },
-    {
-      id: 8,
-      name: "Comics",
-      icon: <FaTheaterMasks />,
-      description: "Visual storytelling through sequential art",
-      color: "text-orange-500",
-      bgColor: "bg-orange-50 dark:bg-orange-900/20",
-      path: "/comics",
-      subcategories: ["Superhero Comics", "Manga", "Graphic Novels", "Webtoons"]
-    },
-    {
-      id: 9,
-      name: "Indian Superhero",
-      icon: <FaMagic />,
-      description: "Desi superheroes and Indian mythology-inspired stories",
-      color: "text-amber-500",
-      bgColor: "bg-amber-50 dark:bg-amber-900/20",
-      path: "/category/indian-superhero",
-      subcategories: ["Raj Comics", "Apex Comics", "Mythological", "Desi Superheroes"]
-    },
-    {
-      id: 10,
-      name: "Biography",
-      icon: <FaUserSecret />,
-      description: "Real-life stories of remarkable people",
-      color: "text-indigo-500",
-      bgColor: "bg-indigo-50 dark:bg-indigo-900/20",
-      path: "/category/biography",
-      subcategories: ["Autobiography", "Memoir", "Celebrity Biography", "Political Biography"]
-    },
-    {
-      id: 11,
-      name: "Young Adult",
-      icon: <FaStar />,
-      description: "Coming-of-age stories for teen and young adult readers",
-      color: "text-teal-500",
-      bgColor: "bg-teal-50 dark:bg-teal-900/20",
-      path: "/category/young-adult",
-      subcategories: ["YA Fantasy", "YA Romance", "YA Sci-Fi", "YA Contemporary"]
-    },
-    {
-      id: 12,
-      name: "Science & Technology",
-      icon: <FaRobot />,
-      description: "Explore the wonders of science and innovation",
-      color: "text-emerald-500",
-      bgColor: "bg-emerald-50 dark:bg-emerald-900/20",
-      path: "/category/science-tech",
-      subcategories: ["Artificial Intelligence", "Space Science", "Programming", "Physics"]
-    }
-  ];
+  // Get all unique categories from all books
+  const allCategories = useMemo(() => {
+    const categories = new Set();
+    books.forEach((book) => {
+      if (book.category) {
+        categories.add(book.category);
+      }
+    });
+    return Array.from(categories).sort();
+  }, []);
 
-  // Filter categories based on search
-  const filteredCategories = categories.filter(category => {
-    const matchesSearch = category.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         category.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "All" || category.name === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  // Group books by category with filtering
+  const booksByCategory = useMemo(() => {
+    const categoriesObj = books.reduce((acc, book) => {
+      if (book.category) {
+        if (!acc[book.category]) {
+          acc[book.category] = [];
+        }
+        acc[book.category].push(book);
+      }
+      return acc;
+    }, {});
 
-  // Popular genres for quick navigation
-  const popularGenres = ["Fiction", "Fantasy", "Mystery", "Science Fiction", "Romance", "Comics"];
+    // Filter categories based on search term and selected categories
+    const filteredCategories = {};
+
+    Object.entries(categoriesObj).forEach(([category, categoryBooks]) => {
+      // Check if category name matches search term
+      const categoryMatchesSearch =
+        searchTerm === "" ||
+        category.toLowerCase().includes(searchTerm.toLowerCase());
+
+      // Check if category is selected in filter
+      const categoryMatchesFilter =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(category);
+
+      const filteredBooks = categoryBooks.filter((book) => {
+        // Search term filter (book level)
+        const bookMatchesSearch =
+          searchTerm === "" ||
+          book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          (book.description &&
+            book.description
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())) ||
+          category.toLowerCase().includes(searchTerm.toLowerCase());
+
+        return bookMatchesSearch;
+      });
+
+      // Only include categories that match the filter AND (have books after filtering OR if category name matches search)
+      if (
+        categoryMatchesFilter &&
+        (filteredBooks.length > 0 || categoryMatchesSearch)
+      ) {
+        filteredCategories[category] = filteredBooks;
+      }
+    });
+
+    return filteredCategories;
+  }, [searchTerm, selectedCategories]);
+
+  const handleCategoryToggle = (category) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((c) => c !== category)
+        : [...prev, category],
+    );
+  };
+
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSelectedCategories([]);
+  };
+
+  const toggleCategoryFilter = () => {
+    setShowCategoryFilter((prev) => !prev);
+  };
 
   return (
-    <main className={`min-h-screen ${theme.background?.section || ''}`}>
-      {/* Hero Section */}
-      <section className={`${theme.layout?.sectionPadding || 'py-16 px-4 sm:px-6 lg:px-8'} text-center ${theme.background?.navigationDots || ''}`}>
-        <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
-          <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${theme.textColors?.primary || ''}`}>
-            Explore Categories
-          </h1>
-          <p className={`text-lg md:text-xl mb-8 ${theme.textColors?.secondary || ''} max-w-2xl mx-auto`}>
-            Discover your next favorite read by exploring our diverse collection of genres and categories
-          </p>
-          
+    <div
+      className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gray-50')} min-h-screen ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+    >
+      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
+        <h1
+          className={`text-4xl font-bold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-8 text-center`}
+        >
+          Browse by Category
+        </h1>
+
+        {/* Search and Filter Section */}
+        <div
+          className={`mb-12 p-6 ${theme.background?.bookCoverSide || 'bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.book || 'shadow-2xl'} rounded-xl`}
+        >
           {/* Search Bar */}
-          <div className="max-w-md mx-auto">
+          <div className="mb-6">
+            <label
+              htmlFor="search"
+              className={`block text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-2`}
+            >
+              Search Categories & Books
+            </label>
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search categories..."
+                id="search"
+                placeholder="Search by category name, title, author, or description..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full px-4 py-2 pl-10 rounded-lg border focus:outline-none focus:ring-2 ${theme.border?.default || ''} ${theme.background?.bookCoverSide || ''} ${theme.textColors?.primary || ''}`}
+                className={`w-full px-4 py-3 ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} ${theme.border?.button || 'border border-gray-300 dark:border-gray-600'} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all`}
               />
-              <FaSearch className={`absolute left-3 top-3 ${theme.textColors?.secondary || ''}`} />
+              {searchTerm && (
+                <button
+                  onClick={() => setSearchTerm("")}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                >
+                  ✕
+                </button>
+              )}
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Popular Genres Section */}
-      <section className={`py-8 px-4 sm:px-6 lg:px-8 ${theme.background?.section || ''}`}>
-        <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
-          <h2 className={`text-2xl font-bold mb-6 text-center ${theme.textColors?.primary || ''}`}>
-            Popular Genres
-          </h2>
-          <div className="flex flex-wrap justify-center gap-3">
-            {popularGenres.map((genre) => (
-              <button
-                key={genre}
-                onClick={() => {
-                  setSelectedCategory(genre);
-                  setSearchTerm("");
-                }}
-                className={`px-4 py-2 rounded-full transition-all hover:scale-105 ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-gray-300'} ${theme.buttonColors?.secondaryButton?.textColor || ''}`}
+          {/* Category Filter Toggle */}
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={toggleCategoryFilter}
+              className={`flex items-center px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                showCategoryFilter
+                  ? `${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`
+                  : `${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500 bg-transparent'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600 dark:text-sky-400'}`
+              }`}
+            >
+              <span>Filter by Categories</span>
+              <svg
+                className={`w-4 h-4 ml-2 transition-transform ${showCategoryFilter ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {genre}
-              </button>
-            ))}
-            {selectedCategory !== "All" && (
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {(searchTerm || selectedCategories.length > 0) && (
               <button
-                onClick={() => setSelectedCategory("All")}
-                className={`px-4 py-2 rounded-full transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-blue-600'} text-white`}
+                onClick={clearFilters}
+                className={`px-4 py-2 text-sm font-medium ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500 bg-transparent'} ${theme.buttonColors?.secondaryButton?.hoverBackground || 'hover:bg-sky-50 dark:hover:bg-sky-900/20'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600 dark:text-sky-400'} ${theme.border?.button || 'border border-gray-300 dark:border-gray-600'} rounded-lg transition-all`}
               >
-                Clear Filters
+                Clear All Filters
               </button>
             )}
           </div>
-        </div>
-      </section>
 
-      {/* Results Count */}
-      {searchTerm || selectedCategory !== "All" ? (
-        <div className={`px-4 sm:px-6 lg:px-8 ${theme.background?.section || ''}`}>
-          <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto mb-4 ${theme.textColors?.secondary || ''}`}>
-            Found {filteredCategories.length} categories
-          </div>
-        </div>
-      ) : null}
-
-      {/* Categories Grid */}
-      <section className={`py-8 px-4 sm:px-6 lg:px-8 ${theme.background?.section || ''}`}>
-        <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
-          {filteredCategories.length === 0 ? (
-            <div className={`text-center py-12 ${theme.textColors?.secondary || ''}`}>
-              No categories found. Try adjusting your search.
+          {/* Category Filter (Collapsible) */}
+          {showCategoryFilter && (
+            <div
+              className={`mb-4 p-4 ${isDarkMode ? "bg-gray-800" : "bg-gray-50"} rounded-lg`}
+            >
+              <label
+                className={`block text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-3`}
+              >
+                Select Categories to Filter:
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {allCategories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => handleCategoryToggle(category)}
+                    className={`px-3 py-2 text-sm font-medium rounded-full transition-all ${
+                      selectedCategories.includes(category)
+                        ? `${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white ${theme.shadow?.button || 'shadow-md'}`
+                        : `${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-700' : 'bg-gray-100')} ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} ${theme.border?.button || 'border border-gray-300 dark:border-gray-600'} hover:${theme.background?.bookCoverSide || 'bg-gray-200 dark:bg-gray-600'}`
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
             </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredCategories.map((category) => (
-                <Link
-                  key={category.id}
-                  href={category.path}
-                  className={`group ${theme.background?.bookCoverSide || ''} ${theme.border?.default || ''} ${theme.shadow?.container || ''} rounded-xl overflow-hidden transition-all hover:scale-105 hover:shadow-xl`}
+          )}
+
+          {/* Active Filters Display */}
+          {(searchTerm || selectedCategories.length > 0) && (
+            <div
+              className={`flex flex-wrap items-center gap-2 pt-4 border-t ${isDarkMode ? "border-gray-700" : "border-gray-200"}`}
+            >
+              <span className={`text-sm ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
+                Active filters:
+              </span>
+              {searchTerm && (
+                <span
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
                 >
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`text-4xl ${category.color}`}>
-                        {category.icon}
-                      </div>
-                      <div className={`text-xs px-2 py-1 rounded-full ${category.bgColor} ${category.color}`}>
-                        {category.subcategories.length} subcategories
-                      </div>
-                    </div>
-                    <h3 className={`text-xl font-bold mb-2 ${theme.textColors?.primary || ''}`}>
-                      {category.name}
-                    </h3>
-                    <p className={`text-sm mb-4 ${theme.textColors?.secondary || ''}`}>
-                      {category.description}
-                    </p>
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {category.subcategories.slice(0, 3).map((sub, idx) => (
-                        <span
-                          key={idx}
-                          className={`text-xs px-2 py-1 rounded ${theme.background?.navigationDots || ''} ${theme.textColors?.secondary || ''}`}
-                        >
-                          {sub}
-                        </span>
-                      ))}
-                    </div>
-                    <div className={`flex items-center justify-between text-sm ${category.color} group-hover:translate-x-2 transition-transform`}>
-                      <span>Explore {category.name}</span>
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </div>
-                  </div>
-                </Link>
+                  Search: "{searchTerm}"
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="ml-2 hover:text-red-500"
+                  >
+                    ✕
+                  </button>
+                </span>
+              )}
+              {selectedCategories.map((category) => (
+                <span
+                  key={category}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-sm ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
+                >
+                  {category}
+                  <button
+                    onClick={() => handleCategoryToggle(category)}
+                    className="ml-2 hover:text-red-500"
+                  >
+                    ✕
+                  </button>
+                </span>
               ))}
             </div>
           )}
         </div>
-      </section>
 
-      {/* Call to Action Section */}
-      <section className={`py-16 px-4 sm:px-6 lg:px-8 ${theme.background?.navigationDots || ''}`}>
-        <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center`}>
-          <h2 className={`text-3xl font-bold mb-4 ${theme.textColors?.primary || ''}`}>
-            Can't Find What You're Looking For?
-          </h2>
-          <p className={`text-lg mb-8 ${theme.textColors?.secondary || ''} max-w-2xl mx-auto`}>
-            Explore our complete collection or contact us for personalized recommendations
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/books"
-              className={`px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-blue-600'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:bg-blue-700'} text-white`}
+        {/* Categories */}
+        {Object.keys(booksByCategory).length === 0 ? (
+          <div
+            className={`text-center py-12 ${theme.background?.bookCoverSide || 'bg-gray-100 dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} rounded-xl`}
+          >
+            <p className={`text-lg ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} mb-4`}>
+              No categories found matching your filters.
+            </p>
+            <button
+              onClick={clearFilters}
+              className={`px-6 py-2 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} text-white ${theme.border?.button || ''} rounded-lg transition-all hover:shadow-lg`}
             >
-              Browse All Books
-            </Link>
-            <Link
-              href="/comics"
-              className={`px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-blue-600'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-blue-600'}`}
-            >
-              Explore Comics
-            </Link>
+              Clear Filters
+            </button>
           </div>
-        </div>
-      </section>
-    </main>
+        ) : (
+          Object.entries(booksByCategory).map(([category, categoryBooks]) => (
+            <section key={category} className="mb-16">
+              <div className="flex items-center mb-8">
+                <h2
+                  className={`text-2xl font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mr-4`}
+                >
+                  {category}
+                </h2>
+                <span
+                  className={`text-sm ${theme.textColors?.badge || 'text-sky-800 dark:text-sky-400'} ${isDarkMode ? "bg-sky-900/30" : "bg-sky-100"} px-3 py-1 rounded-full`}
+                >
+                  {categoryBooks.length}{" "}
+                  {categoryBooks.length === 1 ? "book" : "books"}
+                </span>
+              </div>
+
+              {categoryBooks.length === 0 ? (
+                <div
+                  className={`text-center py-8 ${theme.background?.bookCoverSide || 'bg-gray-100 dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} rounded-xl`}
+                >
+                  <p className={`text-lg ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
+                    No books in this category match your current search.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categoryBooks.map((book) => (
+                    <div
+                      key={book.id}
+                      className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.book || 'shadow-2xl'} overflow-hidden rounded-xl transition-all duration-300 hover:scale-[1.02] hover:shadow-xl`}
+                    >
+                      <div className="p-6">
+                        <div className="flex flex-col sm:flex-row gap-4">
+                          <div className="flex-shrink-0">
+                            <img
+                              src={book.imageUrl}
+                              alt={book.title}
+                              className="w-24 h-36 object-cover rounded-lg shadow-md"
+                              onError={(e) => {
+                                e.target.src = "/placeholder-book.jpg";
+                              }}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h3
+                              className={`text-lg font-bold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-1 line-clamp-2`}
+                            >
+                              {book.title}
+                            </h3>
+                            <p
+                              className={`text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} mb-2`}
+                            >
+                              by {book.author}
+                            </p>
+                            <div className="flex items-center mb-3">
+                              {[...Array(5)].map((_, i) => (
+                                <svg
+                                  key={i}
+                                  className={`w-4 h-4 ${i < Math.floor(book.rating || 0) ? (theme.iconColors?.starFilled || 'text-amber-400') : (theme.iconColors?.starEmpty || 'text-gray-300')}`}
+                                  fill="currentColor"
+                                  viewBox="0 0 20 20"
+                                >
+                                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                              ))}
+                            </div>
+                            <p
+                              className={`text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} line-clamp-2 mb-3`}
+                            >
+                              {book.description}
+                            </p>
+                            <div className="flex flex-wrap gap-2 mb-3">
+                              {book.tags?.slice(0, 3).map((tag) => (
+                                <span
+                                  key={tag}
+                                  className={`text-xs ${theme.textColors?.badge || 'text-sky-800 dark:text-sky-400'} ${isDarkMode ? "bg-sky-900/30" : "bg-sky-50"} px-2 py-1 rounded-full`}
+                                >
+                                  {tag}
+                                </span>
+                              ))}
+                            </div>
+                            <Link
+                              href={`/bookdeatils/${book.slug || book.id}`}
+                              className={`inline-block w-full text-center px-4 py-2 text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} rounded-lg transition-all hover:shadow-lg`}
+                            >
+                              View Details
+                            </Link>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          ))
+        )}
+      </div>
+    </div>
   );
-}
+};
+
+export default Category;

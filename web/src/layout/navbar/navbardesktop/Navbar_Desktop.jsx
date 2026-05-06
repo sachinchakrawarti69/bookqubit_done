@@ -5,17 +5,17 @@ import Link from "next/link";
 import { FaRobot, FaMoon, FaSun } from "react-icons/fa";
 
 import { NavItem } from "./components/NavItem";
-import SearchBar from "../../searchbar/SearchBar";
-import UserDropDown from "../../auth/Dasktop_Profile_Dropdown";
-import Notification_Dropdown from "../../notification/Desktop_Notification_Dropdown";
+import SearchBar from "@/components/searchbar/SearchBar";  // Fixed path
+import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";  // Fixed path
+import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";  // Fixed path
 import Control from "./components/Control";
 
-import { auth } from "../../../config/firebase";
+import { auth } from "@/config/firebase";  // Fixed path
 import { onAuthStateChanged } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
 
 // Import logo image
-import bookqubitLogo from "../../../assets/logo/bookqubitlogo.png";
+import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";  // Fixed path
 import "./Navbar_Desktop.css";
 
 const Navbar_Desktop = () => {

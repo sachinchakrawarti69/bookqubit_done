@@ -40,7 +40,7 @@ export const NAVIGATION_CONFIG = {
     {
       name: "Comics",
       icon: <FaBook />,
-      path: "/comics",
+      path: "/comicslist",
       dropdown: [
         { name: "Marvel", path: "/comics/marvel", icon: <FaFire /> },
         { name: "DC", path: "/comics/dc", icon: <FaStar /> },
