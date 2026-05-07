@@ -7,14 +7,16 @@ import ExploreCollections from "@/components/homepages/ExploreCollections";
 import ExploreAuthor from "@/components/homepages/ExploreAuthor";
 import ExplorePublications from "@/components/homepages/ExplorePublications";
 import ExploreComics from "@/components/homepages/ExploreComics";
+import ExploreAcademicBooks from "@/components/homepages/ExploreAcademicBooks";
 
 
 export default function HomepagesPage() {
   return (
     <main>
-         <HeroSectionSlider />
+      <HeroSectionSlider />
       <HeroPartOne />
       <ExploreBooks />
+      <ExploreAcademicBooks />
       <ExploreCollections />
       <ExploreAuthor />
       <ExplorePublications />

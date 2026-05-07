@@ -34,13 +34,15 @@ const ExplorePage = () => {
       subtitle: "Latest updates & articles",
       icon: <span className="text-rose-500">📰</span>,
       links: [
-        { name: "News", href: "/news", icon: <span className="text-red-400 text-sm">📰</span> },
-        { name: "Blog Articles", href: "/blog", icon: <span className="text-blue-400 text-sm">✍️</span> },
-        { name: "Book Reviews & Analysis", href: "/book-reviews", icon: <span className="text-amber-400 text-sm">⭐</span> },
+        { name: "News", href: "/footerpages/news", icon: <span className="text-red-400 text-sm">📰</span> },
+        { name: "Blog Articles", href: "/footerpages/blog", icon: <span className="text-blue-400 text-sm">✍️</span> },
+        { name: "Book Reviews & Analysis", href: "/footerpages/bookreviews", icon: <span className="text-amber-400 text-sm">⭐</span> },
       ],
       gradient: "from-rose-50 to-orange-50",
       darkGradient: "from-rose-900/30 to-orange-900/30",
     },
+
+
     {
       title: "Features",
       subtitle: "Premium tools",
@@ -59,7 +61,7 @@ const ExplorePage = () => {
       subtitle: "Get assistance",
       icon: <span className="text-rose-500">🆘</span>,
       links: [
-        { name: "Help Center", href: "/help", icon: <span className="text-sky-400 text-sm">❓</span> },
+        { name: "Help Center", href: "/footerpages/help", icon: <span className="text-sky-400 text-sm">❓</span> },
         { name: "Contact Support", href: "/support/contact", icon: <span className="text-rose-400 text-sm">🤝</span> },
         { name: "FAQ", href: "/faq", icon: <span className="text-amber-400 text-sm">❓</span> },
         { name: "Troubleshooting", href: "/support/troubleshooting", icon: <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-red-400 rounded-full"></span> },
