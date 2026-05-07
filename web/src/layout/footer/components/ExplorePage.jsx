@@ -43,45 +43,47 @@ const ExplorePage = () => {
     },
 
 
-    {
-      title: "Features",
-      subtitle: "Premium tools",
-      icon: <span className="text-purple-500">🤖</span>,
-      links: [
-        { name: "AI Book Summaries", href: "/book-summarizer", icon: <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></span> },
-        { name: "Audiobooks", href: "/audiobooks", icon: <span className="text-rose-400 text-sm">🎧</span> },
-        { name: "Reading Lists", href: "/reading-lists", icon: <span className="text-emerald-400 text-sm">📋</span> },
-        { name: "AI Assistant", href: "/ai-assistant", icon: <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"></span> },
-      ],
-      gradient: "from-purple-50 to-pink-50",
-      darkGradient: "from-purple-900/30 to-pink-900/30",
-    },
+    // {
+    //   title: "Features",
+    //   subtitle: "Premium tools",
+    //   icon: <span className="text-purple-500">🤖</span>,
+    //   links: [
+    //     { name: "AI Book Summaries", href: "/book-summarizer", icon: <span className="w-2 h-2 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full"></span> },
+    //     { name: "Audiobooks", href: "/audiobooks", icon: <span className="text-rose-400 text-sm">🎧</span> },
+    //     { name: "Reading Lists", href: "/reading-lists", icon: <span className="text-emerald-400 text-sm">📋</span> },
+    //     { name: "AI Assistant", href: "/ai-assistant", icon: <span className="w-2 h-2 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full"></span> },
+    //   ],
+    //   gradient: "from-purple-50 to-pink-50",
+    //   darkGradient: "from-purple-900/30 to-pink-900/30",
+    // },
     {
       title: "Help & Support",
       subtitle: "Get assistance",
       icon: <span className="text-rose-500">🆘</span>,
       links: [
         { name: "Help Center", href: "/footerpages/help", icon: <span className="text-sky-400 text-sm">❓</span> },
-        { name: "Contact Support", href: "/support/contact", icon: <span className="text-rose-400 text-sm">🤝</span> },
-        { name: "FAQ", href: "/faq", icon: <span className="text-amber-400 text-sm">❓</span> },
-        { name: "Troubleshooting", href: "/support/troubleshooting", icon: <span className="w-2 h-2 bg-gradient-to-r from-orange-400 to-red-400 rounded-full"></span> },
+        { name: "Contact Support", href: "/footerpages/contact", icon: <span className="text-rose-400 text-sm">🤝</span> },
+        { name: "FAQ", href: "/footerpages/faq", icon: <span className="text-amber-400 text-sm">❓</span> },
+
+     
+        
       ],
       gradient: "from-rose-50 to-pink-50",
       darkGradient: "from-rose-900/30 to-pink-900/30",
     },
-    {
-      title: "Community",
-      subtitle: "Connect & share",
-      icon: <span className="text-emerald-500">👥</span>,
-      links: [
-        { name: "Forums", href: "/community/forums", icon: <span className="text-blue-400 text-sm">💬</span> },
-        { name: "Book Clubs", href: "/community/book-clubs", icon: <span className="text-purple-400 text-sm">👥</span> },
-        { name: "Events", href: "/community/events", icon: <span className="text-amber-400 text-sm">📅</span> },
-        { name: "Contributors", href: "/community/contributors", icon: <span className="text-cyan-400 text-sm">🏅</span> },
-      ],
-      gradient: "from-emerald-50 to-green-50",
-      darkGradient: "from-emerald-900/30 to-green-900/30",
-    },
+    // {
+    //   title: "Community",
+    //   subtitle: "Connect & share",
+    //   icon: <span className="text-emerald-500">👥</span>,
+    //   links: [
+    //     { name: "Forums", href: "/community/forums", icon: <span className="text-blue-400 text-sm">💬</span> },
+    //     { name: "Book Clubs", href: "/community/book-clubs", icon: <span className="text-purple-400 text-sm">👥</span> },
+    //     { name: "Events", href: "/community/events", icon: <span className="text-amber-400 text-sm">📅</span> },
+    //     { name: "Contributors", href: "/community/contributors", icon: <span className="text-cyan-400 text-sm">🏅</span> },
+    //   ],
+    //   gradient: "from-emerald-50 to-green-50",
+    //   darkGradient: "from-emerald-900/30 to-green-900/30",
+    // },
     {
       title: "Authors",
       subtitle: "Meet the creators",
@@ -93,19 +95,7 @@ const ExplorePage = () => {
       gradient: "from-amber-50 to-orange-50",
       darkGradient: "from-amber-900/30 to-orange-900/30",
     },
-    {
-      title: "About",
-      subtitle: "Learn more",
-      icon: <span className="text-indigo-500">ℹ️</span>,
-      links: [
-        { name: "About Us", href: "/about-us", icon: <span className="w-2 h-2 bg-sky-400 rounded-full"></span> },
-        { name: "Contact", href: "/contact", icon: <span className="text-rose-400 text-sm">✉️</span> },
-        { name: "Terms of Service", href: "/terms", icon: <span className="text-gray-400 text-sm">📄</span> },
-        { name: "Privacy Policy", href: "/privacy", icon: <span className="text-indigo-400 text-sm">🛡️</span> },
-      ],
-      gradient: "from-indigo-50 to-purple-50",
-      darkGradient: "from-indigo-900/30 to-purple-900/30",
-    },
+    
   ];
 
   // Helper function for gradients

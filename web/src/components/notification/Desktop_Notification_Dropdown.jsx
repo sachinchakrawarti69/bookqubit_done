@@ -1,711 +1,390 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { auth } from "../../config/firebase";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useTheme } from "@/themes/useTheme";
 import {
-  FaUserCircle,
-  FaSignOutAlt,
-  FaUser,
-  FaTachometerAlt,
-  FaBookReader,
-  FaChevronDown,
-  FaCrown,
+  FaBell,
+  FaEnvelope,
+  FaHeart,
+  FaBookmark,
+  FaUserPlus,
+  FaComment,
+  FaCheckCircle,
+  FaTimesCircle,
   FaStar,
-  FaTrophy,
-  FaMedal,
+  FaGift,
   FaFire,
-  FaTimes,
+  FaNewspaper,
+  FaTrash,
+  FaCheckDouble,
 } from "react-icons/fa";
 
-export default function UserDropDown({ user, darkMode = false }) {
-  const [open, setOpen] = useState(false);
-  const [userRank, setUserRank] = useState(null);
-  const [rankingNumber, setRankingNumber] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
+// Sample notification data
+const generateNotifications = () => [
+  {
+    id: "1",
+    type: "like",
+    title: "Sarah Johnson liked your review",
+    message: "Sarah Johnson liked your review of 'The Midnight Library'",
+    time: "5 minutes ago",
+    read: false,
+    icon: <FaHeart className="text-pink-500" />,
+    link: "/profile/notifications",
+    actionLink: "/books/the-midnight-library",
+  },
+  {
+    id: "2",
+    type: "comment",
+    title: "New comment on your post",
+    message: "Michael Chen commented: 'Great review! I totally agree with you.'",
+    time: "1 hour ago",
+    read: false,
+    icon: <FaComment className="text-blue-500" />,
+    link: "/profile/notifications",
+    actionLink: "/blog/post-123",
+  },
+  {
+    id: "3",
+    type: "bookmark",
+    title: "Book saved to your library",
+    message: "Atomic Habits has been added to your library",
+    time: "3 hours ago",
+    read: true,
+    icon: <FaBookmark className="text-emerald-500" />,
+    link: "/library",
+    actionLink: "/books/atomic-habits",
+  },
+  {
+    id: "4",
+    type: "follow",
+    title: "New follower",
+    message: "Emily Rodriguez started following you",
+    time: "1 day ago",
+    read: true,
+    icon: <FaUserPlus className="text-purple-500" />,
+    link: "/profile/followers",
+    actionLink: "/profile/emily-rodriguez",
+  },
+  {
+    id: "5",
+    type: "achievement",
+    title: "Achievement unlocked!",
+    message: "You've earned the 'Bookworm' badge for reading 50 books",
+    time: "2 days ago",
+    read: false,
+    icon: <FaStar className="text-amber-500" />,
+    link: "/achievements",
+    actionLink: "/achievements/bookworm",
+  },
+  {
+    id: "6",
+    type: "promotion",
+    title: "Special offer just for you",
+    message: "Get 30% off on your next purchase! Use code: BOOK30",
+    time: "3 days ago",
+    read: false,
+    icon: <FaGift className="text-red-500" />,
+    link: "/offers",
+    actionLink: "/books",
+  },
+  {
+    id: "7",
+    type: "trending",
+    title: "Trending in your favorite genre",
+    message: "New sci-fi books are trending this week",
+    time: "5 days ago",
+    read: true,
+    icon: <FaFire className="text-orange-500" />,
+    link: "/trending",
+    actionLink: "/books?genre=sci-fi",
+  },
+  {
+    id: "8",
+    type: "news",
+    title: "New feature available",
+    message: "AI Book Recommendations is now live! Try it now.",
+    time: "1 week ago",
+    read: true,
+    icon: <FaNewspaper className="text-sky-500" />,
+    link: "/features",
+    actionLink: "/bookqubitai",
+  },
+];
+
+const NotificationDropdown = ({ user }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [activeTab, setActiveTab] = useState("all");
   const dropdownRef = useRef(null);
   const router = useRouter();
+  const { theme, themeName } = useTheme();
 
-  // Check screen size
+  if (!user) return null;
+
+  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Load notifications
   useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 768);
+    // In a real app, fetch from API
+    const loadNotifications = () => {
+      const notifs = generateNotifications();
+      setNotifications(notifs);
+      const unread = notifs.filter(n => !n.read).length;
+      setUnreadCount(unread);
     };
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
+    loadNotifications();
   }, []);
-
-  // Generate random ranking and ranking number on component mount
-  useEffect(() => {
-    const rankings = [
-      {
-        rank: "Bookworm Novice",
-        icon: <FaStar />,
-        color: "text-amber-500",
-        bgColor: darkMode ? "bg-amber-900/30" : "bg-amber-50",
-        borderColor: darkMode ? "border-amber-800" : "border-amber-200",
-      },
-      {
-        rank: "Page Turner",
-        icon: <FaStar />,
-        color: "text-amber-400",
-        bgColor: darkMode ? "bg-amber-900/30" : "bg-amber-50",
-        borderColor: darkMode ? "border-amber-800" : "border-amber-200",
-      },
-      {
-        rank: "Story Devourer",
-        icon: <FaBookReader />,
-        color: "text-emerald-600",
-        bgColor: darkMode ? "bg-emerald-900/30" : "bg-emerald-50",
-        borderColor: darkMode ? "border-emerald-800" : "border-emerald-200",
-      },
-      {
-        rank: "Literary Sage",
-        icon: <FaCrown />,
-        color: "text-purple-600",
-        bgColor: darkMode ? "bg-purple-900/30" : "bg-purple-50",
-        borderColor: darkMode ? "border-purple-800" : "border-purple-200",
-      },
-      {
-        rank: "Chapter Conqueror",
-        icon: <FaTrophy />,
-        color: "text-rose-600",
-        bgColor: darkMode ? "bg-rose-900/30" : "bg-rose-50",
-        borderColor: darkMode ? "border-rose-800" : "border-rose-200",
-      },
-      {
-        rank: "Bibliophile Elite",
-        icon: <FaMedal />,
-        color: "text-sky-600",
-        bgColor: darkMode ? "bg-sky-900/30" : "bg-sky-50",
-        borderColor: darkMode ? "border-sky-800" : "border-sky-200",
-      },
-      {
-        rank: "Wordsmith Master",
-        icon: <FaCrown />,
-        color: "text-yellow-600",
-        bgColor: darkMode ? "bg-yellow-900/30" : "bg-yellow-50",
-        borderColor: darkMode ? "border-yellow-800" : "border-yellow-200",
-      },
-      {
-        rank: "Reading Legend",
-        icon: <FaFire />,
-        color: "text-orange-600",
-        bgColor: darkMode ? "bg-orange-900/30" : "bg-orange-50",
-        borderColor: darkMode ? "border-orange-800" : "border-orange-200",
-      },
-    ];
-
-    const randomRank = rankings[Math.floor(Math.random() * rankings.length)];
-    setUserRank(randomRank);
-
-    // Generate a random ranking number between 1 and 10000
-    const randomRankNumber = Math.floor(Math.random() * 10000) + 1;
-    setRankingNumber(randomRankNumber);
-  }, [darkMode]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setOpen(false);
+        setIsOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Prevent body scroll when dropdown is open on mobile
-  useEffect(() => {
-    if (open && isMobile) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
+  const markAsRead = (notificationId) => {
+    setNotifications(prev =>
+      prev.map(notif =>
+        notif.id === notificationId ? { ...notif, read: true } : notif
+      )
+    );
+    setUnreadCount(prev => Math.max(0, prev - 1));
+  };
+
+  const markAllAsRead = () => {
+    setNotifications(prev =>
+      prev.map(notif => ({ ...notif, read: true }))
+    );
+    setUnreadCount(0);
+  };
+
+  const deleteNotification = (notificationId) => {
+    setNotifications(prev => prev.filter(notif => notif.id !== notificationId));
+    const wasUnread = notifications.find(n => n.id === notificationId)?.read === false;
+    if (wasUnread) {
+      setUnreadCount(prev => Math.max(0, prev - 1));
     }
-    return () => {
-      document.body.style.overflow = "unset";
+  };
+
+  const handleNotificationClick = (notification) => {
+    if (!notification.read) {
+      markAsRead(notification.id);
+    }
+    setIsOpen(false);
+    if (notification.actionLink) {
+      router.push(notification.actionLink);
+    }
+  };
+
+  const getTypeIcon = (type) => {
+    const icons = {
+      like: <FaHeart className="text-pink-500" />,
+      comment: <FaComment className="text-blue-500" />,
+      bookmark: <FaBookmark className="text-emerald-500" />,
+      follow: <FaUserPlus className="text-purple-500" />,
+      achievement: <FaStar className="text-amber-500" />,
+      promotion: <FaGift className="text-red-500" />,
+      trending: <FaFire className="text-orange-500" />,
+      news: <FaNewspaper className="text-sky-500" />,
     };
-  }, [open, isMobile]);
-
-  const handleLogout = async () => {
-    await auth.signOut();
-    setOpen(false);
-    router.push("/login");
+    return icons[type] || <FaBell />;
   };
 
-  const handleNavigate = (path) => {
-    setOpen(false);
-    router.push(path);
+  const filteredNotifications = notifications.filter(notif => {
+    if (activeTab === "unread") return !notif.read;
+    return true;
+  });
+
+  const getTimeAgo = (timeString) => {
+    return timeString;
   };
 
-  // Format ranking number with commas
-  const formatRankingNumber = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  // Get ranking badge style based on position
-  const getRankingBadgeStyle = (rank) => {
-    if (rank <= 10)
-      return "bg-gradient-to-r from-yellow-400 to-amber-500 text-white";
-    if (rank <= 100)
-      return "bg-gradient-to-r from-gray-300 to-gray-400 text-white";
-    if (rank <= 1000)
-      return "bg-gradient-to-r from-amber-600 to-amber-700 text-white";
-    return darkMode
-      ? "bg-gradient-to-r from-sky-700 to-sky-800 text-white"
-      : "bg-gradient-to-r from-sky-500 to-sky-600 text-white";
-  };
-
-  // Mobile button (simpler, no text)
-  const MobileButton = () => (
-    <button
-      onClick={() => setOpen(!open)}
-      className={`
-        group flex items-center justify-center
-        w-10 h-10 rounded-full
-        ${darkMode ? "bg-gray-800" : "bg-white"}
-        border ${darkMode ? "border-gray-600" : "border-gray-300"}
-        shadow-md transition-all duration-300
-        hover:shadow-lg hover:scale-[1.05]
-        active:scale-[0.98] relative
-      `}
-      aria-label="User menu"
-    >
-      {user.photoURL ? (
-        <img
-          src={user.photoURL}
-          alt="User"
-          className="w-8 h-8 rounded-full object-cover border-2 border-white"
-        />
-      ) : (
-        <FaUserCircle
-          className={`w-6 h-6 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-        />
-      )}
-
-      {/* Ranking Badge */}
-      {rankingNumber && rankingNumber <= 1000 && (
-        <div
-          className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${getRankingBadgeStyle(rankingNumber)} flex items-center justify-center text-[8px] font-bold shadow-sm`}
-        >
-          {rankingNumber <= 10 ? "🔥" : rankingNumber <= 100 ? "⭐" : "🏆"}
-        </div>
-      )}
-    </button>
-  );
-
-  // Desktop button (with text)
-  const DesktopButton = () => (
-    <button
-      onClick={() => setOpen(!open)}
-      className={`
-        group flex items-center gap-2 px-3 py-2 rounded-xl
-        ${
-          darkMode
-            ? `bg-gradient-to-r from-gray-800 to-gray-900 border-gray-700 hover:border-gray-600`
-            : `bg-gradient-to-r from-white to-sky-50 border-sky-200/70 hover:border-sky-300`
-        }
-        border shadow-md transition-all duration-300
-        hover:shadow-lg hover:scale-[1.02]
-        active:scale-[0.98] relative
-      `}
-    >
-      {/* Avatar with Glow Effect */}
-      <div className="relative">
-        <div
-          className={`absolute inset-0 rounded-full bg-gradient-to-r from-sky-400 to-purple-400 opacity-0 group-hover:opacity-20 blur-sm transition-opacity duration-300`}
-        ></div>
-        {user.photoURL ? (
-          <img
-            src={user.photoURL}
-            alt="User"
-            className="w-8 h-8 rounded-full object-cover border-2 border-white shadow-sm"
-          />
-        ) : (
-          <div
-            className={`w-8 h-8 rounded-full bg-gradient-to-br from-sky-100 to-purple-100 flex items-center justify-center`}
-          >
-            <FaUserCircle
-              className={`w-6 h-6 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-            />
-          </div>
-        )}
-      </div>
-
-      {/* User Info */}
-      <div className="text-left hidden sm:block">
-        <span
-          className={`block text-sm font-semibold ${darkMode ? "text-gray-200" : "text-gray-800"} leading-tight`}
-        >
-          {user.displayName || user.email?.split("@")[0]}
-        </span>
-        {userRank && (
-          <span
-            className={`flex items-center gap-1 text-xs ${userRank.color} font-medium`}
-          >
-            {userRank.icon}
-            <span className="truncate max-w-[100px]">{userRank.rank}</span>
+  return (
+    <div className="relative" ref={dropdownRef}>
+      {/* Notification Bell Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className={`
+          relative p-2 rounded-full transition-all duration-200 hover:scale-110
+          ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}
+        `}
+        aria-label="Notifications"
+      >
+        <FaBell className={`text-xl ${isDarkMode ? "text-gray-300" : "text-gray-600"}`} />
+        {unreadCount > 0 && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs font-bold rounded-full flex items-center justify-center animate-pulse">
+            {unreadCount > 9 ? "9+" : unreadCount}
           </span>
         )}
-      </div>
+      </button>
 
-      {/* Ranking Badge */}
-      {rankingNumber && rankingNumber <= 1000 && (
+      {/* Dropdown Menu */}
+      {isOpen && (
         <div
-          className={`absolute -top-1 -right-1 w-5 h-5 rounded-full ${getRankingBadgeStyle(rankingNumber)} flex items-center justify-center text-[10px] font-bold shadow-sm`}
+          className={`
+            absolute right-0 mt-2 w-96 rounded-xl shadow-2xl z-50 overflow-hidden
+            ${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')}
+            border ${theme.border?.default || (isDarkMode ? 'border-gray-700' : 'border-gray-200')}
+          `}
         >
-          {rankingNumber <= 10 ? "🔥" : rankingNumber <= 100 ? "⭐" : "🏆"}
-        </div>
-      )}
-
-      {/* Animated Chevron */}
-      <FaChevronDown
-        className={`
-          w-3 h-3 transition-transform duration-300 ${darkMode ? "text-gray-400" : "text-gray-500"} hidden sm:block
-          ${open ? "rotate-180" : ""}
-        `}
-      />
-    </button>
-  );
-
-  // Mobile dropdown (full screen)
-  const MobileDropdown = () => (
-    <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center">
-      {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={() => setOpen(false)}
-      />
-
-      {/* Dropdown Sheet */}
-      <div
-        className={`
-          relative w-full max-w-sm mx-4 rounded-2xl
-          ${darkMode ? "bg-gray-800" : "bg-white"}
-          border ${darkMode ? "border-gray-700" : "border-gray-200"}
-          shadow-xl
-          animate-slide-up
-          max-h-[80vh] overflow-y-auto
-        `}
-      >
-        {/* Header */}
-        <div
-          className={`sticky top-0 ${darkMode ? "bg-gray-800" : "bg-white"} p-4 border-b ${darkMode ? "border-gray-700" : "border-gray-200"} flex items-center justify-between`}
-        >
-          <h3
-            className={`font-semibold ${darkMode ? "text-gray-200" : "text-gray-800"}`}
-          >
-            Account
-          </h3>
-          <button
-            onClick={() => setOpen(false)}
-            className={`p-2 rounded-full ${darkMode ? "bg-gray-700" : "bg-gray-100"}`}
-          >
-            <FaTimes className={darkMode ? "text-gray-400" : "text-gray-500"} />
-          </button>
-        </div>
-
-        {/* User Info */}
-        <div className={`p-4 ${userRank?.bgColor || ""}`}>
-          <div className="flex items-center gap-3">
-            {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                alt="User"
-                className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-              />
-            ) : (
-              <div
-                className={`w-16 h-16 rounded-full bg-gradient-to-br from-sky-100 to-purple-100 flex items-center justify-center`}
-              >
-                <FaUserCircle
-                  className={`w-12 h-12 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-                />
-              </div>
-            )}
-            <div className="flex-1">
-              <p
-                className={`text-base font-bold ${darkMode ? "text-gray-200" : "text-gray-800"}`}
-              >
-                {user.displayName || user.email?.split("@")[0]}
-              </p>
-              <p
-                className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}
-              >
-                {user.email}
-              </p>
-              {userRank && (
-                <div
-                  className={`flex items-center gap-2 mt-2 ${userRank.color}`}
+          {/* Header */}
+          <div className={`flex items-center justify-between px-4 py-3 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+            <h3 className={`font-semibold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
+              Notifications
+              {notifications.length > 0 && (
+                <span className={`ml-2 text-xs ${theme.textColors?.secondary || 'text-gray-500'}`}>
+                  ({notifications.length})
+                </span>
+              )}
+            </h3>
+            <div className="flex gap-2">
+              {unreadCount > 0 && (
+                <button
+                  onClick={markAllAsRead}
+                  className={`text-xs ${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1`}
                 >
-                  {userRank.icon}
-                  <span className="text-xs font-semibold">{userRank.rank}</span>
-                </div>
+                  <FaCheckDouble size={12} /> Mark all read
+                </button>
               )}
             </div>
           </div>
 
-          {/* Ranking */}
-          {rankingNumber && (
-            <div className="mt-3 flex items-center justify-between">
-              <div
-                className={`px-3 py-1.5 rounded-lg ${getRankingBadgeStyle(rankingNumber)} text-xs font-bold`}
-              >
-                #{formatRankingNumber(rankingNumber)} Global Rank
+          {/* Tabs */}
+          <div className={`flex border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+            <button
+              onClick={() => setActiveTab("all")}
+              className={`flex-1 py-2 text-sm font-medium transition-all ${
+                activeTab === "all"
+                  ? `${theme.textColors?.highlight || 'text-sky-600'} border-b-2 border-sky-600`
+                  : `${theme.textColors?.secondary || 'text-gray-500'} hover:${theme.textColors?.primary || 'text-gray-900'}`
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setActiveTab("unread")}
+              className={`flex-1 py-2 text-sm font-medium transition-all ${
+                activeTab === "unread"
+                  ? `${theme.textColors?.highlight || 'text-sky-600'} border-b-2 border-sky-600`
+                  : `${theme.textColors?.secondary || 'text-gray-500'} hover:${theme.textColors?.primary || 'text-gray-900'}`
+              }`}
+            >
+              Unread
+              {unreadCount > 0 && (
+                <span className="ml-1 px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Notifications List */}
+          <div className="max-h-96 overflow-y-auto">
+            {filteredNotifications.length === 0 ? (
+              <div className="text-center py-12">
+                <FaBell className={`text-4xl mx-auto mb-3 ${theme.textColors?.secondary || 'text-gray-400'}`} />
+                <p className={`${theme.textColors?.secondary || 'text-gray-500'}`}>
+                  {activeTab === "unread" ? "No unread notifications" : "No notifications yet"}
+                </p>
               </div>
-              <span
-                className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}
+            ) : (
+              filteredNotifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className={`
+                    relative group border-b last:border-b-0 transition-all hover:bg-opacity-50
+                    ${notification.read ? 'opacity-80' : ''}
+                    ${isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-50'}
+                    ${isDarkMode ? 'border-gray-700' : 'border-gray-100'}
+                  `}
+                >
+                  <button
+                    onClick={() => handleNotificationClick(notification)}
+                    className="w-full text-left p-4 flex gap-3"
+                  >
+                    {/* Icon */}
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+                      {getTypeIcon(notification.type)}
+                    </div>
+                    
+                    {/* Content */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 mb-1">
+                        <p className={`text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
+                          {notification.title}
+                        </p>
+                        {!notification.read && (
+                          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                        )}
+                      </div>
+                      <p className={`text-xs ${theme.textColors?.secondary || 'text-gray-500'} line-clamp-2`}>
+                        {notification.message}
+                      </p>
+                      <p className={`text-xs mt-1 ${theme.textColors?.secondary || 'text-gray-400'}`}>
+                        {getTimeAgo(notification.time)}
+                      </p>
+                    </div>
+                  </button>
+                  
+                  {/* Delete button */}
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteNotification(notification.id);
+                    }}
+                    className={`
+                      absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full
+                      opacity-0 group-hover:opacity-100 transition-opacity
+                      ${isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
+                    `}
+                  >
+                    <FaTrash className={`text-xs ${theme.textColors?.secondary || 'text-gray-500'}`} />
+                  </button>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Footer */}
+          {notifications.length > 0 && (
+            <div className={`px-4 py-3 border-t text-center ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
+              <Link
+                href="/profile/notifications"
+                onClick={() => setIsOpen(false)}
+                className={`text-sm ${theme.textColors?.highlight || 'text-sky-600'} hover:underline`}
               >
-                Top {Math.round((rankingNumber / 10000) * 100)}%
-              </span>
+                View all notifications
+              </Link>
             </div>
           )}
         </div>
+      )}
 
-        {/* Menu Items */}
-        <div className="p-2">
-          {[
-            {
-              label: "Profile",
-              path: "/auth/profile",
-              icon: (
-                <FaUser
-                  className={darkMode ? "text-blue-400" : "text-sky-600"}
-                />
-              ),
-              description: "View and edit your profile",
-            },
-            {
-              label: "Dashboard",
-              path: "/userdashboard",
-              icon: <FaTachometerAlt className="text-emerald-500" />,
-              description: "Your reading dashboard",
-            },
-            {
-              label: "Bookworm Ranking",
-              path: "/bookwormranking",
-              icon: <FaBookReader className="text-amber-500" />,
-              description: rankingNumber
-                ? `Rank #${formatRankingNumber(rankingNumber)} worldwide`
-                : "See your reading rank",
-            },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => handleNavigate(item.path)}
-              className={`
-                w-full text-left px-4 py-4 flex items-start gap-3
-                ${darkMode ? "bg-gray-700" : "bg-gray-100"}
-                rounded-xl mb-2
-                active:scale-[0.98] transition-all
-              `}
-            >
-              <div
-                className={`mt-0.5 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-              >
-                {item.icon}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <span
-                    className={`block font-medium ${darkMode ? "text-gray-200" : "text-gray-800"}`}
-                  >
-                    {item.label}
-                  </span>
-                  {item.label === "Bookworm Ranking" && rankingNumber && (
-                    <div
-                      className={`px-2 py-1 rounded-full text-xs font-bold ${getRankingBadgeStyle(rankingNumber)}`}
-                    >
-                      #{formatRankingNumber(rankingNumber)}
-                    </div>
-                  )}
-                </div>
-                <span
-                  className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"} mt-1 block`}
-                >
-                  {item.description}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        {/* Logout Button */}
-        <div
-          className={`p-4 border-t ${darkMode ? "border-gray-700" : "border-gray-200"}`}
-        >
-          <button
-            onClick={handleLogout}
-            className="w-full py-4 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-medium rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-          >
-            <FaSignOutAlt />
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="relative" ref={dropdownRef}>
-      {/* Conditional Button */}
-      {isMobile ? <MobileButton /> : <DesktopButton />}
-
-      {/* Conditional Dropdown */}
-      {open &&
-        (isMobile ? (
-          <MobileDropdown />
-        ) : (
-          <div
-            className={`
-            absolute right-0 mt-2 w-72 
-            ${darkMode ? "bg-gray-800/95" : "bg-white/95"} backdrop-blur-sm
-            border ${darkMode ? "border-gray-700" : "border-sky-200/50"} 
-            shadow-xl ${darkMode ? "shadow-gray-900/50" : "shadow-sky-100/50"} 
-            z-50 rounded-xl overflow-hidden
-            animate-in slide-in-from-top-5 duration-200
-          `}
-            style={{
-              animation: "slideDown 0.2s ease-out",
-            }}
-          >
-            {/* Desktop Dropdown Content */}
-            <div
-              className={`${userRank?.bgColor || (darkMode ? "bg-gray-800" : "bg-gradient-to-r from-sky-50 to-purple-50")} px-4 py-3 border-b ${userRank?.borderColor || (darkMode ? "border-gray-700" : "border-sky-100")}`}
-            >
-              <div className="flex items-center gap-3">
-                {user.photoURL ? (
-                  <img
-                    src={user.photoURL}
-                    alt="User"
-                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
-                  />
-                ) : (
-                  <div
-                    className={`w-12 h-12 rounded-full bg-gradient-to-br from-sky-100 to-purple-100 flex items-center justify-center`}
-                  >
-                    <FaUserCircle
-                      className={`w-10 h-10 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-                    />
-                  </div>
-                )}
-                <div className="flex-1 min-w-0">
-                  <p
-                    className={`text-sm font-bold ${darkMode ? "text-blue-400" : "text-sky-600"} truncate`}
-                  >
-                    {user.displayName || user.email}
-                  </p>
-                  <p
-                    className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"} truncate`}
-                  >
-                    {user.email}
-                  </p>
-                  {userRank && (
-                    <div
-                      className={`flex items-center gap-2 mt-1 ${userRank.color}`}
-                    >
-                      {userRank.icon}
-                      <span className="text-xs font-semibold">
-                        {userRank.rank}
-                      </span>
-                    </div>
-                  )}
-                </div>
-                {rankingNumber && (
-                  <div className="flex flex-col items-center">
-                    <div
-                      className={`px-2 py-1 rounded-lg ${getRankingBadgeStyle(rankingNumber)} text-xs font-bold`}
-                    >
-                      #{formatRankingNumber(rankingNumber)}
-                    </div>
-                    <span
-                      className={`text-[10px] ${darkMode ? "text-gray-400" : "text-gray-500"} mt-1`}
-                    >
-                      Global Rank
-                    </span>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="py-1">
-              {[
-                {
-                  label: "Profile",
-                  path: "/auth/profile",
-                  icon: (
-                    <FaUser
-                      className={darkMode ? "text-blue-400" : "text-sky-600"}
-                    />
-                  ),
-                  description: "View and edit your profile",
-                },
-                {
-                  label: "Dashboard",
-                  path: "/userdashboard",
-                  icon: <FaTachometerAlt className="text-emerald-500" />,
-                  description: "Your reading dashboard",
-                },
-                {
-                  label: "Bookworm Ranking",
-                  path: "/bookwormranking",
-                  icon: <FaBookReader className="text-amber-500" />,
-                  description: rankingNumber
-                    ? `Rank #${formatRankingNumber(rankingNumber)} worldwide`
-                    : "See your reading rank",
-                },
-              ].map((item) => (
-                <button
-                  key={item.label}
-                  onClick={() => handleNavigate(item.path)}
-                  className={`
-                  w-full text-left px-4 py-3 flex items-start gap-3
-                  hover:bg-gradient-to-r ${darkMode ? "hover:from-gray-700/50" : "hover:from-sky-50/50"} hover:to-transparent 
-                  transition-all duration-200 group/item
-                  border-b ${darkMode ? "border-gray-700" : "border-sky-50"} last:border-b-0
-                  hover:pl-5 relative
-                `}
-                >
-                  <div
-                    className={`mt-1 ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-                  >
-                    {item.icon}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <span
-                        className={`block font-medium ${darkMode ? "text-gray-200" : "text-gray-800"} group-hover/item:text-sky-600 transition-colors`}
-                      >
-                        {item.label}
-                      </span>
-                      {item.label === "Bookworm Ranking" && rankingNumber && (
-                        <div
-                          className={`flex items-center gap-1 ${rankingNumber <= 1000 ? "animate-pulse" : ""}`}
-                        >
-                          <div
-                            className={`px-2 py-0.5 rounded-full text-xs font-bold ${getRankingBadgeStyle(rankingNumber)}`}
-                          >
-                            #{formatRankingNumber(rankingNumber)}
-                          </div>
-                          {rankingNumber <= 100 && (
-                            <FaCrown className="text-yellow-500 text-xs" />
-                          )}
-                        </div>
-                      )}
-                    </div>
-                    <span
-                      className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"} mt-0.5 block`}
-                    >
-                      {item.description}
-                    </span>
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {rankingNumber && (
-              <div
-                className={`px-4 py-2 border-t ${darkMode ? "border-gray-700 bg-gray-900" : "border-sky-100 bg-gray-50"}`}
-              >
-                <div className="flex items-center justify-between mb-1">
-                  <span
-                    className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"}`}
-                  >
-                    Ranking Progress
-                  </span>
-                  <span
-                    className={`text-xs font-semibold ${darkMode ? "text-blue-400" : "text-sky-600"}`}
-                  >
-                    Top {Math.round((rankingNumber / 10000) * 100)}%
-                  </span>
-                </div>
-                <div
-                  className={`w-full ${darkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full h-1.5`}
-                >
-                  <div
-                    className={`h-1.5 rounded-full ${rankingNumber <= 1000 ? "bg-gradient-to-r from-green-400 to-emerald-500" : "bg-gradient-to-r from-sky-400 to-blue-500"}`}
-                    style={{
-                      width: `${Math.max(5, (1 - rankingNumber / 10000) * 100)}%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
-            )}
-
-            <div
-              className={`relative px-3 py-2 border-t ${darkMode ? "border-gray-700" : "border-sky-100"}`}
-            >
-              <div
-                className={`absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent ${darkMode ? "via-gray-600" : "via-sky-200"} to-transparent`}
-              ></div>
-              <button
-                onClick={handleLogout}
-                className={`
-                w-full text-left px-4 py-2.5 flex items-center gap-2 
-                text-rose-600 hover:text-rose-700 hover:bg-gradient-to-r 
-                ${darkMode ? "hover:from-rose-900/30" : "hover:from-rose-50/50"} hover:to-transparent transition-all duration-200
-                rounded-lg group/logout font-medium
-              `}
-              >
-                <FaSignOutAlt className="group-hover/logout:translate-x-1 transition-transform" />
-                Logout
-                <span
-                  className={`text-xs ${darkMode ? "text-gray-400" : "text-gray-500"} ml-auto`}
-                >
-                  ({user.email?.split("@")[0]})
-                </span>
-              </button>
-            </div>
-          </div>
-        ))}
-
-      {/* Animation keyframes */}
-      <style>{`
+      {/* Animation styles */}
+      <style jsx>{`
         @keyframes slideDown {
           from {
             opacity: 0;
-            transform: translateY(-10px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        @keyframes slideUp {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(-10px);
           }
           to {
             opacity: 1;
             transform: translateY(0);
           }
         }
-
-        .animate-slide-up {
-          animation: slideUp 0.3s ease-out;
-        }
-
-        .animate-pulse {
-          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        @keyframes pulse {
-          0%,
-          100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.7;
-          }
+        .animate-slide-down {
+          animation: slideDown 0.2s ease-out;
         }
       `}</style>
     </div>
   );
-}
+};
+
+export default NotificationDropdown;

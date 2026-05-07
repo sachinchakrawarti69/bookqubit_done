@@ -1,43 +1,60 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { FaRobot, FaMoon, FaSun } from "react-icons/fa";
 
 import { NavItem } from "./components/NavItem";
-import SearchBar from "@/components/searchbar/SearchBar";  // Fixed path
-import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";  // Fixed path
-import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";  // Fixed path
+import SearchBar from "@/components/searchbar/SearchBar";
+import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
+import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control from "./components/Control";
 
-import { auth } from "@/config/firebase";  // Fixed path
+import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
 
 // Import logo image
-import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";  // Fixed path
+import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
 import "./Navbar_Desktop.css";
 
 const Navbar_Desktop = () => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { theme, themeName, changeTheme } = useTheme();
+  
+  // ✅ Add ref to prevent duplicate listeners
+  const authListenerInitialized = useRef(false);
 
-  // Listen for Firebase Auth state
+  // Listen for Firebase Auth state - ONLY ONCE
   useEffect(() => {
+    // ✅ Prevent duplicate listener setup
+    if (authListenerInitialized.current) return;
+    authListenerInitialized.current = true;
+    
+    console.log("Setting up auth listener - should run only once");
+    
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("Auth state changed:", currentUser?.email || "No user");
       setUser(currentUser);
+      setLoading(false);
     });
-    return () => unsubscribe();
+    
+    return () => {
+      console.log("Cleaning up auth listener");
+      unsubscribe();
+      authListenerInitialized.current = false;
+    };
   }, []);
 
   // Dark mode toggle - switches between light and dark only
-  const toggleDarkMode = () => {
+  const toggleDarkMode = useCallback(() => {
     if (themeName === "dark") {
       changeTheme("light");
     } else {
       changeTheme("dark");
     }
-  };
+  }, [themeName, changeTheme]);
 
   // Check if current theme is dark mode
   const isDarkMode =
@@ -46,16 +63,45 @@ const Navbar_Desktop = () => {
     themeName === "cyberpunk";
 
   // Get theme-based classes
-  const getButtonClasses = () => {
+  const getButtonClasses = useCallback(() => {
     return `navbar-desktop-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
-  };
+  }, [isDarkMode, theme.background?.navigationDots, theme.border?.button]);
 
-  const getTextHighlightClass = () =>
+  const getTextHighlightClass = useCallback(() =>
     theme.textColors?.highlight ||
-    (isDarkMode ? "text-blue-400" : "text-sky-600");
-  const getTextSecondaryClass = () =>
+    (isDarkMode ? "text-blue-400" : "text-sky-600"), [isDarkMode, theme.textColors?.highlight]);
+    
+  const getTextSecondaryClass = useCallback(() =>
     theme.textColors?.secondary ||
-    (isDarkMode ? "text-gray-400" : "text-gray-500");
+    (isDarkMode ? "text-gray-400" : "text-gray-500"), [isDarkMode, theme.textColors?.secondary]);
+
+  // Show loading state while checking auth
+  if (loading) {
+    return (
+      <nav
+        className={`navbar-desktop ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
+      >
+        <div className="navbar-desktop-top-row">
+          <Link href="/" className="navbar-desktop-logo">
+            <img
+              src={bookqubitLogo.src}
+              alt="BookQubit"
+              className="navbar-desktop-logo-img"
+            />
+            <span className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}>
+              BookQubit
+            </span>
+          </Link>
+          <div className="navbar-desktop-search">
+            <SearchBar />
+          </div>
+          <div className="navbar-desktop-user-actions">
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+          </div>
+        </div>
+      </nav>
+    );
+  }
 
   return (
     <nav
@@ -121,9 +167,10 @@ const Navbar_Desktop = () => {
             </div>
           )}
 
-          {/* LOGIN OR USER MENU */}
+          {/* LOGIN OR USER MENU - SINGLE INSTANCE */}
           {!user ? (
             <Link
+              key="login-button"
               href="/auth/login"
               className={`navbar-desktop-signup-button ${
                 theme.buttonColors?.primaryButton?.background ||
@@ -133,7 +180,7 @@ const Navbar_Desktop = () => {
               Login
             </Link>
           ) : (
-            <UserDropDown user={user} />
+            <UserDropDown key={`user-dropdown-${user.uid}`} user={user} />
           )}
         </div>
       </div>

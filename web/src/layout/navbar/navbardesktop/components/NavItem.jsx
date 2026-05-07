@@ -39,9 +39,9 @@ export const NAVIGATION_CONFIG = {
       path: "/bookslist",
       dropdown: [
         { name: "Best Sellers", path: "/books/bestsellers", icon: <FaStar /> },
-        { name: "New Releases", path: "/books/new", icon: <FaFire /> },
-        { name: "Top Rated", path: "/books/top-rated", icon: <FaStar /> },
-        { name: "Free Books", path: "/books/free", icon: <FaBook /> },
+        { name: "New Releases", path: "/books/newreleases", icon: <FaFire /> },
+        { name: "Top Rated", path: "/books/toprated", icon: <FaStar /> },
+  
       ],
     },
 
@@ -90,11 +90,6 @@ export const NAVIGATION_CONFIG = {
         { name: "Marvel", path: "/comics/marvel", icon: <FaFire /> },
         { name: "DC", path: "/comics/dc", icon: <FaStar /> },
         { name: "Manga", path: "/comics/manga", icon: <FaBook /> },
-        {
-          name: "Graphic Novels",
-          path: "/comics/graphic-novels",
-          icon: <FaBook />,
-        },
       ],
     },
     {
