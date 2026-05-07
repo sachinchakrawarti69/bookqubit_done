@@ -2,11 +2,13 @@
 
 import React, { useState } from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const FilterSection = ({ title, items, selectedItems, toggleItem }) => {
   const [showAll, setShowAll] = useState(false);
   const displayedItems = showAll ? items : items.slice(0, 5);
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -34,7 +36,7 @@ const FilterSection = ({ title, items, selectedItems, toggleItem }) => {
               htmlFor={`${title}-${index}`}
               className={`ml-2 text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
             >
-              {item || "Unknown"}
+              {item || t("filter.unknown") || "Unknown"}
             </label>
           </div>
         ))}
@@ -43,7 +45,9 @@ const FilterSection = ({ title, items, selectedItems, toggleItem }) => {
             onClick={() => setShowAll(!showAll)}
             className={`text-xs ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} hover:opacity-80 transition-opacity`}
           >
-            {showAll ? "Show less" : `Show all (${items.length})`}
+            {showAll 
+              ? (t("filter.show_less") || "Show less") 
+              : `${t("filter.show_all") || "Show all"} (${items.length})`}
           </button>
         )}
       </div>
@@ -72,6 +76,7 @@ const BooksFilter = ({
   setSelectedSubjects,
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -90,20 +95,20 @@ const BooksFilter = ({
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className={`text-lg font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-          Filter Books
+          {t("filter.filter_books") || "Filter Books"}
         </h3>
         <button
           onClick={resetFilters}
           className={`text-sm ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} hover:opacity-80 transition-opacity`}
         >
-          Reset All Filters
+          {t("filter.reset_all") || "Reset All Filters"}
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         {/* Tags Filter */}
         <FilterSection
-          title="Tags"
+          title={t("filter.tags") || "Tags"}
           items={allTags}
           selectedItems={selectedTags}
           toggleItem={(tag) => toggleFilter(tag, selectedTags, setSelectedTags)}
@@ -111,7 +116,7 @@ const BooksFilter = ({
 
         {/* Authors Filter */}
         <FilterSection
-          title="Authors"
+          title={t("filter.authors") || "Authors"}
           items={allAuthors}
           selectedItems={selectedAuthors}
           toggleItem={(author) =>
@@ -121,7 +126,7 @@ const BooksFilter = ({
 
         {/* Category Filter */}
         <FilterSection
-          title="Categories"
+          title={t("filter.categories") || "Categories"}
           items={allCategories}
           selectedItems={selectedCategories}
           toggleItem={(category) =>
@@ -131,7 +136,7 @@ const BooksFilter = ({
 
         {/* Collection Filter */}
         <FilterSection
-          title="Collections"
+          title={t("filter.collections") || "Collections"}
           items={allCollections}
           selectedItems={selectedCollections}
           toggleItem={(collection) =>
@@ -145,7 +150,7 @@ const BooksFilter = ({
 
         {/* Subjects Filter */}
         <FilterSection
-          title="Subjects"
+          title={t("filter.subjects") || "Subjects"}
           items={allSubjects}
           selectedItems={selectedSubjects}
           toggleItem={(subject) =>

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const PaginationBooks = ({
   currentPage,
@@ -12,6 +13,7 @@ const PaginationBooks = ({
   totalItems,
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   const [localItemsPerPage, setLocalItemsPerPage] = useState(
     itemsPerPage || 12,
   );
@@ -94,7 +96,7 @@ const PaginationBooks = ({
         <div
           className={`flex items-center gap-2 text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
         >
-          <span>Show</span>
+          <span>{t("pagination.show") || "Show"}</span>
           <select
             value={localItemsPerPage}
             onChange={(e) => handleItemsPerPageChange(Number(e.target.value))}
@@ -112,13 +114,13 @@ const PaginationBooks = ({
             <option value={48}>48</option>
             <option value={96}>96</option>
           </select>
-          <span>per page</span>
+          <span>{t("pagination.per_page") || "per page"}</span>
         </div>
 
         <div
           className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
         >
-          Showing {startItem}-{endItem} of {totalItems} items
+          {t("pagination.showing") || "Showing"} {startItem}-{endItem} {t("pagination.of") || "of"} {totalItems} {t("pagination.items") || "items"}
         </div>
       </div>
 
@@ -134,7 +136,7 @@ const PaginationBooks = ({
             ${getButtonClasses(false, currentPage === 1)}
           `}
         >
-          First
+          {t("pagination.first") || "First"}
         </button>
         <button
           onClick={() => handlePageChange(currentPage - 1)}
@@ -145,7 +147,7 @@ const PaginationBooks = ({
             ${getButtonClasses(false, currentPage === 1)}
           `}
         >
-          ‹ Prev
+          ‹ {t("pagination.prev") || "Prev"}
         </button>
 
         {/* Page numbers */}
@@ -182,7 +184,7 @@ const PaginationBooks = ({
             ${getButtonClasses(false, currentPage === totalPages)}
           `}
         >
-          Next ›
+          {t("pagination.next") || "Next"} ›
         </button>
         <button
           onClick={() => handlePageChange(totalPages)}
@@ -193,7 +195,7 @@ const PaginationBooks = ({
             ${getButtonClasses(false, currentPage === totalPages)}
           `}
         >
-          Last
+          {t("pagination.last") || "Last"}
         </button>
       </div>
 
@@ -210,7 +212,7 @@ const PaginationBooks = ({
           ${theme.shadow?.button || 'shadow-md'}
         `}
       >
-        ↑ Go to Top
+        ↑ {t("pagination.go_to_top") || "Go to Top"}
       </button>
     </div>
   );

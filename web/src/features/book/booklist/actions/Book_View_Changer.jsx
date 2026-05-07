@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookViewChanger = ({
   viewType,
@@ -16,6 +17,7 @@ const BookViewChanger = ({
   showAdvancedControls = false,
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   const [showViewOptions, setShowViewOptions] = useState(false);
   const [showSortOptions, setShowSortOptions] = useState(false);
 
@@ -26,7 +28,7 @@ const BookViewChanger = ({
   const viewOptions = [
     {
       id: "grid",
-      label: "Grid View",
+      label: t("view.grid_view") || "Grid View",
       icon: (
         <svg
           className="h-4 w-4"
@@ -42,12 +44,12 @@ const BookViewChanger = ({
           />
         </svg>
       ),
-      description: "Card grid layout",
+      description: t("view.grid_description") || "Card grid layout",
       previewIcon: "⊞"
     },
     {
       id: "compact",
-      label: "Compact View",
+      label: t("view.compact_view") || "Compact View",
       icon: (
         <svg
           className="h-4 w-4"
@@ -64,12 +66,12 @@ const BookViewChanger = ({
           />
         </svg>
       ),
-      description: "Horizontal compact cards",
+      description: t("view.compact_description") || "Horizontal compact cards",
       previewIcon: "⧉"
     },
     {
       id: "list",
-      label: "List View",
+      label: t("view.list_view") || "List View",
       icon: (
         <svg
           className="h-4 w-4"
@@ -85,38 +87,38 @@ const BookViewChanger = ({
           />
         </svg>
       ),
-      description: "Detailed list display",
+      description: t("view.list_description") || "Detailed list display",
       previewIcon: "≡"
     },
   ];
 
   const sortOptions = [
-    { value: "title-asc", label: "Title (A-Z)" },
-    { value: "title-desc", label: "Title (Z-A)" },
-    { value: "author-asc", label: "Author (A-Z)" },
-    { value: "author-desc", label: "Author (Z-A)" },
-    { value: "date-newest", label: "Date (Newest)" },
-    { value: "date-oldest", label: "Date (Oldest)" },
-    { value: "popular", label: "Most Popular" },
-    { value: "rating", label: "Highest Rated" },
+    { value: "title-asc", label: t("sort.title_asc") || "Title (A-Z)" },
+    { value: "title-desc", label: t("sort.title_desc") || "Title (Z-A)" },
+    { value: "author-asc", label: t("sort.author_asc") || "Author (A-Z)" },
+    { value: "author-desc", label: t("sort.author_desc") || "Author (Z-A)" },
+    { value: "date-newest", label: t("sort.date_newest") || "Date (Newest)" },
+    { value: "date-oldest", label: t("sort.date_oldest") || "Date (Oldest)" },
+    { value: "popular", label: t("sort.popular") || "Most Popular" },
+    { value: "rating", label: t("sort.rating") || "Highest Rated" },
   ];
 
   const itemsPerPageOptions = [
-    { value: 12, label: "12 per page" },
-    { value: 24, label: "24 per page" },
-    { value: 36, label: "36 per page" },
-    { value: 48, label: "48 per page" },
-    { value: 96, label: "96 per page" },
+    { value: 12, label: t("items_per_page.12") || "12 per page" },
+    { value: 24, label: t("items_per_page.24") || "24 per page" },
+    { value: 36, label: t("items_per_page.36") || "36 per page" },
+    { value: 48, label: t("items_per_page.48") || "48 per page" },
+    { value: 96, label: t("items_per_page.96") || "96 per page" },
   ];
 
   const gridDensityOptions = [
-    { id: "compact", label: "Compact", icon: "≡" },
-    { id: "normal", label: "Normal", icon: "☰" },
-    { id: "spacious", label: "Spacious", icon: "⧉" },
+    { id: "compact", label: t("density.compact") || "Compact", icon: "≡" },
+    { id: "normal", label: t("density.normal") || "Normal", icon: "☰" },
+    { id: "spacious", label: t("density.spacious") || "Spacious", icon: "⧉" },
   ];
 
   // Get current view option label
-  const currentViewLabel = viewOptions.find((v) => v.id === viewType)?.label || "Grid View";
+  const currentViewLabel = viewOptions.find((v) => v.id === viewType)?.label || (t("view.grid_view") || "Grid View");
   const currentViewIcon = viewOptions.find((v) => v.id === viewType)?.icon;
 
   // Get button styles based on theme
@@ -159,7 +161,7 @@ const BookViewChanger = ({
         <button
           onClick={() => setShowFilters(!showFilters)}
           className={getButtonClasses()}
-          title={showFilters ? "Hide Filters" : "Show Filters"}
+          title={showFilters ? (t("filter.hide_filters") || "Hide Filters") : (t("filter.show_filters") || "Show Filters")}
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
@@ -170,7 +172,7 @@ const BookViewChanger = ({
             />
           </svg>
           <span className="hidden sm:inline">
-            {showFilters ? "Hide Filters" : "Filters"}
+            {showFilters ? (t("filter.hide_filters") || "Hide Filters") : (t("filter.filters") || "Filters")}
           </span>
         </button>
       </div>
@@ -183,7 +185,7 @@ const BookViewChanger = ({
             <button
               onClick={() => setShowViewOptions(!showViewOptions)}
               className={getButtonClasses()}
-              title="Change View"
+              title={t("view.change_view") || "Change View"}
             >
               <span className="mr-1">{currentViewIcon}</span>
               <span className="hidden sm:inline">{currentViewLabel}</span>
@@ -207,7 +209,7 @@ const BookViewChanger = ({
               <div className={getDropdownClasses()}>
                 <div className="py-1">
                   <div className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-400'}`}>
-                    View Options
+                    {t("view.view_options") || "View Options"}
                   </div>
                   {viewOptions.map((option) => {
                     const isActive = viewType === option.id;
@@ -267,7 +269,7 @@ const BookViewChanger = ({
               <button
                 onClick={() => setShowSortOptions(!showSortOptions)}
                 className={getButtonClasses()}
-                title="Sort Options"
+                title={t("sort.sort_options") || "Sort Options"}
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path
@@ -277,7 +279,7 @@ const BookViewChanger = ({
                     d="M3 4h13M3 8h9m-9 4h9m5-4v12m0 0l-4-4m4 4l4-4"
                   />
                 </svg>
-                <span className="hidden sm:inline">Sort</span>
+                <span className="hidden sm:inline">{t("sort.sort") || "Sort"}</span>
               </button>
 
               {/* Sort Options Dropdown */}
@@ -285,7 +287,7 @@ const BookViewChanger = ({
                 <div className={`${getDropdownClasses()} w-48`}>
                   <div className="py-1">
                     <div className={`px-4 py-2 text-xs font-semibold uppercase tracking-wider ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-400'}`}>
-                      Sort By
+                      {t("sort.sort_by") || "Sort By"}
                     </div>
                     {sortOptions.map((option) => (
                       <button
@@ -330,7 +332,7 @@ const BookViewChanger = ({
                   ${theme.shadow?.button || 'shadow-sm'}
                   cursor-pointer
                 `}
-                title="Items per page"
+                title={t("items_per_page.title") || "Items per page"}
               >
                 {itemsPerPageOptions.map((option) => (
                   <option key={option.value} value={option.value}>

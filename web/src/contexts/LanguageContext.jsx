@@ -2,6 +2,14 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { navbarTranslations } from "@/datalang/navbar";
+import { aboutTranslations } from "@/datalang/about";
+
+// Merge all translations
+const allTranslations = {
+  en: { ...navbarTranslations.en, ...aboutTranslations.en },
+  hi: { ...navbarTranslations.hi, ...aboutTranslations.hi },
+  ur: { ...navbarTranslations.ur, ...aboutTranslations.ur }
+};
 
 const LanguageContext = createContext();
 
@@ -16,31 +24,31 @@ export const useLanguage = () => {
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState("en");
   const [isLanguageMenuOpen, setIsLanguageMenuOpen] = useState(false);
-  const [translations, setTranslations] = useState(navbarTranslations.en);
+  const [translations, setTranslations] = useState(allTranslations.en);
 
   useEffect(() => {
     // Load saved language from localStorage
     const savedLanguage = localStorage.getItem("bookqubit_language");
-    if (savedLanguage && navbarTranslations[savedLanguage]) {
+    if (savedLanguage && allTranslations[savedLanguage]) {
       setLanguage(savedLanguage);
-      setTranslations(navbarTranslations[savedLanguage]);
+      setTranslations(allTranslations[savedLanguage]);
     } else {
       // Detect browser language
       const browserLang = navigator.language.split("-")[0];
-      if (navbarTranslations[browserLang]) {
+      if (allTranslations[browserLang]) {
         setLanguage(browserLang);
-        setTranslations(navbarTranslations[browserLang]);
+        setTranslations(allTranslations[browserLang]);
       }
     }
   }, []);
 
   const changeLanguage = (lang) => {
-    if (navbarTranslations[lang]) {
+    if (allTranslations[lang]) {
       setLanguage(lang);
-      setTranslations(navbarTranslations[lang]);
+      setTranslations(allTranslations[lang]);
       localStorage.setItem("bookqubit_language", lang);
       setIsLanguageMenuOpen(false);
-
+      
       // Apply RTL for Urdu
       if (lang === "ur") {
         document.documentElement.dir = "rtl";
@@ -53,7 +61,7 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const t = (key) => {
-    return translations[key] || navbarTranslations.en[key] || key;
+    return translations[key] || allTranslations.en[key] || key;
   };
 
   const toggleLanguageMenu = () => {

@@ -1,4 +1,4 @@
-//frontend/src/data/BooksData.js
+//src\data\books\BooksData.js
 
 import QubitBookData from './QubitBookData';
 

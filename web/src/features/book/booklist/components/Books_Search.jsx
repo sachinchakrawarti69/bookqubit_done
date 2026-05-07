@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BooksSearch = ({ searchTerm, setSearchTerm }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -18,7 +20,7 @@ const BooksSearch = ({ searchTerm, setSearchTerm }) => {
     <div className="relative w-full md:w-1/2">
       <input
         type="search"
-        placeholder="Search books by title, author, or description..."
+        placeholder={t("search.search_books") || "Search books by title, author, or description..."}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         className={`

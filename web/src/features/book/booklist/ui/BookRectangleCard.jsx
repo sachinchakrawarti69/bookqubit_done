@@ -3,10 +3,12 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 import Button from "../actions/Button";
 
 const BookRectangleCard = ({ book, onTagClick }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -101,7 +103,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
 
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-              by{" "}
+              {t("book.by")}{" "}
               {book.authorId ? (
                 <Link
                   href={`/authors/${book.authorId}`}
@@ -125,7 +127,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
                 rounded-full
               `}
               >
-                Published: {formatPublishedYear(book.published)}
+                {t("book.published")}: {formatPublishedYear(book.published)}
               </span>
             )}
           </div>
@@ -148,7 +150,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
                 <h3
                   className={`text-xs font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-2 uppercase tracking-wider`}
                 >
-                  Category
+                  {t("book.category") || "Category"}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {getCategoryArray().map((cat, index) => (
@@ -179,7 +181,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
                 <h3
                   className={`text-xs font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-2 uppercase tracking-wider`}
                 >
-                  Key Points
+                  {t("book.key_points") || "Key Points"}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {book.keyPoints.slice(0, 3).map((point, index) => (
@@ -210,7 +212,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
                 <h3
                   className={`text-xs font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-2 uppercase tracking-wider`}
                 >
-                  Subjects
+                  {t("book.subjects") || "Subjects"}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {book.subjects.slice(0, 3).map((subject, index) => (
@@ -241,7 +243,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
                 <h3
                   className={`text-xs font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mb-2 uppercase tracking-wider`}
                 >
-                  Tags
+                  {t("book.tags") || "Tags"}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {book.tags.slice(0, 3).map((tag, index) => (
@@ -276,14 +278,14 @@ const BookRectangleCard = ({ book, onTagClick }) => {
             {/* Know More Button - FIXED: Now points to bookdeatils page with slug */}
             <Link href={`/bookdeatils/${book.slug || book.id}`} className="flex-1 min-w-[120px]">
               <Button
-                text="Know More"
+                text={t("book.know_more") || "Know More"}
                 preset="primaryButton"
                 className="w-full"
               />
             </Link>
             {book.buttons?.getBook && (
               <Button
-                text="Get Book"
+                text={t("book.get_book") || "Get Book"}
                 href={book.buttons.getBook}
                 preset="secondaryButton"
                 className="flex-1 min-w-[120px]"
@@ -291,7 +293,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
             )}
             {book.buttons?.readSummary && (
               <Button
-                text="Summary"
+                text={t("book.summary") || "Summary"}
                 href={book.buttons.readSummary}
                 preset="secondaryButton"
                 className="flex-1 min-w-[120px]"
@@ -303,7 +305,7 @@ const BookRectangleCard = ({ book, onTagClick }) => {
           {book.buttons?.listenAudiobook && (
             <div className="flex flex-wrap gap-3 text-center">
               <Button
-                text="Audiobook"
+                text={t("book.audiobook") || "Audiobook"}
                 href={book.buttons.listenAudiobook}
                 preset="secondaryButton"
                 className="flex-1 min-w-[120px]"

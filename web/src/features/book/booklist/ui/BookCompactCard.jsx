@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookCompactCard = ({ book, collections = [], showCollections = true, className = "" }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -64,7 +66,7 @@ const BookCompactCard = ({ book, collections = [], showCollections = true, class
 
             {/* Author */}
             <p className={`text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} mb-2`}>
-              by {book.author}
+              {t("book.by")} {book.author}
             </p>
 
             {/* Rating */}
@@ -102,7 +104,7 @@ const BookCompactCard = ({ book, collections = [], showCollections = true, class
                 ))}
                 {bookCollections.length > 2 && (
                   <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-                    +{bookCollections.length - 2} more
+                    +{bookCollections.length - 2} {t("book.more")}
                   </span>
                 )}
               </div>
@@ -127,7 +129,7 @@ const BookCompactCard = ({ book, collections = [], showCollections = true, class
               href={`/bookdeatils/${book.slug || book.id}`}
               className={`inline-block w-full text-center px-4 py-2 text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white rounded-lg transition-all hover:shadow-lg hover:scale-[1.02]`}
             >
-              View Details
+              {t("book.view_details")}
             </Link>
           </div>
         </div>

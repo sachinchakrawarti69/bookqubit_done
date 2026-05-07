@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Button = ({
   text,
@@ -14,6 +15,7 @@ const Button = ({
   disabled = false,
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -77,6 +79,11 @@ const Button = ({
     ? "focus:ring-offset-gray-900"
     : "focus:ring-offset-white";
 
+  // Translate text if it's a translation key
+  const displayText = text && (text.startsWith('button.') || text.startsWith('book.') || text.startsWith('filter.') || text.startsWith('search.')) 
+    ? t(text) || text 
+    : text;
+
   const buttonClass = `
     ${baseClasses} 
     ${getPresetClasses()} 
@@ -109,7 +116,7 @@ const Button = ({
           aria-disabled={disabled}
           tabIndex={disabled ? -1 : undefined}
         >
-          {text}
+          {displayText}
         </Link>
       );
     }
@@ -125,7 +132,7 @@ const Button = ({
         aria-disabled={disabled}
         tabIndex={disabled ? -1 : undefined}
       >
-        {text}
+        {displayText}
       </a>
     );
   }
@@ -137,7 +144,7 @@ const Button = ({
       type={type}
       disabled={disabled}
     >
-      {text}
+      {displayText}
     </button>
   );
 };
@@ -145,11 +152,16 @@ const Button = ({
 // Loading button variant
 export const LoadingButton = ({ isLoading, text, disabled, ...props }) => {
   const { theme } = useTheme();
+  const { t } = useLanguage();
+
+  // Translate loading text
+  const loadingText = t("button.loading") || "Loading...";
+  const displayText = isLoading ? loadingText : text;
 
   return (
     <Button
       {...props}
-      text={isLoading ? "Loading..." : text}
+      text={displayText}
       disabled={disabled || isLoading}
       className={`relative ${isLoading ? "cursor-wait" : ""} ${props.className || ""}`}
     >
@@ -184,6 +196,12 @@ export const LoadingButton = ({ isLoading, text, disabled, ...props }) => {
 // Icon button variant
 export const IconButton = ({ icon, text, ...props }) => {
   const { theme } = useTheme();
+  const { t } = useLanguage();
+
+  // Translate text if it's a translation key
+  const displayText = text && (text.startsWith('button.') || text.startsWith('book.') || text.startsWith('filter.')) 
+    ? t(text) || text 
+    : text;
 
   return (
     <Button
@@ -193,7 +211,7 @@ export const IconButton = ({ icon, text, ...props }) => {
       <span className={theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}>
         {icon}
       </span>
-      <span>{text}</span>
+      <span>{displayText}</span>
     </Button>
   );
 };

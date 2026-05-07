@@ -1,0 +1,135 @@
+export const bookTranslationsUrdu = {
+  // Book related translations
+  "book.by": "از",
+  "book.more": "مزید",
+  "book.view_details": "تفصیلات دیکھیں",
+  "book.not_found": "کتاب نہیں ملی",
+  "book.not_found_message": "آپ جس کتاب کی تلاش کر رہے ہیں وہ موجود نہیں ہے۔",
+  "book.rating": "درجہ بندی",
+  "book.pages": "صفحات",
+  "book.publisher": "ناشر",
+  "book.published": "شائع شدہ",
+  "book.summary": "خلاصہ",
+  "book.buy_now": "ابھی خریدیں",
+  "book.listen_audiobook": "آڈیو بک سنیں",
+  "book.share": "شیئر کریں",
+  "book.save": "بعد کے لیے محفوظ کریں",
+  "book.add_to_cart": "کارٹ میں شامل کریں",
+  "book.preview": "پیش نظارہ",
+  "book.about": "اس کتاب کے بارے میں",
+  "book.author": "مصنف",
+  "book.language": "زبان",
+  "book.isbn": "آئی ایس بی این",
+  "book.reviews": "جائزے",
+  "book.description": "تفصیل",
+  "book.genres": "اصناف",
+  "book.subjects": "موضوعات",
+  "book.tags": "ٹیگز",
+  "book.collections": "مجموعے",
+  "book.editions": "دوسرے ایڈیشن",
+  "book.related_books": "متعلقہ کتابیں",
+  "book.similar_books": "ملتی جلتی کتابیں",
+  "book.recommendations": "سفارشات",
+  "book.comments": "تبصرے",
+  "book.leave_comment": "تبصرہ کریں",
+  "book.no_comments": "ابھی کوئی تبصرہ نہیں",
+  "book.load_more": "مزید لوڈ کریں",
+  "book.reading_progress": "پڑھنے کی پیشرفت",
+  "book.mark_as_read": "پڑھی ہوئی نشان زد کریں",
+  "book.add_to_wishlist": "خواہش کی فہرست میں شامل کریں",
+  "book.remove_from_wishlist": "خواہش کی فہرست سے ہٹائیں",
+  "book.already_in_wishlist": "پہلے سے خواہش کی فہرست میں ہے",
+  "book.download_sample": "نمونہ ڈاؤن لوڈ کریں",
+  "book.read_sample": "نمونہ پڑھیں",
+  "book.available_formats": "دستیاب فارمیٹس",
+  "book.ebook": "ای بک",
+  "book.paperback": "پیپر بیک",
+  "book.hardcover": "ہارڈ کور",
+  "book.audiobook": "آڈیو بک"
+  // Add to existing file
+"book.category": "زمرہ",
+"book.key_points": "اہم نکات",
+"book.know_more": "مزید جانیں",
+"book.get_book": "کتاب حاصل کریں",
+"book.audiobook": "آڈیو بک"
+// Add to existing file
+"book.cover_of": "کا سرورق",
+// Add to existing file
+"filter.filter_books": "کتابیں فلٹر کریں",
+"filter.reset_all": "تمام فلٹرز ری سیٹ کریں",
+"filter.tags": "ٹیگز",
+"filter.authors": "مصنفین",
+"filter.categories": "زمروں",
+"filter.collections": "مجموعے",
+"filter.subjects": "موضوعات",
+"filter.show_less": "کم دکھائیں",
+"filter.show_all": "سب دکھائیں",
+"filter.unknown": "نامعلوم",
+// Add to existing file
+"search.search_books": "عنوان، مصنف یا تفصیل کے ذریعے کتابیں تلاش کریں...",
+// Add to existing file
+"pagination.show": "دکھائیں",
+"pagination.per_page": "فی صفحہ",
+"pagination.showing": "دکھا رہے ہیں",
+"pagination.of": "میں سے",
+"pagination.items": "آئٹمز",
+"pagination.first": "پہلا",
+"pagination.prev": "پچھلا",
+"pagination.next": "اگلا",
+"pagination.last": "آخری",
+"pagination.go_to_top": "اوپر جائیں",
+
+
+// Add to existing file
+// View translations
+"view.grid_view": "گرڈ منظر",
+"view.grid_description": "کارڈ گرڈ لے آؤٹ",
+"view.compact_view": "کامپیکٹ منظر",
+"view.compact_description": "افقی کامپیکٹ کارڈز",
+"view.list_view": "فہرست منظر",
+"view.list_description": "تفصیلی فہرست ڈسپلے",
+"view.change_view": "منظر تبدیل کریں",
+"view.view_options": "منظر کے اختیارات",
+
+// Sort translations
+"sort.title_asc": "عنوان (A-Z)",
+"sort.title_desc": "عنوان (Z-A)",
+"sort.author_asc": "مصنف (A-Z)",
+"sort.author_desc": "مصنف (Z-A)",
+"sort.date_newest": "تاریخ (نیا ترین)",
+"sort.date_oldest": "تاریخ (قدیم ترین)",
+"sort.popular": "سب سے مقبول",
+"sort.rating": "سب سے زیادہ درجہ بندی",
+"sort.sort": "ترتیب دیں",
+"sort.sort_by": "ترتیب دیں",
+"sort.sort_options": "ترتیب کے اختیارات",
+
+// Items per page
+"items_per_page.12": "12 فی صفحہ",
+"items_per_page.24": "24 فی صفحہ",
+"items_per_page.36": "36 فی صفحہ",
+"items_per_page.48": "48 فی صفحہ",
+"items_per_page.96": "96 فی صفحہ",
+"items_per_page.title": "آئٹمز فی صفحہ",
+
+// Density
+"density.compact": "کامپیکٹ",
+"density.normal": "عام",
+"density.spacious": "وسیع",
+
+// Filter
+"filter.filters": "فلٹرز",
+"filter.show_filters": "فلٹرز دکھائیں",
+"filter.hide_filters": "فلٹرز چھپائیں",
+
+// Add to existing file
+"button.loading": "لوڈ ہو رہا ہے...",
+// Add to existing file
+"book.singular": "کتاب",
+"book.plural": "کتابیں",
+"book.matching_filters": "آپ کے فلٹرز سے ملتی ہیں",
+"view.view": "منظر",
+"view.show_advanced": "اعلیٰ کنٹرول دکھائیں",
+"view.hide_advanced": "اعلیٰ کنٹرول چھپائیں",
+"sort.sorted_by": "ترتیب شدہ"
+};

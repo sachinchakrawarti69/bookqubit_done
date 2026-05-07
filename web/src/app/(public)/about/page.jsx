@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function AboutPage() {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
@@ -14,10 +16,10 @@ export default function AboutPage() {
       <section className={`${theme.layout?.sectionPadding || 'py-16 px-4 sm:px-6 lg:px-8'} text-center`}>
         <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
           <h1 className={`text-4xl md:text-5xl font-bold mb-6 ${theme.textColors?.primary || ''}`}>
-            About BookQubit
+            {t("about.hero.title")}
           </h1>
           <p className={`text-lg md:text-xl mb-8 max-w-3xl mx-auto ${theme.textColors?.secondary || ''}`}>
-            Your premier destination for discovering, exploring, and enjoying books, comics, and publications from around the world.
+            {t("about.hero.subtitle")}
           </p>
         </div>
       </section>
@@ -28,13 +30,13 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className={`text-3xl font-bold mb-6 ${theme.textColors?.primary || ''}`}>
-                Our Mission
+                {t("about.mission.title")}
               </h2>
               <p className={`text-lg mb-4 ${theme.textColors?.secondary || ''}`}>
-                At BookQubit, we believe that every reader deserves access to a world of stories. Our mission is to connect readers with their next favorite book, create a vibrant community of literature lovers, and support authors and publishers in reaching their audience.
+                {t("about.mission.text1")}
               </p>
               <p className={`text-lg ${theme.textColors?.secondary || ''}`}>
-                We strive to make reading accessible, enjoyable, and discoverable for everyone, regardless of their reading preferences or background.
+                {t("about.mission.text2")}
               </p>
             </div>
             <div className={`p-8 rounded-xl ${theme.background?.bookCoverSide || ''} ${theme.shadow?.container || ''}`}>
@@ -42,10 +44,10 @@ export default function AboutPage() {
                 📚
               </div>
               <p className={`text-center italic ${theme.textColors?.secondary || ''}`}>
-                "A reader lives a thousand lives before he dies. The man who never reads lives only one."
+                {t("about.mission.quote")}
               </p>
               <p className={`text-center mt-2 font-semibold ${theme.textColors?.primary || ''}`}>
-                — George R.R. Martin
+                — {t("about.mission.author")}
               </p>
             </div>
           </div>
@@ -57,10 +59,10 @@ export default function AboutPage() {
         <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
           <div className="text-center mb-12">
             <h2 className={`text-3xl font-bold mb-4 ${theme.textColors?.primary || ''}`}>
-              What We Offer
+              {t("about.offer.title")}
             </h2>
             <p className={`text-lg ${theme.textColors?.secondary || ''} max-w-2xl mx-auto`}>
-              Everything you need for your reading journey
+              {t("about.offer.subtitle")}
             </p>
           </div>
 
@@ -70,10 +72,10 @@ export default function AboutPage() {
                 📖
               </div>
               <h3 className={`text-xl font-bold mb-2 ${theme.textColors?.primary || ''}`}>
-                Extensive Collection
+                {t("about.offer.collection.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                Thousands of books, comics, and publications across all genres and categories
+                {t("about.offer.collection.text")}
               </p>
             </div>
 
@@ -82,10 +84,10 @@ export default function AboutPage() {
                 🤖
               </div>
               <h3 className={`text-xl font-bold mb-2 ${theme.textColors?.primary || ''}`}>
-                AI Recommendations
+                {t("about.offer.ai.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                Smart AI-powered suggestions tailored to your reading preferences
+                {t("about.offer.ai.text")}
               </p>
             </div>
 
@@ -94,10 +96,10 @@ export default function AboutPage() {
                 🔥
               </div>
               <h3 className={`text-xl font-bold mb-2 ${theme.textColors?.primary || ''}`}>
-                Trending Updates
+                {t("about.offer.trending.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                Stay current with bestsellers, new releases, and popular titles
+                {t("about.offer.trending.text")}
               </p>
             </div>
           </div>
@@ -109,74 +111,74 @@ export default function AboutPage() {
         <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
           <div className="text-center mb-12">
             <h2 className={`text-3xl font-bold mb-4 ${theme.textColors?.primary || ''}`}>
-              Our Values
+              {t("about.values.title")}
             </h2>
             <p className={`text-lg ${theme.textColors?.secondary || ''} max-w-2xl mx-auto`}>
-              The principles that guide everything we do
+              {t("about.values.subtitle")}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className={`p-6 rounded-xl ${theme.background?.bookCoverSide || ''}`}>
               <h3 className={`text-xl font-bold mb-3 ${theme.textColors?.highlight || ''}`}>
-                Quality Content
+                {t("about.values.quality.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                We curate and showcase only the highest quality content from trusted publishers and authors.
+                {t("about.values.quality.text")}
               </p>
             </div>
 
             <div className={`p-6 rounded-xl ${theme.background?.bookCoverSide || ''}`}>
               <h3 className={`text-xl font-bold mb-3 ${theme.textColors?.highlight || ''}`}>
-                User Experience
+                {t("about.values.ux.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                We prioritize intuitive design and seamless navigation for an enjoyable reading experience.
+                {t("about.values.ux.text")}
               </p>
             </div>
 
             <div className={`p-6 rounded-xl ${theme.background?.bookCoverSide || ''}`}>
               <h3 className={`text-xl font-bold mb-3 ${theme.textColors?.highlight || ''}`}>
-                Community First
+                {t("about.values.community.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                We foster a welcoming community of readers, authors, and publishing professionals.
+                {t("about.values.community.text")}
               </p>
             </div>
 
             <div className={`p-6 rounded-xl ${theme.background?.bookCoverSide || ''}`}>
               <h3 className={`text-xl font-bold mb-3 ${theme.textColors?.highlight || ''}`}>
-                Innovation
+                {t("about.values.innovation.title")}
               </h3>
               <p className={`${theme.textColors?.secondary || ''}`}>
-                We constantly evolve our platform with cutting-edge technology and features.
+                {t("about.values.innovation.text")}
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Join Section */}
       <section className={`py-16 px-4 sm:px-6 lg:px-8 ${theme.background?.section || ''}`}>
         <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center`}>
           <h2 className={`text-3xl font-bold mb-4 ${theme.textColors?.primary || ''}`}>
-            Join Our Journey
+            {t("about.join.title")}
           </h2>
           <p className={`text-lg mb-8 ${theme.textColors?.secondary || ''} max-w-2xl mx-auto`}>
-            We're always looking for passionate readers, talented developers, and creative minds to join our mission.
+            {t("about.join.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"
               className={`px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-blue-600'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:bg-blue-700'} text-white`}
             >
-              Contact Us
+              {t("about.join.contact")}
             </Link>
             <Link
               href="/faq"
               className={`px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border-2 ${theme.buttonColors?.secondaryButton?.background || 'border-blue-600'} ${theme.buttonColors?.secondaryButton?.hoverBackground || 'hover:bg-blue-50'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-blue-600'}`}
             >
-              Read FAQ
+              {t("about.join.faq")}
             </Link>
           </div>
         </div>

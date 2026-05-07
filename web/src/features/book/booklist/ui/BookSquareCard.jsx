@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookSquareCard = ({ book, onTagClick }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -52,7 +54,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
       >
         <img
           src={book.imageUrl || "/placeholder-book.jpg"}
-          alt={`Cover of ${book.title}`}
+          alt={`${t("book.cover_of") || "Cover of"} ${book.title}`}
           className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110"
           onError={handleImageError}
           loading="lazy"
@@ -88,7 +90,9 @@ const BookSquareCard = ({ book, onTagClick }) => {
 
           {/* Author and Published Year */}
           <div className="flex items-center gap-2 text-sm mb-2 flex-wrap">
-            <span className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>by</span>
+            <span className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
+              {t("book.by")}
+            </span>
             {book.authorId ? (
               <Link
                 href={`/authors/${book.authorId}`}
@@ -124,7 +128,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
               <span
                 className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
               >
-                Category:{" "}
+                {t("book.category")}:{" "}
               </span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {getCategoryArray().map((cat, i) => (
@@ -154,7 +158,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
               <span
                 className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
               >
-                Subjects:{" "}
+                {t("book.subjects")}:{" "}
               </span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {book.subjects.slice(0, 3).map((subject, i) => (
@@ -184,7 +188,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
               <span
                 className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
               >
-                Tags:{" "}
+                {t("book.tags")}:{" "}
               </span>
               <div className="flex flex-wrap gap-1 mt-1">
                 {book.tags.slice(0, 3).map((tag, i) => (
@@ -228,7 +232,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
                 font-medium text-xs sm:text-sm
               `}
               >
-                Know More
+                {t("book.know_more") || "Know More"}
               </button>
             </Link>
 
@@ -252,7 +256,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
                   font-medium text-xs sm:text-sm
                 `}
                 >
-                  Summary
+                  {t("book.summary") || "Summary"}
                 </button>
               </a>
             )}
@@ -279,7 +283,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
                 font-medium text-xs sm:text-sm
               `}
               >
-                Get Book
+                {t("book.get_book") || "Get Book"}
               </button>
             </a>
           )}
@@ -304,7 +308,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
                 font-medium text-xs sm:text-sm
               `}
               >
-                Audiobook
+                {t("book.audiobook") || "Audiobook"}
               </button>
             </a>
           )}
