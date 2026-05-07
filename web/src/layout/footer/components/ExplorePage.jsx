@@ -22,8 +22,8 @@ const ExplorePage = () => {
       icon: <span className={theme.textColors?.highlight || 'text-sky-600'}>📚</span>,
       links: [
         { name: "Featured Books", href: "/books/featured", icon: <span className="text-amber-400 text-sm">⭐</span> },
-        { name: "New Releases", href: "/books/new", icon: <span className="w-2 h-2 bg-emerald-400 rounded-full"></span> },
-        { name: "Genres", href: "/genres", icon: <span className="text-purple-400 text-sm">🏷️</span> },
+        { name: "New Releases", href: "/books/newreleases", icon: <span className="w-2 h-2 bg-emerald-400 rounded-full"></span> },
+        { name: "Genres", href: "/category", icon: <span className="text-purple-400 text-sm">🏷️</span> },
         { name: "Collections", href: "/collections", icon: <span className="text-indigo-400 text-sm">📚</span> },
       ],
       gradient: "from-sky-50 to-blue-50",
