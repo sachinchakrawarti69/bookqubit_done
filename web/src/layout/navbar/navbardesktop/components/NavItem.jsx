@@ -19,148 +19,378 @@ import {
   FaLaptopCode,
   FaBriefcase,
   FaFlask,
+  FaLanguage,
 } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaSquareRootAlt } from "react-icons/fa";
 import { MoreDropdown } from "./MoreDropdown";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-// Navigation Configuration
-export const NAVIGATION_CONFIG = {
+// Navigation Configuration with translation keys
+const getNavigationConfig = (t) => ({
   items: [
     {
-      name: "Home",
+      name: t("nav.home"),
       icon: <FaHome />,
       path: "/homepages",
+      translationKey: "nav.home",
     },
     {
-      name: "Books",
+      name: t("nav.books"),
       icon: <FaBook />,
       path: "/bookslist",
+      translationKey: "nav.books",
       dropdown: [
-        { name: "Best Sellers", path: "/books/bestsellers", icon: <FaStar /> },
-        { name: "New Releases", path: "/books/newreleases", icon: <FaFire /> },
-        { name: "Top Rated", path: "/books/toprated", icon: <FaStar /> },
-  
+        {
+          name: t("nav.bestsellers"),
+          path: "/books/bestsellers",
+          icon: <FaStar />,
+          translationKey: "nav.bestsellers",
+        },
+        {
+          name: t("nav.new_releases"),
+          path: "/books/newreleases",
+          icon: <FaFire />,
+          translationKey: "nav.new_releases",
+        },
+        {
+          name: t("nav.top_rated"),
+          path: "/books/toprated",
+          icon: <FaStar />,
+          translationKey: "nav.top_rated",
+        },
       ],
     },
-
     {
-  name: "Academic Books",
-  icon: <FaGraduationCap />,
-  path: "/academicbooks",
-  dropdown: [
-    { 
-      name: "Engineering", 
-      path: "/academic-books/engineering", 
-      icon: <FaCogs /> 
+      name: t("nav.academic_books"),
+      icon: <FaGraduationCap />,
+      path: "/academicbooks",
+      translationKey: "nav.academic_books",
+      dropdown: [
+        {
+          name: t("nav.engineering"),
+          path: "/academic-books/engineering",
+          icon: <FaCogs />,
+          translationKey: "nav.engineering",
+        },
+        {
+          name: t("nav.computer_science"),
+          path: "/academic-books/computer-science",
+          icon: <FaLaptopCode />,
+          translationKey: "nav.computer_science",
+        },
+        {
+          name: t("nav.medical"),
+          path: "/academic-books/medical",
+          icon: <FaUserDoctor />,
+          translationKey: "nav.medical",
+        },
+        {
+          name: t("nav.business_management"),
+          path: "/academic-books/business",
+          icon: <FaBriefcase />,
+          translationKey: "nav.business_management",
+        },
+        {
+          name: t("nav.science"),
+          path: "/academic-books/science",
+          icon: <FaFlask />,
+          translationKey: "nav.science",
+        },
+        {
+          name: t("nav.mathematics"),
+          path: "/academic-books/mathematics",
+          icon: <FaSquareRootAlt />,
+          translationKey: "nav.mathematics",
+        },
+      ],
     },
-    { 
-      name: "Computer Science", 
-      path: "/academic-books/computer-science", 
-      icon: <FaLaptopCode /> 
-    },
-    { 
-      name: "Medical", 
-      path: "/academic-books/medical", 
-      icon: <FaUserDoctor /> 
-    },
-    { 
-      name: "Business & Management", 
-      path: "/academic-books/business", 
-      icon: <FaBriefcase /> 
-    },
-    { 
-      name: "Science", 
-      path: "/academic-books/science", 
-      icon: <FaFlask /> 
-    },
-    { 
-      name: "Mathematics", 
-      path: "/academic-books/mathematics", 
-      icon: <FaSquareRootAlt /> 
-    },
-  ],
-},
     {
-      name: "Comics",
+      name: t("nav.comics"),
       icon: <FaBook />,
       path: "/comicslist",
+      translationKey: "nav.comics",
       dropdown: [
-        { name: "Marvel", path: "/comics/marvel", icon: <FaFire /> },
-        { name: "DC", path: "/comics/dc", icon: <FaStar /> },
-        { name: "Manga", path: "/comics/manga", icon: <FaBook /> },
+        {
+          name: t("nav.marvel"),
+          path: "/comics/marvel",
+          icon: <FaFire />,
+          translationKey: "nav.marvel",
+        },
+        {
+          name: t("nav.dc"),
+          path: "/comics/dc",
+          icon: <FaStar />,
+          translationKey: "nav.dc",
+        },
+        {
+          name: t("nav.manga"),
+          path: "/comics/manga",
+          icon: <FaBook />,
+          translationKey: "nav.manga",
+        },
       ],
     },
     {
-      name: "Genre & Category",
+      name: t("nav.genre_category"),
       icon: <FaBoxes />,
       path: "/category",
+      translationKey: "nav.genre_category",
       dropdown: [
-        { name: "Fiction", path: "/category/fiction" },
-        { name: "Non-Fiction", path: "/category/non-fiction" },
-        { name: "Science Fiction", path: "/category/sci-fi" },
-        { name: "Fantasy", path: "/category/fantasy" },
-        { name: "Mystery", path: "/category/mystery" },
-        { name: "Romance", path: "/category/romance" },
-        { name: "Biography", path: "/category/biography" },
+        {
+          name: t("nav.fiction"),
+          path: "/category/fiction",
+          translationKey: "nav.fiction",
+        },
+        {
+          name: t("nav.non_fiction"),
+          path: "/category/non-fiction",
+          translationKey: "nav.non_fiction",
+        },
+        {
+          name: t("nav.sci_fi"),
+          path: "/category/sci-fi",
+          translationKey: "nav.sci_fi",
+        },
+        {
+          name: t("nav.fantasy"),
+          path: "/category/fantasy",
+          translationKey: "nav.fantasy",
+        },
+        {
+          name: t("nav.mystery"),
+          path: "/category/mystery",
+          translationKey: "nav.mystery",
+        },
+        {
+          name: t("nav.romance"),
+          path: "/category/romance",
+          translationKey: "nav.romance",
+        },
+        {
+          name: t("nav.biography"),
+          path: "/category/biography",
+          translationKey: "nav.biography",
+        },
       ],
     },
     {
-      name: "Collections",
+      name: t("nav.collections"),
       icon: <FaBoxes />,
       path: "/collections",
+      translationKey: "nav.collections",
       dropdown: [
-        { name: "All Collections", path: "/collections", icon: <FaBoxes /> },
-        { name: "Featured", path: "/collections/featured", icon: <FaStar /> },
-        { name: "Summer Reads", path: "/collections/summer", icon: <FaFire /> },
         {
-          name: "Award Winners",
+          name: t("nav.all_collections"),
+          path: "/collections",
+          icon: <FaBoxes />,
+          translationKey: "nav.all_collections",
+        },
+        {
+          name: t("nav.featured"),
+          path: "/collections/featured",
+          icon: <FaStar />,
+          translationKey: "nav.featured",
+        },
+        {
+          name: t("nav.summer_reads"),
+          path: "/collections/summer",
+          icon: <FaFire />,
+          translationKey: "nav.summer_reads",
+        },
+        {
+          name: t("nav.award_winners"),
           path: "/collections/awards",
           icon: <FaStar />,
+          translationKey: "nav.award_winners",
         },
       ],
     },
     {
-      name: "Authors",
+      name: t("nav.authors"),
       icon: <FaUser />,
       path: "/authors",
+      translationKey: "nav.authors",
       dropdown: [
-        { name: "All Authors", path: "/authors", icon: <FaUser /> },
-        { name: "Popular Authors", path: "/authors/popular", icon: <FaStar /> },
-        { name: "New Authors", path: "/authors/new", icon: <FaFire /> },
         {
-          name: "Featured Authors",
+          name: t("nav.all_authors"),
+          path: "/authors",
+          icon: <FaUser />,
+          translationKey: "nav.all_authors",
+        },
+        {
+          name: t("nav.popular_authors"),
+          path: "/authors/popular",
+          icon: <FaStar />,
+          translationKey: "nav.popular_authors",
+        },
+        {
+          name: t("nav.new_authors"),
+          path: "/authors/new",
+          icon: <FaFire />,
+          translationKey: "nav.new_authors",
+        },
+        {
+          name: t("nav.featured_authors"),
           path: "/authors/featured",
           icon: <FaStar />,
+          translationKey: "nav.featured_authors",
         },
       ],
     },
     {
-      name: "Publications",
+      name: t("nav.publications"),
       icon: <FaBook />,
       path: "/publications",
+      translationKey: "nav.publications",
       dropdown: [
-        { name: "All Publications", path: "/publications", icon: <FaBook /> },
         {
-          name: "Magazines",
+          name: t("nav.all_publications"),
+          path: "/publications",
+          icon: <FaBook />,
+          translationKey: "nav.all_publications",
+        },
+        {
+          name: t("nav.magazines"),
           path: "/publications/magazines",
           icon: <FaNewspaper />,
+          translationKey: "nav.magazines",
         },
-        { name: "Journals", path: "/publications/journals", icon: <FaBook /> },
         {
-          name: "Newspapers",
+          name: t("nav.journals"),
+          path: "/publications/journals",
+          icon: <FaBook />,
+          translationKey: "nav.journals",
+        },
+        {
+          name: t("nav.newspapers"),
           path: "/publications/newspapers",
           icon: <FaNewspaper />,
+          translationKey: "nav.newspapers",
         },
       ],
     },
     {
-      name: "About",
+      name: t("nav.about"),
       icon: <FaInfoCircle />,
       path: "/about",
+      translationKey: "nav.about",
     },
   ],
+});
+
+// Language Selector Component
+const LanguageSelector = ({ mobile = false, onItemClick }) => {
+  const {
+    language,
+    languages,
+    isLanguageMenuOpen,
+    toggleLanguageMenu,
+    setLanguage,
+    t,
+  } = useLanguage();
+  const { theme } = useTheme();
+
+  if (mobile) {
+    return (
+      <div className="navbar-mobile-dropdown">
+        <div
+          onClick={toggleLanguageMenu}
+          className={`navbar-mobile-dropdown-button ${theme.textColors.primary}`}
+        >
+          <span
+            className={`navbar-mobile-dropdown-icon ${theme.textColors.highlight}`}
+          >
+            <FaLanguage />
+          </span>
+          <span className="navbar-mobile-dropdown-text">
+            {t("nav.language")}
+          </span>
+          <span
+            className={`navbar-mobile-dropdown-chevron ${theme.textColors.secondary}`}
+          >
+            {isLanguageMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
+          </span>
+        </div>
+
+        {isLanguageMenuOpen && (
+          <div
+            className={`navbar-mobile-dropdown-content ${theme.background.section}`}
+          >
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => {
+                  setLanguage(lang.code);
+                  if (onItemClick) onItemClick();
+                }}
+                className={`navbar-mobile-dropdown-item ${theme.textColors.primary} ${language === lang.code ? `font-bold ${theme.textColors.highlight}` : ""}`}
+                style={{ width: "100%", textAlign: "left" }}
+              >
+                <span>{lang.nativeName}</span>
+                {language === lang.code && <span className="ml-2">✓</span>}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div
+      className="navbar-desktop-dropdown-container relative"
+      onMouseEnter={toggleLanguageMenu}
+      onMouseLeave={toggleLanguageMenu}
+    >
+      <div
+        className={`navbar-desktop-dropdown-button ${theme.textColors.primary}`}
+      >
+        <span
+          className={`navbar-desktop-dropdown-icon ${theme.textColors.highlight}`}
+        >
+          <FaLanguage />
+        </span>
+        <span>{t("nav.language")}</span>
+        <span
+          className={`navbar-desktop-dropdown-chevron ${theme.textColors.secondary}`}
+        >
+          {isLanguageMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
+        </span>
+      </div>
+
+      {isLanguageMenuOpen && (
+        <div
+          className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
+          style={{ minWidth: "150px" }}
+        >
+          {languages.map((lang) => (
+            <button
+              key={lang.code}
+              onClick={() => {
+                setLanguage(lang.code);
+                if (onItemClick) onItemClick();
+              }}
+              className={`navbar-desktop-dropdown-item ${theme.textColors.primary} ${language === lang.code ? `bg-opacity-10 ${theme.background.highlight}` : ""}`}
+              style={{
+                width: "100%",
+                textAlign: "left",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>{lang.nativeName}</span>
+              {language === lang.code && (
+                <span className={theme.textColors.highlight}>✓</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 // Dropdown Component for Desktop
@@ -344,12 +574,14 @@ const MobileDropdown = ({ item, onItemClick }) => {
 // Main NavItem Component
 export const NavItem = ({ mobile = false, onItemClick }) => {
   const { theme } = useTheme();
+  const { t } = useLanguage();
+  const navigationConfig = getNavigationConfig(t);
 
   if (mobile) {
     return (
       <>
-        {NAVIGATION_CONFIG.items.map((item) => (
-          <div key={item.name}>
+        {navigationConfig.items.map((item) => (
+          <div key={item.translationKey}>
             {item.dropdown ? (
               <MobileDropdown item={item} onItemClick={onItemClick} />
             ) : (
@@ -371,6 +603,8 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
             )}
           </div>
         ))}
+        {/* Language Selector for mobile */}
+        <LanguageSelector mobile={true} onItemClick={onItemClick} />
         {/* Add MoreDropdown component for mobile */}
         <MoreDropdown mobile={true} onItemClick={onItemClick} />
       </>
@@ -379,8 +613,8 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
 
   return (
     <div className="flex items-center gap-1 h-full">
-      {NAVIGATION_CONFIG.items.map((item) => (
-        <div key={item.name} className="h-full flex items-center">
+      {navigationConfig.items.map((item) => (
+        <div key={item.translationKey} className="h-full flex items-center">
           {item.dropdown ? (
             <DesktopDropdown item={item} onItemClick={onItemClick} />
           ) : (
@@ -402,6 +636,8 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
           )}
         </div>
       ))}
+      {/* Language Selector for desktop */}
+      <LanguageSelector mobile={false} onItemClick={onItemClick} />
       {/* Add MoreDropdown component for desktop */}
       <MoreDropdown mobile={false} onItemClick={onItemClick} />
     </div>
@@ -410,7 +646,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
 
 // Helper functions
 export const addDropdownItem = (parentName, newItem) => {
-  const parent = NAVIGATION_CONFIG.items.find(
+  const parent = getNavigationConfig((key) => key).items.find(
     (item) => item.name === parentName,
   );
   if (parent && parent.dropdown) {
@@ -419,7 +655,7 @@ export const addDropdownItem = (parentName, newItem) => {
 };
 
 export const removeDropdownItem = (parentName, itemPath) => {
-  const parent = NAVIGATION_CONFIG.items.find(
+  const parent = getNavigationConfig((key) => key).items.find(
     (item) => item.name === parentName,
   );
   if (parent && parent.dropdown) {
@@ -428,14 +664,14 @@ export const removeDropdownItem = (parentName, itemPath) => {
 };
 
 export const addNavItem = (newItem) => {
-  NAVIGATION_CONFIG.items.push(newItem);
+  getNavigationConfig((key) => key).items.push(newItem);
 };
 
 export const removeNavItem = (itemName) => {
-  const index = NAVIGATION_CONFIG.items.findIndex(
+  const index = getNavigationConfig((key) => key).items.findIndex(
     (item) => item.name === itemName,
   );
   if (index !== -1) {
-    NAVIGATION_CONFIG.items.splice(index, 1);
+    getNavigationConfig((key) => key).items.splice(index, 1);
   }
 };

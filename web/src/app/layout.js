@@ -2,6 +2,7 @@
 
 // src/app/layout.js
 import ThemeProvider from '@/themes/ThemeProvider';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import "./globals.css";
 
 export default function RootLayout({ children }) {
@@ -9,7 +10,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <ThemeProvider>
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

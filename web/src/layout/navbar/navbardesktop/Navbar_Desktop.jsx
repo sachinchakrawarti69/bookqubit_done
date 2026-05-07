@@ -9,6 +9,7 @@ import SearchBar from "@/components/searchbar/SearchBar";
 import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control from "./components/Control";
+import LangSwitchDropdown from "./components/LangSwitchDropdown";
 
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -22,7 +23,7 @@ const Navbar_Desktop = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const { theme, themeName, changeTheme } = useTheme();
-  
+
   // ✅ Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
 
@@ -31,15 +32,15 @@ const Navbar_Desktop = () => {
     // ✅ Prevent duplicate listener setup
     if (authListenerInitialized.current) return;
     authListenerInitialized.current = true;
-    
+
     console.log("Setting up auth listener - should run only once");
-    
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       console.log("Auth state changed:", currentUser?.email || "No user");
       setUser(currentUser);
       setLoading(false);
     });
-    
+
     return () => {
       console.log("Cleaning up auth listener");
       unsubscribe();
@@ -67,13 +68,19 @@ const Navbar_Desktop = () => {
     return `navbar-desktop-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
   }, [isDarkMode, theme.background?.navigationDots, theme.border?.button]);
 
-  const getTextHighlightClass = useCallback(() =>
-    theme.textColors?.highlight ||
-    (isDarkMode ? "text-blue-400" : "text-sky-600"), [isDarkMode, theme.textColors?.highlight]);
-    
-  const getTextSecondaryClass = useCallback(() =>
-    theme.textColors?.secondary ||
-    (isDarkMode ? "text-gray-400" : "text-gray-500"), [isDarkMode, theme.textColors?.secondary]);
+  const getTextHighlightClass = useCallback(
+    () =>
+      theme.textColors?.highlight ||
+      (isDarkMode ? "text-blue-400" : "text-sky-600"),
+    [isDarkMode, theme.textColors?.highlight],
+  );
+
+  const getTextSecondaryClass = useCallback(
+    () =>
+      theme.textColors?.secondary ||
+      (isDarkMode ? "text-gray-400" : "text-gray-500"),
+    [isDarkMode, theme.textColors?.secondary],
+  );
 
   // Show loading state while checking auth
   if (loading) {
@@ -88,7 +95,9 @@ const Navbar_Desktop = () => {
               alt="BookQubit"
               className="navbar-desktop-logo-img"
             />
-            <span className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}>
+            <span
+              className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}
+            >
               BookQubit
             </span>
           </Link>
@@ -143,6 +152,9 @@ const Navbar_Desktop = () => {
               <FaMoon className={getTextSecondaryClass()} size={18} />
             )}
           </button>
+
+          {/* LANGUAGE SWITCHER DROPDOWN - ADDED AFTER DARK MODE */}
+          <LangSwitchDropdown mobile={false} />
 
           {/* CONTROL DROPDOWN (Theme & Font Switcher) */}
           <Control />
