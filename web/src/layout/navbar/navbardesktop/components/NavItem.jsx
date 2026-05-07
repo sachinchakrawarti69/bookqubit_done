@@ -14,7 +14,14 @@ import {
   FaStar,
   FaFire,
   FaNewspaper,
+  FaGraduationCap,
+  FaCogs,
+  FaLaptopCode,
+  FaBriefcase,
+  FaFlask,
 } from "react-icons/fa";
+import { FaUserDoctor } from "react-icons/fa6";
+import { FaSquareRootAlt } from "react-icons/fa";
 import { MoreDropdown } from "./MoreDropdown";
 import { useTheme } from "@/themes/useTheme";
 
@@ -37,6 +44,44 @@ export const NAVIGATION_CONFIG = {
         { name: "Free Books", path: "/books/free", icon: <FaBook /> },
       ],
     },
+
+    {
+  name: "Academic Books",
+  icon: <FaGraduationCap />,
+  path: "/academicbooks",
+  dropdown: [
+    { 
+      name: "Engineering", 
+      path: "/academic-books/engineering", 
+      icon: <FaCogs /> 
+    },
+    { 
+      name: "Computer Science", 
+      path: "/academic-books/computer-science", 
+      icon: <FaLaptopCode /> 
+    },
+    { 
+      name: "Medical", 
+      path: "/academic-books/medical", 
+      icon: <FaUserDoctor /> 
+    },
+    { 
+      name: "Business & Management", 
+      path: "/academic-books/business", 
+      icon: <FaBriefcase /> 
+    },
+    { 
+      name: "Science", 
+      path: "/academic-books/science", 
+      icon: <FaFlask /> 
+    },
+    { 
+      name: "Mathematics", 
+      path: "/academic-books/mathematics", 
+      icon: <FaSquareRootAlt /> 
+    },
+  ],
+},
     {
       name: "Comics",
       icon: <FaBook />,
