@@ -1,4 +1,4 @@
-import booksEnglish from './BooksData';
+import booksEnglish from './BooksData_English';
 import booksHindi from './BooksData_Hindi';
 import booksUrdu from './BooksData_Urdu';
 
@@ -26,3 +26,6 @@ export const getAllBooks = () => {
     ur: booksTranslations.ur
   };
 };
+
+// Default export for backward compatibility
+export default booksEnglish;

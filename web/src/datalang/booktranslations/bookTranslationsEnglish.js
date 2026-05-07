@@ -45,96 +45,86 @@ export const bookTranslationsEnglish = {
   "book.ebook": "eBook",
   "book.paperback": "Paperback",
   "book.hardcover": "Hardcover",
-  "book.audiobook": "Audiobook"
-  // Add to existing file
-"book.category": "Category",
-"book.key_points": "Key Points",
-"book.know_more": "Know More",
-"book.get_book": "Get Book",
-"book.audiobook": "Audiobook"
-// Add to existing file
-"book.cover_of": "Cover of",
-// Add to existing file
-"filter.filter_books": "Filter Books",
-"filter.reset_all": "Reset All Filters",
-"filter.tags": "Tags",
-"filter.authors": "Authors",
-"filter.categories": "Categories",
-"filter.collections": "Collections",
-"filter.subjects": "Subjects",
-"filter.show_less": "Show less",
-"filter.show_all": "Show all",
-"filter.unknown": "Unknown",
-// Add to existing file
-"search.search_books": "Search books by title, author, or description...",
-// Add to existing file
-"pagination.show": "Show",
-"pagination.per_page": "per page",
-"pagination.showing": "Showing",
-"pagination.of": "of",
-"pagination.items": "items",
-"pagination.first": "First",
-"pagination.prev": "Prev",
-"pagination.next": "Next",
-"pagination.last": "Last",
-"pagination.go_to_top": "Go to Top",
+  "book.audiobook": "Audiobook",
+  "book.category": "Category",
+  "book.key_points": "Key Points",
+  "book.know_more": "Know More",
+  "book.get_book": "Get Book",
+  "book.cover_of": "Cover of",
+  "book.singular": "book",
+  "book.plural": "books",
+  "book.matching_filters": "matching your filters",
 
+  // Filter translations
+  "filter.filter_books": "Filter Books",
+  "filter.reset_all": "Reset All Filters",
+  "filter.tags": "Tags",
+  "filter.authors": "Authors",
+  "filter.categories": "Categories",
+  "filter.collections": "Collections",
+  "filter.subjects": "Subjects",
+  "filter.show_less": "Show less",
+  "filter.show_all": "Show all",
+  "filter.unknown": "Unknown",
+  "filter.filters": "Filters",
+  "filter.show_filters": "Show Filters",
+  "filter.hide_filters": "Hide Filters",
 
+  // Search translations
+  "search.search_books": "Search books by title, author, or description...",
 
+  // Pagination translations
+  "pagination.show": "Show",
+  "pagination.per_page": "per page",
+  "pagination.showing": "Showing",
+  "pagination.of": "of",
+  "pagination.items": "items",
+  "pagination.first": "First",
+  "pagination.prev": "Prev",
+  "pagination.next": "Next",
+  "pagination.last": "Last",
+  "pagination.go_to_top": "Go to Top",
 
-// Add to existing file
-// View translations
-"view.grid_view": "Grid View",
-"view.grid_description": "Card grid layout",
-"view.compact_view": "Compact View",
-"view.compact_description": "Horizontal compact cards",
-"view.list_view": "List View",
-"view.list_description": "Detailed list display",
-"view.change_view": "Change View",
-"view.view_options": "View Options",
+  // View translations
+  "view.grid_view": "Grid View",
+  "view.grid_description": "Card grid layout",
+  "view.compact_view": "Compact View",
+  "view.compact_description": "Horizontal compact cards",
+  "view.list_view": "List View",
+  "view.list_description": "Detailed list display",
+  "view.change_view": "Change View",
+  "view.view_options": "View Options",
+  "view.view": "View",
+  "view.show_advanced": "Show Advanced Controls",
+  "view.hide_advanced": "Hide Advanced Controls",
 
-// Sort translations
-"sort.title_asc": "Title (A-Z)",
-"sort.title_desc": "Title (Z-A)",
-"sort.author_asc": "Author (A-Z)",
-"sort.author_desc": "Author (Z-A)",
-"sort.date_newest": "Date (Newest)",
-"sort.date_oldest": "Date (Oldest)",
-"sort.popular": "Most Popular",
-"sort.rating": "Highest Rated",
-"sort.sort": "Sort",
-"sort.sort_by": "Sort By",
-"sort.sort_options": "Sort Options",
+  // Sort translations
+  "sort.title_asc": "Title (A-Z)",
+  "sort.title_desc": "Title (Z-A)",
+  "sort.author_asc": "Author (A-Z)",
+  "sort.author_desc": "Author (Z-A)",
+  "sort.date_newest": "Date (Newest)",
+  "sort.date_oldest": "Date (Oldest)",
+  "sort.popular": "Most Popular",
+  "sort.rating": "Highest Rated",
+  "sort.sort": "Sort",
+  "sort.sort_by": "Sort By",
+  "sort.sort_options": "Sort Options",
+  "sort.sorted_by": "Sorted by",
 
-// Items per page
-"items_per_page.12": "12 per page",
-"items_per_page.24": "24 per page",
-"items_per_page.36": "36 per page",
-"items_per_page.48": "48 per page",
-"items_per_page.96": "96 per page",
-"items_per_page.title": "Items per page",
+  // Items per page
+  "items_per_page.12": "12 per page",
+  "items_per_page.24": "24 per page",
+  "items_per_page.36": "36 per page",
+  "items_per_page.48": "48 per page",
+  "items_per_page.96": "96 per page",
+  "items_per_page.title": "Items per page",
 
-// Density
-"density.compact": "Compact",
-"density.normal": "Normal",
-"density.spacious": "Spacious",
+  // Density
+  "density.compact": "Compact",
+  "density.normal": "Normal",
+  "density.spacious": "Spacious",
 
-// Filter
-"filter.filters": "Filters",
-"filter.show_filters": "Show Filters",
-"filter.hide_filters": "Hide Filters",
-
-// Add to existing file
-"button.loading": "Loading...",
-
-// Add to existing file
-"book.singular": "book",
-"book.plural": "books",
-"book.matching_filters": "matching your filters",
-"view.view": "View",
-"view.show_advanced": "Show Advanced Controls",
-"view.hide_advanced": "Hide Advanced Controls",
-"sort.sorted_by": "Sorted by"
-
-
+  // Button translations
+  "button.loading": "Loading..."
 };

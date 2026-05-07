@@ -3,12 +3,25 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { navbarTranslations } from "@/datalang/navbar";
 import { aboutTranslations } from "@/datalang/about";
+import { bookTranslations } from "@/datalang/booktranslations";
 
 // Merge all translations
 const allTranslations = {
-  en: { ...navbarTranslations.en, ...aboutTranslations.en },
-  hi: { ...navbarTranslations.hi, ...aboutTranslations.hi },
-  ur: { ...navbarTranslations.ur, ...aboutTranslations.ur }
+  en: { 
+    ...navbarTranslations.en, 
+    ...aboutTranslations.en,
+    ...bookTranslations.en 
+  },
+  hi: { 
+    ...navbarTranslations.hi, 
+    ...aboutTranslations.hi,
+    ...bookTranslations.hi 
+  },
+  ur: { 
+    ...navbarTranslations.ur, 
+    ...aboutTranslations.ur,
+    ...bookTranslations.ur 
+  }
 };
 
 const LanguageContext = createContext();

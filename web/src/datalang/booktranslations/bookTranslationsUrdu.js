@@ -45,91 +45,86 @@ export const bookTranslationsUrdu = {
   "book.ebook": "ای بک",
   "book.paperback": "پیپر بیک",
   "book.hardcover": "ہارڈ کور",
-  "book.audiobook": "آڈیو بک"
-  // Add to existing file
-"book.category": "زمرہ",
-"book.key_points": "اہم نکات",
-"book.know_more": "مزید جانیں",
-"book.get_book": "کتاب حاصل کریں",
-"book.audiobook": "آڈیو بک"
-// Add to existing file
-"book.cover_of": "کا سرورق",
-// Add to existing file
-"filter.filter_books": "کتابیں فلٹر کریں",
-"filter.reset_all": "تمام فلٹرز ری سیٹ کریں",
-"filter.tags": "ٹیگز",
-"filter.authors": "مصنفین",
-"filter.categories": "زمروں",
-"filter.collections": "مجموعے",
-"filter.subjects": "موضوعات",
-"filter.show_less": "کم دکھائیں",
-"filter.show_all": "سب دکھائیں",
-"filter.unknown": "نامعلوم",
-// Add to existing file
-"search.search_books": "عنوان، مصنف یا تفصیل کے ذریعے کتابیں تلاش کریں...",
-// Add to existing file
-"pagination.show": "دکھائیں",
-"pagination.per_page": "فی صفحہ",
-"pagination.showing": "دکھا رہے ہیں",
-"pagination.of": "میں سے",
-"pagination.items": "آئٹمز",
-"pagination.first": "پہلا",
-"pagination.prev": "پچھلا",
-"pagination.next": "اگلا",
-"pagination.last": "آخری",
-"pagination.go_to_top": "اوپر جائیں",
+  "book.audiobook": "آڈیو بک",
+  "book.category": "زمرہ",
+  "book.key_points": "اہم نکات",
+  "book.know_more": "مزید جانیں",
+  "book.get_book": "کتاب حاصل کریں",
+  "book.cover_of": "کا سرورق",
+  "book.singular": "کتاب",
+  "book.plural": "کتابیں",
+  "book.matching_filters": "آپ کے فلٹرز سے ملتی ہیں",
 
+  // Filter translations
+  "filter.filter_books": "کتابیں فلٹر کریں",
+  "filter.reset_all": "تمام فلٹرز ری سیٹ کریں",
+  "filter.tags": "ٹیگز",
+  "filter.authors": "مصنفین",
+  "filter.categories": "زمروں",
+  "filter.collections": "مجموعے",
+  "filter.subjects": "موضوعات",
+  "filter.show_less": "کم دکھائیں",
+  "filter.show_all": "سب دکھائیں",
+  "filter.unknown": "نامعلوم",
+  "filter.filters": "فلٹرز",
+  "filter.show_filters": "فلٹرز دکھائیں",
+  "filter.hide_filters": "فلٹرز چھپائیں",
 
-// Add to existing file
-// View translations
-"view.grid_view": "گرڈ منظر",
-"view.grid_description": "کارڈ گرڈ لے آؤٹ",
-"view.compact_view": "کامپیکٹ منظر",
-"view.compact_description": "افقی کامپیکٹ کارڈز",
-"view.list_view": "فہرست منظر",
-"view.list_description": "تفصیلی فہرست ڈسپلے",
-"view.change_view": "منظر تبدیل کریں",
-"view.view_options": "منظر کے اختیارات",
+  // Search translations
+  "search.search_books": "عنوان، مصنف یا تفصیل کے ذریعے کتابیں تلاش کریں...",
 
-// Sort translations
-"sort.title_asc": "عنوان (A-Z)",
-"sort.title_desc": "عنوان (Z-A)",
-"sort.author_asc": "مصنف (A-Z)",
-"sort.author_desc": "مصنف (Z-A)",
-"sort.date_newest": "تاریخ (نیا ترین)",
-"sort.date_oldest": "تاریخ (قدیم ترین)",
-"sort.popular": "سب سے مقبول",
-"sort.rating": "سب سے زیادہ درجہ بندی",
-"sort.sort": "ترتیب دیں",
-"sort.sort_by": "ترتیب دیں",
-"sort.sort_options": "ترتیب کے اختیارات",
+  // Pagination translations
+  "pagination.show": "دکھائیں",
+  "pagination.per_page": "فی صفحہ",
+  "pagination.showing": "دکھا رہے ہیں",
+  "pagination.of": "میں سے",
+  "pagination.items": "آئٹمز",
+  "pagination.first": "پہلا",
+  "pagination.prev": "پچھلا",
+  "pagination.next": "اگلا",
+  "pagination.last": "آخری",
+  "pagination.go_to_top": "اوپر جائیں",
 
-// Items per page
-"items_per_page.12": "12 فی صفحہ",
-"items_per_page.24": "24 فی صفحہ",
-"items_per_page.36": "36 فی صفحہ",
-"items_per_page.48": "48 فی صفحہ",
-"items_per_page.96": "96 فی صفحہ",
-"items_per_page.title": "آئٹمز فی صفحہ",
+  // View translations
+  "view.grid_view": "گرڈ منظر",
+  "view.grid_description": "کارڈ گرڈ لے آؤٹ",
+  "view.compact_view": "کامپیکٹ منظر",
+  "view.compact_description": "افقی کامپیکٹ کارڈز",
+  "view.list_view": "فہرست منظر",
+  "view.list_description": "تفصیلی فہرست ڈسپلے",
+  "view.change_view": "منظر تبدیل کریں",
+  "view.view_options": "منظر کے اختیارات",
+  "view.view": "منظر",
+  "view.show_advanced": "اعلیٰ کنٹرول دکھائیں",
+  "view.hide_advanced": "اعلیٰ کنٹرول چھپائیں",
 
-// Density
-"density.compact": "کامپیکٹ",
-"density.normal": "عام",
-"density.spacious": "وسیع",
+  // Sort translations
+  "sort.title_asc": "عنوان (A-Z)",
+  "sort.title_desc": "عنوان (Z-A)",
+  "sort.author_asc": "مصنف (A-Z)",
+  "sort.author_desc": "مصنف (Z-A)",
+  "sort.date_newest": "تاریخ (نیا ترین)",
+  "sort.date_oldest": "تاریخ (قدیم ترین)",
+  "sort.popular": "سب سے مقبول",
+  "sort.rating": "سب سے زیادہ درجہ بندی",
+  "sort.sort": "ترتیب دیں",
+  "sort.sort_by": "ترتیب دیں",
+  "sort.sort_options": "ترتیب کے اختیارات",
+  "sort.sorted_by": "ترتیب شدہ",
 
-// Filter
-"filter.filters": "فلٹرز",
-"filter.show_filters": "فلٹرز دکھائیں",
-"filter.hide_filters": "فلٹرز چھپائیں",
+  // Items per page
+  "items_per_page.12": "12 فی صفحہ",
+  "items_per_page.24": "24 فی صفحہ",
+  "items_per_page.36": "36 فی صفحہ",
+  "items_per_page.48": "48 فی صفحہ",
+  "items_per_page.96": "96 فی صفحہ",
+  "items_per_page.title": "آئٹمز فی صفحہ",
 
-// Add to existing file
-"button.loading": "لوڈ ہو رہا ہے...",
-// Add to existing file
-"book.singular": "کتاب",
-"book.plural": "کتابیں",
-"book.matching_filters": "آپ کے فلٹرز سے ملتی ہیں",
-"view.view": "منظر",
-"view.show_advanced": "اعلیٰ کنٹرول دکھائیں",
-"view.hide_advanced": "اعلیٰ کنٹرول چھپائیں",
-"sort.sorted_by": "ترتیب شدہ"
+  // Density
+  "density.compact": "کامپیکٹ",
+  "density.normal": "عام",
+  "density.spacious": "وسیع",
+
+  // Button translations
+  "button.loading": "لوڈ ہو رہا ہے..."
 };

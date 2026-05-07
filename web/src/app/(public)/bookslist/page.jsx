@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import booksData from "@/data/books/BooksData";
+import { getBooksByLanguage } from "@/data/books";
 // Correct import paths with exact filenames
 import BookSquareCard from "@/features/book/booklist/ui/BookSquareCard";
 import BookRectangleCard from "@/features/book/booklist/ui/BookRectangleCard";
@@ -11,9 +11,16 @@ import BooksFilter from "@/features/book/booklist/components/Books_Filter";
 import BookViewChanger from "@/features/book/booklist/actions/Book_View_Changer";
 import PaginationBooks from "@/features/book/booklist/components/PaginationBooks";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BooksPage = () => {
   const { theme, themeName } = useTheme();
+  const { t, language } = useLanguage();
+  
+  // Get books based on current language
+  const booksData = useMemo(() => {
+    return getBooksByLanguage(language);
+  }, [language]);
 
   // State for search and display
   const [searchTerm, setSearchTerm] = useState("");
@@ -57,6 +64,16 @@ const BooksPage = () => {
   // Extract all filter options from books data
   const { allTags, allAuthors, allCategories, allCollections, allSubjects } =
     useMemo(() => {
+      if (!booksData || booksData.length === 0) {
+        return {
+          allTags: [],
+          allAuthors: [],
+          allCategories: [],
+          allCollections: [],
+          allSubjects: []
+        };
+      }
+      
       return {
         allTags: Array.from(
           new Set(booksData.flatMap((book) => book.tags || [])),
@@ -78,6 +95,8 @@ const BooksPage = () => {
 
   // Sort books based on sort option
   const sortBooks = (books) => {
+    if (!books || books.length === 0) return [];
+    
     const sortedBooks = [...books];
 
     switch (sortOption) {
@@ -92,12 +111,12 @@ const BooksPage = () => {
       case "date-newest":
         return sortedBooks.sort(
           (a, b) =>
-            new Date(b.publishedDate || 0) - new Date(a.publishedDate || 0),
+            new Date(b.publishedDate || b.published || 0) - new Date(a.publishedDate || a.published || 0),
         );
       case "date-oldest":
         return sortedBooks.sort(
           (a, b) =>
-            new Date(a.publishedDate || 0) - new Date(b.publishedDate || 0),
+            new Date(a.publishedDate || a.published || 0) - new Date(b.publishedDate || b.published || 0),
         );
       case "popular":
         return sortedBooks.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -112,12 +131,14 @@ const BooksPage = () => {
 
   // Filter books based on all criteria
   const filteredBooks = useMemo(() => {
+    if (!booksData || booksData.length === 0) return [];
+    
     const filtered = booksData.filter((book) => {
       // Search term matching
       const matchesSearch =
         searchTerm === "" ||
-        book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        book.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        book.author?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (book.description &&
           book.description.toLowerCase().includes(searchTerm.toLowerCase()));
 
@@ -155,6 +176,7 @@ const BooksPage = () => {
     // Apply sorting
     return sortBooks(filtered);
   }, [
+    booksData,
     searchTerm,
     selectedTags,
     selectedAuthors,
@@ -181,6 +203,10 @@ const BooksPage = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, filteredBooks.length);
     const currentBooks = filteredBooks.slice(startIndex, endIndex);
+
+    if (currentBooks.length === 0) {
+      return <NoResults />;
+    }
 
     switch (viewType) {
       case "grid":
@@ -258,6 +284,27 @@ const BooksPage = () => {
     setCurrentPage(1);
   };
 
+  // Format sort option display
+  const formatSortOption = (option) => {
+    const formatted = option
+      .replace("-", " ")
+      .replace(/\b\w/g, (l) => l.toUpperCase());
+    
+    // Translate if needed
+    const sortMap = {
+      "Title Asc": t("sort.title_asc") || "Title (A-Z)",
+      "Title Desc": t("sort.title_desc") || "Title (Z-A)",
+      "Author Asc": t("sort.author_asc") || "Author (A-Z)",
+      "Author Desc": t("sort.author_desc") || "Author (Z-A)",
+      "Date Newest": t("sort.date_newest") || "Date (Newest)",
+      "Date Oldest": t("sort.date_oldest") || "Date (Oldest)",
+      "Popular": t("sort.popular") || "Most Popular",
+      "Rating": t("sort.rating") || "Highest Rated",
+    };
+    
+    return sortMap[formatted] || formatted;
+  };
+
   // No results component
   const NoResults = () => (
     <div className="text-center py-12">
@@ -275,10 +322,10 @@ const BooksPage = () => {
         />
       </svg>
       <h3 className={`mt-2 text-lg font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-        No books found
+        {t("book.not_found") || "No books found"}
       </h3>
       <p className={`mt-1 ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-        Try adjusting your search or filter criteria
+        {t("book.not_found_message") || "Try adjusting your search or filter criteria"}
       </p>
       <div className="mt-6">
         <button
@@ -294,7 +341,7 @@ const BooksPage = () => {
             transition-all duration-200
           `}
         >
-          Reset all filters
+          {t("filter.reset_all") || "Reset all filters"}
         </button>
       </div>
     </div>
@@ -352,8 +399,8 @@ const BooksPage = () => {
                 `}
                 title={
                   showAdvancedControls
-                    ? "Hide Advanced Controls"
-                    : "Show Advanced Controls"
+                    ? (t("view.hide_advanced") || "Hide Advanced Controls")
+                    : (t("view.show_advanced") || "Show Advanced Controls")
                 }
               >
                 <svg
@@ -405,14 +452,14 @@ const BooksPage = () => {
         {/* Results Count and View Info */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
           <div className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-            Found {filteredBooks.length}{" "}
-            {filteredBooks.length === 1 ? "book" : "books"}
+            {t("pagination.showing") || "Found"} {filteredBooks.length}{" "}
+            {filteredBooks.length === 1 ? (t("book.singular") || "book") : (t("book.plural") || "books")}
             {(selectedTags.length > 0 ||
               selectedAuthors.length > 0 ||
               selectedCategories.length > 0 ||
               selectedCollections.length > 0 ||
               selectedSubjects.length > 0) && (
-              <span> matching your filters</span>
+              <span> {t("book.matching_filters") || "matching your filters"}</span>
             )}
           </div>
 
@@ -433,24 +480,17 @@ const BooksPage = () => {
                   d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
                 />
               </svg>
-              Sorted by:{" "}
-              {sortOption
-                .replace("-", " ")
-                .replace(/\b\w/g, (l) => l.toUpperCase())}
+              {t("sort.sorted_by") || "Sorted by"}: {formatSortOption(sortOption)}
             </span>
             <span className="hidden sm:inline">•</span>
             <span className="whitespace-nowrap">
-              View: {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
+              {t("view.view") || "View"}: {viewType.charAt(0).toUpperCase() + viewType.slice(1)}
             </span>
           </div>
         </div>
 
         {/* Book Cards Grid */}
-        {filteredBooks.length > 0 ? (
-          <div className="w-full">{renderBooksView()}</div>
-        ) : (
-          <NoResults />
-        )}
+        {renderBooksView()}
 
         {/* Pagination - Only show if there are books */}
         {filteredBooks.length > 0 && (

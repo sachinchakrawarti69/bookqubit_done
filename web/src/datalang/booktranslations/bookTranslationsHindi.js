@@ -45,93 +45,86 @@ export const bookTranslationsHindi = {
   "book.ebook": "ई-बुक",
   "book.paperback": "पेपरबैक",
   "book.hardcover": "हार्डकवर",
-  "book.audiobook": "ऑडियोबुक"
-  // Add to existing file
-"book.category": "श्रेणी",
-"book.key_points": "मुख्य बिंदु",
-"book.know_more": "और जानें",
-"book.get_book": "पुस्तक प्राप्त करें",
-"book.audiobook": "ऑडियोबुक"
-// Add to existing file
-"book.cover_of": "का कवर",
-// Add to existing file
-"filter.filter_books": "पुस्तकें फ़िल्टर करें",
-"filter.reset_all": "सभी फ़िल्टर रीसेट करें",
-"filter.tags": "टैग",
-"filter.authors": "लेखक",
-"filter.categories": "श्रेणियाँ",
-"filter.collections": "संग्रह",
-"filter.subjects": "विषय",
-"filter.show_less": "कम दिखाएं",
-"filter.show_all": "सभी दिखाएं",
-"filter.unknown": "अज्ञात",
-// Add to existing file
-"search.search_books": "शीर्षक, लेखक या विवरण द्वारा पुस्तकें खोजें...",
-// Add to existing file
-"pagination.show": "दिखाएं",
-"pagination.per_page": "प्रति पृष्ठ",
-"pagination.showing": "दिखा रहे हैं",
-"pagination.of": "में से",
-"pagination.items": "आइटम",
-"pagination.first": "पहला",
-"pagination.prev": "पिछला",
-"pagination.next": "अगला",
-"pagination.last": "आखिरी",
-"pagination.go_to_top": "ऊपर जाएं",
+  "book.audiobook": "ऑडियोबुक",
+  "book.category": "श्रेणी",
+  "book.key_points": "मुख्य बिंदु",
+  "book.know_more": "और जानें",
+  "book.get_book": "पुस्तक प्राप्त करें",
+  "book.cover_of": "का कवर",
+  "book.singular": "पुस्तक",
+  "book.plural": "पुस्तकें",
+  "book.matching_filters": "आपके फ़िल्टर से मेल खाती हैं",
 
+  // Filter translations
+  "filter.filter_books": "पुस्तकें फ़िल्टर करें",
+  "filter.reset_all": "सभी फ़िल्टर रीसेट करें",
+  "filter.tags": "टैग",
+  "filter.authors": "लेखक",
+  "filter.categories": "श्रेणियाँ",
+  "filter.collections": "संग्रह",
+  "filter.subjects": "विषय",
+  "filter.show_less": "कम दिखाएं",
+  "filter.show_all": "सभी दिखाएं",
+  "filter.unknown": "अज्ञात",
+  "filter.filters": "फ़िल्टर",
+  "filter.show_filters": "फ़िल्टर दिखाएं",
+  "filter.hide_filters": "फ़िल्टर छिपाएं",
 
-// Add to existing file
-// View translations
-"view.grid_view": "ग्रिड दृश्य",
-"view.grid_description": "कार्ड ग्रिड लेआउट",
-"view.compact_view": "कॉम्पैक्ट दृश्य",
-"view.compact_description": "क्षैतिज कॉम्पैक्ट कार्ड",
-"view.list_view": "सूची दृश्य",
-"view.list_description": "विस्तृत सूची प्रदर्शन",
-"view.change_view": "दृश्य बदलें",
-"view.view_options": "दृश्य विकल्प",
+  // Search translations
+  "search.search_books": "शीर्षक, लेखक या विवरण द्वारा पुस्तकें खोजें...",
 
-// Sort translations
-"sort.title_asc": "शीर्षक (A-Z)",
-"sort.title_desc": "शीर्षक (Z-A)",
-"sort.author_asc": "लेखक (A-Z)",
-"sort.author_desc": "लेखक (Z-A)",
-"sort.date_newest": "तारीख (नवीनतम)",
-"sort.date_oldest": "तारीख (सबसे पुराना)",
-"sort.popular": "सबसे लोकप्रिय",
-"sort.rating": "सर्वाधिक रेटेड",
-"sort.sort": "क्रमबद्ध करें",
-"sort.sort_by": "क्रमबद्ध करें",
-"sort.sort_options": "क्रमबद्ध विकल्प",
+  // Pagination translations
+  "pagination.show": "दिखाएं",
+  "pagination.per_page": "प्रति पृष्ठ",
+  "pagination.showing": "दिखा रहे हैं",
+  "pagination.of": "में से",
+  "pagination.items": "आइटम",
+  "pagination.first": "पहला",
+  "pagination.prev": "पिछला",
+  "pagination.next": "अगला",
+  "pagination.last": "आखिरी",
+  "pagination.go_to_top": "ऊपर जाएं",
 
-// Items per page
-"items_per_page.12": "12 प्रति पृष्ठ",
-"items_per_page.24": "24 प्रति पृष्ठ",
-"items_per_page.36": "36 प्रति पृष्ठ",
-"items_per_page.48": "48 प्रति पृष्ठ",
-"items_per_page.96": "96 प्रति पृष्ठ",
-"items_per_page.title": "प्रति पृष्ठ आइटम",
+  // View translations
+  "view.grid_view": "ग्रिड दृश्य",
+  "view.grid_description": "कार्ड ग्रिड लेआउट",
+  "view.compact_view": "कॉम्पैक्ट दृश्य",
+  "view.compact_description": "क्षैतिज कॉम्पैक्ट कार्ड",
+  "view.list_view": "सूची दृश्य",
+  "view.list_description": "विस्तृत सूची प्रदर्शन",
+  "view.change_view": "दृश्य बदलें",
+  "view.view_options": "दृश्य विकल्प",
+  "view.view": "दृश्य",
+  "view.show_advanced": "उन्नत नियंत्रण दिखाएं",
+  "view.hide_advanced": "उन्नत नियंत्रण छिपाएं",
 
-// Density
-"density.compact": "कॉम्पैक्ट",
-"density.normal": "सामान्य",
-"density.spacious": "विशाल",
+  // Sort translations
+  "sort.title_asc": "शीर्षक (A-Z)",
+  "sort.title_desc": "शीर्षक (Z-A)",
+  "sort.author_asc": "लेखक (A-Z)",
+  "sort.author_desc": "लेखक (Z-A)",
+  "sort.date_newest": "तारीख (नवीनतम)",
+  "sort.date_oldest": "तारीख (सबसे पुराना)",
+  "sort.popular": "सबसे लोकप्रिय",
+  "sort.rating": "सर्वाधिक रेटेड",
+  "sort.sort": "क्रमबद्ध करें",
+  "sort.sort_by": "क्रमबद्ध करें",
+  "sort.sort_options": "क्रमबद्ध विकल्प",
+  "sort.sorted_by": "क्रमबद्ध",
 
-// Filter
-"filter.filters": "फ़िल्टर",
-"filter.show_filters": "फ़िल्टर दिखाएं",
-"filter.hide_filters": "फ़िल्टर छिपाएं",
+  // Items per page
+  "items_per_page.12": "12 प्रति पृष्ठ",
+  "items_per_page.24": "24 प्रति पृष्ठ",
+  "items_per_page.36": "36 प्रति पृष्ठ",
+  "items_per_page.48": "48 प्रति पृष्ठ",
+  "items_per_page.96": "96 प्रति पृष्ठ",
+  "items_per_page.title": "प्रति पृष्ठ आइटम",
 
-// Add to existing file
-"button.loading": "लोड हो रहा है...",
+  // Density
+  "density.compact": "कॉम्पैक्ट",
+  "density.normal": "सामान्य",
+  "density.spacious": "विशाल",
 
-// Add to existing file
-"book.singular": "पुस्तक",
-"book.plural": "पुस्तकें",
-"book.matching_filters": "आपके फ़िल्टर से मेल खाती हैं",
-"view.view": "दृश्य",
-"view.show_advanced": "उन्नत नियंत्रण दिखाएं",
-"view.hide_advanced": "उन्नत नियंत्रण छिपाएं",
-"sort.sorted_by": "क्रमबद्ध",
-
+  // Button translations
+  "button.loading": "लोड हो रहा है..."
 };
