@@ -8,9 +8,11 @@ import CountUp from "react-countup";
 import { FaBookOpen, FaSearch, FaChartLine, FaLightbulb } from "react-icons/fa";
 
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroPartOne = () => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   const [isMounted, setIsMounted] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
@@ -18,31 +20,31 @@ const HeroPartOne = () => {
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   const words = [
-    { text: "Adventure", color: theme.textColors?.highlight || "text-sky-600" },
-    { text: "Knowledge", color: "text-blue-600" },
-    { text: "Inspiration", color: "text-purple-600" },
-    { text: "Wisdom", color: "text-teal-600" },
-    { text: "Imagination", color: "text-pink-600" },
+    { text: t("hero.hero_part_one.words.adventure") || "Adventure", color: theme.textColors?.highlight || "text-sky-600" },
+    { text: t("hero.hero_part_one.words.knowledge") || "Knowledge", color: "text-blue-600" },
+    { text: t("hero.hero_part_one.words.inspiration") || "Inspiration", color: "text-purple-600" },
+    { text: t("hero.hero_part_one.words.wisdom") || "Wisdom", color: "text-teal-600" },
+    { text: t("hero.hero_part_one.words.imagination") || "Imagination", color: "text-pink-600" },
   ];
 
   const categories = [
     {
-      name: "Science",
+      name: t("hero.hero_part_one.category.science") || "Science",
       icon: <FaSearch className="text-lg" />,
       path: "/category/science",
     },
     {
-      name: "History",
+      name: t("hero.hero_part_one.category.history") || "History",
       icon: <FaBookOpen className="text-lg" />,
       path: "/category/history",
     },
     {
-      name: "Finance",
+      name: t("hero.hero_part_one.category.finance") || "Finance",
       icon: <FaChartLine className="text-lg" />,
       path: "/category/finance",
     },
     {
-      name: "Fiction",
+      name: t("hero.hero_part_one.category.fiction") || "Fiction",
       icon: <FaLightbulb className="text-lg" />,
       path: "/category/fiction",
     },
@@ -59,7 +61,7 @@ const HeroPartOne = () => {
       clearInterval(interval);
       setIsMounted(false);
     };
-  }, []);
+  }, [words.length]);
 
   const container = {
     hidden: { opacity: 0 },
@@ -97,7 +99,7 @@ const HeroPartOne = () => {
             className={`text-4xl md:text-6xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-6 leading-tight`}
           >
             <span className="relative inline-block">
-              <span className="relative z-10">Discover Your Next</span>
+              <span className="relative z-10">{t("hero.hero_part_one.heading1") || "Discover Your Next"}</span>
 
               <motion.span
                 initial={{ width: 0 }}
@@ -133,8 +135,7 @@ const HeroPartOne = () => {
             variants={item}
             className={`text-lg md:text-xl ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-8 max-w-2xl mx-auto`}
           >
-            Join our community of readers exploring thousands of titles across
-            all genres
+            {t("hero.hero_part_one.subtext") || "Join our community of readers exploring thousands of titles across all genres"}
           </motion.p>
 
           {/* CountUp */}
@@ -148,10 +149,17 @@ const HeroPartOne = () => {
               <div
                 className={`${theme.textColors?.highlight || 'text-sky-600'} font-bold text-xl mr-2`}
               >
-                {isMounted && <CountUp end={5000} duration={2.5} prefix="Over " suffix="+" />}
+                {isMounted && (
+                  <CountUp 
+                    end={5000} 
+                    duration={2.5} 
+                    prefix={`${t("hero.hero_part_one.over") || "Over "}`} 
+                    suffix={t("hero.hero_part_one.plus") || "+"} 
+                  />
+                )}
               </div>
               <span className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
-                books available
+                {t("hero.hero_part_one.books_available") || "books available"}
               </span>
             </div>
           </motion.div>
@@ -159,10 +167,10 @@ const HeroPartOne = () => {
           {/* Explore Books Button */}
           <motion.div variants={item} className="mb-12">
             <Link
-              href="/books"
+              href="/bookslist"
               className={`inline-block ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} font-semibold px-8 py-3 rounded-lg ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} transition-all duration-300 transform hover:scale-105`}
             >
-              Explore Books
+              {t("hero.hero_part_one.explore_books") || "Explore Books"}
             </Link>
           </motion.div>
 

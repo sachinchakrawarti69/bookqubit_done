@@ -4,88 +4,105 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { navbarTranslations } from "@/datalang/navbar";
 import { aboutTranslations } from "@/datalang/about";
 import { bookTranslations } from "@/datalang/booktranslations";
+import { heropartoneTranslations } from "@/datalang/heropartone";
 
 // Merge all translations for all 16 languages
 const allTranslations = {
   en: { 
     ...navbarTranslations.en, 
     ...aboutTranslations.en,
-    ...bookTranslations.en 
+    ...bookTranslations.en,
+    ...heropartoneTranslations.en
   },
   hi: { 
     ...navbarTranslations.hi, 
     ...aboutTranslations.hi,
-    ...bookTranslations.hi 
+    ...bookTranslations.hi,
+    ...heropartoneTranslations.hi
   },
   ur: { 
     ...navbarTranslations.ur, 
     ...aboutTranslations.ur,
-    ...bookTranslations.ur 
+    ...bookTranslations.ur,
+    ...heropartoneTranslations.ur
   },
   ar: { 
     ...navbarTranslations.ar, 
     ...aboutTranslations.ar,
-    ...bookTranslations.ar 
+    ...bookTranslations.ar,
+    ...heropartoneTranslations.ar
   },
   bn: { 
     ...navbarTranslations.bn, 
     ...aboutTranslations.bn,
-    ...bookTranslations.bn 
+    ...bookTranslations.bn,
+    ...heropartoneTranslations.bn
   },
   mr: { 
     ...navbarTranslations.mr, 
     ...aboutTranslations.mr,
-    ...bookTranslations.mr 
+    ...bookTranslations.mr,
+    ...heropartoneTranslations.mr
   },
   ta: { 
     ...navbarTranslations.ta, 
     ...aboutTranslations.ta,
-    ...bookTranslations.ta 
+    ...bookTranslations.ta,
+    ...heropartoneTranslations.ta
   },
   kn: { 
     ...navbarTranslations.kn, 
     ...aboutTranslations.kn,
-    ...bookTranslations.kn 
+    ...bookTranslations.kn,
+    ...heropartoneTranslations.kn
   },
   zh: { 
     ...navbarTranslations.zh, 
     ...aboutTranslations.zh,
-    ...bookTranslations.zh 
+    ...bookTranslations.zh,
+    ...heropartoneTranslations.zh
   },
   fr: { 
     ...navbarTranslations.fr, 
     ...aboutTranslations.fr,
-    ...bookTranslations.fr 
+    ...bookTranslations.fr,
+    ...heropartoneTranslations.fr
   },
   de: { 
     ...navbarTranslations.de, 
     ...aboutTranslations.de,
-    ...bookTranslations.de 
+    ...bookTranslations.de,
+    ...heropartoneTranslations.de
   },
   it: { 
     ...navbarTranslations.it, 
     ...aboutTranslations.it,
-    ...bookTranslations.it 
+    ...bookTranslations.it,
+    ...heropartoneTranslations.it
   },
   ja: { 
     ...navbarTranslations.ja, 
     ...aboutTranslations.ja,
-    ...bookTranslations.ja 
+    ...bookTranslations.ja,
+    ...heropartoneTranslations.ja
   },
   ko: { 
     ...navbarTranslations.ko, 
     ...aboutTranslations.ko,
-    ...bookTranslations.ko 
+    ...bookTranslations.ko,
+    ...heropartoneTranslations.ko
   },
   fa: { 
     ...navbarTranslations.fa, 
     ...aboutTranslations.fa,
-    ...bookTranslations.fa 
+    ...bookTranslations.fa,
+    ...heropartoneTranslations.fa
   },
   ru: { 
     ...navbarTranslations.ru, 
     ...aboutTranslations.ru,
-    ...bookTranslations.ru 
+    ...bookTranslations.ru,
+    ...heropartoneTranslations.ru
   }
 };
 

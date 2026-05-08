@@ -54,33 +54,6 @@ export const bookTranslationsBangla = {
   "book.singular": "বই",
   "book.plural": "বই",
   "book.matching_filters": "আপনার ফিল্টারের সাথে মিলছে",
-  "book.not_specified": "নির্দিষ্ট নয়",
-  "book.original_title": "মূল শিরোনাম",
-  "book.original_published": "মূল প্রকাশিত",
-  "book.country": "দেশ",
-  "book.edition": "সংস্করণ",
-  "book.format": "ফরম্যাট",
-  "book.liked": "পছন্দ হয়েছে",
-  "book.like": "পছন্দ",
-  "book.wishlisted": "ইচ্ছাতালিকাভুক্ত",
-  "book.wishlist": "ইচ্ছাতালিকা",
-  "book.in_library": "লাইব্রেরিতে",
-  "book.my_library": "আমার লাইব্রেরি",
-  "book.read": "পঠিত",
-  "book.mark_read": "পঠিত হিসেবে চিহ্নিত করুন",
-  "book.cover_not_available": "বইয়ের কভার উপলব্ধ নয়",
-  "book.key_highlights": "মূল হাইলাইটস",
-  "book.back_to_books": "বইয়ে ফিরুন",
-  "book.url_parameter": "ইউআরএল প্যারামিটার",
-  "book.no_id_provided": "ইউআরএল-এ কোন বইয়ের আইডি বা স্লাগ প্রদান করা হয়নি।",
-  "book.browse_all_books": "সব বই ব্রাউজ করুন",
-  "book.go_to_homepage": "হোমপেজে যান",
-  "book.publication_details": "প্রকাশনার বিবরণ",
-  "book.subjects_covered": "অন্তর্ভুক্ত বিষয়",
-  "book.details": "বিস্তারিত",
-  "book.you_may_also_like": "আপনার আরও পছন্দ হতে পারে",
-  "book.more_by": "আরও",
-  "book.similar_in": "অনুরূপ",
 
   // Filter translations
   "filter.filter_books": "বই ফিল্টার করুন",
@@ -154,9 +127,60 @@ export const bookTranslationsBangla = {
 
   // Button translations
   "button.loading": "লোড হচ্ছে...",
-  // Add to existing file
-"explore.explore_books": "বই অন্বেষণ করুন",
-"explore.dive_into": "আমাদের সাজানো নির্বাচিত পাঠযোগ্য শিরোনামের সংগ্রহে ডুব দিন",
-"explore.browse_all_books": "সব বই ব্রাউজ করুন",
 
+  // Additional book translations
+  "book.not_specified": "নির্দিষ্ট নয়",
+  "book.original_title": "মূল শিরোনাম",
+  "book.original_published": "মূল প্রকাশিত",
+  "book.country": "দেশ",
+  "book.edition": "সংস্করণ",
+  "book.format": "ফরম্যাট",
+
+  // Wishlist and library translations
+  "book.liked": "পছন্দ হয়েছে",
+  "book.like": "পছন্দ",
+  "book.wishlisted": "ইচ্ছাতালিকাভুক্ত",
+  "book.wishlist": "ইচ্ছাতালিকা",
+  "book.in_library": "লাইব্রেরিতে",
+  "book.my_library": "আমার লাইব্রেরি",
+  "book.read": "পঠিত",
+  "book.mark_read": "পঠিত হিসেবে চিহ্নিত করুন",
+
+  // Cover and highlights
+  "book.cover_not_available": "বইয়ের কভার উপলব্ধ নয়",
+  "book.key_highlights": "মূল হাইলাইটস",
+  "book.key_features": "মূল বৈশিষ্ট্য",
+
+  // Navigation
+  "book.back_to_books": "বইয়ে ফিরুন",
+
+  // Error messages
+  "book.url_parameter": "ইউআরএল প্যারামিটার",
+  "book.no_id_provided": "ইউআরএল-এ কোন বইয়ের আইডি বা স্লাগ প্রদান করা হয়নি।",
+  "book.browse_all_books": "সব বই ব্রাউজ করুন",
+  "book.go_to_homepage": "হোমপেজে যান",
+
+  // Publication details
+  "book.publication_details": "প্রকাশনার বিবরণ",
+  "book.subjects_covered": "অন্তর্ভুক্ত বিষয়",
+  "book.details": "বিস্তারিত",
+
+  // Related books
+  "book.you_may_also_like": "আপনার আরও পছন্দ হতে পারে",
+  "book.more_by": "আরও",
+  "book.similar_in": "অনুরূপ",
+
+  // Hero section translations
+  "hero.no_books_available": "কোন বই উপলব্ধ নেই",
+  "hero.check_out": "দেখুন",
+  "hero.by": "দ্বারা",
+  "hero.link_copied": "লিঙ্ক কপি হয়েছে!",
+  "hero.previous_book": "পূর্ববর্তী বই",
+  "hero.next_book": "পরবর্তী বই",
+  "hero.go_to_book": "বইতে যান",
+
+  // Explore section translations
+  "explore.explore_books": "বই অন্বেষণ করুন",
+  "explore.dive_into": "আমাদের সাজানো নির্বাচিত পাঠযোগ্য শিরোনামের সংগ্রহে ডুব দিন",
+  "explore.browse_all_books": "সব বই ব্রাউজ করুন"
 };
