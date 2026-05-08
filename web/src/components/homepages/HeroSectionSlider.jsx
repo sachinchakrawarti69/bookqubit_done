@@ -11,48 +11,45 @@ import {
   FaShare,
 } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { useRouter } from "next/navigation";
-import books from "@/data/books/BooksData";
+import { getBooksByLanguage } from "@/data/books";
 
 const HeroSection = () => {
   const { theme, themeName } = useTheme();
+  const { t, language } = useLanguage();
   const router = useRouter();
   const [currentBookIndex, setCurrentBookIndex] = useState(0);
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isInCollection, setIsInCollection] = useState(false);
   const [bookStatus, setBookStatus] = useState("unread");
+  const [books, setBooks] = useState([]);
   const scrollInterval = useRef(null);
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  // Filter books to only include those with titles <= 5 words
+  // Load books based on language
+  useEffect(() => {
+    const booksData = getBooksByLanguage(language);
+    setBooks(booksData);
+  }, [language]);
+
+  // Filter books - moved before conditional return
   const filteredBooks = books.filter((book) => {
-    const wordCount = book.title.trim().split(/\s+/).length;
+    const wordCount = book.title?.trim().split(/\s+/).length || 0;
     return wordCount <= 5;
   });
 
-  // If no books match the criteria, show a fallback message
-  if (filteredBooks.length === 0) {
-    return (
-      <section
-        className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
-      >
-        <div
-          className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center py-20`}
-        >
-          <h2 className={`text-2xl font-bold ${theme.textColors?.primary || ''}`}>
-            No books available with title length limit
-          </h2>
-        </div>
-      </section>
-    );
-  }
-
-  const currentBook = filteredBooks[currentBookIndex];
-
-  // Auto-scroll functionality
+  // Reset current book index when filtered books change
   useEffect(() => {
+    setCurrentBookIndex(0);
+  }, [filteredBooks.length]);
+
+  // Auto-scroll functionality - MOVED BEFORE conditional return
+  useEffect(() => {
+    if (filteredBooks.length === 0) return;
+    
     scrollInterval.current = setInterval(() => {
       setCurrentBookIndex(
         (prevIndex) => (prevIndex + 1) % filteredBooks.length,
@@ -64,6 +61,25 @@ const HeroSection = () => {
 
     return () => clearInterval(scrollInterval.current);
   }, [filteredBooks.length]);
+
+  // Conditional return AFTER all hooks
+  if (filteredBooks.length === 0) {
+    return (
+      <section
+        className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
+      >
+        <div
+          className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center py-20`}
+        >
+          <h2 className={`text-2xl font-bold ${theme.textColors?.primary || ''}`}>
+            {t("hero.no_books_available") || "No books available"}
+          </h2>
+        </div>
+      </section>
+    );
+  }
+
+  const currentBook = filteredBooks[currentBookIndex];
 
   const handleManualSelect = (index) => {
     setCurrentBookIndex(index);
@@ -110,12 +126,12 @@ const HeroSection = () => {
     if (navigator.share) {
       navigator.share({
         title: currentBook.title,
-        text: `Check out "${currentBook.title}" by ${currentBook.author}`,
+        text: `${t("hero.check_out") || "Check out"} "${currentBook.title}" ${t("hero.by") || "by"} ${currentBook.author}`,
         url: window.location.href,
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert("Link copied to clipboard!");
+      alert(t("hero.link_copied") || "Link copied to clipboard!");
     }
   };
 
@@ -132,7 +148,7 @@ const HeroSection = () => {
     return [...Array(5)].map((_, i) => (
       <FaStar
         key={i}
-        className={`${i < Math.floor(rating) ? (theme.iconColors?.starFilled || 'text-amber-400') : (theme.iconColors?.starEmpty || 'text-gray-300')} ${i > 0 ? "ml-1" : ""}`}
+        className={`${i < Math.floor(rating || 0) ? (theme.iconColors?.starFilled || 'text-amber-400') : (theme.iconColors?.starEmpty || 'text-gray-300')} ${i > 0 ? "ml-1" : ""}`}
         size={16}
       />
     ));
@@ -153,7 +169,7 @@ const HeroSection = () => {
               <button
                 onClick={() => navigateBook("prev")}
                 className="hidden sm:flex absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 dark:bg-gray-800/90 p-2 md:p-3 rounded-full shadow-md transition-all hover:scale-110"
-                aria-label="Previous book"
+                aria-label={t("hero.previous_book") || "Previous book"}
               >
                 <FaChevronLeft
                   className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || 'text-sky-600 dark:text-sky-400'}`}
@@ -163,7 +179,7 @@ const HeroSection = () => {
               <button
                 onClick={() => navigateBook("next")}
                 className="hidden sm:flex absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 dark:bg-gray-800/90 p-2 md:p-3 rounded-full shadow-md transition-all hover:scale-110"
-                aria-label="Next book"
+                aria-label={t("hero.next_book") || "Next book"}
               >
                 <FaChevronRight
                   className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || 'text-sky-600 dark:text-sky-400'}`}
@@ -211,7 +227,7 @@ const HeroSection = () => {
                 <p
                   className={`text-base sm:text-lg ${theme.textColors?.highlight || 'text-sky-700 dark:text-sky-400'} mb-4 sm:mb-6 font-medium`}
                 >
-                  by {currentBook.author}
+                  {t("book.by") || "by"} {currentBook.author}
                 </p>
 
                 {/* Rating and Meta */}
@@ -220,12 +236,15 @@ const HeroSection = () => {
                     <div className="flex mr-2">
                       {renderStars(currentBook.rating)}
                     </div>
+                    <span className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                      ({currentBook.rating?.toFixed(1) || "0"}/5)
+                    </span>
                   </div>
 
                   <div className="flex gap-3 sm:gap-4">
                     <div className="text-xs sm:text-sm">
                       <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-                        Pages
+                        {t("book.pages") || "Pages"}
                       </span>
                       <span
                         className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
@@ -235,7 +254,7 @@ const HeroSection = () => {
                     </div>
                     <div className="text-xs sm:text-sm">
                       <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-                        Language
+                        {t("book.language") || "Language"}
                       </span>
                       <span
                         className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
@@ -245,7 +264,7 @@ const HeroSection = () => {
                     </div>
                     <div className="text-xs sm:text-sm">
                       <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-                        Year
+                        {t("book.published") || "Year"}
                       </span>
                       <span
                         className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
@@ -261,7 +280,7 @@ const HeroSection = () => {
                   <h3
                     className={`text-lg sm:text-xl font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-3 sm:mb-4`}
                   >
-                    Key Features
+                    {t("book.key_features") || "Key Features"}
                   </h3>
                   <ul className="space-y-2 sm:space-y-3">
                     {currentBook.keyPoints?.map((point, index) => (
@@ -281,42 +300,38 @@ const HeroSection = () => {
                   </ul>
                 </div>
 
-                {/* Action Buttons - Simple buttons without BookActions */}
+                {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3 sm:gap-4">
-                  {/* Get Book Button */}
                   <button
                     onClick={handleGetBook}
                     className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'}`}
                   >
                     <FaShoppingCart size={18} />
-                    Get Book
+                    {t("book.get_book") || "Get Book"}
                   </button>
 
-                  {/* Wishlist Button */}
                   <button
                     onClick={handleWishlist}
                     className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border ${isInWishlist ? 'bg-rose-50 border-rose-400 text-rose-600 dark:bg-rose-900/20 dark:border-rose-600 dark:text-rose-400' : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
                   >
                     <FaHeart className={isInWishlist ? 'text-rose-600 dark:text-rose-400' : ''} size={18} />
-                    {isInWishlist ? 'Saved to Wishlist' : 'Add to Wishlist'}
+                    {isInWishlist ? (t("book.wishlisted") || "Saved to Wishlist") : (t("book.wishlist") || "Add to Wishlist")}
                   </button>
 
-                  {/* Summary Button */}
                   <button
                     onClick={handleSummaryClick}
                     className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border-2 ${theme.buttonColors?.secondaryButton?.background || 'border-sky-500'} ${theme.buttonColors?.secondaryButton?.hoverBackground || 'hover:bg-sky-50 dark:hover:bg-sky-900/20'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600 dark:text-sky-400'}`}
                   >
                     <FaBookOpen size={18} />
-                    Read Summary
+                    {t("book.summary") || "Read Summary"}
                   </button>
 
-                  {/* Share Button */}
                   <button
                     onClick={handleShare}
                     className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-800'} ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:bg-gray-200 dark:hover:bg-gray-700`}
                   >
                     <FaShare size={18} />
-                    Share
+                    {t("book.share") || "Share"}
                   </button>
                 </div>
               </div>
@@ -343,7 +358,7 @@ const HeroSection = () => {
                     width: index === currentBookIndex ? "1.5rem" : "0.75rem",
                     height: "0.75rem",
                   }}
-                  aria-label={`Go to book ${index + 1}`}
+                  aria-label={`${t("hero.go_to_book") || "Go to book"} ${index + 1}`}
                 />
               ))}
             </div>

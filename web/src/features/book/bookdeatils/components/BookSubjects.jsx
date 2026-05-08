@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookSubjects = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -33,7 +35,7 @@ const BookSubjects = ({ book }) => {
       `}
     >
       <h2 className={`text-xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-4`}>
-        Subjects Covered
+        {t("book.subjects_covered") || "Subjects Covered"}
       </h2>
       <div className="flex flex-wrap gap-2">
         {subjects.map((subject, index) => (

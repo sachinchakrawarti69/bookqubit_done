@@ -126,5 +126,69 @@ export const bookTranslationsHindi = {
   "density.spacious": "विशाल",
 
   // Button translations
-  "button.loading": "लोड हो रहा है..."
+  "button.loading": "लोड हो रहा है...",
+
+
+  // Add to existing file
+"book.not_specified": "निर्दिष्ट नहीं",
+"book.original_title": "मूल शीर्षक",
+"book.original_published": "मूल प्रकाशित",
+"book.country": "देश",
+"book.edition": "संस्करण",
+"book.format": "प्रारूप",
+
+// Add to existing file
+"book.liked": "पसंद किया",
+"book.like": "पसंद करें",
+"book.wishlisted": "विशलिस्टेड",
+"book.wishlist": "विशलिस्ट",
+"book.in_library": "लाइब्रेरी में",
+"book.my_library": "मेरी लाइब्रेरी",
+"book.read": "पढ़ा",
+"book.mark_read": "पढ़ा हुआ चिह्नित करें",
+
+// Add to existing file
+"book.cover_not_available": "पुस्तक कवर उपलब्ध नहीं है",
+
+// Add to existing file
+"book.key_highlights": "मुख्य हाइलाइट्स",
+
+// Add to existing file
+"book.back_to_books": "पुस्तकों पर वापस जाएं",
+
+// Add to existing file
+"book.url_parameter": "यूआरएल पैरामीटर",
+"book.no_id_provided": "यूआरएल में कोई पुस्तक आईडी या स्लग प्रदान नहीं किया गया है।",
+"book.browse_all_books": "सभी पुस्तकें ब्राउज़ करें",
+"book.go_to_homepage": "होमपेज पर जाएं",
+
+// Add to existing file
+"book.publication_details": "प्रकाशन विवरण",
+
+// Add to existing file
+"book.subjects_covered": "शामिल विषय",
+
+// Add to existing file
+"book.details": "विवरण",
+
+// Add to existing file
+"book.you_may_also_like": "आपको यह भी पसंद आ सकता है",
+"book.more_by": "और अधिक",
+"book.similar_in": "समान",
+
+// Add to existing file
+"hero.no_books_available": "कोई पुस्तक उपलब्ध नहीं है",
+"hero.check_out": "देखें",
+"hero.by": "द्वारा",
+"hero.link_copied": "लिंक कॉपी हो गया!",
+"hero.previous_book": "पिछली पुस्तक",
+"hero.next_book": "अगली पुस्तक",
+"hero.go_to_book": "पुस्तक पर जाएं",
+"book.key_features": "मुख्य विशेषताएं",
+// Add to existing file
+"explore.explore_books": "पुस्तकें खोजें",
+"explore.dive_into": "हमारे चुनिंदा पठनीय पुस्तकों के संग्रह में गोता लगाएं",
+"explore.browse_all_books": "सभी पुस्तकें देखें",
+
+
 };

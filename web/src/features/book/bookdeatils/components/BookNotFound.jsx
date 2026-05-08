@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookNotFound = ({ slug, books }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -27,19 +29,19 @@ const BookNotFound = ({ slug, books }) => {
           📚
         </div>
         <h2 className={`text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-4`}>
-          Book not found
+          {t("book.not_found") || "Book not found"}
         </h2>
         <p className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-4`}>
-          The book you're looking for doesn't exist in our library.
+          {t("book.not_found_message") || "The book you're looking for doesn't exist in our library."}
         </p>
 
         {slug ? (
           <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-2`}>
-            URL parameter: "{slug}"
+            {t("book.url_parameter") || "URL parameter"}: "{slug}"
           </p>
         ) : (
           <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-2`}>
-            No book ID or slug provided in the URL.
+            {t("book.no_id_provided") || "No book ID or slug provided in the URL."}
           </p>
         )}
 
@@ -60,7 +62,7 @@ const BookNotFound = ({ slug, books }) => {
               transition-all duration-200
             `}
           >
-            Browse All Books
+            {t("book.browse_all_books") || "Browse All Books"}
           </Link>
 
           <div className="mt-8">
@@ -73,7 +75,7 @@ const BookNotFound = ({ slug, books }) => {
                 transition-all
               `}
             >
-              Go to Homepage
+              {t("book.go_to_homepage") || "Go to Homepage"}
             </Link>
           </div>
         </div>

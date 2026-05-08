@@ -126,5 +126,68 @@ export const bookTranslationsUrdu = {
   "density.spacious": "وسیع",
 
   // Button translations
-  "button.loading": "لوڈ ہو رہا ہے..."
+  "button.loading": "لوڈ ہو رہا ہے...",
+
+  // Add to existing file
+"book.not_specified": "مخصوص نہیں",
+"book.original_title": "اصل عنوان",
+"book.original_published": "اصل شائع شدہ",
+"book.country": "ملک",
+"book.edition": "ایڈیشن",
+"book.format": "فارمیٹ",
+
+
+// Add to existing file
+"book.liked": "پسند کیا",
+"book.like": "پسند کریں",
+"book.wishlisted": "خواہش شدہ",
+"book.wishlist": "خواہش کی فہرست",
+"book.in_library": "لائبریری میں",
+"book.my_library": "میری لائبریری",
+"book.read": "پڑھی",
+"book.mark_read": "پڑھی ہوئی نشان زد کریں",
+
+// Add to existing file
+"book.cover_not_available": "کتاب کا سرورق دستیاب نہیں ہے",
+// Add to existing file
+"book.key_highlights": "اہم خصوصیات",
+
+// Add to existing file
+"book.back_to_books": "کتابوں پر واپس جائیں",
+
+// Add to existing file
+"book.url_parameter": "یو آر ایل پیرامیٹر",
+"book.no_id_provided": "یو آر ایل میں کوئی کتاب آئی ڈی یا سلیگ فراہم نہیں کیا گیا ہے۔",
+"book.browse_all_books": "تمام کتابیں براؤز کریں",
+"book.go_to_homepage": "ہوم پیج پر جائیں",
+
+// Add to existing file
+"book.publication_details": "اشاعت کی تفصیلات",
+
+// Add to existing file
+"book.subjects_covered": "شامل موضوعات",
+
+// Add to existing file
+"book.details": "تفصیلات",
+
+// Add to existing file
+"book.you_may_also_like": "آپ کو یہ بھی پسند آ سکتا ہے",
+"book.more_by": "مزید از",
+"book.similar_in": "ملتے جلتے",
+
+// Add to existing file
+"hero.no_books_available": "کوئی کتاب دستیاب نہیں ہے",
+"hero.check_out": "دیکھیں",
+"hero.by": "از",
+"hero.link_copied": "لنک کاپی ہو گیا!",
+"hero.previous_book": "پچھلی کتاب",
+"hero.next_book": "اگلی کتاب",
+"hero.go_to_book": "کتاب پر جائیں",
+"book.key_features": "کلیدی خصوصیات",
+
+// Add to existing file
+"explore.explore_books": "کتابیں دریافت کریں",
+"explore.dive_into": "ہمارے منتخب کردہ پڑھنے کے قابل عنوانات کے مجموعہ میں غوطہ لگائیں",
+"explore.browse_all_books": "تمام کتابیں دیکھیں",
+
 };

@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookSummary = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -33,7 +35,7 @@ const BookSummary = ({ book }) => {
       `}
     >
       <h2 className={`text-xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-4`}>
-        Summary
+        {t("book.summary") || "Summary"}
       </h2>
       <div className={`prose max-w-none ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
         {paragraphs.map((paragraph, i) => (

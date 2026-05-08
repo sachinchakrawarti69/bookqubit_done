@@ -126,5 +126,67 @@ export const bookTranslationsEnglish = {
   "density.spacious": "Spacious",
 
   // Button translations
-  "button.loading": "Loading..."
+  "button.loading": "Loading...",
+
+// Add to existing file
+"book.not_specified": "Not specified",
+"book.original_title": "Original Title",
+"book.original_published": "Original Published",
+"book.country": "Country",
+"book.edition": "Edition",
+"book.format": "Format",
+
+// Add to existing file
+"book.liked": "Liked",
+"book.like": "Like",
+"book.wishlisted": "Wishlisted",
+"book.wishlist": "Wishlist",
+"book.in_library": "In Library",
+"book.my_library": "My Library",
+"book.read": "Read",
+"book.mark_read": "Mark Read",
+
+// Add to existing file
+"book.cover_not_available": "Book cover not available",
+
+// Add to existing file
+"book.key_highlights": "Key Highlights",
+
+// Add to existing file
+"book.back_to_books": "Back to Books",
+
+// Add to existing file
+"book.url_parameter": "URL parameter",
+"book.no_id_provided": "No book ID or slug provided in the URL.",
+"book.browse_all_books": "Browse All Books",
+"book.go_to_homepage": "Go to Homepage",
+
+// Add to existing file
+"book.publication_details": "Publication Details",
+
+// Add to existing file
+"book.subjects_covered": "Subjects Covered",
+
+// Add to existing file
+"book.details": "Details",
+
+// Add to existing file
+"book.you_may_also_like": "You May Also Like",
+"book.more_by": "More by",
+"book.similar_in": "Similar in",
+
+// Add to existing file
+"hero.no_books_available": "No books available",
+"hero.check_out": "Check out",
+"hero.by": "by",
+"hero.link_copied": "Link copied to clipboard!",
+"hero.previous_book": "Previous book",
+"hero.next_book": "Next book",
+"hero.go_to_book": "Go to book",
+"book.key_features": "Key Features",
+
+// Add to existing file
+"explore.explore_books": "Explore Books",
+"explore.dive_into": "Dive into our curated selection of must-read titles",
+"explore.browse_all_books": "Browse All Books"
 };

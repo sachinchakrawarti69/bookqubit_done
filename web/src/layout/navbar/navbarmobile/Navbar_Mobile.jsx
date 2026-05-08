@@ -1,290 +1,218 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaRobot, FaMoon, FaSun, FaBars, FaTimes, FaSearch, FaUser } from "react-icons/fa";
-
-import { auth } from "@/config/firebase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  FaHome,
+  FaBook,
+  FaBoxes,
+  FaUser,
+  FaInfoCircle,
+  FaChevronDown,
+  FaChevronUp,
+  FaStar,
+  FaFire,
+  FaNewspaper,
+  FaGraduationCap,
+  FaCogs,
+  FaLaptopCode,
+  FaBriefcase,
+  FaFlask,
+  FaUserDoctor,
+  FaSquareRootAlt,
+  FaRobot,
+} from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
-import Control_Mobile from "./components/control_mobile/Control_Mobile";
-import { NavItem_Mobile } from "./NavItem_Mobile";
 
-import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
-import "./Navbar_Mobile.css";
+// Navigation Configuration
+export const NAVIGATION_CONFIG = {
+  items: [
+    {
+      name: "Home",
+      icon: <FaHome />,
+      path: "/homepages",
+    },
+    {
+      name: "Books",
+      icon: <FaBook />,
+      path: "/bookslist",
+    },
+    {
+      name: "Academic Books",
+      icon: <FaGraduationCap />,
+      path: "/academicbooks",
+    },
+    {
+      name: "Comics",
+      icon: <FaBook />,
+      path: "/comicslist",
+    },
+    {
+      name: "Genre & Category",
+      icon: <FaBoxes />,
+      path: "/category",
+    },
+    {
+      name: "Collections",
+      icon: <FaBoxes />,
+      path: "/collections",
+    },
+    {
+      name: "Authors",
+      icon: <FaUser />,
+      path: "/authors",
+    },
+    {
+      name: "Publications",
+      icon: <FaBook />,
+      path: "/publications",
+    },
+    {
+      name: "AI Assistant",
+      icon: <FaRobot />,
+      path: "/bookqubitai",
+    },
+    {
+      name: "About",
+      icon: <FaInfoCircle />,
+      path: "/about",
+    },
+  ],
+};
 
-const Navbar_Mobile = () => {
+// Dropdown items configuration
+export const dropdownConfig = {
+  Books: [
+    { name: "Best Sellers", path: "/books/bestsellers", icon: <FaStar /> },
+    { name: "New Releases", path: "/books/newreleases", icon: <FaFire /> },
+    { name: "Top Rated", path: "/books/toprated", icon: <FaStar /> },
+  ],
+  Comics: [
+    { name: "Marvel", path: "/comics/marvel", icon: <FaFire /> },
+    { name: "DC", path: "/comics/dc", icon: <FaStar /> },
+    { name: "Manga", path: "/comics/manga", icon: <FaBook /> },
+  ],
+  "Academic Books": [
+    { name: "Engineering", path: "/academic-books/engineering", icon: <FaCogs /> },
+    { name: "Computer Science", path: "/academic-books/computer-science", icon: <FaLaptopCode /> },
+    { name: "Medical", path: "/academic-books/medical", icon: <FaUserDoctor /> },
+    { name: "Business", path: "/academic-books/business", icon: <FaBriefcase /> },
+    { name: "Science", path: "/academic-books/science", icon: <FaFlask /> },
+    { name: "Mathematics", path: "/academic-books/mathematics", icon: <FaSquareRootAlt /> },
+  ],
+};
+
+// Main Mobile NavItem Component
+export const NavItem_Mobile = ({ onItemClick }) => {
+  const { theme, themeName } = useTheme();
   const router = useRouter();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const { theme, themeName, changeTheme } = useTheme();
-  const authListenerInitialized = useRef(false);
-  const menuRef = useRef(null);
+  const [openDropdowns, setOpenDropdowns] = useState({});
+
+  if (!theme) return null;
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  // User menu items
-  const userMenuItems = [
-    { name: "My Profile", path: "/auth/profile", icon: <FaUser /> },
-    { name: "Dashboard", path: "/auth/userdashboard", icon: <FaUser /> },
-    { name: "Bookworm Ranking", path: "/auth/bookwormranking", icon: <FaUser /> },
-  ];
-
-  // Prevent body scroll when menu is open
-  useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isMenuOpen]);
-
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isMenuOpen]);
-
-  // Auth listener
-  useEffect(() => {
-    if (authListenerInitialized.current) return;
-    authListenerInitialized.current = true;
-
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => {
-      unsubscribe();
-      authListenerInitialized.current = false;
-    };
-  }, []);
-
-  const toggleDarkMode = useCallback(() => {
-    if (themeName === "dark") {
-      changeTheme("light");
-    } else {
-      changeTheme("dark");
-    }
-  }, [themeName, changeTheme]);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    setIsMenuOpen(false);
-    router.push("/");
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
-      setIsSearchOpen(false);
-      setSearchQuery("");
-    }
+  const toggleDropdown = (itemName) => {
+    setOpenDropdowns(prev => ({
+      ...prev,
+      [itemName]: !prev[itemName]
+    }));
   };
 
   const handleNavigation = (path) => {
-    setIsMenuOpen(false);
+    if (onItemClick) onItemClick();
     router.push(path);
   };
 
   const getTextHighlightClass = () =>
     theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600");
 
-  if (loading) {
-    return (
-      <div className={`navbar-mobile ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-        <div className="navbar-mobile-container">
-          <div className="navbar-mobile-logo">
-            <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-mobile-logo-img" />
-          </div>
-          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
-        </div>
-      </div>
-    );
-  }
+  // Check if item has dropdown
+  const hasDropdown = (itemName) => {
+    return dropdownConfig[itemName] && dropdownConfig[itemName].length > 0;
+  };
 
   return (
-    <>
-      {/* Mobile Navbar */}
-      <div className={`navbar-mobile ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-        <div className="navbar-mobile-container">
-          {/* Logo */}
-          <Link href="/" className="navbar-mobile-logo" onClick={() => setIsMenuOpen(false)}>
-            <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-mobile-logo-img" />
-            <span className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}>BookQubit</span>
-          </Link>
-
-          {/* Right Side Icons */}
-          <div className="navbar-mobile-icons">
-            {/* Search Button */}
-            <button
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="navbar-mobile-icon-btn"
-              aria-label="Search"
-            >
-              <FaSearch />
-            </button>
-
-            {/* Dark Mode Toggle */}
-            <button
-              onClick={toggleDarkMode}
-              className="navbar-mobile-icon-btn"
-              aria-label="Toggle dark mode"
-            >
-              {isDarkMode ? <FaSun /> : <FaMoon />}
-            </button>
-
-            {/* Control Button (Theme & Font Switcher) */}
-            <Control_Mobile />
-
-            {/* Menu Button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="navbar-mobile-menu-btn"
-              aria-label="Menu"
-            >
-              {isMenuOpen ? <FaTimes /> : <FaBars />}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Search Bar Dropdown */}
-      {isSearchOpen && (
-        <div className={`navbar-mobile-search-overlay ${isDarkMode ? 'dark-mode' : 'light-mode'} animate-slide-down`}>
-          <form onSubmit={handleSearch} className="navbar-mobile-search-form">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search books, authors, comics..."
-              className="navbar-mobile-search-input"
-              autoFocus
-            />
-            <button type="submit" className="navbar-mobile-search-btn">
-              <FaSearch />
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsSearchOpen(false)}
-              className="navbar-mobile-search-close"
-            >
-              <FaTimes />
-            </button>
-          </form>
-        </div>
-      )}
-
-      {/* Mobile Menu Overlay with Slider Effect */}
-      {isMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="navbar-mobile-backdrop animate-fade-in"
-            onClick={() => setIsMenuOpen(false)}
-          />
-          
-          {/* Sliding Menu */}
-          <div ref={menuRef} className={`navbar-mobile-menu-slider ${isDarkMode ? 'dark-mode' : 'light-mode'} animate-slide-right`}>
-            <div className="navbar-mobile-menu-slider-header">
-              <div className="flex items-center gap-3">
-                {user?.photoURL ? (
-                  <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
-                ) : (
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}>
-                    <FaUser size={18} />
-                  </div>
-                )}
-                <div>
-                  <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-                    {user ? (user.displayName || user.email?.split("@")[0] || "User") : "Guest"}
-                  </p>
-                  {user && <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{user.email}</p>}
-                </div>
-              </div>
+    <div className="flex flex-col w-full">
+      {NAVIGATION_CONFIG.items.map((item) => (
+        <div key={item.name} className="border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+          {hasDropdown(item.name) ? (
+            <>
               <button
-                onClick={() => setIsMenuOpen(false)}
-                className="navbar-mobile-menu-close"
+                onClick={() => toggleDropdown(item.name)}
+                className="flex items-center justify-between w-full px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
               >
-                <FaTimes size={20} />
-              </button>
-            </div>
-
-            {/* AI Assistant Button */}
-            <div className="navbar-mobile-ai-section">
-              <button
-                onClick={() => handleNavigation("/bookqubitai")}
-                className={`navbar-mobile-ai-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}
-              >
-                <FaRobot size={18} />
-                AI Assistant
-              </button>
-            </div>
-
-            {/* Navigation Items - Using NavItem_Mobile component */}
-            <div className="py-2">
-              <NavItem_Mobile onItemClick={() => setIsMenuOpen(false)} />
-            </div>
-
-            {/* User Menu (if logged in) */}
-            {user && (
-              <div className="navbar-mobile-user-menu">
-                <div className="navbar-mobile-user-menu-title">Account</div>
-                {userMenuItems.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => handleNavigation(item.path)}
-                    className="navbar-mobile-user-menu-link"
-                  >
-                    <span className="navbar-mobile-user-menu-icon">{item.icon}</span>
+                <div className="flex items-center gap-3">
+                  <span className={`text-xl ${getTextHighlightClass()}`}>
+                    {item.icon}
+                  </span>
+                  <span className={`text-base font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
                     {item.name}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Auth Buttons */}
-            <div className="navbar-mobile-auth-section">
-              {!user ? (
-                <div className="navbar-mobile-auth-buttons">
-                  <button
-                    onClick={() => handleNavigation("/auth/login")}
-                    className="navbar-mobile-login-btn"
-                  >
-                    Login
-                  </button>
-                  <button
-                    onClick={() => handleNavigation("/auth/register")}
-                    className="navbar-mobile-signup-btn"
-                  >
-                    Sign Up
-                  </button>
+                  </span>
                 </div>
-              ) : (
-                <button onClick={handleLogout} className="navbar-mobile-logout-btn">
-                  Logout
-                </button>
+                {openDropdowns[item.name] ? (
+                  <FaChevronUp className="text-gray-500" size={14} />
+                ) : (
+                  <FaChevronDown className="text-gray-500" size={14} />
+                )}
+              </button>
+              {openDropdowns[item.name] && (
+                <div className="pl-12 pr-4 py-2 bg-gray-50 dark:bg-gray-800/50">
+                  {dropdownConfig[item.name].map((subItem) => (
+                    <button
+                      key={subItem.name}
+                      onClick={() => handleNavigation(subItem.path)}
+                      className="flex items-center gap-3 w-full px-4 py-2 rounded-lg transition-all hover:bg-gray-100 dark:hover:bg-gray-700"
+                    >
+                      <span className={`text-sm ${getTextHighlightClass()}`}>
+                        {subItem.icon}
+                      </span>
+                      <span className={`text-sm ${theme.textColors?.primary || (isDarkMode ? 'text-gray-300' : 'text-gray-600')}`}>
+                        {subItem.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               )}
-            </div>
-          </div>
-        </>
-      )}
-    </>
+            </>
+          ) : (
+            <button
+              onClick={() => handleNavigation(item.path)}
+              className="flex items-center gap-3 w-full px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              <span className={`text-xl ${getTextHighlightClass()}`}>
+                {item.icon}
+              </span>
+              <span className={`text-base font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
+                {item.name}
+              </span>
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
 
-export default Navbar_Mobile;
+// Helper functions
+export const addNavItem = (newItem) => {
+  NAVIGATION_CONFIG.items.push(newItem);
+};
+
+export const removeNavItem = (itemName) => {
+  const index = NAVIGATION_CONFIG.items.findIndex(
+    (item) => item.name === itemName,
+  );
+  if (index !== -1) {
+    NAVIGATION_CONFIG.items.splice(index, 1);
+  }
+};
+
+export const addDropdownItem = (parentName, newItem) => {
+  if (dropdownConfig[parentName]) {
+    dropdownConfig[parentName].push(newItem);
+  }
+};
+
+export default NavItem_Mobile;

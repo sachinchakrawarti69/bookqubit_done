@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
-import books from "@/data/books/BooksData";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getBooksByLanguage } from "@/data/books";
 
 // Import components
 import BookNotFound from "@/features/book/bookdeatils/components/BookNotFound";
@@ -24,6 +25,7 @@ const BookDetailsPage = () => {
   const router = useRouter();
   const slug = params?.slug;
   const { theme, themeName } = useTheme();
+  const { language } = useLanguage();
 
   // Create ref for summary section
   const summaryRef = useRef(null);
@@ -33,16 +35,23 @@ const BookDetailsPage = () => {
   const [isInWishlist, setIsInWishlist] = useState(false);
   const [isInCollection, setIsInCollection] = useState(false);
   const [book, setBook] = useState(null);
+  const [booksData, setBooksData] = useState([]);
+
+  // Load books based on language
+  useEffect(() => {
+    const books = getBooksByLanguage(language);
+    setBooksData(books);
+  }, [language]);
 
   // Scroll to top when component mounts or slug changes
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
 
-  // Find book when slug changes
+  // Find book when slug or booksData changes
   useEffect(() => {
-    if (slug) {
-      const foundBook = books.find((book) => {
+    if (slug && booksData.length > 0) {
+      const foundBook = booksData.find((book) => {
         const bookSlug = book.slug?.toLowerCase().trim();
         const urlSlug = slug?.toLowerCase().trim();
 
@@ -59,7 +68,7 @@ const BookDetailsPage = () => {
 
       setBook(foundBook);
     }
-  }, [slug]);
+  }, [slug, booksData]);
 
   // Redirect from ID to slug URL
   useEffect(() => {
@@ -81,14 +90,14 @@ const BookDetailsPage = () => {
   };
 
   // Find related books
-  const relatedByAuthor = book
-    ? books.filter(
+  const relatedByAuthor = book && booksData.length > 0
+    ? booksData.filter(
         (b) =>
           b.author === book.author && (b.slug !== book.slug || b.id !== book.id),
       )
     : [];
-  const relatedByCategory = book
-    ? books.filter(
+  const relatedByCategory = book && booksData.length > 0
+    ? booksData.filter(
         (b) =>
           b.category === book.category &&
           (b.slug !== book.slug || b.id !== book.id),

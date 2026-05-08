@@ -14,6 +14,7 @@ import {
   FaRegThumbsUp,
 } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookActions = ({
   book,
@@ -30,6 +31,7 @@ const BookActions = ({
   onLike,
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -100,7 +102,7 @@ const BookActions = ({
           className={`${buttonClass} ${primaryButtonBg} ${primaryButtonHover} text-white`}
         >
           <FaBook className="w-4 h-4" />
-          Get Book
+          {t("book.get_book") || "Get Book"}
         </button>
       )}
 
@@ -111,7 +113,7 @@ const BookActions = ({
           className={`${buttonClass} ${getButtonStyles(false)}`}
         >
           <FaBookOpen className="w-4 h-4" />
-          Summary
+          {t("book.summary") || "Summary"}
         </button>
       )}
 
@@ -121,7 +123,7 @@ const BookActions = ({
         className={`${buttonClass} ${getButtonStyles(isLiked, "bg-gradient-to-r from-blue-600 to-blue-500 text-white")}`}
       >
         {isLiked ? <FaThumbsUp className="w-4 h-4" /> : <FaRegThumbsUp className="w-4 h-4" />}
-        {isLiked ? "Liked" : "Like"}
+        {isLiked ? (t("book.liked") || "Liked") : (t("book.like") || "Like")}
       </button>
 
       {/* Wishlist Button */}
@@ -130,7 +132,7 @@ const BookActions = ({
         className={`${buttonClass} ${getButtonStyles(isInWishlist, "bg-gradient-to-r from-pink-600 to-pink-500 text-white")}`}
       >
         {isInWishlist ? <FaHeart className="w-4 h-4" /> : <FaRegHeart className="w-4 h-4" />}
-        {isInWishlist ? "Wishlisted" : "Wishlist"}
+        {isInWishlist ? (t("book.wishlisted") || "Wishlisted") : (t("book.wishlist") || "Wishlist")}
       </button>
 
       {/* Share Button */}
@@ -139,7 +141,7 @@ const BookActions = ({
         className={`${buttonClass} ${getButtonStyles(false)}`}
       >
         <FaShare className="w-4 h-4" />
-        Share
+        {t("book.share") || "Share"}
       </button>
 
       {/* Library Button */}
@@ -148,7 +150,7 @@ const BookActions = ({
         className={`${buttonClass} ${getButtonStyles(isInCollection, "bg-gradient-to-r from-green-600 to-green-500 text-white")}`}
       >
         {isInCollection ? <FaBookmark className="w-4 h-4" /> : <FaPlus className="w-4 h-4" />}
-        {isInCollection ? "In Library" : "My Library"}
+        {isInCollection ? (t("book.in_library") || "In Library") : (t("book.my_library") || "My Library")}
       </button>
 
       {/* Read Status Button */}
@@ -157,7 +159,7 @@ const BookActions = ({
         className={`${buttonClass} ${getButtonStyles(bookStatus === "read", "bg-gradient-to-r from-green-600 to-green-500 text-white")}`}
       >
         {bookStatus === "read" ? <FaCheck className="w-4 h-4" /> : <FaBookOpen className="w-4 h-4" />}
-        {bookStatus === "read" ? "Read" : "Mark Read"}
+        {bookStatus === "read" ? (t("book.read") || "Read") : (t("book.mark_read") || "Mark Read")}
       </button>
     </div>
   );

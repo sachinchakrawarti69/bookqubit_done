@@ -3,9 +3,11 @@
 import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookKeyPoints = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   if (!theme) return null;
 
@@ -28,7 +30,7 @@ const BookKeyPoints = ({ book }) => {
       `}
     >
       <h2 className={`text-xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-4`}>
-        Key Highlights
+        {t("book.key_highlights") || "Key Highlights"}
       </h2>
       <ul className="space-y-3">
         {keyPoints.map((point, index) => (

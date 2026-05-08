@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookPublicationDetails = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -14,19 +16,19 @@ const BookPublicationDetails = ({ book }) => {
   // Check if current theme is dark mode (for any conditional styling if needed)
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  const safeString = (str) => str || "Not specified";
+  const safeString = (str) => str || (t("book.not_specified") || "Not specified");
 
   // Define all publication fields for easy management
   const publicationFields = [
-    { label: "Publisher", value: book.publisher },
-    { label: "Language", value: book.language },
-    { label: "Original Published", value: book.originalPublished || book.originalpublished },
-    { label: "Genres", value: Array.isArray(book.genres) ? book.genres.join(", ") : book.genres },
-    { label: "Edition", value: book.edition },
-    { label: "ISBN", value: book.isbn },
-    { label: "Format", value: book.format },
-    { label: "Pages", value: book.pageCount },
-    { label: "Country", value: book.country },
+    { label: t("book.publisher") || "Publisher", value: book.publisher },
+    { label: t("book.language") || "Language", value: book.language },
+    { label: t("book.original_published") || "Original Published", value: book.originalPublished || book.originalpublished },
+    { label: t("book.genres") || "Genres", value: Array.isArray(book.genres) ? book.genres.join(", ") : book.genres },
+    { label: t("book.edition") || "Edition", value: book.edition },
+    { label: t("book.isbn") || "ISBN", value: book.isbn },
+    { label: t("book.format") || "Format", value: book.format },
+    { label: t("book.pages") || "Pages", value: book.pageCount },
+    { label: t("book.country") || "Country", value: book.country },
   ].filter(field => field.value); // Only show fields that have values
 
   if (publicationFields.length === 0) {
@@ -44,7 +46,7 @@ const BookPublicationDetails = ({ book }) => {
       `}
     >
       <h2 className={`text-xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-4`}>
-        Publication Details
+        {t("book.publication_details") || "Publication Details"}
       </h2>
       <div className="space-y-3">
         {publicationFields.map((field, index) => (

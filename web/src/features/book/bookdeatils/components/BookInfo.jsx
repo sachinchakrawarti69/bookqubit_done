@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const BookInfo = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -15,7 +17,7 @@ const BookInfo = ({ book }) => {
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   const safeArray = (array) => (Array.isArray(array) ? array : []);
-  const safeString = (str) => str || "Not specified";
+  const safeString = (str) => str || (t("book.not_specified") || "Not specified");
 
   return (
     <div className="space-y-6">
@@ -27,7 +29,7 @@ const BookInfo = ({ book }) => {
           {book.title}
         </h1>
         <p className={`text-xl ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-          by{" "}
+          {t("book.by")}{" "}
           <a
             href={`https://en.wikipedia.org/wiki/${encodeURIComponent(book.author)}`}
             target="_blank"
@@ -95,7 +97,7 @@ const BookInfo = ({ book }) => {
       <div className="grid grid-cols-2 gap-4">
         <div>
           <h3 className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-            Category
+            {t("book.category") || "Category"}
           </h3>
           <p className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
             {safeString(book.category)}
@@ -103,7 +105,7 @@ const BookInfo = ({ book }) => {
         </div>
         <div>
           <h3 className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-            Format
+            {t("book.format") || "Format"}
           </h3>
           <p className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
             {safeString(book.format)}
@@ -111,7 +113,7 @@ const BookInfo = ({ book }) => {
         </div>
         <div>
           <h3 className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-            Pages
+            {t("book.pages") || "Pages"}
           </h3>
           <p className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
             {safeString(book.pageCount)}
@@ -119,7 +121,7 @@ const BookInfo = ({ book }) => {
         </div>
         <div>
           <h3 className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-            Published
+            {t("book.published") || "Published"}
           </h3>
           <p className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
             {safeString(book.published)}
@@ -127,7 +129,7 @@ const BookInfo = ({ book }) => {
         </div>
         <div>
           <h3 className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
-            ISBN
+            {t("book.isbn") || "ISBN"}
           </h3>
           <p className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
             {safeString(book.isbn)}

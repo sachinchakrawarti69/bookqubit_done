@@ -1,5 +1,4 @@
 export const navbarHindi = {
-  // Navigation Items
   "nav.home": "होम",
   "nav.books": "किताबें",
   "nav.academic_books": "शैक्षणिक पुस्तकें",
@@ -11,12 +10,10 @@ export const navbarHindi = {
   "nav.about": "हमारे बारे में",
   "nav.more": "और अधिक",
   
-  // Books Dropdown
   "nav.bestsellers": "बेस्टसेलर",
   "nav.new_releases": "नए रिलीज़",
   "nav.top_rated": "टॉप रेटेड",
   
-  // Academic Books Dropdown
   "nav.engineering": "इंजीनियरिंग",
   "nav.computer_science": "कंप्यूटर साइंस",
   "nav.medical": "मेडिकल",
@@ -24,12 +21,10 @@ export const navbarHindi = {
   "nav.science": "विज्ञान",
   "nav.mathematics": "गणित",
   
-  // Comics Dropdown
   "nav.marvel": "मार्वल",
   "nav.dc": "डीसी",
   "nav.manga": "मांगा",
   
-  // Genre Dropdown
   "nav.fiction": "कथा साहित्य",
   "nav.non_fiction": "गैर-कथा",
   "nav.sci_fi": "विज्ञान कथा",
@@ -38,27 +33,36 @@ export const navbarHindi = {
   "nav.romance": "रोमांस",
   "nav.biography": "जीवनी",
   
-  // Collections Dropdown
   "nav.all_collections": "सभी संग्रह",
   "nav.featured": "विशेष रुप से प्रदर्शित",
   "nav.summer_reads": "गर्मियों की पढ़ाई",
   "nav.award_winners": "पुरस्कार विजेता",
   
-  // Authors Dropdown
   "nav.all_authors": "सभी लेखक",
   "nav.popular_authors": "लोकप्रिय लेखक",
   "nav.new_authors": "नए लेखक",
   "nav.featured_authors": "विशेष लेखक",
   
-  // Publications Dropdown
   "nav.all_publications": "सभी प्रकाशन",
   "nav.magazines": "पत्रिकाएं",
   "nav.journals": "जर्नल",
   "nav.newspapers": "समाचार पत्र",
   
-  // Language
   "nav.language": "भाषा",
   "nav.english": "अंग्रेजी",
   "nav.hindi": "हिंदी",
-  "nav.urdu": "उर्दू"
+  "nav.urdu": "उर्दू",
+  "nav.arabic": "अरबी",
+  "nav.bangla": "बांग्ला",
+  "nav.marathi": "मराठी",
+  "nav.tamil": "तमिल",
+  "nav.kannada": "कन्नड़",
+  "nav.chinese": "चीनी",
+  "nav.french": "फ्रेंच",
+  "nav.german": "जर्मन",
+  "nav.italian": "इतालवी",
+  "nav.japanese": "जापानी",
+  "nav.korean": "कोरियाई",
+  "nav.persian": "फ़ारसी",
+  "nav.russian": "रूसी"
 };

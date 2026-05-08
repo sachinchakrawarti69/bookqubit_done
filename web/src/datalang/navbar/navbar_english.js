@@ -60,5 +60,18 @@ export const navbarEnglish = {
   "nav.language": "Language",
   "nav.english": "English",
   "nav.hindi": "Hindi",
-  "nav.urdu": "Urdu"
+  "nav.urdu": "Urdu",
+  "nav.arabic": "Arabic",
+  "nav.bangla": "Bangla",
+  "nav.marathi": "Marathi",
+  "nav.tamil": "Tamil",
+  "nav.kannada": "Kannada",
+  "nav.chinese": "Chinese",
+  "nav.french": "French",
+  "nav.german": "German",
+  "nav.italian": "Italian",
+  "nav.japanese": "Japanese",
+  "nav.korean": "Korean",
+  "nav.persian": "Persian",
+  "nav.russian": "Russian"
 };

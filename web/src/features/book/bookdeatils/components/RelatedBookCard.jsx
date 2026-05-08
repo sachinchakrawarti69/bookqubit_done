@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const RelatedBookCard = ({ book }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -18,7 +20,7 @@ const RelatedBookCard = ({ book }) => {
   const handleImageError = (e) => {
     e.target.src =
       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDIwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIyMDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjNGNEY2Ii8+CjxwYXRoIGQ9Ik04MCAxMjBIMTIwVjE2MEg4MFYxMjBaIiBmaWxsPSIjOEREQ0RGIi8+CjxwYXRoIGQ9Ik02MCA2MEgxNDBWODBINjBWNjBaIiBmaWxsPSIjOEREQ0RGIi8+CjxwYXRoIGQ9Ik00MCAyMjBIMTYwVjI0MEg0MFYyMjBaIiBmaWxsPSIjOEREQ0RGIi8+Cjwvc3ZnPgo=";
-    e.target.alt = "Book cover not available";
+    e.target.alt = t("book.cover_not_available") || "Book cover not available";
   };
 
   return (
@@ -43,7 +45,7 @@ const RelatedBookCard = ({ book }) => {
       >
         <img
           src={book.imageUrl}
-          alt={book.title}
+          alt={`${t("book.cover_of") || "Cover of"} ${book.title}`}
           className="h-full w-full object-contain max-h-40 hover:scale-110 transition-transform duration-300"
           onError={handleImageError}
           loading="lazy"
@@ -58,7 +60,7 @@ const RelatedBookCard = ({ book }) => {
           {book.title}
         </h3>
         <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-2`}>
-          by {book.author}
+          {t("book.by")} {book.author}
         </p>
         
         {/* Rating */}
@@ -98,7 +100,7 @@ const RelatedBookCard = ({ book }) => {
               transition-all duration-200
             `}
           >
-            Details
+            {t("book.details") || "Details"}
           </Link>
         </div>
       </div>

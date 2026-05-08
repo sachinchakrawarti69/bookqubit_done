@@ -5,18 +5,28 @@ import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import books from "@/data/books/BooksData";
+import { getBooksByLanguage } from "@/data/books";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExploreBooks = () => {
   const { theme, themeName } = useTheme();
-  const featuredBooks = books.slice(0, 12);
+  const { t, language } = useLanguage();
+  const [books, setBooks] = useState([]);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Load books based on language
+  useEffect(() => {
+    const booksData = getBooksByLanguage(language);
+    setBooks(booksData);
+  }, [language]);
+
+  const featuredBooks = books.slice(0, 12);
 
   useEffect(() => {
     setMounted(true);
@@ -64,12 +74,12 @@ const ExploreBooks = () => {
           <h2
             className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}
           >
-            Explore Books
+            {t("explore.explore_books") || "Explore Books"}
           </h2>
           <p
             className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto px-4`}
           >
-            Dive into our curated selection of must‑read titles
+            {t("explore.dive_into") || "Dive into our curated selection of must-read titles"}
           </p>
         </div>
 
@@ -99,14 +109,14 @@ const ExploreBooks = () => {
                   <p
                     className={`text-xs sm:text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate mb-2`}
                   >
-                    {book.author}
+                    {t("book.by") || "by"} {book.author}
                   </p>
                   <div className="flex items-center mb-4">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
                         className={`w-3 h-3 sm:w-4 sm:h-4 ${
-                          i < Math.floor(book.rating)
+                          i < Math.floor(book.rating || 0)
                             ? theme.iconColors?.starFilled || 'text-amber-400'
                             : theme.iconColors?.starEmpty || 'text-gray-300'
                         }`}
@@ -122,7 +132,7 @@ const ExploreBooks = () => {
                     href={`/bookdeatils/${book.slug || book.id}`}
                     className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
                   >
-                    Know More
+                    {t("book.know_more") || "Know More"}
                   </Link>
                 </div>
               </div>
@@ -136,7 +146,7 @@ const ExploreBooks = () => {
             href="/bookslist"
             className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
-            Browse All Books
+            {t("explore.browse_all_books") || "Browse All Books"}
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
               fill="none"

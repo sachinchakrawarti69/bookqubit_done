@@ -41,6 +41,11 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     return currentLang?.nativeName || "English";
   };
 
+  // Split languages into two rows
+  const midpoint = Math.ceil(languages.length / 2);
+  const firstRowLanguages = languages.slice(0, midpoint);
+  const secondRowLanguages = languages.slice(midpoint);
+
   // Mobile version
   if (mobile) {
     return (
@@ -68,40 +73,44 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
           <div
             className={`navbar-mobile-dropdown-content ${theme.background.section}`}
           >
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  handleLanguageChange(lang.code);
-                }}
-                className={`navbar-mobile-dropdown-item ${theme.textColors.primary} ${
-                  language === lang.code
-                    ? `font-bold ${theme.textColors.highlight}`
-                    : ""
-                }`}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <span>{lang.nativeName}</span>
-                {language === lang.code && (
-                  <span className={theme.textColors.highlight}>
-                    <FaCheck size={12} />
-                  </span>
-                )}
-              </button>
-            ))}
+            {/* Two column layout for mobile */}
+            <div className="grid grid-cols-2 gap-1 p-2">
+              {languages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    handleLanguageChange(lang.code);
+                  }}
+                  className={`navbar-mobile-dropdown-item ${theme.textColors.primary} ${
+                    language === lang.code
+                      ? `font-bold ${theme.textColors.highlight}`
+                      : ""
+                  }`}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "8px 12px",
+                  }}
+                >
+                  <span>{lang.nativeName}</span>
+                  {language === lang.code && (
+                    <span className={theme.textColors.highlight}>
+                      <FaCheck size={12} />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
         )}
       </div>
     );
   }
 
-  // Desktop version
+  // Desktop version - Two rows layout
   return (
     <div
       className="navbar-desktop-dropdown-container relative"
@@ -127,39 +136,84 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
       {isOpen && (
         <div
           className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
-          style={{ minWidth: "160px" }}
+          style={{ minWidth: "280px", padding: "8px" }}
         >
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => {
-                handleLanguageChange(lang.code);
-              }}
-              className={`navbar-desktop-dropdown-item ${theme.textColors.primary} ${
-                language === lang.code
-                  ? `bg-opacity-10 ${theme.background.highlight}`
-                  : ""
-              }`}
-              style={{
-                width: "100%",
-                textAlign: "left",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                cursor: "pointer",
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <span>{lang.nativeName}</span>
-                <span className="text-xs opacity-70">({lang.name})</span>
-              </div>
-              {language === lang.code && (
-                <span className={theme.textColors.highlight}>
-                  <FaCheck size={12} />
-                </span>
-              )}
-            </button>
-          ))}
+          {/* Two rows layout */}
+          <div className="space-y-2">
+            {/* First Row */}
+            <div className="grid grid-cols-2 gap-1">
+              {firstRowLanguages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    handleLanguageChange(lang.code);
+                  }}
+                  className={`navbar-desktop-dropdown-item ${theme.textColors.primary} ${
+                    language === lang.code
+                      ? `bg-opacity-10 ${theme.background.highlight}`
+                      : ""
+                  }`}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{lang.nativeName}</span>
+                    <span className="text-xs opacity-70">({lang.name})</span>
+                  </div>
+                  {language === lang.code && (
+                    <span className={theme.textColors.highlight}>
+                      <FaCheck size={12} />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Second Row */}
+            <div className="grid grid-cols-2 gap-1">
+              {secondRowLanguages.map((lang) => (
+                <button
+                  key={lang.code}
+                  onClick={() => {
+                    handleLanguageChange(lang.code);
+                  }}
+                  className={`navbar-desktop-dropdown-item ${theme.textColors.primary} ${
+                    language === lang.code
+                      ? `bg-opacity-10 ${theme.background.highlight}`
+                      : ""
+                  }`}
+                  style={{
+                    width: "100%",
+                    textAlign: "left",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    cursor: "pointer",
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{lang.nativeName}</span>
+                    <span className="text-xs opacity-70">({lang.name})</span>
+                  </div>
+                  {language === lang.code && (
+                    <span className={theme.textColors.highlight}>
+                      <FaCheck size={12} />
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>
