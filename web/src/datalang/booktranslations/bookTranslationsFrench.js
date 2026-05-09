@@ -168,4 +168,30 @@ export const bookTranslationsFrench = {
 "explore.explore_books": "Explorer les livres",
 "explore.dive_into": "Plongez dans notre sélection organisée de titres incontournables",
 "explore.browse_all_books": "Parcourir tous les livres",
+
+
+"collections.title": "Collections de livres",
+"collections.search_collections": "Rechercher des collections et des livres",
+"collections.search_placeholder": "Rechercher par nom de collection, titre, auteur ou description...",
+"collections.filter_by_collections": "Filtrer par collections",
+"collections.clear_all_filters": "Effacer tous les filtres",
+"collections.select_collections": "Sélectionnez les collections à filtrer :",
+"collections.active_filters": "Filtres actifs :",
+"collections.search": "Rechercher",
+"collections.no_collections_found": "Aucune collection trouvée correspondant à vos filtres.",
+"collections.clear_filters": "Effacer les filtres",
+"collections.explore_collection": "Explorer la collection",
+"collections.no_books_match": "Aucun livre de cette collection ne correspond à votre recherche actuelle.",
+
+"collections.back_to_collections": "Retour aux collections",
+"collections.no_books_found": "Aucun livre trouvé dans cette collection.",
+"collections.browse_all_collections": "Parcourir toutes les collections",
+
+"collections.featured_collections": "Collections en vedette",
+"collections.discover_collections": "Découvrez des collections de livres organisées par nos éditeurs",
+"collections.view_all_in_collection": "Voir tout dans cette collection",
+"collections.explore_all_collections": "Explorer toutes les collections",
+"collections.no_collections_found_title": "Aucune collection trouvée",
+"collections.no_collections_found_message": "Nous n'avons trouvé aucune collection de livres pour le moment.",
+"collections.browse_all_books": "Parcourir tous les livres",
 };

@@ -169,4 +169,30 @@ export const bookTranslationsKannada = {
 "explore.dive_into": "ನಮ್ಮ ಸಂಗ್ರಹಿಸಿದ ಓದಬೇಕಾದ ಶೀರ್ಷಿಕೆಗಳ ಸಂಗ್ರಹದಲ್ಲಿ ಮುಳುಗಿರಿ",
 "explore.browse_all_books": "ಎಲ್ಲಾ ಪುಸ್ತಕಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ",
 
+
+"collections.title": "ಪುಸ್ತಕ ಸಂಗ್ರಹಗಳು",
+"collections.search_collections": "ಸಂಗ್ರಹಗಳು ಮತ್ತು ಪುಸ್ತಕಗಳನ್ನು ಹುಡುಕಿ",
+"collections.search_placeholder": "ಸಂಗ್ರಹದ ಹೆಸರು, ಶೀರ್ಷಿಕೆ, ಲೇಖಕ ಅಥವಾ ವಿವರಣೆಯ ಮೂಲಕ ಹುಡುಕಿ...",
+"collections.filter_by_collections": "ಸಂಗ್ರಹಗಳ ಮೂಲಕ ಫಿಲ್ಟರ್ ಮಾಡಿ",
+"collections.clear_all_filters": "ಎಲ್ಲಾ ಫಿಲ್ಟರ್ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ",
+"collections.select_collections": "ಫಿಲ್ಟರ್ ಮಾಡಲು ಸಂಗ್ರಹಗಳನ್ನು ಆಯ್ಕೆಮಾಡಿ:",
+"collections.active_filters": "ಸಕ್ರಿಯ ಫಿಲ್ಟರ್ಗಳು:",
+"collections.search": "ಹುಡುಕು",
+"collections.no_collections_found": "ನಿಮ್ಮ ಫಿಲ್ಟರ್ಗಳಿಗೆ ಹೊಂದಾಣಿಕೆಯಾಗುವ ಯಾವುದೇ ಸಂಗ್ರಹಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+"collections.clear_filters": "ಫಿಲ್ಟರ್ಗಳನ್ನು ತೆರವುಗೊಳಿಸಿ",
+"collections.explore_collection": "ಸಂಗ್ರಹವನ್ನು ಅನ್ವೇಷಿಸಿ",
+"collections.no_books_match": "ಈ ಸಂಗ್ರಹದಲ್ಲಿನ ಯಾವುದೇ ಪುಸ್ತಕಗಳು ನಿಮ್ಮ ಪ್ರಸ್ತುತ ಹುಡುಕಾಟಕ್ಕೆ ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿಲ್ಲ.",
+
+"collections.back_to_collections": "ಸಂಗ್ರಹಗಳಿಗೆ ಹಿಂತಿರುಗಿ",
+"collections.no_books_found": "ಈ ಸಂಗ್ರಹದಲ್ಲಿ ಯಾವುದೇ ಪುಸ್ತಕಗಳು ಕಂಡುಬಂದಿಲ್ಲ.",
+"collections.browse_all_collections": "ಎಲ್ಲಾ ಸಂಗ್ರಹಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ",
+
+"collections.featured_collections": "ವಿಶೇಷ ಸಂಗ್ರಹಗಳು",
+"collections.discover_collections": "ನಮ್ಮ ಸಂಪಾದಕರು ಆಯ್ಕೆ ಮಾಡಿದ ಕ್ಯುರೇಟೆಡ್ ಪುಸ್ತಕ ಸಂಗ್ರಹಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
+"collections.view_all_in_collection": "ಈ ಸಂಗ್ರಹದಲ್ಲಿ ಎಲ್ಲವನ್ನೂ ನೋಡಿ",
+"collections.explore_all_collections": "ಎಲ್ಲಾ ಸಂಗ್ರಹಗಳನ್ನು ಅನ್ವೇಷಿಸಿ",
+"collections.no_collections_found_title": "ಯಾವುದೇ ಸಂಗ್ರಹಗಳು ಕಂಡುಬಂದಿಲ್ಲ",
+"collections.no_collections_found_message": "ಈ ಸಮಯದಲ್ಲಿ ನಮಗೆ ಯಾವುದೇ ಪುಸ್ತಕ ಸಂಗ್ರಹಗಳು ಸಿಗಲಿಲ್ಲ.",
+"collections.browse_all_books": "ಎಲ್ಲಾ ಪುಸ್ತಕಗಳನ್ನು ಬ್ರೌಸ್ ಮಾಡಿ",
+
 };

@@ -190,5 +190,28 @@ export const bookTranslationsHindi = {
 "explore.dive_into": "हमारे चुनिंदा पठनीय पुस्तकों के संग्रह में गोता लगाएं",
 "explore.browse_all_books": "सभी पुस्तकें देखें",
 
+"collections.title": "पुस्तक संग्रह",
+"collections.search_collections": "संग्रह और पुस्तकें खोजें",
+"collections.search_placeholder": "संग्रह नाम, शीर्षक, लेखक या विवरण द्वारा खोजें...",
+"collections.filter_by_collections": "संग्रह द्वारा फ़िल्टर करें",
+"collections.clear_all_filters": "सभी फ़िल्टर साफ़ करें",
+"collections.select_collections": "फ़िल्टर करने के लिए संग्रह चुनें:",
+"collections.active_filters": "सक्रिय फ़िल्टर:",
+"collections.search": "खोजें",
+"collections.no_collections_found": "आपके फ़िल्टर से मेल खाने वाला कोई संग्रह नहीं मिला।",
+"collections.clear_filters": "फ़िल्टर साफ़ करें",
+"collections.explore_collection": "संग्रह देखें",
+"collections.no_books_match": "इस संग्रह में कोई पुस्तक आपकी वर्तमान खोज से मेल नहीं खाती है।",
 
+"collections.back_to_collections": "संग्रह पर वापस जाएं",
+"collections.no_books_found": "इस संग्रह में कोई पुस्तक नहीं मिली।",
+"collections.browse_all_collections": "सभी संग्रह ब्राउज़ करें",
+
+"collections.featured_collections": "विशेष संग्रह",
+"collections.discover_collections": "हमारे संपादकों द्वारा चुने गए क्यूरेटेड बुक कलेक्शन खोजें",
+"collections.view_all_in_collection": "इस संग्रह में सभी देखें",
+"collections.explore_all_collections": "सभी संग्रह देखें",
+"collections.no_collections_found_title": "कोई संग्रह नहीं मिला",
+"collections.no_collections_found_message": "हमें इस समय कोई पुस्तक संग्रह नहीं मिला।",
+"collections.browse_all_books": "सभी पुस्तकें देखें",
 };

@@ -182,5 +182,30 @@ export const bookTranslationsBangla = {
   // Explore section translations
   "explore.explore_books": "বই অন্বেষণ করুন",
   "explore.dive_into": "আমাদের সাজানো নির্বাচিত পাঠযোগ্য শিরোনামের সংগ্রহে ডুব দিন",
-  "explore.browse_all_books": "সব বই ব্রাউজ করুন"
+  "explore.browse_all_books": "সব বই ব্রাউজ করুন",
+
+  "collections.title": "বই সংগ্রহ",
+"collections.search_collections": "সংগ্রহ এবং বই অনুসন্ধান করুন",
+"collections.search_placeholder": "সংগ্রহের নাম, শিরোনাম, লেখক বা বিবরণ দ্বারা অনুসন্ধান করুন...",
+"collections.filter_by_collections": "সংগ্রহ অনুযায়ী ফিল্টার করুন",
+"collections.clear_all_filters": "সব ফিল্টার মুছুন",
+"collections.select_collections": "ফিল্টার করার জন্য সংগ্রহ নির্বাচন করুন:",
+"collections.active_filters": "সক্রিয় ফিল্টার:",
+"collections.search": "অনুসন্ধান",
+"collections.no_collections_found": "আপনার ফিল্টারের সাথে মেলে এমন কোনো সংগ্রহ পাওয়া যায়নি।",
+"collections.clear_filters": "ফিল্টার মুছুন",
+"collections.explore_collection": "সংগ্রহ অন্বেষণ করুন",
+"collections.no_books_match": "এই সংগ্রহে আপনার বর্তমান অনুসন্ধানের সাথে মেলে এমন কোনো বই নেই।",
+
+"collections.back_to_collections": "সংগ্রহে ফিরে যান",
+"collections.no_books_found": "এই সংগ্রহে কোন বই পাওয়া যায়নি।",
+"collections.browse_all_collections": "সব সংগ্রহ ব্রাউজ করুন",
+
+"collections.featured_collections": "বৈশিষ্ট্যযুক্ত সংগ্রহ",
+"collections.discover_collections": "আমাদের সম্পাদকদের দ্বারা নির্বাচিত কিউরেটেড বইয়ের সংগ্রহ আবিষ্কার করুন",
+"collections.view_all_in_collection": "এই সংগ্রহে সব দেখুন",
+"collections.explore_all_collections": "সব সংগ্রহ অন্বেষণ করুন",
+"collections.no_collections_found_title": "কোন সংগ্রহ পাওয়া যায়নি",
+"collections.no_collections_found_message": "আমরা এই সময়ে কোন বই সংগ্রহ খুঁজে পাইনি।",
+"collections.browse_all_books": "সব বই ব্রাউজ করুন",
 };

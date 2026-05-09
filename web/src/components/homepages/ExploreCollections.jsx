@@ -5,14 +5,23 @@ import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import books from "@/data/books/BooksData";
+import { getBooksByLanguage } from "@/data/books";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExploreCollections = () => {
   const { theme, themeName } = useTheme();
+  const { t, language } = useLanguage();
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [books, setBooks] = useState([]);
+
+  // Load books based on language
+  useEffect(() => {
+    const booksData = getBooksByLanguage(language);
+    setBooks(booksData);
+  }, [language]);
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -111,16 +120,16 @@ const ExploreCollections = () => {
             <h3
               className={`text-xl font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}
             >
-              No Collections Found
+              {t("collections.no_collections_found_title") || "No Collections Found"}
             </h3>
             <p className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-4`}>
-              We couldn't find any book collections at this time.
+              {t("collections.no_collections_found_message") || "We couldn't find any book collections at this time."}
             </p>
             <Link
-              href="/books"
+              href="/bookslist"
               className={`inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'}`}
             >
-              Browse All Books
+              {t("collections.browse_all_books") || "Browse All Books"}
             </Link>
           </div>
         </div>
@@ -167,14 +176,14 @@ const ExploreCollections = () => {
             className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2 inline-block px-6 ${theme.background?.section || ''}`}
           >
             <span className="relative">
-              Featured Collections
+              {t("collections.featured_collections") || "Featured Collections"}
               <span className="absolute -bottom-1 left-0 right-0 h-1 bg-blue-200 rounded-full"></span>
             </span>
           </h2>
           <p
             className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto mt-4 px-4`}
           >
-            Discover curated book collections handpicked by our editors
+            {t("collections.discover_collections") || "Discover curated book collections handpicked by our editors"}
           </p>
         </div>
 
@@ -200,21 +209,21 @@ const ExploreCollections = () => {
                         className={`text-xs ${theme.textColors?.badge || 'text-sky-800 dark:text-sky-400'} px-2 py-1 rounded-full ml-3 flex-shrink-0 ${isDarkMode ? "bg-blue-900/30" : "bg-blue-100"}`}
                       >
                         {collectionBooks.length}{" "}
-                        {collectionBooks.length === 1 ? "book" : "books"}
+                        {collectionBooks.length === 1 ? t("book.singular") || "book" : t("book.plural") || "books"}
                       </span>
                     </div>
 
                     <div className="space-y-4 mb-4 flex-grow">
                       {collectionBooks.map((book) => (
                         <Link
-                          href={book.buttons?.knowMore || `/books/${book.slug || book.id}`}
+                          href={book.buttons?.knowMore || `/bookdeatils/${book.slug || book.id}`}
                           key={book.id}
                           className={`flex items-start group hover:${isDarkMode ? "bg-gray-700" : "bg-gray-50"} rounded-lg p-2 transition-colors`}
                         >
                           <div className="flex-shrink-0 mr-3 relative">
                             <img
                               src={book.imageUrl || fallbackImage}
-                              alt={`Cover of ${book.title}`}
+                              alt={`${t("book.cover_of") || "Cover of"} ${book.title}`}
                               className="w-14 h-20 object-cover rounded-md shadow-sm group-hover:shadow-md transition-shadow"
                               onError={(e) => {
                                 e.target.onerror = null;
@@ -236,13 +245,13 @@ const ExploreCollections = () => {
                             <p
                               className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate`}
                             >
-                              by {book.author}
+                              {t("book.by") || "by"} {book.author}
                             </p>
                             <div className="flex items-center mt-1">
                               {[...Array(5)].map((_, i) => (
                                 <svg
                                   key={i}
-                                  className={`w-3 h-3 ${i < Math.floor(book.rating) ? theme.iconColors?.starFilled || 'text-amber-400' : theme.iconColors?.starEmpty || 'text-gray-300'}`}
+                                  className={`w-3 h-3 ${i < Math.floor(book.rating || 0) ? theme.iconColors?.starFilled || 'text-amber-400' : theme.iconColors?.starEmpty || 'text-gray-300'}`}
                                   fill="currentColor"
                                   viewBox="0 0 20 20"
                                 >
@@ -272,7 +281,7 @@ const ExploreCollections = () => {
                       href={`/collections/${encodeURIComponent(collectionName)}`}
                       className={`text-sm font-medium ${theme.textColors?.highlight || 'text-sky-600'} hover:text-blue-600 inline-flex items-center transition-colors mt-auto`}
                     >
-                      View all in this collection
+                      {t("collections.view_all_in_collection") || "View all in this collection"}
                       <svg
                         className="w-4 h-4 ml-1"
                         fill="none"
@@ -300,7 +309,7 @@ const ExploreCollections = () => {
             href="/collections"
             className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
-            Explore All Collections
+            {t("collections.explore_all_collections") || "Explore All Collections"}
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 ml-2 transition-transform group-hover:translate-x-1"
               fill="none"

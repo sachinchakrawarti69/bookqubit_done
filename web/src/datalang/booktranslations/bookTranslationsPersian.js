@@ -168,4 +168,30 @@ export const bookTranslationsPersian = {
 "explore.explore_books": "کاوش در کتاب‌ها",
 "explore.dive_into": "در مجموعه منتخب ما از عناوین خواندنی شیرجه بزنید",
 "explore.browse_all_books": "مرور همه کتاب‌ها",
+
+"collections.title": "مجموعه‌های کتاب",
+"collections.search_collections": "جستجوی مجموعه‌ها و کتاب‌ها",
+"collections.search_placeholder": "جستجو بر اساس نام مجموعه، عنوان، نویسنده یا توضیحات...",
+"collections.filter_by_collections": "فیلتر بر اساس مجموعه‌ها",
+"collections.clear_all_filters": "پاک کردن همه فیلترها",
+"collections.select_collections": "مجموعه‌ها را برای فیلتر انتخاب کنید:",
+"collections.active_filters": "فیلترهای فعال:",
+"collections.search": "جستجو",
+"collections.no_collections_found": "هیچ مجموعه‌ای مطابق با فیلترهای شما یافت نشد.",
+"collections.clear_filters": "پاک کردن فیلترها",
+"collections.explore_collection": "کاوش در مجموعه",
+"collections.no_books_match": "هیچ کتابی در این مجموعه با جستجوی فعلی شما مطابقت ندارد.",
+
+
+"collections.back_to_collections": "بازگشت به مجموعه‌ها",
+"collections.no_books_found": "هیچ کتابی در این مجموعه یافت نشد.",
+"collections.browse_all_collections": "مرور همه مجموعه‌ها",
+
+"collections.featured_collections": "مجموعه‌های ویژه",
+"collections.discover_collections": "مجموعه‌های کتاب‌های منتخب را که توسط ویراستاران ما انتخاب شده‌اند کشف کنید",
+"collections.view_all_in_collection": "مشاهده همه در این مجموعه",
+"collections.explore_all_collections": "کاوش در همه مجموعه‌ها",
+"collections.no_collections_found_title": "هیچ مجموعه‌ای یافت نشد",
+"collections.no_collections_found_message": "ما در حال حاضر هیچ مجموعه کتابی پیدا نکردیم.",
+"collections.browse_all_books": "مرور همه کتاب‌ها",
 };

@@ -188,5 +188,32 @@ export const bookTranslationsEnglish = {
 // Add to existing file
 "explore.explore_books": "Explore Books",
 "explore.dive_into": "Dive into our curated selection of must-read titles",
-"explore.browse_all_books": "Browse All Books"
+"explore.browse_all_books": "Browse All Books",
+
+
+// Collections page translations
+"collections.title": "Book Collections",
+"collections.search_collections": "Search Collections & Books",
+"collections.search_placeholder": "Search by collection name, title, author, or description...",
+"collections.filter_by_collections": "Filter by Collections",
+"collections.clear_all_filters": "Clear All Filters",
+"collections.select_collections": "Select Collections to Filter:",
+"collections.active_filters": "Active filters:",
+"collections.search": "Search",
+"collections.no_collections_found": "No collections found matching your filters.",
+"collections.clear_filters": "Clear Filters",
+"collections.explore_collection": "Explore Collection",
+"collections.no_books_match": "No books in this collection match your current search.",
+
+"collections.back_to_collections": "Back to Collections",
+"collections.no_books_found": "No books found in this collection.",
+"collections.browse_all_collections": "Browse All Collections",
+
+"collections.featured_collections": "Featured Collections",
+"collections.discover_collections": "Discover curated book collections handpicked by our editors",
+"collections.view_all_in_collection": "View all in this collection",
+"collections.explore_all_collections": "Explore All Collections",
+"collections.no_collections_found_title": "No Collections Found",
+"collections.no_collections_found_message": "We couldn't find any book collections at this time.",
+"collections.browse_all_books": "Browse All Books",
 };

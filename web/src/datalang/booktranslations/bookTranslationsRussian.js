@@ -183,4 +183,30 @@ export const bookTranslationsRussian = {
 "explore.explore_books": "Исследовать книги",
 "explore.dive_into": "Погрузитесь в нашу кураторскую подборку обязательных к прочтению книг",
 "explore.browse_all_books": "Просмотреть все книги",
+
+"collections.title": "Коллекции книг",
+"collections.search_collections": "Поиск коллекций и книг",
+"collections.search_placeholder": "Поиск по названию коллекции, заголовку, автору или описанию...",
+"collections.filter_by_collections": "Фильтровать по коллекциям",
+"collections.clear_all_filters": "Очистить все фильтры",
+"collections.select_collections": "Выберите коллекции для фильтрации:",
+"collections.active_filters": "Активные фильтры:",
+"collections.search": "Поиск",
+"collections.no_collections_found": "Коллекции, соответствующие вашим фильтрам, не найдены.",
+"collections.clear_filters": "Очистить фильтры",
+"collections.explore_collection": "Исследовать коллекцию",
+"collections.no_books_match": "Ни одна книга в этой коллекции не соответствует вашему текущему поиску.",
+
+"collections.back_to_collections": "Назад к коллекциям",
+"collections.no_books_found": "В этой коллекции не найдено книг.",
+"collections.browse_all_collections": "Просмотреть все коллекции",
+
+"collections.featured_collections": "Избранные коллекции",
+"collections.discover_collections": "Откройте для себя кураторские книжные коллекции, отобранные нашими редакторами",
+"collections.view_all_in_collection": "Посмотреть все в этой коллекции",
+"collections.explore_all_collections": "Исследовать все коллекции",
+"collections.no_collections_found_title": "Коллекции не найдены",
+"collections.no_collections_found_message": "В настоящее время мы не смогли найти ни одной книжной коллекции.",
+"collections.browse_all_books": "Просмотреть все книги",
+
 };

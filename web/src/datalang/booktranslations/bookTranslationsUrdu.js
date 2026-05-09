@@ -190,4 +190,29 @@ export const bookTranslationsUrdu = {
 "explore.dive_into": "ہمارے منتخب کردہ پڑھنے کے قابل عنوانات کے مجموعہ میں غوطہ لگائیں",
 "explore.browse_all_books": "تمام کتابیں دیکھیں",
 
+
+"collections.title": "کتابوں کے مجموعے",
+"collections.search_collections": "مجموعے اور کتابیں تلاش کریں",
+"collections.search_placeholder": "مجموعے کے نام، عنوان، مصنف یا تفصیل سے تلاش کریں...",
+"collections.filter_by_collections": "مجموعوں کے لحاظ سے فلٹر کریں",
+"collections.clear_all_filters": "تمام فلٹرز صاف کریں",
+"collections.select_collections": "فلٹر کرنے کے لیے مجموعے منتخب کریں:",
+"collections.active_filters": "فعال فلٹرز:",
+"collections.search": "تلاش کریں",
+"collections.no_collections_found": "آپ کے فلٹرز سے مماثل کوئی مجموعہ نہیں ملا۔",
+"collections.clear_filters": "فلٹرز صاف کریں",
+"collections.explore_collection": "مجموعہ دریافت کریں",
+"collections.no_books_match": "اس مجموعے میں کوئی کتاب آپ کی موجودہ تلاش سے مماثل نہیں ہے۔",
+
+"collections.back_to_collections": "مجموعوں پر واپس جائیں",
+"collections.no_books_found": "اس مجموعے میں کوئی کتاب نہیں ملی۔",
+"collections.browse_all_collections": "تمام مجموعے براؤز کریں",
+
+"collections.featured_collections": "نمایاں مجموعے",
+"collections.discover_collections": "ہمارے ایڈیٹرز کے ذریعہ منتخب کردہ کتابوں کے مجموعے دریافت کریں",
+"collections.view_all_in_collection": "اس مجموعے میں سب دیکھیں",
+"collections.explore_all_collections": "تمام مجموعے دریافت کریں",
+"collections.no_collections_found_title": "کوئی مجموعہ نہیں ملا",
+"collections.no_collections_found_message": "ہمیں اس وقت کوئی کتابی مجموعہ نہیں ملا۔",
+"collections.browse_all_books": "تمام کتابیں براؤز کریں",
 };

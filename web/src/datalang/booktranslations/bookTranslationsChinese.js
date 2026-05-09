@@ -168,4 +168,30 @@ export const bookTranslationsChinese = {
 "explore.explore_books": "探索书籍",
 "explore.dive_into": "沉浸在我们精选的必读书目中",
 "explore.browse_all_books": "浏览所有书籍",
+
+
+"collections.title": "图书收藏",
+"collections.search_collections": "搜索收藏和图书",
+"collections.search_placeholder": "按收藏名称、标题、作者或描述搜索...",
+"collections.filter_by_collections": "按收藏筛选",
+"collections.clear_all_filters": "清除所有筛选",
+"collections.select_collections": "选择要筛选的收藏：",
+"collections.active_filters": "活动筛选：",
+"collections.search": "搜索",
+"collections.no_collections_found": "未找到与您的筛选条件匹配的收藏。",
+"collections.clear_filters": "清除筛选",
+"collections.explore_collection": "探索收藏",
+"collections.no_books_match": "此收藏中没有与您当前搜索匹配的图书。",
+
+"collections.back_to_collections": "返回收藏",
+"collections.no_books_found": "此收藏中未找到图书。",
+"collections.browse_all_collections": "浏览所有收藏",
+
+"collections.featured_collections": "精选收藏",
+"collections.discover_collections": "发现我们的编辑精心挑选的图书收藏",
+"collections.view_all_in_collection": "查看此收藏中的所有内容",
+"collections.explore_all_collections": "探索所有收藏",
+"collections.no_collections_found_title": "未找到收藏",
+"collections.no_collections_found_message": "我们目前找不到任何图书收藏。",
+"collections.browse_all_books": "浏览所有图书",
 };

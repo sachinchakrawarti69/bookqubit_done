@@ -171,4 +171,31 @@ export const bookTranslationsMarathi = {
 "explore.browse_all_books": "सर्व पुस्तके ब्राउझ करा",
 
 
+"collections.title": "पुस्तक संग्रह",
+"collections.search_collections": "संग्रह आणि पुस्तके शोधा",
+"collections.search_placeholder": "संग्रह नाव, शीर्षक, लेखक किंवा वर्णनानुसार शोधा...",
+"collections.filter_by_collections": "संग्रहानुसार फिल्टर करा",
+"collections.clear_all_filters": "सर्व फिल्टर साफ करा",
+"collections.select_collections": "फिल्टर करण्यासाठी संग्रह निवडा:",
+"collections.active_filters": "सक्रिय फिल्टर:",
+"collections.search": "शोधा",
+"collections.no_collections_found": "आपल्या फिल्टरशी जुळणारा कोणताही संग्रह सापडला नाही.",
+"collections.clear_filters": "फिल्टर साफ करा",
+"collections.explore_collection": "संग्रह एक्सप्लोर करा",
+"collections.no_books_match": "या संग्रहातील कोणतीही पुस्तके आपल्या वर्तमान शोधाशी जुळत नाहीत.",
+
+"collections.back_to_collections": "संग्रहाकडे परत",
+"collections.no_books_found": "या संग्रहात कोणतीही पुस्तके सापडली नाहीत.",
+"collections.browse_all_collections": "सर्व संग्रह ब्राउझ करा",
+
+
+"collections.featured_collections": "वैशिष्ट्यीकृत संग्रह",
+"collections.discover_collections": "आमच्या संपादकांनी निवडलेले क्युरेटेड पुस्तक संग्रह शोधा",
+"collections.view_all_in_collection": "या संग्रहातील सर्व पहा",
+"collections.explore_all_collections": "सर्व संग्रह एक्सप्लोर करा",
+"collections.no_collections_found_title": "कोणताही संग्रह सापडला नाही",
+"collections.no_collections_found_message": "आम्हाला यावेळी कोणतेही पुस्तक संग्रह सापडले नाहीत.",
+"collections.browse_all_books": "सर्व पुस्तके ब्राउझ करा",
+
+
 };

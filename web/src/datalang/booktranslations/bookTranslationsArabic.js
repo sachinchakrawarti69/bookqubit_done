@@ -148,5 +148,30 @@ export const bookTranslationsArabic = {
   // Add to existing file
 "explore.explore_books": "استكشف الكتب",
 "explore.dive_into": "انغمس في مجموعتنا المنسقة من العناوين التي يجب قراءتها",
-"explore.browse_all_books": "تصفح جميع الكتب"
+"explore.browse_all_books": "تصفح جميع الكتب",
+
+"collections.title": "مجموعات الكتب",
+"collections.search_collections": "البحث في المجموعات والكتب",
+"collections.search_placeholder": "البحث باسم المجموعة أو العنوان أو المؤلف أو الوصف...",
+"collections.filter_by_collections": "تصفية حسب المجموعات",
+"collections.clear_all_filters": "مسح جميع الفلاتر",
+"collections.select_collections": "اختر المجموعات للتصفية:",
+"collections.active_filters": "الفلاتر النشطة:",
+"collections.search": "بحث",
+"collections.no_collections_found": "لم يتم العثور على مجموعات تطابق فلاترك.",
+"collections.clear_filters": "مسح الفلاتر",
+"collections.explore_collection": "استكشاف المجموعة",
+"collections.no_books_match": "لا توجد كتب في هذه المجموعة تطابق بحثك الحالي.",
+
+"collections.back_to_collections": "العودة إلى المجموعات",
+"collections.no_books_found": "لم يتم العثور على كتب في هذه المجموعة.",
+"collections.browse_all_collections": "تصفح جميع المجموعات",
+
+"collections.featured_collections": "المجموعات المميزة",
+"collections.discover_collections": "اكتشف مجموعات الكتب المنسقة التي اختارها محررونا",
+"collections.view_all_in_collection": "عرض الكل في هذه المجموعة",
+"collections.explore_all_collections": "استكشاف جميع المجموعات",
+"collections.no_collections_found_title": "لم يتم العثور على مجموعات",
+"collections.no_collections_found_message": "لم نتمكن من العثور على أي مجموعات كتب في هذا الوقت.",
+"collections.browse_all_books": "تصفح جميع الكتب",
 };

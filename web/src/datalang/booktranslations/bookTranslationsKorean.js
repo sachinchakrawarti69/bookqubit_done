@@ -168,4 +168,30 @@ export const bookTranslationsKorean = {
 "explore.explore_books": "도서 탐색",
 "explore.dive_into": "엄선된 필독 도서 컬렉션에 빠져보세요",
 "explore.browse_all_books": "모든 도서 둘러보기",
+
+"collections.title": "도서 컬렉션",
+"collections.search_collections": "컬렉션 및 도서 검색",
+"collections.search_placeholder": "컬렉션 이름, 제목, 저자 또는 설명으로 검색...",
+"collections.filter_by_collections": "컬렉션별 필터링",
+"collections.clear_all_filters": "모든 필터 지우기",
+"collections.select_collections": "필터링할 컬렉션 선택:",
+"collections.active_filters": "활성 필터:",
+"collections.search": "검색",
+"collections.no_collections_found": "필터와 일치하는 컬렉션이 없습니다.",
+"collections.clear_filters": "필터 지우기",
+"collections.explore_collection": "컬렉션 탐색",
+"collections.no_books_match": "이 컬렉션에는 현재 검색과 일치하는 도서가 없습니다.",
+
+
+"collections.back_to_collections": "컬렉션으로 돌아가기",
+"collections.no_books_found": "이 컬렉션에서 도서를 찾을 수 없습니다.",
+"collections.browse_all_collections": "모든 컬렉션 둘러보기",
+
+"collections.featured_collections": "추천 컬렉션",
+"collections.discover_collections": "편집자가 엄선한 큐레이션 북 컬렉션 발견하기",
+"collections.view_all_in_collection": "이 컬렉션의 모든 항목 보기",
+"collections.explore_all_collections": "모든 컬렉션 탐색",
+"collections.no_collections_found_title": "컬렉션을 찾을 수 없음",
+"collections.no_collections_found_message": "현재 도서 컬렉션을 찾을 수 없습니다.",
+"collections.browse_all_books": "모든 도서 둘러보기",
 };

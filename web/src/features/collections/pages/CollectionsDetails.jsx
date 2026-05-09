@@ -3,15 +3,24 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import books from "@/data/books/BooksData";
+import { getBooksByLanguage } from "@/data/books";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CollectionsDetails = () => {
   const params = useParams();
   const collectionName = params?.collectionName;
   const { theme, themeName } = useTheme();
+  const { t, language } = useLanguage();
   const [collectionBooks, setCollectionBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [books, setBooks] = useState([]);
+
+  // Load books based on language
+  useEffect(() => {
+    const booksData = getBooksByLanguage(language);
+    setBooks(booksData);
+  }, [language]);
 
   // Guard against undefined theme
   if (!theme) {
@@ -25,7 +34,7 @@ const CollectionsDetails = () => {
   const decodedCollectionName = collectionName ? decodeURIComponent(collectionName) : "";
 
   useEffect(() => {
-    if (!decodedCollectionName) {
+    if (!decodedCollectionName || books.length === 0) {
       setIsLoading(false);
       return;
     }
@@ -52,7 +61,7 @@ const CollectionsDetails = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [decodedCollectionName]);
+  }, [decodedCollectionName, books]);
 
   const fallbackImage =
     "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2NjYyIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PHBhdGggZD0iTTMgMTZoMThNMTYgOGwtNCA0LTQtNCI+PC9wYXRoPjwvc3ZnPg==";
@@ -85,27 +94,27 @@ const CollectionsDetails = () => {
               <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              Back to Collections
+              {t("collections.back_to_collections") || "Back to Collections"}
             </Link>
             <h1 className={`text-2xl sm:text-3xl font-bold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
               {decodedCollectionName}
             </h1>
           </div>
           <span className={`text-sm ${theme.textColors?.badge || 'text-sky-800'} px-3 py-1 rounded-full ${isDarkMode ? "bg-sky-900/30" : "bg-sky-100"}`}>
-            {collectionBooks.length} {collectionBooks.length === 1 ? "book" : "books"}
+            {collectionBooks.length} {collectionBooks.length === 1 ? t("book.singular") || "book" : t("book.plural") || "books"}
           </span>
         </div>
 
         {collectionBooks.length === 0 ? (
           <div className={`text-center py-16 ${theme.background?.bookCoverSide || 'bg-gray-100 dark:bg-gray-800'} rounded-xl border ${theme.border?.default || 'border-gray-200 dark:border-gray-700'}`}>
             <p className={`text-lg ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-              No books found in this collection.
+              {t("collections.no_books_found") || "No books found in this collection."}
             </p>
             <Link
               href="/collections"
-              className="inline-block mt-4 px-6 py-2 bg-sky-600 text-white rounded-lg hover:bg-sky-700 transition"
+              className={`inline-block mt-4 px-6 py-2 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} text-white rounded-lg transition-all hover:scale-105`}
             >
-              Browse All Collections
+              {t("collections.browse_all_collections") || "Browse All Collections"}
             </Link>
           </div>
         ) : (
@@ -134,7 +143,7 @@ const CollectionsDetails = () => {
                       {book.title}
                     </h3>
                     <p className={`text-xs sm:text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} mb-2`}>
-                      by {book.author}
+                      {t("book.by") || "by"} {book.author}
                     </p>
 
                     <div className="flex items-center mb-3">
@@ -163,13 +172,13 @@ const CollectionsDetails = () => {
                     </div>
                   </div>
 
-                  {/* View Details Button - FIXED: Now points to correct bookdeatils route */}
+                  {/* View Details Button */}
                   <div className="mt-auto pt-3">
                     <Link
                       href={`/bookdeatils/${book.slug || book.id}`}
                       className={`block w-full text-center py-2 px-4 text-xs sm:text-sm font-medium rounded-lg ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} text-white transition-all hover:scale-105 min-h-[44px] flex items-center justify-center`}
                     >
-                      View Details
+                      {t("book.view_details") || "View Details"}
                     </Link>
                   </div>
                 </div>
