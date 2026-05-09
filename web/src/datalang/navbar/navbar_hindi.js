@@ -47,6 +47,16 @@ export const navbarHindi = {
   "nav.magazines": "पत्रिकाएं",
   "nav.journals": "जर्नल",
   "nav.newspapers": "समाचार पत्र",
+
+  "navbar.toggle_dark_mode": "डार्क मोड टॉगल करें",
+"navbar.switch_to_light": "लाइट मोड पर स्विच करें",
+"navbar.switch_to_dark": "डार्क मोड पर स्विच करें",
+"navbar.close_menu": "मेनू बंद करें",
+"navbar.open_menu": "मेनू खोलें",
+"navbar.user": "उपयोगकर्ता",
+"navbar.guest": "अतिथि",
+"navbar.welcome_back": "वापसी पर स्वागत है!",
+"navbar.sign_in_to_continue": "जारी रखने के लिए साइन इन करें",
   
   "nav.language": "भाषा",
   "nav.english": "अंग्रेजी",

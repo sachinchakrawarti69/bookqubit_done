@@ -55,6 +55,16 @@ export const navbarEnglish = {
   "nav.magazines": "Magazines",
   "nav.journals": "Journals",
   "nav.newspapers": "Newspapers",
+
+  "navbar.toggle_dark_mode": "Toggle dark mode",
+"navbar.switch_to_light": "Switch to Light Mode",
+"navbar.switch_to_dark": "Switch to Dark Mode",
+"navbar.close_menu": "Close menu",
+"navbar.open_menu": "Open menu",
+"navbar.user": "User",
+"navbar.guest": "Guest",
+"navbar.welcome_back": "Welcome back!",
+"navbar.sign_in_to_continue": "Sign in to continue",
   
   // Language
   "nav.language": "Language",

@@ -47,6 +47,16 @@ export const navbarUrdu = {
   "nav.magazines": "میگزین",
   "nav.journals": "جرائد",
   "nav.newspapers": "اخبارات",
+
+  "navbar.toggle_dark_mode": "ڈارک موڈ ٹوگل کریں",
+"navbar.switch_to_light": "لائٹ موڈ پر سوئچ کریں",
+"navbar.switch_to_dark": "ڈارک موڈ پر سوئچ کریں",
+"navbar.close_menu": "مینو بند کریں",
+"navbar.open_menu": "مینو کھولیں",
+"navbar.user": "صارف",
+"navbar.guest": "مہمان",
+"navbar.welcome_back": "واپسی پر خوش آمدید!",
+"navbar.sign_in_to_continue": "جاری رکھنے کے لیے سائن ان کریں",
   
   "nav.language": "زبان",
   "nav.english": "انگریزی",
