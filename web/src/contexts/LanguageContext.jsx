@@ -5,6 +5,7 @@ import { navbarTranslations } from "@/datalang/navbar";
 import { aboutTranslations } from "@/datalang/about";
 import { bookTranslations } from "@/datalang/booktranslations";
 import { heropartoneTranslations } from "@/datalang/heropartone";
+import { academicBooksTranslations } from "@/datalang/academic_books_translations";
 
 // Merge all translations for all 16 languages
 const allTranslations = {
@@ -12,97 +13,113 @@ const allTranslations = {
     ...navbarTranslations.en, 
     ...aboutTranslations.en,
     ...bookTranslations.en,
-    ...heropartoneTranslations.en
+    ...heropartoneTranslations.en,
+    ...academicBooksTranslations.en
   },
   hi: { 
     ...navbarTranslations.hi, 
     ...aboutTranslations.hi,
     ...bookTranslations.hi,
-    ...heropartoneTranslations.hi
+    ...heropartoneTranslations.hi,
+    ...academicBooksTranslations.hi
   },
   ur: { 
     ...navbarTranslations.ur, 
     ...aboutTranslations.ur,
     ...bookTranslations.ur,
-    ...heropartoneTranslations.ur
+    ...heropartoneTranslations.ur,
+    ...academicBooksTranslations.ur
   },
   ar: { 
     ...navbarTranslations.ar, 
     ...aboutTranslations.ar,
     ...bookTranslations.ar,
-    ...heropartoneTranslations.ar
+    ...heropartoneTranslations.ar,
+    ...academicBooksTranslations.ar
   },
   bn: { 
     ...navbarTranslations.bn, 
     ...aboutTranslations.bn,
     ...bookTranslations.bn,
-    ...heropartoneTranslations.bn
+    ...heropartoneTranslations.bn,
+    ...academicBooksTranslations.bn
   },
   mr: { 
     ...navbarTranslations.mr, 
     ...aboutTranslations.mr,
     ...bookTranslations.mr,
-    ...heropartoneTranslations.mr
+    ...heropartoneTranslations.mr,
+    ...academicBooksTranslations.mr
   },
   ta: { 
     ...navbarTranslations.ta, 
     ...aboutTranslations.ta,
     ...bookTranslations.ta,
-    ...heropartoneTranslations.ta
+    ...heropartoneTranslations.ta,
+    ...academicBooksTranslations.ta
   },
   kn: { 
     ...navbarTranslations.kn, 
     ...aboutTranslations.kn,
     ...bookTranslations.kn,
-    ...heropartoneTranslations.kn
+    ...heropartoneTranslations.kn,
+    ...academicBooksTranslations.kn
   },
   zh: { 
     ...navbarTranslations.zh, 
     ...aboutTranslations.zh,
     ...bookTranslations.zh,
-    ...heropartoneTranslations.zh
+    ...heropartoneTranslations.zh,
+    ...academicBooksTranslations.zh
   },
   fr: { 
     ...navbarTranslations.fr, 
     ...aboutTranslations.fr,
     ...bookTranslations.fr,
-    ...heropartoneTranslations.fr
+    ...heropartoneTranslations.fr,
+    ...academicBooksTranslations.fr
   },
   de: { 
     ...navbarTranslations.de, 
     ...aboutTranslations.de,
     ...bookTranslations.de,
-    ...heropartoneTranslations.de
+    ...heropartoneTranslations.de,
+    ...academicBooksTranslations.de
   },
   it: { 
     ...navbarTranslations.it, 
     ...aboutTranslations.it,
     ...bookTranslations.it,
-    ...heropartoneTranslations.it
+    ...heropartoneTranslations.it,
+    ...academicBooksTranslations.it
   },
   ja: { 
     ...navbarTranslations.ja, 
     ...aboutTranslations.ja,
     ...bookTranslations.ja,
-    ...heropartoneTranslations.ja
+    ...heropartoneTranslations.ja,
+    ...academicBooksTranslations.ja
   },
   ko: { 
     ...navbarTranslations.ko, 
     ...aboutTranslations.ko,
     ...bookTranslations.ko,
-    ...heropartoneTranslations.ko
+    ...heropartoneTranslations.ko,
+    ...academicBooksTranslations.ko
   },
   fa: { 
     ...navbarTranslations.fa, 
     ...aboutTranslations.fa,
     ...bookTranslations.fa,
-    ...heropartoneTranslations.fa
+    ...heropartoneTranslations.fa,
+    ...academicBooksTranslations.fa
   },
   ru: { 
     ...navbarTranslations.ru, 
     ...aboutTranslations.ru,
     ...bookTranslations.ru,
-    ...heropartoneTranslations.ru
+    ...heropartoneTranslations.ru,
+    ...academicBooksTranslations.ru
   }
 };
 

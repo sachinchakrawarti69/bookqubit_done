@@ -5,28 +5,43 @@ import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { academicBooksData } from "@/data/academic_books_data/academic_books_data";
+import { getAcademicBooksByLanguage } from "@/data/academic_books_data";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { FaGraduationCap, FaStar } from "react-icons/fa";
 
 const ExploreAcademicBooks = () => {
   const { theme, themeName } = useTheme();
-  const featuredAcademicBooks = academicBooksData.slice(0, 12);
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
+  const { t, language } = useLanguage();
+  const [academicBooks, setAcademicBooks] = useState([]);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1280,
+  );
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
+
+  // Load academic books based on language
+  useEffect(() => {
+    const booksData = getAcademicBooksByLanguage(language);
+    setAcademicBooks(booksData || []);
+  }, [language]);
+
+  const featuredAcademicBooks = academicBooks.slice(0, 12);
 
   useEffect(() => {
     setMounted(true);
-    
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
       setSliderKey((prev) => prev + 1);
     };
-    
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -52,11 +67,16 @@ const ExploreAcademicBooks = () => {
   // Level badge colors
   const getLevelBadgeClass = (level) => {
     const levelClasses = {
-      "Beginner": "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
-      "Intermediate": "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
-      "Advanced": "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400"
+      Beginner:
+        "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+      Intermediate:
+        "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+      Advanced: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
     };
-    return levelClasses[level] || "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400";
+    return (
+      levelClasses[level] ||
+      "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-400"
+    );
   };
 
   const fallbackImage =
@@ -66,26 +86,64 @@ const ExploreAcademicBooks = () => {
     return null;
   }
 
-  return (
-    <section
-      className={`${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
-    >
-      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
-        <div className="text-center mb-8 md:mb-12">
+  if (featuredAcademicBooks.length === 0) {
+    return (
+      <section
+        className={`${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+      >
+        <div
+          className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto text-center`}
+        >
           <div className="flex justify-center mb-4">
-            <div className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')}`}>
-              <FaGraduationCap className={`text-3xl ${theme.textColors?.highlight || 'text-sky-600'}`} />
+            <div
+              className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+            >
+              <FaGraduationCap
+                className={`text-3xl ${theme.textColors?.highlight || "text-sky-600"}`}
+              />
             </div>
           </div>
           <h2
-            className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}
+            className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} mb-2`}
           >
-            Academic Textbooks
+            {t("academic.hero.title") || "Academic Textbooks"}
           </h2>
           <p
-            className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto px-4`}
+            className={`text-sm md:text-lg ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} max-w-2xl mx-auto px-4`}
           >
-            Discover comprehensive textbooks and research materials from leading publishers
+            {t("academic.message.no_books") ||
+              "No academic books available at this time."}
+          </p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section
+      className={`${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+    >
+      <div className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto`}>
+        <div className="text-center mb-8 md:mb-12">
+          <div className="flex justify-center mb-4">
+            <div
+              className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+            >
+              <FaGraduationCap
+                className={`text-3xl ${theme.textColors?.highlight || "text-sky-600"}`}
+              />
+            </div>
+          </div>
+          <h2
+            className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} mb-2`}
+          >
+            {t("academic.hero.title") || "Academic Textbooks"}
+          </h2>
+          <p
+            className={`text-sm md:text-lg ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} max-w-2xl mx-auto px-4`}
+          >
+            {t("academic.hero.subtitle") ||
+              "Discover comprehensive textbooks and research materials from leading publishers"}
           </p>
         </div>
 
@@ -94,7 +152,7 @@ const ExploreAcademicBooks = () => {
             {featuredAcademicBooks.map((book) => (
               <div key={book.id} className="px-2 outline-none h-full">
                 <div
-                  className={`${theme.background?.bookCoverSide || 'bg-white dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
+                  className={`${theme.background?.bookCoverSide || "bg-white dark:bg-gray-800"} ${theme.border?.default || "border border-gray-200 dark:border-gray-700"} ${theme.shadow?.container || "shadow-lg"} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
                 >
                   <div className="flex justify-center mb-3">
                     {book.coverImage ? (
@@ -108,55 +166,66 @@ const ExploreAcademicBooks = () => {
                         }}
                       />
                     ) : (
-                      <div className={`h-28 sm:h-40 w-full flex items-center justify-center ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-700'} rounded-lg`}>
-                        <FaGraduationCap className={`text-4xl ${theme.textColors?.highlight || 'text-sky-600'}`} />
+                      <div
+                        className={`h-28 sm:h-40 w-full flex items-center justify-center ${theme.background?.navigationDots || "bg-gray-100 dark:bg-gray-700"} rounded-lg`}
+                      >
+                        <FaGraduationCap
+                          className={`text-4xl ${theme.textColors?.highlight || "text-sky-600"}`}
+                        />
                       </div>
                     )}
                   </div>
                   <h3
-                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} truncate`}
+                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} truncate`}
                   >
                     {book.title}
                   </h3>
                   <p
-                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate mb-1`}
+                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} truncate mb-1`}
                   >
-                    {book.author}
+                    {t("book.by") || "by"} {book.author}
                   </p>
                   <div className="flex items-center justify-between mb-2">
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${getLevelBadgeClass(book.level)}`}>
-                      {book.level}
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full ${getLevelBadgeClass(book.level)}`}
+                    >
+                      {t(`academic.level.${book.level?.toLowerCase()}`) ||
+                        book.level}
                     </span>
                     <div className="flex items-center">
                       {[...Array(5)].map((_, i) => (
                         <FaStar
                           key={i}
                           className={`w-3 h-3 ${
-                            i < Math.floor(book.rating)
-                              ? 'text-amber-400'
-                              : 'text-gray-300'
+                            i < Math.floor(book.rating || 0)
+                              ? "text-amber-400"
+                              : "text-gray-300"
                           }`}
                         />
                       ))}
-                      <span className={`text-xs ml-1 ${theme.textColors?.secondary || 'text-gray-500'}`}>
+                      <span
+                        className={`text-xs ml-1 ${theme.textColors?.secondary || "text-gray-500"}`}
+                      >
                         {book.rating}
                       </span>
                     </div>
                   </div>
                   <p
-                    className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} line-clamp-2 mb-3`}
+                    className={`text-xs ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} line-clamp-2 mb-3`}
                   >
-                    {book.description.substring(0, 100)}...
+                    {book.description?.substring(0, 100)}...
                   </p>
                   <div className="flex items-center justify-between mt-auto pt-2">
-                    <span className={`text-sm font-bold ${theme.textColors?.highlight || 'text-sky-600'}`}>
+                    <span
+                      className={`text-sm font-bold ${theme.textColors?.highlight || "text-sky-600"}`}
+                    >
                       {book.price}
                     </span>
                     <Link
                       href={`/academicbooks/${book.slug}`}
-                      className={`text-xs px-3 py-1.5 rounded-lg font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} text-white transition-all hover:scale-105`}
+                      className={`text-xs px-3 py-1.5 rounded-lg font-medium ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} text-white transition-all hover:scale-105`}
                     >
-                      View Details
+                      {t("book.view_details") || "View Details"}
                     </Link>
                   </div>
                 </div>
@@ -168,9 +237,9 @@ const ExploreAcademicBooks = () => {
         <div className="text-center">
           <Link
             href="/academicbooks"
-            className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
+            className={`${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
-            Explore All Academic Books
+            {t("academic.button.explore_all") || "Explore All Academic Books"}
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
               fill="none"
