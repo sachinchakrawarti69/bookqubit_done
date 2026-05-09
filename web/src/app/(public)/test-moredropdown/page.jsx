@@ -1,7 +1,6 @@
-// app/test-moredropdown/page.js
 "use client";
 
-import { MoreDropdown } from "@/components/navbar/navbardesktop/MoreDropdown"; // adjust path as needed
+import MoreDropdown from "@/layout/navbar/navbardesktop/components/MoreDropdown";
 
 export default function TestMoreDropdownPage() {
   const handleItemClick = () => {
