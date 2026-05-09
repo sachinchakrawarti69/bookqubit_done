@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   const [isWishlisted, setIsWishlisted] = useState(false);
 
   // Guard against undefined theme
@@ -136,7 +138,7 @@ const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
               : `${theme.buttonColors?.wishlistButton?.defaultBackground || 'border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800'} ${theme.textColors?.wishlistDefault || 'text-gray-600 dark:text-gray-400'} hover:${theme.textColors?.wishlistSaved || 'text-rose-600 dark:text-rose-400'}`
             }
           `}
-          aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+          aria-label={isWishlisted ? (t("book.remove_from_wishlist") || "Remove from wishlist") : (t("book.add_to_wishlist") || "Add to wishlist")}
         >
           <svg
             className="w-4 h-4"
@@ -237,7 +239,7 @@ const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
               ))}
               {comic.charactersIntroduced.length > 2 && (
                 <span className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-                  +{comic.charactersIntroduced.length - 2} more
+                  +{comic.charactersIntroduced.length - 2} {t("book.more") || "more"}
                 </span>
               )}
             </div>
@@ -259,7 +261,7 @@ const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
               hover:scale-105 active:scale-95
             `}
           >
-            View Details
+            {t("comic.view_details") || "View Details"}
           </Link>
 
           <div className="flex gap-2">
@@ -275,7 +277,7 @@ const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
                 hover:scale-105 active:scale-95 text-xs
               `}
             >
-              Read
+              {t("comic.read_digital") || "Read"}
             </button>
             <button
               className={`
@@ -289,7 +291,7 @@ const ComicSquareCard = ({ comic, onTagClick, onWishlistToggle }) => {
                 hover:scale-105 active:scale-95 text-xs
               `}
             >
-              Collect
+              {t("comic.collectors_guide") || "Collect"}
             </button>
           </div>
         </div>

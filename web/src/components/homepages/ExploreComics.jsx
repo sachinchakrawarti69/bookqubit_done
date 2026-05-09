@@ -1,37 +1,54 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ComicsData } from "@/data/comics/ComicsData";
+import { getComicsByLanguage } from "@/data/comics/index";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ExploreComics = () => {
   const { theme, themeName } = useTheme();
-  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
+  const { t, language } = useLanguage();
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1280,
+  );
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
 
-  // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  // Get comics data based on current language
+  const ComicsData = useMemo(() => {
+    return getComicsByLanguage(language);
+  }, [language]);
 
-  const featuredComics = ComicsData.slice(0, 12);
+  // Check if current theme is dark mode
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
+
+  // Get featured comics (first 12 or all if less)
+  const featuredComics = useMemo(() => {
+    if (!ComicsData || ComicsData.length === 0) return [];
+    return ComicsData.slice(0, 12);
+  }, [ComicsData]);
 
   useEffect(() => {
     setMounted(true);
-    
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
       setSliderKey((prev) => prev + 1);
     };
-    
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const getSlidesToShow = () => {
+    if (!featuredComics.length) return 1;
     if (windowWidth <= 768) return 1;
     if (windowWidth <= 1024) return 2;
     if (windowWidth <= 1280) return 3;
@@ -59,10 +76,12 @@ const ExploreComics = () => {
   if (!featuredComics.length) {
     return (
       <section
-        className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
+        className={`${theme.background?.section || ""} ${theme.layout?.sectionPadding || "py-12 px-4"}`}
       >
-        <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center`}>
-          <div className="animate-pulse">Loading comics...</div>
+        <div
+          className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto text-center`}
+        >
+          <div className="animate-pulse">{t("comics.loading") || "Loading comics..."}</div>
         </div>
       </section>
     );
@@ -70,20 +89,20 @@ const ExploreComics = () => {
 
   return (
     <section
-      className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      className={`${theme.background?.section || ""} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
     >
-      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
+      <div className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto`}>
         {/* Header */}
         <div className="text-center mb-8 md:mb-12">
           <h2
-            className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}
+            className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} mb-2`}
           >
-            Explore Comics
+            {t("comics.explore_comics") || "Explore Comics"}
           </h2>
           <p
-            className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto px-4`}
+            className={`text-sm md:text-lg ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} max-w-2xl mx-auto px-4`}
           >
-            Discover legendary issues and timeless adventures
+            {t("comics.explore_subtitle") || "Discover legendary issues and timeless adventures"}
           </p>
         </div>
 
@@ -93,7 +112,7 @@ const ExploreComics = () => {
             {featuredComics.map((comic) => (
               <div key={comic.id} className="px-2 outline-none h-full">
                 <div
-                  className={`${theme.background?.bookCoverSide || ''} ${theme.border?.default || ''} ${theme.shadow?.container || ''} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
+                  className={`${theme.background?.bookCoverSide || ""} ${theme.border?.default || ""} ${theme.shadow?.container || ""} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
                 >
                   <div className="flex justify-center mb-3">
                     <img
@@ -107,17 +126,17 @@ const ExploreComics = () => {
                     />
                   </div>
                   <h3
-                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} truncate`}
+                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} truncate`}
                   >
                     {comic.title}
                   </h3>
                   <p
-                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate mb-1`}
+                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} truncate mb-1`}
                   >
                     {comic.publisher}
                   </p>
                   <p
-                    className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate mb-2`}
+                    className={`text-xs ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} truncate mb-2`}
                   >
                     {comic.publicationDate}
                   </p>
@@ -127,8 +146,8 @@ const ExploreComics = () => {
                         key={i}
                         className={`w-3 h-3 sm:w-4 sm:h-4 ${
                           i < Math.floor(comic.rating / 2)
-                            ? theme.iconColors?.starFilled || 'text-amber-400'
-                            : theme.iconColors?.starEmpty || 'text-gray-300'
+                            ? theme.iconColors?.starFilled || "text-amber-400"
+                            : theme.iconColors?.starEmpty || "text-gray-300 dark:text-gray-600"
                         }`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -138,10 +157,10 @@ const ExploreComics = () => {
                     ))}
                   </div>
                   <Link
-                    href={`/comics/${comic.id}`}
-                    className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
+                    href={`/comicslist/${comic.id}`}
+                    className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
                   >
-                    Know More
+                    {t("comic.know_more") || "Know More"}
                   </Link>
                 </div>
               </div>
@@ -152,10 +171,10 @@ const ExploreComics = () => {
         {/* CTA */}
         <div className="text-center">
           <Link
-            href="/comics"
-            className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
+            href="/comicslist"
+            className={`${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
-            Browse All Comics
+            {t("comics.browse_all_comics") || "Browse All Comics"}
             <svg
               className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
               fill="none"

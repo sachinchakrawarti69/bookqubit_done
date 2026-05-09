@@ -2,9 +2,11 @@
 
 import React from "react";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const CopyrightFooter = () => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
   const currentYear = new Date().getFullYear();
 
   // Guard against undefined theme
@@ -25,7 +27,7 @@ const CopyrightFooter = () => {
     <section className={rootClasses}>
       <div className={containerClasses}>
         <p className={textClasses}>
-          &copy; {currentYear} <strong className={strongClasses}>BookQubit</strong>. All rights reserved.
+          &copy; {currentYear} <strong className={strongClasses}>{t("footer.site_name") || "BookQubit"}</strong>. {t("footer.copyright") || "All rights reserved."}
         </p>
       </div>
     </section>

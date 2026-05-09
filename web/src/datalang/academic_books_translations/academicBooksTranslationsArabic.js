@@ -16,9 +16,10 @@ export const academicBooksTranslationsArabic = {
   "academic.category.engineering": "الهندسة",
   "academic.category.history": "التاريخ",
   "academic.category.statistics": "الإحصاء",
-  "academic.category.environmental_science": "العلوم البيئية",
+  "academic.category.environmental_science": "علوم البيئة",
   
   // Levels
+  "academic.level.all": "الجميع",
   "academic.level.beginner": "مبتدئ",
   "academic.level.intermediate": "متوسط",
   "academic.level.advanced": "متقدم",
@@ -34,12 +35,12 @@ export const academicBooksTranslationsArabic = {
   "academic.book.publisher": "الناشر",
   "academic.book.year": "السنة",
   "academic.book.pages": "الصفحات",
-  "academic.book.isbn": "ردمك",
-  "academic.book.format": "التنسيق",
+  "academic.book.isbn": "ردمد",
+  "academic.book.format": "النسق",
   "academic.book.price": "السعر",
   "academic.book.rating": "التقييم",
   "academic.book.level": "المستوى",
-  "academic.book.category": "التصنيف",
+  "academic.book.category": "الفئة",
   "academic.book.subject": "الموضوع",
   "academic.book.features": "الميزات الرئيسية",
   "academic.book.tags": "الوسوم",
@@ -47,7 +48,7 @@ export const academicBooksTranslationsArabic = {
   "academic.book.details": "تفاصيل الكتاب",
   "academic.book.edition_info": "معلومات الإصدار",
   "academic.book.edition": "الإصدار",
-  "academic.book.includes": "يتضمن",
+  "academic.book.includes": "يشمل",
   "academic.book.key_features": "الميزات الرئيسية",
   "academic.book.topics_covered": "الموضوعات التي يغطيها",
   "academic.book.author_info": "معلومات المؤلف",
@@ -63,21 +64,22 @@ export const academicBooksTranslationsArabic = {
   "academic.button.get_book": "احصل على الكتاب",
   "academic.button.view_details": "عرض التفاصيل",
   "academic.button.browse_all": "تصفح جميع الكتب",
-  "academic.button.explore_more": "استكشاف المزيد",
+  "academic.button.explore_more": "استكشف المزيد",
+  "academic.button.explore_all": "استكشف جميع الكتب الأكاديمية",
   "academic.button.back": "العودة إلى الكتب الأكاديمية",
   
   // Filters
   "academic.filter.title": "تصفية الكتب الأكاديمية",
-  "academic.filter.category": "التصنيف",
+  "academic.filter.category": "الفئة",
   "academic.filter.level": "المستوى",
   "academic.filter.subject": "الموضوع",
-  "academic.filter.price_range": "نطاق السعر",
+  "academic.filter.price_range": "النطاق السعري",
   "academic.filter.reset": "إعادة تعيين الفلاتر",
   "academic.filter.apply": "تطبيق الفلاتر",
-  "academic.filter.all": "الكل",
+  "academic.filter.all": "الجميع",
   
   // Search
-  "academic.search.placeholder": "ابحث عن الكتب الأكاديمية حسب العنوان أو المؤلف أو الموضوع...",
+  "academic.search.placeholder": "ابحث عن كتب أكاديمية حسب العنوان أو المؤلف أو الموضوع...",
   "academic.search.no_results": "لم يتم العثور على كتب أكاديمية تطابق معاييرك.",
   "academic.search.search": "بحث",
   "academic.search.try_adjusting": "حاول تعديل معايير البحث أو التصفية",
@@ -89,13 +91,13 @@ export const academicBooksTranslationsArabic = {
   
   // Messages
   "academic.message.loading": "جاري تحميل الكتب الأكاديمية...",
-  "academic.message.error": "حدث خطأ في تحميل الكتب الأكاديمية",
+  "academic.message.error": "خطأ في تحميل الكتب الأكاديمية",
   "academic.message.no_books": "لا توجد كتب أكاديمية متاحة في هذا الوقت.",
   "academic.message.not_found": "الكتاب الأكاديمي الذي تبحث عنه غير موجود أو تمت إزالته.",
   
   // Popular Books Section
-  "academic.popular.title": "الكتب الأكاديمية الشائعة",
-  "academic.popular.subtitle": "أكثر الكتب المدرسية توصية من قبل الأساتذة والطلاب",
+  "academic.popular.title": "الكتب الأكاديمية الأكثر شهرة",
+  "academic.popular.subtitle": "الكتب المدرسية الأكثر توصية من قبل الأساتذة والطلاب",
   
   // New Releases Section
   "academic.new_releases.title": "الإصدارات الجديدة",
@@ -103,24 +105,24 @@ export const academicBooksTranslationsArabic = {
   
   // Featured Section
   "academic.featured.title": "الكتب الأكاديمية المميزة",
-  "academic.featured.subtitle": "اختيارات منسقة للمتعلمين الجادين",
+  "academic.featured.subtitle": "مجموعة مختارة للمتعلمين الجادين",
   
   // Related Books
   "academic.related_books": "الكتب الأكاديمية ذات الصلة",
   
   // Book Card
   "academic.card.view_details": "عرض التفاصيل",
-  "academic.card.buy_now": "اشتر الآن",
+  "academic.card.buy_now": "اشتري الآن",
   "academic.card.preview": "معاينة",
   
   // Book Details Page
   "academic.details.about": "عن هذا الكتاب",
   "academic.details.features": "الميزات الرئيسية",
   "academic.details.reviews": "المراجعات",
-  "academic.details.related_books": "كتب ذات صلة",
+  "academic.details.related_books": "الكتب ذات الصلة",
   
   // Sort Options
-  "academic.sort.popular": "الأكثر شيوعاً",
+  "academic.sort.popular": "الأكثر شهرة",
   "academic.sort.rating": "الأعلى تقييماً",
   "academic.sort.title": "العنوان أ-ي",
   "academic.sort.price_low_high": "السعر: من الأقل إلى الأعلى",
@@ -138,8 +140,8 @@ export const academicBooksTranslationsArabic = {
   "academic.reviews.submit": "إرسال المراجعة",
   
   // Additional
-  "academic.author_desc": "هو خبير مشهور في {category} ولديه خبرة واسعة في التدريس والبحث.",
-  "academic.available_formats": "التنسيقات المتاحة",
+  "academic.author_desc": "هو خبير بارز في {category} ولديه خبرة واسعة في التدريس والبحث.",
+  "academic.available_formats": "النسخ المتوفرة",
   "academic.edition_year": "سنة الإصدار",
   "academic.page_count": "عدد الصفحات",
   "academic.publication_date": "تاريخ النشر",
@@ -148,3 +150,5 @@ export const academicBooksTranslationsArabic = {
   "academic.table_of_contents": "جدول المحتويات",
   "academic.target_audience": "الجمهور المستهدف"
 };
+
+export default academicBooksTranslationsArabic;

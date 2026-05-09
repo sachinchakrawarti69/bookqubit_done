@@ -1,26 +1,37 @@
 import { academicBooksEnglish } from "./academic_books_english";
 import { academicBooksHindi } from "./academic_books_hindi";
-import { academicBooksTamil } from "./academic_books_tamil"
+import { academicBooksTamil } from "./academic_books_tamil";
 import { academicBooksUrdu } from "./academic_books_urdu";
-
+import { academicBooksArabic } from "./academic_books_arabic"; // Fixed: Changed from academicBookArabic to academicBooksArabic
+import { academicBooksBangla } from "./academic_books_bangla";
+import { academicBooksMarathi } from "./academic_books_marathi";
+import { academicBooksKannada } from "./academic_books_kannada";
+import { academicBooksChinese } from "./academic_books_chinese";
+import { academicBooksFrench } from "./academic_books_french";
+import { academicBooksGerman } from "./academic_books_german";
+import { academicBooksItalian } from "./academic_books_italian";
+import { academicBooksJapanese } from "./academic_books_japanese";
+import { academicBooksKorean } from "./academic_books_korean";
+import { academicBooksPersian } from "./academic_books_persian";
+// Add more imports as you create them
 
 // For now, use English as the default. Add other languages as you create them.
 export const academicBooksTranslations = {
   en: academicBooksEnglish,
   hi: academicBooksHindi,
-  ur: academicBooksUrdu, 
-  ar: academicBooksEnglish, // Fallback to English until Arabic file is ready
-  bn: academicBooksEnglish, // Fallback to English until Bangla file is ready
-  mr: academicBooksEnglish, // Fallback to English until Marathi file is ready
-  ta: academicBooksTamil, 
-  kn: academicBooksEnglish, // Fallback to English until Kannada file is ready
-  zh: academicBooksEnglish, // Fallback to English until Chinese file is ready
-  fr: academicBooksEnglish, // Fallback to English until French file is ready
-  de: academicBooksEnglish, // Fallback to English until German file is ready
-  it: academicBooksEnglish, // Fallback to English until Italian file is ready
-  ja: academicBooksEnglish, // Fallback to English until Japanese file is ready
-  ko: academicBooksEnglish, // Fallback to English until Korean file is ready
-  fa: academicBooksEnglish, // Fallback to English until Persian file is ready
+  ur: academicBooksUrdu,
+  ar: academicBooksArabic, // Now this matches the import
+  bn: academicBooksBangla, // Updated to use actual Bangla file
+  mr: academicBooksMarathi, // Updated to use actual Marathi file
+  ta: academicBooksTamil,
+  kn: academicBooksKannada, // Updated to use actual Kannada file
+  zh: academicBooksChinese, // Updated to use actual Chinese file
+  fr: academicBooksFrench, // Updated to use actual French file
+  de: academicBooksGerman, // Updated to use actual German file
+  it: academicBooksItalian, // Updated to use actual Italian file
+  ja: academicBooksJapanese, // Updated to use actual Japanese file
+  ko: academicBooksKorean, // Updated to use actual Korean file
+  fa: academicBooksPersian, // Updated to use actual Persian file
   ru: academicBooksEnglish, // Fallback to English until Russian file is ready
 };
 

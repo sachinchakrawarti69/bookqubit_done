@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   FaPenFancy,
   FaLayerGroup,
@@ -14,51 +15,9 @@ import {
   FaStar,
 } from "react-icons/fa";
 
-const sections = [
-  {
-    title: "Comic Writers",
-    icon: <FaPenFancy />,
-    categoryPath: "comics/comic-writers",
-  },
-  {
-    title: "Comic Series",
-    icon: <FaLayerGroup />,
-    categoryPath: "comics/comic-series",
-  },
-  {
-    title: "Comic Artists",
-    icon: <FaPaintBrush />,
-    categoryPath: "comics/comic-artists",
-  },
-  {
-    title: "Publishers",
-    icon: <FaBuilding />,
-    categoryPath: "comics/comic-publishers",
-  },
-  {
-    title: "Characters",
-    icon: <FaMask />,
-    categoryPath: "comics/comic-characters",
-  },
-  {
-    title: "Comic Eras",
-    icon: <FaClock />,
-    categoryPath: "comics/comic-eras",
-  },
-  // {
-  //   title: "Comic Awards",
-  //   icon: <FaAward />,
-  //   categoryPath: "/comics/awards",
-  // },
-  // {
-  //   title: "Iconic Issues",
-  //   icon: <FaStar />,
-  //   categoryPath: "/comics/issues",
-  // },
-];
-
 const ComicsMenu = () => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -67,6 +26,45 @@ const ComicsMenu = () => {
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  const sections = [
+    {
+      titleKey: "comics.writers",
+      title: "Comic Writers",
+      icon: <FaPenFancy />,
+      categoryPath: "comics/comic-writers",
+    },
+    {
+      titleKey: "comics.series",
+      title: "Comic Series",
+      icon: <FaLayerGroup />,
+      categoryPath: "comics/comic-series",
+    },
+    {
+      titleKey: "comics.artists",
+      title: "Comic Artists",
+      icon: <FaPaintBrush />,
+      categoryPath: "comics/comic-artists",
+    },
+    {
+      titleKey: "comics.publishers",
+      title: "Publishers",
+      icon: <FaBuilding />,
+      categoryPath: "comics/comic-publishers",
+    },
+    {
+      titleKey: "comics.characters",
+      title: "Characters",
+      icon: <FaMask />,
+      categoryPath: "comics/comic-characters",
+    },
+    {
+      titleKey: "comics.eras",
+      title: "Comic Eras",
+      icon: <FaClock />,
+      categoryPath: "comics/comic-eras",
+    },
+  ];
 
   return (
     <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-white')} py-6`}>
@@ -86,7 +84,9 @@ const ComicsMenu = () => {
               `}
             >
               <span className="text-base">{section.icon}</span>
-              <span className="text-sm font-medium">{section.title}</span>
+              <span className="text-sm font-medium">
+                {t(section.titleKey) || section.title}
+              </span>
             </Link>
           ))}
         </div>

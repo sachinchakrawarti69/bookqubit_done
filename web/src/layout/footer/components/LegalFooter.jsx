@@ -3,9 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const LegalFooter = () => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -16,12 +18,12 @@ const LegalFooter = () => {
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   const legalLinks = [
-    { name: "Terms of Service", path: "/terms" },
-    { name: "Privacy Policy", path: "/privacy" },
-    { name: "Cookie Policy", path: "/cookies" },
-    { name: "Copyright Policy", path: "/copyright" },
-    { name: "GDPR Compliance", path: "/gdpr" },
-    { name: "Accessibility", path: "/accessibility" },
+    { name: t("footer.legal.terms") || "Terms of Service", path: "/terms" },
+    { name: t("footer.legal.privacy") || "Privacy Policy", path: "/privacy" },
+    { name: t("footer.legal.cookie") || "Cookie Policy", path: "/cookies" },
+    { name: t("footer.legal.copyright_policy") || "Copyright Policy", path: "/copyright" },
+    { name: t("footer.legal.gdpr") || "GDPR Compliance", path: "/gdpr" },
+    { name: t("footer.legal.accessibility") || "Accessibility", path: "/accessibility" },
   ];
 
   return (
@@ -54,7 +56,7 @@ const LegalFooter = () => {
 
         {/* Copyright */}
         <div className={`text-center text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-          <p>© {new Date().getFullYear()} BookQubit. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {t("footer.site_name") || "BookQubit"}. {t("footer.copyright") || "All rights reserved."}</p>
         </div>
       </div>
     </section>

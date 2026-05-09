@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ComicButton = ({
   children,
@@ -20,6 +21,7 @@ const ComicButton = ({
   ...props
 }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -156,6 +158,14 @@ const ComicButton = ({
     </svg>
   );
 
+  // Get translated text for children if it's a translation key
+  const getDisplayText = (text) => {
+    if (typeof text === 'string' && (text.startsWith('comic.') || text.startsWith('button.') || text.startsWith('book.'))) {
+      return t(text) || text;
+    }
+    return text;
+  };
+
   // Button content
   const buttonContent = (
     <>
@@ -163,7 +173,7 @@ const ComicButton = ({
       {!loading && actualIcon && iconPosition === "left" && (
         <span className="mr-2 text-lg">{actualIcon}</span>
       )}
-      <span className="whitespace-nowrap">{children}</span>
+      <span className="whitespace-nowrap">{getDisplayText(children)}</span>
       {!loading && actualIcon && iconPosition === "right" && (
         <span className="ml-2 text-lg">{actualIcon}</span>
       )}
@@ -218,7 +228,7 @@ export const ComicActionButtons = {
       icon="preview"
       className={`flex-1 ${className}`}
     >
-      View Details
+      comic.view_details
     </ComicButton>
   ),
 
@@ -230,7 +240,7 @@ export const ComicActionButtons = {
       icon="digital"
       className={`flex-1 ${className}`}
     >
-      Read Digital
+      comic.read_digital
     </ComicButton>
   ),
 
@@ -242,7 +252,7 @@ export const ComicActionButtons = {
       icon="guide"
       className={`flex-1 ${className}`}
     >
-      Collector's Guide
+      comic.collectors_guide
     </ComicButton>
   ),
 
@@ -260,7 +270,7 @@ export const ComicActionButtons = {
       onClick={onToggle}
       className={`flex-1 ${className}`}
     >
-      {isWishlisted ? "In Wishlist" : "Add to Wishlist"}
+      {isWishlisted ? "book.wishlisted" : "book.wishlist"}
     </ComicButton>
   ),
 
@@ -272,7 +282,7 @@ export const ComicActionButtons = {
       icon="summary"
       className={`flex-1 ${className}`}
     >
-      Quick Summary
+      comic.quick_summary
     </ComicButton>
   ),
 
@@ -284,7 +294,7 @@ export const ComicActionButtons = {
       icon="buy"
       className={`flex-1 ${className}`}
     >
-      Buy Physical
+      comic.buy_physical
     </ComicButton>
   ),
 
@@ -296,7 +306,7 @@ export const ComicActionButtons = {
       icon="share"
       className={`flex-1 ${className}`}
     >
-      Share
+      book.share
     </ComicButton>
   ),
 };

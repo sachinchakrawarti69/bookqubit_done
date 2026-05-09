@@ -7,9 +7,11 @@ import {
   ComicButtonGroup,
 } from "../components/ComicButton";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ComicRectangleCard = ({ comic, onWishlistToggle, isWishlisted = false }) => {
   const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -121,7 +123,7 @@ const ComicRectangleCard = ({ comic, onWishlistToggle, isWishlisted = false }) =
           {comic.charactersIntroduced && comic.charactersIntroduced.length > 0 && (
             <div className="mb-4">
               <h3 className={`text-sm font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}>
-                Characters Introduced:
+                {t("comic.characters_introduced") || "Characters Introduced:"}
               </h3>
               <div className="flex flex-wrap gap-2">
                 {comic.charactersIntroduced.slice(0, 4).map((character, index) => (
@@ -140,7 +142,7 @@ const ComicRectangleCard = ({ comic, onWishlistToggle, isWishlisted = false }) =
                 ))}
                 {comic.charactersIntroduced.length > 4 && (
                   <span className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
-                    +{comic.charactersIntroduced.length - 4} more
+                    +{comic.charactersIntroduced.length - 4} {t("book.more") || "more"}
                   </span>
                 )}
               </div>
@@ -152,7 +154,7 @@ const ComicRectangleCard = ({ comic, onWishlistToggle, isWishlisted = false }) =
             <div className={`p-3 ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} rounded-lg mb-2`}>
               <p className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
                 <span className={`font-semibold ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`}>
-                  💡 Fun Fact:{" "}
+                  💡 {t("comic.fun_fact") || "Fun Fact:"}{" "}
                 </span>
                 {comic.funFact}
               </p>
