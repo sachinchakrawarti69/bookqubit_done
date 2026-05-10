@@ -56,15 +56,40 @@ export const navbarEnglish = {
   "nav.journals": "Journals",
   "nav.newspapers": "Newspapers",
 
+  // Navbar Mobile Translations
   "navbar.toggle_dark_mode": "Toggle dark mode",
-"navbar.switch_to_light": "Switch to Light Mode",
-"navbar.switch_to_dark": "Switch to Dark Mode",
-"navbar.close_menu": "Close menu",
-"navbar.open_menu": "Open menu",
-"navbar.user": "User",
-"navbar.guest": "Guest",
-"navbar.welcome_back": "Welcome back!",
-"navbar.sign_in_to_continue": "Sign in to continue",
+  "navbar.switch_to_light": "Switch to Light Mode",
+  "navbar.switch_to_dark": "Switch to Dark Mode",
+  "navbar.close_menu": "Close menu",
+  "navbar.open_menu": "Open menu",
+  "navbar.user": "User",
+  "navbar.guest": "Guest",
+  "navbar.welcome_back": "Welcome back!",
+  "navbar.sign_in_to_continue": "Sign in to continue",
+  
+  // Control Slider Translations
+  "controls.settings": "Settings",
+  "controls.customize": "Customize",
+  "controls.customize_experience": "Customize Your Experience",
+  "controls.customize_message": "Customize your reading experience",
+  
+  // Theme Translations
+  "themes.theme": "Theme",
+  "themes.light": "Light",
+  "themes.dark": "Dark",
+  "themes.midnight": "Midnight",
+  "themes.cyberpunk": "Cyberpunk",
+  "themes.ocean": "Ocean",
+  "themes.forest": "Forest",
+  "themes.rose": "Rose",
+  "themes.lavender": "Lavender",
+  
+  // Font Translations
+  "font.font_size": "Font Size",
+  "font.small": "Small",
+  "font.medium": "Medium",
+  "font.large": "Large",
+  "font.xlarge": "Extra Large",
   
   // Language
   "nav.language": "Language",

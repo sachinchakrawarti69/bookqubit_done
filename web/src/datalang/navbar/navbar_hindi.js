@@ -57,6 +57,41 @@ export const navbarHindi = {
 "navbar.guest": "अतिथि",
 "navbar.welcome_back": "वापसी पर स्वागत है!",
 "navbar.sign_in_to_continue": "जारी रखने के लिए साइन इन करें",
+
+// Navbar Mobile Translations
+"navbar.toggle_dark_mode": "डार्क मोड टॉगल करें",
+"navbar.switch_to_light": "लाइट मोड पर स्विच करें",
+"navbar.switch_to_dark": "डार्क मोड पर स्विच करें",
+"navbar.close_menu": "मेनू बंद करें",
+"navbar.open_menu": "मेनू खोलें",
+"navbar.user": "उपयोगकर्ता",
+"navbar.guest": "अतिथि",
+"navbar.welcome_back": "वापसी पर स्वागत है!",
+"navbar.sign_in_to_continue": "जारी रखने के लिए साइन इन करें",
+
+// Control Slider Translations
+"controls.settings": "सेटिंग्स",
+"controls.customize": "अनुकूलित करें",
+"controls.customize_experience": "अपना अनुभव अनुकूलित करें",
+"controls.customize_message": "अपने पढ़ने के अनुभव को अनुकूलित करें",
+
+// Theme Translations
+"themes.theme": "थीम",
+"themes.light": "लाइट",
+"themes.dark": "डार्क",
+"themes.midnight": "मिडनाइट",
+"themes.cyberpunk": "साइबरपंक",
+"themes.ocean": "ओशन",
+"themes.forest": "फॉरेस्ट",
+"themes.rose": "रोज़",
+"themes.lavender": "लैवेंडर",
+
+// Font Translations
+"font.font_size": "फ़ॉन्ट साइज़",
+"font.small": "छोटा",
+"font.medium": "मध्यम",
+"font.large": "बड़ा",
+"font.xlarge": "बहुत बड़ा",
   
   "nav.language": "भाषा",
   "nav.english": "अंग्रेजी",

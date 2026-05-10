@@ -16,9 +16,10 @@ import {
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
-import { NavItem_Mobile } from "./NavItem_Mobile";
+import { NavItemMobile } from "./NavItem_Mobile";
 
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
+import "./Navbar_Mobile_Slider.css";
 
 const Navbar_Mobile_Slider = () => {
   const router = useRouter();
@@ -29,6 +30,8 @@ const Navbar_Mobile_Slider = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const { theme, themeName, changeTheme } = useTheme();
   const authListenerInitialized = useRef(false);
+  const menuRef = useRef(null);
+  const searchRef = useRef(null);
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
@@ -50,6 +53,33 @@ const Navbar_Mobile_Slider = () => {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target) && isSearchOpen) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape') {
+        if (isMenuOpen) setIsMenuOpen(false);
+        if (isSearchOpen) setIsSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEscape);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMenuOpen, isSearchOpen]);
 
   // Auth listener
   useEffect(() => {
@@ -100,12 +130,14 @@ const Navbar_Mobile_Slider = () => {
 
   if (loading) {
     return (
-      <div className={`fixed top-0 left-0 right-0 z-50 h-16 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-md animate-pulse`}>
-        <div className="flex items-center justify-between h-full px-4">
-          <div className="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded"></div>
-          <div className="flex gap-3">
-            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
-            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full"></div>
+      <div className={`navbar-mobile-slider ${isDarkMode ? 'dark' : 'light'}`}>
+        <div className="navbar-mobile-container">
+          <div className="navbar-mobile-logo-loading">
+            <div className="w-32 h-8 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
+          </div>
+          <div className="navbar-mobile-icons">
+            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+            <div className="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>
@@ -115,44 +147,44 @@ const Navbar_Mobile_Slider = () => {
   return (
     <>
       {/* Navbar Header */}
-      <div className={`fixed top-0 left-0 right-0 z-50 h-16 ${isDarkMode ? 'bg-gray-900' : 'bg-white'} shadow-md`}>
-        <div className="flex items-center justify-between h-full px-4 max-w-7xl mx-auto">
+      <div className={`navbar-mobile-slider ${isDarkMode ? 'dark' : 'light'}`}>
+        <div className="navbar-mobile-container">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
-            <img src={bookqubitLogo.src} alt="BookQubit" className="h-10 w-auto object-contain" />
-            <span className={`font-bold text-lg hidden xs:inline ${getTextHighlightClass()}`}>
+          <Link href="/" className="navbar-mobile-logo" onClick={() => setIsMenuOpen(false)}>
+            <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-mobile-logo-img" />
+            <span className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}>
               BookQubit
             </span>
           </Link>
 
           {/* Right Icons */}
-          <div className="flex items-center gap-3">
+          <div className="navbar-mobile-icons">
             {/* Search Button */}
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+              className="navbar-mobile-icon-btn"
               aria-label="Search"
             >
-              <FaSearch className={isDarkMode ? "text-gray-400" : "text-gray-600"} />
+              <FaSearch className={isDarkMode ? "text-gray-400" : "text-gray-600"} size={18} />
             </button>
 
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleDarkMode}
-              className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+              className="navbar-mobile-icon-btn"
               aria-label="Toggle dark mode"
             >
               {isDarkMode ? (
-                <FaSun className="text-yellow-500" />
+                <FaSun className="text-yellow-500" size={18} />
               ) : (
-                <FaMoon className="text-gray-600" />
+                <FaMoon className="text-gray-600" size={18} />
               )}
             </button>
 
             {/* Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+              className="navbar-mobile-icon-btn"
               aria-label="Menu"
             >
               {isMenuOpen ? (
@@ -167,19 +199,19 @@ const Navbar_Mobile_Slider = () => {
 
       {/* Search Overlay */}
       {isSearchOpen && (
-        <div className={`fixed top-16 left-0 right-0 z-40 p-4 shadow-lg ${isDarkMode ? 'bg-gray-800' : 'bg-white'} animate-slide-down`}>
-          <form onSubmit={handleSearch} className="flex gap-2">
+        <div ref={searchRef} className={`navbar-mobile-search-overlay ${isDarkMode ? 'dark' : 'light'}`}>
+          <form onSubmit={handleSearch} className="navbar-mobile-search-form">
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search books, authors, comics..."
-              className={`flex-1 px-4 py-3 rounded-full border focus:outline-none focus:ring-2 focus:ring-sky-500 ${isDarkMode ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'}`}
+              className={`navbar-mobile-search-input ${isDarkMode ? 'dark' : 'light'}`}
               autoFocus
             />
             <button
               type="submit"
-              className={`px-6 py-3 rounded-full font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}
+              className="navbar-mobile-search-btn"
             >
               Search
             </button>
@@ -187,37 +219,35 @@ const Navbar_Mobile_Slider = () => {
         </div>
       )}
 
-      {/* Sliding Menu Overlay */}
+      {/* Sliding Menu - Slides from LEFT for ALL languages */}
       {isMenuOpen && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 bg-black/50 z-40 animate-fade-in"
-            onClick={() => setIsMenuOpen(false)}
-          />
+          <div className="navbar-mobile-backdrop" onClick={() => setIsMenuOpen(false)} />
 
-          {/* Sliding Menu */}
-          <div className={`fixed top-0 right-0 bottom-0 w-full max-w-sm z-50 shadow-2xl overflow-y-auto animate-slide-in-right ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+          {/* Sliding Menu - Always from LEFT */}
+          <div ref={menuRef} className={`navbar-mobile-slide-menu ${isMenuOpen ? "open" : ""} ${isDarkMode ? 'dark' : 'light'}`}>
             {/* Menu Header */}
-            <div className="sticky top-0 flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700 bg-inherit">
-              <div className="flex items-center gap-3">
+            <div className={`navbar-mobile-menu-header ${isDarkMode ? 'dark' : 'light'}`}>
+              <div className="navbar-mobile-user-info">
                 {user?.photoURL ? (
-                  <img src={user.photoURL} alt="User" className="w-10 h-10 rounded-full object-cover" />
+                  <img src={user.photoURL} alt="User" className="navbar-mobile-user-avatar-img" />
                 ) : (
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}>
+                  <div className={`navbar-mobile-user-avatar ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'}`}>
                     <FaUser size={18} />
                   </div>
                 )}
                 <div>
-                  <p className={`font-semibold ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                  <p className={`navbar-mobile-user-name ${isDarkMode ? 'dark' : 'light'}`}>
                     {user ? (user.displayName || user.email?.split("@")[0] || "User") : "Guest"}
                   </p>
-                  {user && <p className={`text-xs ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>{user.email}</p>}
+                  {user && <p className={`navbar-mobile-user-email ${isDarkMode ? 'dark' : 'light'}`}>{user.email}</p>}
                 </div>
               </div>
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className={`p-2 rounded-full transition-all ${isDarkMode ? 'hover:bg-gray-800' : 'hover:bg-gray-100'}`}
+                className="navbar-mobile-close-btn"
+                aria-label="Close menu"
               >
                 <FaTimes size={20} className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} />
               </button>
@@ -227,29 +257,29 @@ const Navbar_Mobile_Slider = () => {
             <div className="p-4">
               <button
                 onClick={() => handleNavigation("/bookqubitai")}
-                className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl transition-all ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}
+                className="navbar-mobile-ai-btn"
               >
                 <FaRobot size={20} />
                 <span className="font-medium">AI Assistant</span>
               </button>
             </div>
 
-            {/* Navigation Items - Using NavItem_Mobile component */}
-            <div className="py-2">
-              <NavItem_Mobile onItemClick={() => setIsMenuOpen(false)} />
+            {/* Navigation Items */}
+            <div className="navbar-mobile-nav-container">
+              <NavItemMobile onItemClick={() => setIsMenuOpen(false)} />
             </div>
 
             {/* User Menu Section (if logged in) */}
             {user && (
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+              <div className={`navbar-mobile-account-section ${isDarkMode ? 'dark' : 'light'}`}>
                 <div className="px-4 py-2">
-                  <h3 className={`text-xs font-semibold uppercase tracking-wider ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Account</h3>
+                  <h3 className={`navbar-mobile-account-title ${isDarkMode ? 'dark' : 'light'}`}>Account</h3>
                 </div>
                 {userMenuItems.map((item) => (
                   <button
                     key={item.name}
                     onClick={() => handleNavigation(item.path)}
-                    className="flex items-center gap-3 w-full px-4 py-3 transition-all hover:bg-gray-50 dark:hover:bg-gray-800"
+                    className="navbar-mobile-menu-item"
                   >
                     <span className={`text-lg ${getTextHighlightClass()}`}>{item.icon}</span>
                     <span className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-600'}`}>{item.name}</span>
@@ -259,18 +289,18 @@ const Navbar_Mobile_Slider = () => {
             )}
 
             {/* Auth Buttons or Logout */}
-            <div className="p-4 mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className={`navbar-mobile-auth-container ${isDarkMode ? 'dark' : 'light'}`}>
               {!user ? (
-                <div className="flex gap-3">
+                <div className="navbar-mobile-auth-buttons">
                   <button
                     onClick={() => handleNavigation("/auth/login")}
-                    className={`flex-1 py-3 rounded-xl font-medium transition-all hover:scale-105 border-2 ${isDarkMode ? 'border-sky-500 text-sky-400' : 'border-sky-600 text-sky-600'}`}
+                    className={`navbar-mobile-login-btn ${isDarkMode ? 'dark' : 'light'}`}
                   >
                     Login
                   </button>
                   <button
                     onClick={() => handleNavigation("/auth/register")}
-                    className={`flex-1 py-3 rounded-xl font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white`}
+                    className="navbar-mobile-signup-btn"
                   >
                     Sign Up
                   </button>
@@ -278,7 +308,7 @@ const Navbar_Mobile_Slider = () => {
               ) : (
                 <button
                   onClick={handleLogout}
-                  className={`w-full py-3 rounded-xl font-medium transition-all hover:scale-105 bg-gradient-to-r from-rose-500 to-rose-600 text-white`}
+                  className="navbar-mobile-logout-btn"
                 >
                   Logout
                 </button>
@@ -289,51 +319,7 @@ const Navbar_Mobile_Slider = () => {
       )}
 
       {/* Spacer for fixed navbar */}
-      <div className="h-16" />
-
-      {/* Animation Styles */}
-      <style jsx>{`
-        @keyframes slideInRight {
-          from {
-            transform: translateX(100%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-        
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
-        
-        .animate-slide-in-right {
-          animation: slideInRight 0.3s ease-out;
-        }
-        
-        .animate-slide-down {
-          animation: slideDown 0.2s ease-out;
-        }
-        
-        .animate-fade-in {
-          animation: fadeIn 0.2s ease-out;
-        }
-      `}</style>
+      <div className="navbar-mobile-spacer" />
     </>
   );
 };

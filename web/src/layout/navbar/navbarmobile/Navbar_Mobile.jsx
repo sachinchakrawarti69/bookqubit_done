@@ -2,14 +2,13 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { FaRobot, FaMoon, FaSun, FaBars, FaTimes } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { FaRobot, FaMoon, FaSun, FaBars, FaTimes, FaSignInAlt, FaSearch } from "react-icons/fa";
 
-import { NavItem } from "../navbardesktop/components/NavItem";
-import SearchBar from "@/components/searchbar/SearchBar";
+import { NavItemMobile } from "./NavItem_Mobile";
 import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
-import Control from "../navbardesktop/components/Control";
-import LangSwitchDropdown from "../navbardesktop/components/LangSwitchDropdown";
+import Control_Mobile_Slider from "./components/control_mobile/Control_Mobile_Slider";
 
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -21,35 +20,59 @@ import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
 import "./Navbar_Mobile.css";
 
 const Navbar_Mobile = () => {
+  const router = useRouter();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, themeName, changeTheme } = useTheme();
   const { t } = useLanguage();
+  const menuRef = useRef(null);
 
   // ✅ Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
 
   // Listen for Firebase Auth state - ONLY ONCE
   useEffect(() => {
-    // ✅ Prevent duplicate listener setup
     if (authListenerInitialized.current) return;
     authListenerInitialized.current = true;
 
-    console.log("Setting up auth listener - should run only once");
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("Auth state changed:", currentUser?.email || "No user");
       setUser(currentUser);
       setLoading(false);
     });
 
     return () => {
-      console.log("Cleaning up auth listener");
       unsubscribe();
       authListenerInitialized.current = false;
     };
   }, []);
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target) && isMenuOpen) {
+        setIsMenuOpen(false);
+        document.body.style.overflow = "unset";
+      }
+    };
+
+    const handleEscape = (event) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+        document.body.style.overflow = "unset";
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('keydown', handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isMenuOpen]);
 
   // Dark mode toggle - switches between light and dark only
   const toggleDarkMode = useCallback(() => {
@@ -60,10 +83,14 @@ const Navbar_Mobile = () => {
     }
   }, [themeName, changeTheme]);
 
+  // Handle search navigation
+  const handleSearchClick = () => {
+    router.push('/search');
+  };
+
   // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    // Prevent body scroll when menu is open
     if (!isMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
@@ -71,57 +98,37 @@ const Navbar_Mobile = () => {
     }
   };
 
-  // Close menu when clicking outside or on a link
   const closeMenu = () => {
     setIsMenuOpen(false);
     document.body.style.overflow = "unset";
   };
 
-  // Check if current theme is dark mode
-  const isDarkMode =
-    themeName === "dark" ||
-    themeName === "midnight" ||
-    themeName === "cyberpunk";
-
-  // Get theme-based classes
-  const getButtonClasses = useCallback(() => {
-    return `navbar-mobile-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
-  }, [isDarkMode, theme.background?.navigationDots, theme.border?.button]);
+  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
   const getTextHighlightClass = useCallback(
-    () =>
-      theme.textColors?.highlight ||
-      (isDarkMode ? "text-blue-400" : "text-sky-600"),
+    () => theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600"),
     [isDarkMode, theme.textColors?.highlight],
   );
 
   const getTextSecondaryClass = useCallback(
-    () =>
-      theme.textColors?.secondary ||
-      (isDarkMode ? "text-gray-400" : "text-gray-500"),
+    () => theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500"),
     [isDarkMode, theme.textColors?.secondary],
   );
 
-  // Show loading state while checking auth
   if (loading) {
     return (
-      <nav
-        className={`navbar-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
-      >
+      <nav className={`navbar-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}>
         <div className="navbar-mobile-top-row">
+          <button className="navbar-mobile-icon-button" aria-label="Loading menu" disabled>
+            <FaBars className={getTextHighlightClass()} size={22} />
+          </button>
           <Link href="/" className="navbar-mobile-logo">
-            <img
-              src={bookqubitLogo.src}
-              alt="BookQubit"
-              className="navbar-mobile-logo-img"
-            />
-            <span
-              className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}
-            >
-              BookQubit
-            </span>
+            <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-mobile-logo-img" />
+            <span className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}>BookQubit</span>
           </Link>
           <div className="navbar-mobile-actions">
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
+            <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
             <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
           </div>
         </div>
@@ -130,123 +137,100 @@ const Navbar_Mobile = () => {
   }
 
   return (
-    <nav
-      className={`navbar-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} ${theme.ringEffect || ""}`}
-    >
-      {/* ====================== TOP ROW ====================== */}
+    <nav className={`navbar-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} ${theme.ringEffect || ""}`}>
       <div className="navbar-mobile-top-row">
-        {/* LOGO */}
+        {/* LEFT: HAMBURGER MENU */}
+        <button
+          onClick={toggleMenu}
+          className="navbar-mobile-icon-button"
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+        >
+          {isMenuOpen ? <FaTimes className={getTextHighlightClass()} size={22} /> : <FaBars className={getTextHighlightClass()} size={22} />}
+        </button>
+
+        {/* LEFT: LOGO (beside hamburger) */}
         <Link href="/" className="navbar-mobile-logo" onClick={closeMenu}>
-          <img
-            src={bookqubitLogo.src}
-            alt="BookQubit"
-            className="navbar-mobile-logo-img"
-          />
-          <span
-            className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}
-          >
-            BookQubit
-          </span>
+          <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-mobile-logo-img" />
+          <span className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}>BookQubit</span>
         </Link>
 
-        {/* RIGHT ACTIONS */}
+        {/* RIGHT: ICON ACTIONS */}
         <div className="navbar-mobile-actions">
-          {/* DARK MODE TOGGLE BUTTON */}
+          {/* SEARCH ICON - Opens new page */}
           <button
-            onClick={toggleDarkMode}
-            className={getButtonClasses()}
-            aria-label={t("navbar.toggle_dark_mode") || "Toggle dark mode"}
-            title={isDarkMode ? (t("navbar.switch_to_light") || "Switch to Light Mode") : (t("navbar.switch_to_dark") || "Switch to Dark Mode")}
+            onClick={handleSearchClick}
+            className="navbar-mobile-icon-button"
+            aria-label="Search"
           >
-            {isDarkMode ? (
-              <FaSun className={getTextHighlightClass()} size={18} />
-            ) : (
-              <FaMoon className={getTextSecondaryClass()} size={18} />
-            )}
+            <FaSearch className={getTextSecondaryClass()} size={18} />
           </button>
 
-          {/* MENU TOGGLE BUTTON */}
+          {/* DARK MODE TOGGLE */}
           <button
-            onClick={toggleMenu}
-            className="navbar-mobile-menu-button"
-            aria-label={isMenuOpen ? (t("navbar.close_menu") || "Close menu") : (t("navbar.open_menu") || "Open menu")}
+            onClick={toggleDarkMode}
+            className="navbar-mobile-icon-button"
+            aria-label="Toggle dark mode"
           >
-            {isMenuOpen ? (
-              <FaTimes className={getTextHighlightClass()} size={22} />
-            ) : (
-              <FaBars className={getTextHighlightClass()} size={22} />
-            )}
+            {isDarkMode ? <FaSun className={getTextHighlightClass()} size={18} /> : <FaMoon className={getTextSecondaryClass()} size={18} />}
           </button>
+
+          {/* CONTROL SLIDER */}
+          <Control_Mobile_Slider />
+
+          {/* LOGIN BUTTON WITH TEXT */}
+          {!user ? (
+            <Link href="/auth/login" className="navbar-mobile-login-text-button" onClick={closeMenu}>
+              <span className="navbar-mobile-login-text">Login</span>
+            </Link>
+          ) : (
+            <UserDropDown mobile={true} user={user} onItemClick={closeMenu} />
+          )}
         </div>
       </div>
 
-      {/* ====================== MOBILE MENU (SLIDE FROM RIGHT) ====================== */}
-      <div
+      {/* MOBILE MENU (SLIDE FROM LEFT) */}
+      <div 
+        ref={menuRef}
         className={`navbar-mobile-menu ${isMenuOpen ? "open" : ""} ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
       >
+        {/* Menu Header with Close Button */}
         <div className="navbar-mobile-menu-header">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-sky-500 to-blue-500 flex items-center justify-center">
-              <FaRobot className="text-white text-xl" />
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-sky-500 to-blue-500 flex items-center justify-center">
+                <FaRobot className="text-white text-xl" />
+              </div>
+              <div>
+                <p className={`text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
+                  {user ? user.email?.split('@')[0] || "User" : "Guest"}
+                </p>
+                <p className={`text-xs ${theme.textColors?.secondary || "text-gray-500"}`}>
+                  {user ? "Welcome back!" : "Sign in to continue"}
+                </p>
+              </div>
             </div>
-            <div>
-              <p className={`text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-                {user ? user.email?.split('@')[0] || t("navbar.user") || "User" : t("navbar.guest") || "Guest"}
-              </p>
-              <p className={`text-xs ${theme.textColors?.secondary || "text-gray-500"}`}>
-                {user ? t("navbar.welcome_back") || "Welcome back!" : t("navbar.sign_in_to_continue") || "Sign in to continue"}
-              </p>
-            </div>
+            {/* Close Button */}
+            <button
+              onClick={closeMenu}
+              className="navbar-mobile-close-btn"
+              aria-label="Close menu"
+            >
+              <FaTimes className={isDarkMode ? "text-gray-400" : "text-gray-600"} size={20} />
+            </button>
           </div>
         </div>
 
         <div className="navbar-mobile-menu-content">
-          {/* Search Bar */}
-          <div className="mb-6 px-4">
-            <SearchBar mobile={true} />
-          </div>
-
           {/* Navigation Items */}
           <div className="navbar-mobile-nav-items">
-            <NavItem mobile={true} onItemClick={closeMenu} />
+            <NavItemMobile onItemClick={closeMenu} />
           </div>
 
-          {/* Control Dropdown */}
-          <div className="navbar-mobile-control-section">
-            <Control mobile={true} />
-          </div>
-
-          {/* Language Switcher */}
-          <div className="navbar-mobile-language-section">
-            <LangSwitchDropdown mobile={true} onItemClick={closeMenu} />
-          </div>
-
-          {/* AI Tool Button */}
-          <Link
-            href="/bookqubitai"
-            className="navbar-mobile-ai-button"
-            onClick={closeMenu}
-          >
+          {/* AI Button */}
+          <Link href="/bookqubitai" className="navbar-mobile-ai-button" onClick={closeMenu}>
             <FaRobot className={getTextHighlightClass()} size={18} />
-            <span className={`navbar-mobile-ai-text ${getTextHighlightClass()}`}>
-              {t("nav.bookqubit_ai") || "BookQubit AI"}
-            </span>
+            <span className={`navbar-mobile-ai-text ${getTextHighlightClass()}`}>AI</span>
           </Link>
-
-          {/* User Actions */}
-          <div className="navbar-mobile-user-section">
-            {!user ? (
-              <Link
-                href="/auth/login"
-                className="navbar-mobile-login-button"
-                onClick={closeMenu}
-              >
-                {t("nav.login") || "Login"}
-              </Link>
-            ) : (
-              <UserDropDown mobile={true} user={user} onItemClick={closeMenu} />
-            )}
-          </div>
 
           {/* Notification (if logged in) */}
           {user && (
@@ -255,12 +239,10 @@ const Navbar_Mobile = () => {
             </div>
           )}
         </div>
-
-        {/* Close button overlay */}
-        {isMenuOpen && (
-          <div className="navbar-mobile-overlay" onClick={closeMenu}></div>
-        )}
       </div>
+
+      {/* Overlay */}
+      {isMenuOpen && <div className="navbar-mobile-overlay" onClick={closeMenu}></div>}
     </nav>
   );
 };

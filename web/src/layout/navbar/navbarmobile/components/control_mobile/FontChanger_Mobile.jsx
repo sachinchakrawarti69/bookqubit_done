@@ -1,92 +1,81 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTheme } from "@/themes/useTheme";
-import { FaCheck } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaTextHeight, FaCheck } from "react-icons/fa";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const FontChanger_Mobile = () => {
-  const { theme, themeName } = useTheme();
-  const [currentFont, setCurrentFont] = useState("system");
+const FontChanger_Mobile = ({ onClose }) => {
+  const { t } = useLanguage();
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentFontSize, setCurrentFontSize] = useState("medium");
 
-  const fonts = [
-    { name: "System", value: "system", font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" },
-    { name: "Inter", value: "inter", font: "'Inter', -apple-system, sans-serif" },
-    { name: "Roboto", value: "roboto", font: "'Roboto', sans-serif" },
-    { name: "Open Sans", value: "open-sans", font: "'Open Sans', sans-serif" },
-    { name: "Lato", value: "lato", font: "'Lato', sans-serif" },
-    { name: "Montserrat", value: "montserrat", font: "'Montserrat', sans-serif" },
-    { name: "Merriweather", value: "merriweather", font: "'Merriweather', serif" },
-    { name: "Playfair", value: "playfair", font: "'Playfair Display', serif" },
+  const fontSizes = [
+    { id: "small", label: t("font.small") || "Small", size: "14px", scale: 0.9 },
+    { id: "medium", label: t("font.medium") || "Medium", size: "16px", scale: 1.0 },
+    { id: "large", label: t("font.large") || "Large", size: "18px", scale: 1.1 },
+    { id: "xlarge", label: t("font.xlarge") || "Extra Large", size: "20px", scale: 1.2 },
   ];
 
   useEffect(() => {
-    const savedFont = localStorage.getItem("bookqubit-font");
-    if (savedFont) {
-      setCurrentFont(savedFont);
-      const fontFamily = fonts.find(f => f.value === savedFont)?.font || fonts[0].font;
-      document.documentElement.style.setProperty("--font-family", fontFamily);
-      document.body.style.fontFamily = fontFamily;
+    // Load saved font size from localStorage
+    const savedFontSize = localStorage.getItem("bookqubit_font_size");
+    if (savedFontSize) {
+      setCurrentFontSize(savedFontSize);
+      applyFontSize(savedFontSize);
     }
   }, []);
 
-  const changeFont = (fontValue, fontFamily) => {
-    setCurrentFont(fontValue);
-    localStorage.setItem("bookqubit-font", fontValue);
-    document.documentElement.style.setProperty("--font-family", fontFamily);
-    document.body.style.fontFamily = fontFamily;
+  const applyFontSize = (fontId) => {
+    const font = fontSizes.find(f => f.id === fontId);
+    if (font) {
+      document.documentElement.style.fontSize = font.size;
+      localStorage.setItem("bookqubit_font_size", fontId);
+    }
   };
 
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const handleFontChange = (fontId) => {
+    setCurrentFontSize(fontId);
+    applyFontSize(fontId);
+    setIsOpen(false);
+    if (onClose) setTimeout(() => onClose(), 300);
+  };
 
   return (
-    <div className="space-y-2">
-      <h3 className={`text-sm font-medium mb-3 ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
-        Select Font
-      </h3>
-      <div className="grid grid-cols-1 gap-2">
-        {fonts.map((font) => {
-          const isActive = currentFont === font.value;
+    <div className="mobile-font-changer">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="mobile-control-button"
+      >
+        <span className="mobile-control-icon">
+          <FaTextHeight />
+        </span>
+        <span className="mobile-control-label">
+          {t("font.font_size") || "Font Size"}
+        </span>
+        <span className="mobile-control-arrow">{isOpen ? "▲" : "▼"}</span>
+      </button>
 
-          return (
+      {isOpen && (
+        <div className="mobile-font-dropdown">
+          {fontSizes.map((font) => (
             <button
-              key={font.value}
-              onClick={() => changeFont(font.value, font.font)}
-              className={`
-                flex items-center justify-between px-4 py-3 rounded-xl
-                transition-all duration-200 active:scale-[0.98]
-                ${
-                  isActive
-                    ? (theme.buttonColors?.primaryButton?.background ||
-                        "bg-gradient-to-r from-sky-600 to-sky-500") +
-                      " text-white"
-                    : `${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")} 
-                       ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")} 
-                       border ${theme.border?.button || (isDarkMode ? "border-gray-700" : "border-gray-300")}`
-                }
-              `}
-              style={{ fontFamily: font.font }}
+              key={font.id}
+              onClick={() => handleFontChange(font.id)}
+              className={`mobile-font-option ${currentFontSize === font.id ? "active" : ""}`}
+              style={{ fontSize: font.size }}
             >
-              <span className="text-base font-medium">{font.name}</span>
-              {isActive && <FaCheck className="w-4 h-4" />}
+              <span className="mobile-font-preview">Aa</span>
+              <div className="mobile-font-info">
+                <span className="mobile-font-name">{font.label}</span>
+                <span className="mobile-font-size">{font.size}</span>
+              </div>
+              {currentFontSize === font.id && (
+                <FaCheck className="mobile-font-check" />
+              )}
             </button>
-          );
-        })}
-      </div>
-
-      {/* Font Preview */}
-      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <p className={`text-xs ${theme.textColors?.secondary || 'text-gray-500'} mb-3 text-center`}>
-          Preview
-        </p>
-        <p 
-          className={`text-center text-base ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
-          style={{ fontFamily: fonts.find(f => f.value === currentFont)?.font }}
-        >
-          The quick brown fox jumps over the lazy dog
-          <br />
-          1234567890
-        </p>
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
