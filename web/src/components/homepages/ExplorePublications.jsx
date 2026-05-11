@@ -1,23 +1,30 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import publicationsData from "@/data/publications/PublicationsData";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getPublicationsDataByLanguage } from "@/data/publications";
 
 const ExplorePublications = () => {
   const router = useRouter();
   const { theme, themeName } = useTheme();
+  const { language, t, isRTL } = useLanguage();
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Get publications data based on current language
+  const publicationsData = useMemo(() => {
+    return getPublicationsDataByLanguage(language);
+  }, [language]);
 
   // Take first 12 publishers for the slider (or all if less)
   const featuredPublishers = publicationsData.slice(0, 12);
@@ -50,6 +57,7 @@ const ExplorePublications = () => {
     autoplay: true,
     autoplaySpeed: 4000,
     arrows: windowWidth > 640,
+    rtl: isRTL, // Enable RTL for slider
   };
 
   // Fallback image for logos (a simple placeholder)
@@ -72,9 +80,12 @@ const ExplorePublications = () => {
     return (
       <section
         className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
+        dir={isRTL ? "rtl" : "ltr"}
       >
         <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center`}>
-          <div className="animate-pulse">Loading publishers...</div>
+          <div className={`animate-pulse ${theme.textColors?.secondary || 'text-gray-600'}`}>
+            {t('publications.loading') || "Loading publishers..."}
+          </div>
         </div>
       </section>
     );
@@ -83,6 +94,7 @@ const ExplorePublications = () => {
   return (
     <section
       className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      dir={isRTL ? "rtl" : "ltr"}
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
         {/* Header */}
@@ -90,12 +102,12 @@ const ExplorePublications = () => {
           <h2
             className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2`}
           >
-            Explore Publishers
+            {t('publications.exploreTitle') || "Explore Publishers"}
           </h2>
           <p
             className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto px-4`}
           >
-            Discover renowned publishing houses from around the world
+            {t('publications.pageDescription') || "Discover renowned publishing houses from around the world"}
           </p>
         </div>
 
@@ -136,13 +148,13 @@ const ExplorePublications = () => {
 
                   {/* Metadata */}
                   <div
-                    className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} space-y-1 mb-3`}
+                    className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} space-y-1 mb-3 ${isRTL ? 'text-right' : 'text-left'}`}
                   >
                     <p className="truncate">
                       <span
                         className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
                       >
-                        Founded:
+                        {t('publications.details.founded')}:
                       </span>{" "}
                       {pub.founded}
                     </p>
@@ -150,7 +162,7 @@ const ExplorePublications = () => {
                       <span
                         className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
                       >
-                        HQ:
+                        {t('publications.details.headquarters')}:
                       </span>{" "}
                       {pub.headquarters}
                     </p>
@@ -158,7 +170,7 @@ const ExplorePublications = () => {
                       <span
                         className={`font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
                       >
-                        Type:
+                        {t('publications.details.type')}:
                       </span>{" "}
                       {pub.type}
                     </p>
@@ -167,9 +179,9 @@ const ExplorePublications = () => {
                   {/* "Know More" Button */}
                   <button
                     onClick={() => handleKnowMore(pub.slug)}
-                    className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
+                    className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                   >
-                    Know More
+                    {t('authors.knowMore')}
                   </button>
                 </div>
               </div>
@@ -181,11 +193,11 @@ const ExplorePublications = () => {
         <div className="text-center">
           <Link
             href="/publications"
-            className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
+            className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
           >
-            Browse All Publishers
+            {t('publications.browseAll') || "Browse All Publishers"}
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
+              className={`w-4 h-4 sm:w-5 sm:h-5 ${isRTL ? 'mr-2 rotate-180' : 'ml-2'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -194,7 +206,7 @@ const ExplorePublications = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M9 5l7 7-7 7"
+                d={isRTL ? "M15 19l-7-7 7-7" : "M9 5l7 7-7 7"}
               />
             </svg>
           </Link>
@@ -218,10 +230,16 @@ const ExplorePublications = () => {
           font-size: 24px;
         }
         .slick-prev {
-          left: -25px;
+          ${isRTL ? 'right: -25px; left: auto;' : 'left: -25px;'}
         }
         .slick-next {
-          right: -25px;
+          ${isRTL ? 'left: -25px; right: auto;' : 'right: -25px;'}
+        }
+        .slick-prev:before {
+          content: '${isRTL ? '→' : '←'}';
+        }
+        .slick-next:before {
+          content: '${isRTL ? '←' : '→'}';
         }
         @media (max-width: 768px) {
           .slick-dots {
@@ -238,10 +256,10 @@ const ExplorePublications = () => {
             font-size: 16px;
           }
           .slick-prev {
-            left: -15px;
+            ${isRTL ? 'right: -15px;' : 'left: -15px;'}
           }
           .slick-next {
-            right: -15px;
+            ${isRTL ? 'left: -15px;' : 'right: -15px;'}
           }
         }
         @media (max-width: 640px) {

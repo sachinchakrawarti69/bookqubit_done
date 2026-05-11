@@ -10,6 +10,7 @@ import { categoryTranslations } from "@/datalang/categorytranslations";
 import { explorepageTranslations } from "@/datalang/explorepagetranslations";
 import { footerTranslations } from "@/datalang/footer";
 import authorsTranslations from "@/datalang/authors_translations";
+import { publicationsTranslations } from "@/datalang/publications_translations";
 
 // Merge all translations for all 20 languages
 export const allTranslations = {
@@ -23,7 +24,8 @@ export const allTranslations = {
     ...categoryTranslations.en,
     ...explorepageTranslations.en,
     ...footerTranslations.en,
-    ...authorsTranslations.en
+    ...authorsTranslations.en,
+    ...publicationsTranslations.en
   },
   hi: { 
     ...navbarTranslations.hi, 
@@ -35,7 +37,8 @@ export const allTranslations = {
     ...categoryTranslations.hi,
     ...explorepageTranslations.hi,
     ...footerTranslations.hi,
-    ...authorsTranslations.hi
+    ...authorsTranslations.hi,
+    ...publicationsTranslations.hi
   },
   ur: { 
     ...navbarTranslations.ur, 
@@ -47,7 +50,8 @@ export const allTranslations = {
     ...categoryTranslations.ur,
     ...explorepageTranslations.ur,
     ...footerTranslations.ur,
-    ...authorsTranslations.ur
+    ...authorsTranslations.ur,
+    ...publicationsTranslations.ur
   },
   ar: { 
     ...navbarTranslations.ar, 
@@ -59,7 +63,8 @@ export const allTranslations = {
     ...categoryTranslations.ar,
     ...explorepageTranslations.ar,
     ...footerTranslations.ar,
-    ...authorsTranslations.ar
+    ...authorsTranslations.ar,
+    ...publicationsTranslations.ar
   },
   bn: { 
     ...navbarTranslations.bn, 
@@ -71,7 +76,8 @@ export const allTranslations = {
     ...categoryTranslations.bn,
     ...explorepageTranslations.bn,
     ...footerTranslations.bn,
-    ...authorsTranslations.bn
+    ...authorsTranslations.bn,
+    ...publicationsTranslations.bn
   },
   mr: { 
     ...navbarTranslations.mr, 
@@ -83,7 +89,8 @@ export const allTranslations = {
     ...categoryTranslations.mr,
     ...explorepageTranslations.mr,
     ...footerTranslations.mr,
-    ...authorsTranslations.mr
+    ...authorsTranslations.mr,
+    ...publicationsTranslations.mr
   },
   ta: { 
     ...navbarTranslations.ta, 
@@ -95,7 +102,8 @@ export const allTranslations = {
     ...categoryTranslations.ta,
     ...explorepageTranslations.ta,
     ...footerTranslations.ta,
-    ...authorsTranslations.ta
+    ...authorsTranslations.ta,
+    ...publicationsTranslations.ta
   },
   kn: { 
     ...navbarTranslations.kn, 
@@ -107,7 +115,8 @@ export const allTranslations = {
     ...categoryTranslations.kn,
     ...explorepageTranslations.kn,
     ...footerTranslations.kn,
-    ...authorsTranslations.kn
+    ...authorsTranslations.kn,
+    ...publicationsTranslations.kn
   },
   te: { 
     ...navbarTranslations.te, 
@@ -119,7 +128,8 @@ export const allTranslations = {
     ...categoryTranslations.te,
     ...explorepageTranslations.te,
     ...footerTranslations.te,
-    ...authorsTranslations.te
+    ...authorsTranslations.te,
+    ...publicationsTranslations.te
   },
   ml: { 
     ...navbarTranslations.ml, 
@@ -131,7 +141,8 @@ export const allTranslations = {
     ...categoryTranslations.ml,
     ...explorepageTranslations.ml,
     ...footerTranslations.ml,
-    ...authorsTranslations.ml
+    ...authorsTranslations.ml,
+    ...publicationsTranslations.ml
   },
   es: { 
     ...navbarTranslations.es, 
@@ -143,7 +154,8 @@ export const allTranslations = {
     ...categoryTranslations.es,
     ...explorepageTranslations.es,
     ...footerTranslations.es,
-    ...authorsTranslations.es
+    ...authorsTranslations.es,
+    ...publicationsTranslations.es
   },
   ps: { 
     ...navbarTranslations.ps, 
@@ -155,7 +167,8 @@ export const allTranslations = {
     ...categoryTranslations.ps,
     ...explorepageTranslations.ps,
     ...footerTranslations.ps,
-    ...authorsTranslations.ps
+    ...authorsTranslations.ps,
+    ...publicationsTranslations.ps
   },
   zh: { 
     ...navbarTranslations.zh, 
@@ -167,7 +180,8 @@ export const allTranslations = {
     ...categoryTranslations.zh,
     ...explorepageTranslations.zh,
     ...footerTranslations.zh,
-    ...authorsTranslations.zh
+    ...authorsTranslations.zh,
+    ...publicationsTranslations.zh
   },
   fr: { 
     ...navbarTranslations.fr, 
@@ -179,7 +193,8 @@ export const allTranslations = {
     ...categoryTranslations.fr,
     ...explorepageTranslations.fr,
     ...footerTranslations.fr,
-    ...authorsTranslations.fr
+    ...authorsTranslations.fr,
+    ...publicationsTranslations.fr
   },
   de: { 
     ...navbarTranslations.de, 
@@ -191,7 +206,8 @@ export const allTranslations = {
     ...categoryTranslations.de,
     ...explorepageTranslations.de,
     ...footerTranslations.de,
-    ...authorsTranslations.de
+    ...authorsTranslations.de,
+    ...publicationsTranslations.de
   },
   it: { 
     ...navbarTranslations.it, 
@@ -203,7 +219,8 @@ export const allTranslations = {
     ...categoryTranslations.it,
     ...explorepageTranslations.it,
     ...footerTranslations.it,
-    ...authorsTranslations.it
+    ...authorsTranslations.it,
+    ...publicationsTranslations.it
   },
   ja: { 
     ...navbarTranslations.ja, 
@@ -215,7 +232,8 @@ export const allTranslations = {
     ...categoryTranslations.ja,
     ...explorepageTranslations.ja,
     ...footerTranslations.ja,
-    ...authorsTranslations.ja
+    ...authorsTranslations.ja,
+    ...publicationsTranslations.ja
   },
   ko: { 
     ...navbarTranslations.ko, 
@@ -227,7 +245,8 @@ export const allTranslations = {
     ...categoryTranslations.ko,
     ...explorepageTranslations.ko,
     ...footerTranslations.ko,
-    ...authorsTranslations.ko
+    ...authorsTranslations.ko,
+    ...publicationsTranslations.ko
   },
   fa: { 
     ...navbarTranslations.fa, 
@@ -239,7 +258,8 @@ export const allTranslations = {
     ...categoryTranslations.fa,
     ...explorepageTranslations.fa,
     ...footerTranslations.fa,
-    ...authorsTranslations.fa
+    ...authorsTranslations.fa,
+    ...publicationsTranslations.fa
   },
   ru: { 
     ...navbarTranslations.ru, 
@@ -251,7 +271,8 @@ export const allTranslations = {
     ...categoryTranslations.ru,
     ...explorepageTranslations.ru,
     ...footerTranslations.ru,
-    ...authorsTranslations.ru
+    ...authorsTranslations.ru,
+    ...publicationsTranslations.ru
   }
 };
 

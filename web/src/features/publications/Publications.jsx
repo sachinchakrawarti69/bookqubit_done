@@ -3,11 +3,13 @@
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
-import { publicationsData } from "@/data/publications/PublicationsData";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getPublicationsDataByLanguage } from "@/data/publications";
 import { FaSearch, FaBuilding, FaMapMarkerAlt, FaCalendarAlt, FaGlobe, FaBook } from "react-icons/fa";
 
 const Publications = () => {
   const { theme, themeName } = useTheme();
+  const { language, t, isRTL } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedType, setSelectedType] = useState("All");
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,6 +18,11 @@ const Publications = () => {
   if (!theme) return null;
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Get publications data based on current language
+  const publicationsData = useMemo(() => {
+    return getPublicationsDataByLanguage(language);
+  }, [language]);
 
   // Get unique types
   const types = ["All", ...new Set(publicationsData.map(pub => pub.type))];
@@ -39,13 +46,14 @@ const Publications = () => {
   const clearFilters = () => {
     setSearchTerm("");
     setSelectedType("All");
+    setCurrentPage(1);
   };
 
   const hasActiveFilters = searchTerm !== "" || selectedType !== "All";
 
   return (
     <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gray-50')} min-h-screen py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" dir={isRTL ? "rtl" : "ltr"}>
         {/* Hero Section */}
         <div className="text-center mb-12">
           <div className="flex justify-center mb-4">
@@ -54,10 +62,10 @@ const Publications = () => {
             </div>
           </div>
           <h1 className={`text-4xl md:text-5xl font-bold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-4`}>
-            Publishers
+            {t('publications.pageTitle')}
           </h1>
           <p className={`text-xl ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')} max-w-3xl mx-auto`}>
-            Discover renowned publishing houses from around the world
+            {t('publications.pageDescription')}
           </p>
         </div>
 
@@ -65,30 +73,34 @@ const Publications = () => {
         <div className="mb-8">
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <div className="relative flex-1">
-              <FaSearch className={`absolute left-3 top-1/2 -translate-y-1/2 ${theme.textColors?.secondary || 'text-gray-400'}`} />
+              <FaSearch className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 ${theme.textColors?.secondary || 'text-gray-400'}`} />
               <input
                 type="text"
-                placeholder="Search by name, description, or location..."
+                placeholder={t('publications.search.placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-10 pr-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-sky-500 ${theme.border?.default || 'border-gray-300 dark:border-gray-600'} ${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
+                className={`w-full ${isRTL ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-sky-500 ${theme.border?.default || 'border-gray-300 dark:border-gray-600'} ${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
+                dir={isRTL ? "rtl" : "ltr"}
               />
             </div>
             <select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
               className={`px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-sky-500 w-full md:w-48 ${theme.border?.default || 'border-gray-300 dark:border-gray-600'} ${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}
+              dir={isRTL ? "rtl" : "ltr"}
             >
               {types.map((type) => (
-                <option key={type} value={type}>{type}</option>
+                <option key={type} value={type}>
+                  {type === "All" ? t('publications.filter.all') : type}
+                </option>
               ))}
             </select>
           </div>
 
           {hasActiveFilters && (
-            <div className="flex justify-end">
+            <div className={`flex ${isRTL ? 'justify-start' : 'justify-end'}`}>
               <button onClick={clearFilters} className={`text-sm ${theme.textColors?.highlight || 'text-sky-600'} hover:underline`}>
-                Clear All Filters
+                {t('publications.clearFilters')}
               </button>
             </div>
           )}
@@ -96,15 +108,19 @@ const Publications = () => {
 
         {/* Results Count */}
         <div className={`mb-6 text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-          Found {filteredPublications.length} publishers
+          {t('publications.results', { count: filteredPublications.length })}
         </div>
 
         {/* Publications Grid */}
         {currentPublications.length === 0 ? (
           <div className="text-center py-16">
             <FaBuilding className={`text-6xl mx-auto mb-4 ${theme.textColors?.secondary || 'text-gray-400'}`} />
-            <h3 className={`text-xl font-semibold mb-2 ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>No publishers found</h3>
-            <p className={`${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>Try adjusting your search or filter criteria</p>
+            <h3 className={`text-xl font-semibold mb-2 ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
+              {t('publications.noResults')}
+            </h3>
+            <p className={`${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
+              {t('publications.noResultsMessage')}
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
@@ -131,7 +147,7 @@ const Publications = () => {
                   <p className={`text-sm line-clamp-2 mb-3 ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
                     {pub.description}
                   </p>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className={`flex items-center gap-2 text-xs text-gray-500 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     {pub.founded && (
                       <span className="flex items-center gap-1">
                         <FaCalendarAlt size={10} /> {pub.founded}
@@ -151,13 +167,13 @@ const Publications = () => {
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex justify-center gap-2 mt-8">
+          <div className={`flex justify-center gap-2 mt-8 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
               className={`px-3 py-1 rounded-lg transition-all disabled:opacity-50 ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600'}`}
             >
-              Previous
+              {t('publications.previous')}
             </button>
             {[...Array(totalPages)].map((_, i) => (
               <button
@@ -173,7 +189,7 @@ const Publications = () => {
               disabled={currentPage === totalPages}
               className={`px-3 py-1 rounded-lg transition-all disabled:opacity-50 ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600'}`}
             >
-              Next
+              {t('publications.next')}
             </button>
           </div>
         )}

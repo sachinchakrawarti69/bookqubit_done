@@ -1,6 +1,6 @@
-// frontend/src/data/PublicationsData.js
+// src/data/publications/publications.data_english.js
 
-export const publicationsData = [
+export const publicationsDataEnglish = [
   {
     id: 1,
     name: "Penguin Random House",
@@ -11,7 +11,6 @@ export const publicationsData = [
     headquarters: "New York, USA",
     website: "https://www.penguinrandomhouse.com",
     type: "Trade Publisher",
-    // New detailed fields
     about: "Penguin Random House was formed in 2013 from the merger of Penguin Group and Random House. It is a multinational conglomerate with over 250 imprints and brands, publishing 15,000 new titles annually.",
     notableAuthors: ["Margaret Atwood", "Dan Brown", "George Orwell", "Zadie Smith", "Malcolm Gladwell"],
     imprints: ["Viking", "Knopf", "Doubleday", "Penguin Classics", "Vintage"],
@@ -163,29 +162,29 @@ export const publicationsData = [
       facebook: "CambridgeUniversityPress"
     }
   },
-  // {
-  //   id: 8,
-  //   name: "Bloomsbury Publishing",
-  //   slug: "bloomsbury-publishing",
-  //   description: "A British independent publisher famous for the Harry Potter series and diverse literary works.",
-  //   logo: "https://upload.wikimedia.org/wikipedia/en/thumb/b/bb/Bloomsbury_Publishing_logo.svg/800px-Bloomsbury_Publishing_logo.svg.png",
-  //   founded: "1986",
-  //   headquarters: "London, UK",
-  //   website: "https://www.bloomsbury.com",
-  //   type: "Independent Publisher",
-  //   about: "Bloomsbury Publishing is an independent, world-leading publisher listed on the London Stock Exchange. It gained global fame with the Harry Potter series and has since expanded into academic and professional publishing.",
-  //   notableAuthors: ["J.K. Rowling", "Margaret Atwood", "William Boyd", "Elizabeth Gilbert", "Khaled Hosseini"],
-  //   imprints: ["Bloomsbury Children's", "Bloomsbury Academic", "Bloomsbury Circus", "Bloomsbury India", "Bloomsbury Qatar"],
-  //   keyPublications: ["Harry Potter series", "Eat, Pray, Love", "The Kite Runner", "Wolf Hall"],
-  //   employees: "1,000+",
-  //   revenue: "£180 million (2021)",
-  //   parentCompany: "Publicly traded",
-  //   socialMedia: {
-  //     twitter: "@BloomsburyBooks",
-  //     instagram: "@bloomsburypublishing",
-  //     facebook: "BloomsburyPublishing"
-  //   }
-  // },
+  {
+    id: 8,
+    name: "Bloomsbury Publishing",
+    slug: "bloomsbury-publishing",
+    description: "A British independent publisher famous for the Harry Potter series and diverse literary works.",
+    logo: "https://upload.wikimedia.org/wikipedia/en/thumb/b/bb/Bloomsbury_Publishing_logo.svg/800px-Bloomsbury_Publishing_logo.svg.png",
+    founded: "1986",
+    headquarters: "London, UK",
+    website: "https://www.bloomsbury.com",
+    type: "Independent Publisher",
+    about: "Bloomsbury Publishing is an independent, world-leading publisher listed on the London Stock Exchange. It gained global fame with the Harry Potter series and has since expanded into academic and professional publishing.",
+    notableAuthors: ["J.K. Rowling", "Margaret Atwood", "William Boyd", "Elizabeth Gilbert", "Khaled Hosseini"],
+    imprints: ["Bloomsbury Children's", "Bloomsbury Academic", "Bloomsbury Circus", "Bloomsbury India", "Bloomsbury Qatar"],
+    keyPublications: ["Harry Potter series", "Eat, Pray, Love", "The Kite Runner", "Wolf Hall"],
+    employees: "1,000+",
+    revenue: "£180 million (2021)",
+    parentCompany: "Publicly traded",
+    socialMedia: {
+      twitter: "@BloomsburyBooks",
+      instagram: "@bloomsburypublishing",
+      facebook: "BloomsburyPublishing"
+    }
+  },
   {
     id: 9,
     name: "Scholastic Corporation",
@@ -234,5 +233,5 @@ export const publicationsData = [
   }
 ];
 
-// Export as default as well for flexibility
-export default publicationsData;
+// Default export
+export default publicationsDataEnglish;

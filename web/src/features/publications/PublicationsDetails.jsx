@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { publicationsData } from "@/data/publications/PublicationsData";
-import booksData from "@/data/books/BooksData";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getPublicationsDataByLanguage } from "@/data/publications";
+import booksData from "@/data/books/BooksData";
 import { FaArrowLeft, FaBuilding, FaMapMarkerAlt, FaCalendarAlt, FaGlobe, FaTwitter, FaInstagram, FaFacebook, FaUsers, FaChartLine, FaBuilding as FaCompany, FaBook } from "react-icons/fa";
 
 const PublicationsDetails = () => {
@@ -13,10 +14,16 @@ const PublicationsDetails = () => {
   const router = useRouter();
   const slug = params?.slug;
   const { theme, themeName } = useTheme();
+  const { language, t, isRTL } = useLanguage();
 
   if (!theme) return null;
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Get publications data based on current language
+  const publicationsData = useMemo(() => {
+    return getPublicationsDataByLanguage(language);
+  }, [language]);
 
   // Find the publisher by slug
   const publisher = publicationsData.find((pub) => pub.slug === slug);
@@ -32,19 +39,20 @@ const PublicationsDetails = () => {
   if (!publisher) {
     return (
       <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gray-50')} min-h-screen py-20`}>
-        <div className="max-w-7xl mx-auto px-4 text-center">
+        <div className="max-w-7xl mx-auto px-4 text-center" dir={isRTL ? "rtl" : "ltr"}>
           <FaBuilding className={`text-6xl mx-auto mb-4 ${theme.textColors?.secondary || 'text-gray-400'}`} />
           <h2 className={`text-3xl font-bold mb-4 ${theme.textColors?.highlight || 'text-sky-600'}`}>
-            Publisher Not Found
+            {t('publications.details.publisherNotFound')}
           </h2>
           <p className={`text-lg mb-8 ${theme.textColors?.secondary || 'text-gray-600'}`}>
-            The publisher you're looking for doesn't exist or may have been removed.
+            {t('publications.details.publisherNotFoundMessage')}
           </p>
           <button
             onClick={() => router.push("/publications")}
-            className={`px-6 py-3 rounded-lg ${theme.buttonColors?.primaryButton?.background || 'bg-sky-600'} hover:opacity-90 text-white transition-all duration-200 hover:scale-105`}
+            className={`px-6 py-3 rounded-lg ${theme.buttonColors?.primaryButton?.background || 'bg-sky-600'} hover:opacity-90 text-white transition-all duration-200 hover:scale-105 inline-flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
           >
-            ← Back to Publishers
+            {isRTL ? <span>→</span> : <span>←</span>}
+            <span>{t('publications.details.backToPublishers')}</span>
           </button>
         </div>
       </div>
@@ -53,13 +61,14 @@ const PublicationsDetails = () => {
 
   return (
     <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gray-50')} min-h-screen py-12`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" dir={isRTL ? "rtl" : "ltr"}>
         {/* Back button */}
         <button
           onClick={() => router.push("/publications")}
-          className={`mb-8 flex items-center gap-2 px-4 py-2 rounded-lg ${theme.background?.bookCoverSide || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} ${theme.textColors?.primary || 'text-gray-900'} hover:underline transition-all`}
+          className={`mb-8 flex items-center gap-2 px-4 py-2 rounded-lg ${theme.background?.bookCoverSide || (isDarkMode ? 'bg-gray-800' : 'bg-gray-100')} ${theme.textColors?.primary || 'text-gray-900'} hover:underline transition-all ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
         >
-          <FaArrowLeft size={16} /> Back to all publishers
+          <FaArrowLeft size={16} className={isRTL ? 'rotate-180' : ''} />
+          <span>{t('publications.details.back')}</span>
         </button>
 
         {/* Main publisher card */}
@@ -91,16 +100,16 @@ const PublicationsDetails = () => {
 
             <div className={`grid grid-cols-2 gap-4 pt-4 border-t ${theme.border?.default || 'border-gray-200 dark:border-gray-700'}`}>
               <div>
-                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  <FaCalendarAlt className="inline mr-2" size={14} /> Founded
+                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <FaCalendarAlt size={14} /> {t('publications.details.founded')}
                 </p>
                 <p className={theme.textColors?.secondary || 'text-gray-600'}>
                   {publisher.founded}
                 </p>
               </div>
               <div>
-                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  <FaMapMarkerAlt className="inline mr-2" size={14} /> Headquarters
+                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <FaMapMarkerAlt size={14} /> {t('publications.details.headquarters')}
                 </p>
                 <p className={theme.textColors?.secondary || 'text-gray-600'}>
                   {publisher.headquarters}
@@ -108,13 +117,13 @@ const PublicationsDetails = () => {
               </div>
               <div>
                 <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  Type
+                  {t('publications.details.type')}
                 </p>
                 <p className={theme.textColors?.secondary || 'text-gray-600'}>{publisher.type}</p>
               </div>
               <div>
-                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  <FaGlobe className="inline mr-2" size={14} /> Website
+                <p className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <FaGlobe size={14} /> {t('publications.details.website')}
                 </p>
                 <a
                   href={publisher.website}
@@ -128,12 +137,12 @@ const PublicationsDetails = () => {
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-wrap gap-4 pt-6">
+            <div className={`flex flex-wrap gap-4 pt-6 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
               <button
                 onClick={() => router.push(`/publications/${publisher.slug}/books`)}
                 className={`px-6 py-3 rounded-lg ${theme.buttonColors?.primaryButton?.background || 'bg-sky-600'} hover:opacity-90 text-white font-medium transition-all hover:scale-105`}
               >
-                View All Books
+                {t('publications.details.viewAllBooks')}
               </button>
               <a
                 href={publisher.website}
@@ -141,7 +150,7 @@ const PublicationsDetails = () => {
                 rel="noopener noreferrer"
                 className={`px-6 py-3 rounded-lg ${theme.background?.section || 'bg-white'} ${theme.textColors?.primary || 'text-gray-900'} border ${theme.border?.default || 'border-gray-200 dark:border-gray-700'} hover:bg-opacity-80 transition-all`}
               >
-                Visit Official Website
+                {t('publications.details.visitWebsite')}
               </a>
             </div>
           </div>
@@ -153,7 +162,7 @@ const PublicationsDetails = () => {
           {publisher.about && (
             <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
               <h2 className={`text-2xl font-semibold mb-4 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                About {publisher.name}
+                {t('publications.details.about', { name: publisher.name })}
               </h2>
               <p className={`${theme.textColors?.secondary || 'text-gray-600'} leading-relaxed`}>
                 {publisher.about}
@@ -166,10 +175,10 @@ const PublicationsDetails = () => {
             {/* Notable Authors */}
             {publisher.notableAuthors && publisher.notableAuthors.length > 0 && (
               <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
-                <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  <FaUsers className="inline mr-2" size={18} /> Notable Authors
+                <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <FaUsers size={18} /> {t('publications.details.notableAuthors')}
                 </h3>
-                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1`}>
+                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1 ${isRTL ? 'pr-4' : 'pl-4'}`}>
                   {publisher.notableAuthors.map((author, idx) => (
                     <li key={idx}>{author}</li>
                   ))}
@@ -181,9 +190,9 @@ const PublicationsDetails = () => {
             {publisher.imprints && publisher.imprints.length > 0 && (
               <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
                 <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  Imprints
+                  {t('publications.details.imprints')}
                 </h3>
-                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1`}>
+                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1 ${isRTL ? 'pr-4' : 'pl-4'}`}>
                   {publisher.imprints.map((imprint, idx) => (
                     <li key={idx}>{imprint}</li>
                   ))}
@@ -194,10 +203,10 @@ const PublicationsDetails = () => {
             {/* Key Publications */}
             {publisher.keyPublications && publisher.keyPublications.length > 0 && (
               <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
-                <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                  <FaBook className="inline mr-2" size={18} /> Key Publications
+                <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <FaBook size={18} /> {t('publications.details.keyPublications')}
                 </h3>
-                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1`}>
+                <ul className={`list-disc list-inside ${theme.textColors?.secondary || 'text-gray-600'} space-y-1 ${isRTL ? 'pr-4' : 'pl-4'}`}>
                   {publisher.keyPublications.map((title, idx) => (
                     <li key={idx}>{title}</li>
                   ))}
@@ -207,25 +216,25 @@ const PublicationsDetails = () => {
 
             {/* Additional Metadata */}
             <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
-              <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                <FaCompany className="inline mr-2" size={18} /> Company Details
+              <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'} flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                <FaCompany size={18} /> {t('publications.details.companyDetails')}
               </h3>
               <dl className="space-y-2">
                 {publisher.employees && (
                   <>
-                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>Employees</dt>
+                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>{t('publications.details.employees')}</dt>
                     <dd className={theme.textColors?.secondary || 'text-gray-600'}>{publisher.employees}</dd>
                   </>
                 )}
                 {publisher.revenue && (
                   <>
-                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>Annual Revenue</dt>
+                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>{t('publications.details.annualRevenue')}</dt>
                     <dd className={theme.textColors?.secondary || 'text-gray-600'}>{publisher.revenue}</dd>
                   </>
                 )}
                 {publisher.parentCompany && (
                   <>
-                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>Parent Company</dt>
+                    <dt className={`font-semibold ${theme.textColors?.primary || 'text-gray-900'}`}>{t('publications.details.parentCompany')}</dt>
                     <dd className={theme.textColors?.secondary || 'text-gray-600'}>{publisher.parentCompany}</dd>
                   </>
                 )}
@@ -237,15 +246,15 @@ const PublicationsDetails = () => {
           {publisher.socialMedia && (
             <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')} p-6 rounded-2xl ${theme.shadow?.container || 'shadow-lg'}`}>
               <h3 className={`text-xl font-semibold mb-3 ${theme.textColors?.primary || 'text-gray-900'}`}>
-                Connect with {publisher.name}
+                {t('publications.details.connect', { name: publisher.name })}
               </h3>
-              <div className="flex flex-wrap gap-4">
+              <div className={`flex flex-wrap gap-4 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                 {publisher.socialMedia.twitter && (
                   <a
                     href={`https://twitter.com/${publisher.socialMedia.twitter.replace("@", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1`}
+                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                   >
                     <FaTwitter /> Twitter
                   </a>
@@ -255,7 +264,7 @@ const PublicationsDetails = () => {
                     href={`https://instagram.com/${publisher.socialMedia.instagram.replace("@", "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1`}
+                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                   >
                     <FaInstagram /> Instagram
                   </a>
@@ -265,7 +274,7 @@ const PublicationsDetails = () => {
                     href={`https://facebook.com/${publisher.socialMedia.facebook}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1`}
+                    className={`${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                   >
                     <FaFacebook /> Facebook
                   </a>
@@ -278,7 +287,7 @@ const PublicationsDetails = () => {
         {/* Books Section */}
         <div className="mt-12">
           <h2 className={`text-2xl font-semibold mb-6 ${theme.textColors?.primary || 'text-gray-900'}`}>
-            Books Published by {publisher.name} ({publisherBooks.length})
+            {t('publications.details.booksPublished', { name: publisher.name, count: publisherBooks.length })}
           </h2>
 
           {publisherBooks.length > 0 ? (
@@ -303,14 +312,14 @@ const PublicationsDetails = () => {
                     {book.title}
                   </h3>
                   <p className={`text-xs ${theme.textColors?.secondary || 'text-gray-600'} mb-2`}>
-                    by {book.author}
+                    {t('publications.book.by')} {book.author}
                   </p>
-                  <div className="flex justify-between items-center">
+                  <div className={`flex justify-between items-center ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                     <span className={`text-xs ${theme.textColors?.secondary || 'text-gray-500'}`}>
                       {book.published || book.year || "N/A"}
                     </span>
-                    <span className={`text-xs ${theme.textColors?.highlight || 'text-sky-600'}`}>
-                      Details →
+                    <span className={`text-xs ${theme.textColors?.highlight || 'text-sky-600'} flex items-center gap-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
+                      {t('publications.book.details')} {isRTL ? "←" : "→"}
                     </span>
                   </div>
                 </Link>
@@ -318,7 +327,7 @@ const PublicationsDetails = () => {
             </div>
           ) : (
             <p className={`${theme.textColors?.secondary || 'text-gray-600'} italic`}>
-              No books found for this publisher in our catalog. Check back later!
+              {t('publications.details.noBooksFound')}
             </p>
           )}
         </div>
