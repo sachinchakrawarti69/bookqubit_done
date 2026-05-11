@@ -1,12 +1,14 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
-import authors from "@/data/authors/AuthorsData";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getAuthorsDataByLanguage } from "@/data/authors";
 
 const Authors = () => {
   const { theme, themeName } = useTheme();
+  const { language, t } = useLanguage();
 
   // Guard against undefined theme
   if (!theme) {
@@ -15,14 +17,22 @@ const Authors = () => {
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  
+  // Get authors data based on current language
+  const authors = useMemo(() => {
+    return getAuthorsDataByLanguage(language);
+  }, [language]);
+
+  // Check if RTL language
+  const isRTL = ['ur', 'ar', 'fa', 'ps'].includes(language);
 
   return (
     <div className={`${theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gray-50')} min-h-screen py-16`}>
-      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4`}>
+      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4`} dir={isRTL ? "rtl" : "ltr"}>
         
         {/* Title */}
         <h1 className={`text-4xl font-bold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')} mb-12 text-center`}>
-          Featured Authors
+          {t('authors.pageTitle') || "Featured Authors"}
         </h1>
 
         {/* Authors Grid */}
@@ -56,13 +66,13 @@ const Authors = () => {
                   {author.name}
                 </h2>
 
-                <div className="flex items-center gap-2 mb-3">
+                <div className={`flex items-center gap-2 mb-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                   <span className={`text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-                    {author.country || "Unknown"}
+                    {author.country || t('authors.unknown')}
                   </span>
                   <span className={`w-1 h-1 rounded-full ${theme.background?.navigationDots || (isDarkMode ? 'bg-gray-600' : 'bg-gray-300')}`}></span>
                   <span className={`text-sm ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-                    {author.bookCount || author.books?.length || 0} {author.bookCount === 1 ? 'book' : 'books'}
+                    {author.bookCount || author.books?.length || 0} {author.bookCount === 1 ? t('authors.book') : t('authors.books')}
                   </span>
                 </div>
 
@@ -70,7 +80,7 @@ const Authors = () => {
                   {author.bio}
                 </p>
 
-                <div className="flex gap-3">
+                <div className={`flex gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                   <Link
                     href={`/authors/${author.slug}`}
                     className={`
@@ -81,7 +91,7 @@ const Authors = () => {
                       transition-all duration-200 hover:shadow-md
                     `}
                   >
-                    Know More
+                    {t('authors.knowMore') || "Know More"}
                   </Link>
 
                   <Link
@@ -94,13 +104,13 @@ const Authors = () => {
                       transition-all duration-200 hover:shadow-md
                     `}
                   >
-                    View Books
+                    {t('authors.viewBooks') || "View Books"}
                   </Link>
                 </div>
 
                 {/* Optional: Add author genres/tags */}
                 {author.genres && author.genres.length > 0 && (
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className={`mt-4 flex flex-wrap gap-2 ${isRTL ? 'justify-end' : 'justify-start'}`}>
                     {author.genres.slice(0, 3).map((genre, idx) => (
                       <span
                         key={idx}
@@ -120,7 +130,7 @@ const Authors = () => {
         {authors.length === 0 && (
           <div className="text-center py-16">
             <p className={`text-lg ${theme.textColors?.secondary || (isDarkMode ? 'text-gray-400' : 'text-gray-600')}`}>
-              No authors found.
+              {t('authors.noAuthors') || "No authors found."}
             </p>
           </div>
         )}

@@ -1,4 +1,4 @@
-import QubitAuthorImageData from "./QubitAuthorsImageData";
+import authors_image_data from "./authors_image_data";
 
 const AuthorData = [
   {
@@ -12,7 +12,7 @@ const AuthorData = [
     bookCount: 3,
     mostFamousWork: "Why I Am an Atheist",
     genres: ["Revolutionary", "Political Philosophy"],
-    image: QubitAuthorImageData.Bhagat_Singh,
+    image: authors_image_data.Bhagat_Singh,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Bhagat_Singh",
     },
@@ -33,7 +33,7 @@ const AuthorData = [
     bookCount: 4,
     mostFamousWork: "Sapiens",
     genres: ["History", "Philosophy", "Future Studies"],
-    image: QubitAuthorImageData.Yuval_Noah_Harari,
+    image: authors_image_data.Yuval_Noah_Harari,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Yuval_Noah_Harari",
       website: "https://www.ynharari.com",
@@ -55,7 +55,7 @@ const AuthorData = [
     bookCount: 5,
     mostFamousWork: "1984",
     genres: ["Dystopian", "Political Fiction"],
-    image: QubitAuthorImageData.George_Orwell,
+    image: authors_image_data.George_Orwell,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/George_Orwell",
     },
@@ -76,7 +76,7 @@ const AuthorData = [
     bookCount: 7,
     mostFamousWork: "Annihilation of Caste",
     genres: ["Social Justice", "Political Thought"],
-    image: QubitAuthorImageData.B_R_Ambedkar,
+    image: authors_image_data.B_R_Ambedkar,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/B._R._Ambedkar",
     },
@@ -97,7 +97,7 @@ const AuthorData = [
     bookCount: 10,
     mostFamousWork: "The Book of Nothing",
     genres: ["Spirituality", "Philosophy"],
-    image: QubitAuthorImageData.Osho,
+    image: authors_image_data.Osho,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Rajneesh",
     },
@@ -118,7 +118,7 @@ const AuthorData = [
     bookCount: 15,
     mostFamousWork: "Thus Spoke Zarathustra",
     genres: ["Philosophy", "Existentialism", "Psychology"],
-    image: QubitAuthorImageData.Friedrich_Nietzsche,
+    image: authors_image_data.Friedrich_Nietzsche,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Friedrich_Nietzsche",
     },
@@ -139,7 +139,7 @@ const AuthorData = [
     bookCount: 12,
     mostFamousWork: "Critique of Pure Reason",
     genres: ["Philosophy", "Epistemology", "Ethics"],
-    image: QubitAuthorImageData.Immanuel_Kant,
+    image: authors_image_data.Immanuel_Kant,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Immanuel_Kant",
     },
@@ -160,7 +160,7 @@ const AuthorData = [
     bookCount: 8,
     mostFamousWork: "The World as Will and Representation",
     genres: ["Philosophy", "Metaphysics", "Pessimism"],
-    image: QubitAuthorImageData.Arthur_Schopenhauer,
+    image: authors_image_data.Arthur_Schopenhauer,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Arthur_Schopenhauer",
     },
@@ -181,7 +181,7 @@ const AuthorData = [
     bookCount: 10,
     mostFamousWork: "Phenomenology of Spirit",
     genres: ["Philosophy", "German Idealism", "Metaphysics"],
-    image: QubitAuthorImageData.Georg_Wilhelm_Friedrich_Hegel,
+    image: authors_image_data.Georg_Wilhelm_Friedrich_Hegel,
     socials: {
       wikipedia: "https://en.wikipedia.org/wiki/Georg_Wilhelm_Friedrich_Hegel",
     },
@@ -201,7 +201,7 @@ const AuthorData = [
   bookCount: 20,
   mostFamousWork: "War and Peace",
   genres: ["Fiction", "Philosophy", "Realism"],
-  image: QubitAuthorImageData.Leo_Tolstoy,
+  image: authors_image_data.Leo_Tolstoy,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Leo_Tolstoy",
   },
@@ -222,7 +222,7 @@ const AuthorData = [
   bookCount: 18,
   mostFamousWork: "Crime and Punishment",
   genres: ["Psychological Fiction", "Philosophy", "Existentialism"],
-  image: QubitAuthorImageData.Fyodor_Dostoevsky,
+  image: authors_image_data.Fyodor_Dostoevsky,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Fyodor_Dostoevsky",
   },
@@ -243,7 +243,7 @@ const AuthorData = [
   bookCount: 25,
   mostFamousWork: "The Communist Manifesto",
   genres: ["Political Theory", "Economics", "Philosophy"],
-  image: QubitAuthorImageData.Karl_Marx,
+  image: authors_image_data.Karl_Marx,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Karl_Marx",
   },
@@ -264,7 +264,7 @@ const AuthorData = [
   bookCount: 30,
   mostFamousWork: "The Interpretation of Dreams",
   genres: ["Psychology", "Psychoanalysis", "Philosophy"],
-  image: QubitAuthorImageData.Sigmund_Freud,
+  image: authors_image_data.Sigmund_Freud,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Sigmund_Freud",
   },
@@ -285,7 +285,7 @@ const AuthorData = [
   bookCount: 12,
   mostFamousWork: "The Stranger",
   genres: ["Existentialism", "Absurdism", "Philosophy"],
-  image: QubitAuthorImageData.Albert_Camus,
+  image: authors_image_data.Albert_Camus,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Albert_Camus",
   },
@@ -306,7 +306,7 @@ const AuthorData = [
   bookCount: 16,
   mostFamousWork: "Being and Nothingness",
   genres: ["Existentialism", "Philosophy", "Phenomenology"],
-  image: QubitAuthorImageData.Jean_Paul_Sartre,
+  image: authors_image_data.Jean_Paul_Sartre,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Jean-Paul_Sartre",
   },
@@ -327,7 +327,7 @@ const AuthorData = [
   bookCount: 30,
   mostFamousWork: "The Republic",
   genres: ["Philosophy", "Political Theory", "Ethics"],
-  image: QubitAuthorImageData.Plato,
+  image: authors_image_data.Plato,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Plato",
   },
@@ -348,7 +348,7 @@ const AuthorData = [
   bookCount: 40,
   mostFamousWork: "Nicomachean Ethics",
   genres: ["Philosophy", "Logic", "Science"],
-  image: QubitAuthorImageData.Aristotle,
+  image: authors_image_data.Aristotle,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Aristotle",
   },
@@ -369,7 +369,7 @@ const AuthorData = [
   bookCount: 12,
   mostFamousWork: "Apology (via Plato)",
   genres: ["Philosophy", "Ethics"],
-  image: QubitAuthorImageData.Socrates,
+  image: authors_image_data.Socrates,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Socrates",
   },
@@ -390,7 +390,7 @@ const AuthorData = [
   bookCount: 10,
   mostFamousWork: "The Prince",
   genres: ["Political Philosophy", "Renaissance Thought"],
-  image: QubitAuthorImageData.Niccolo_Machiavelli,
+  image: authors_image_data.Niccolo_Machiavelli,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Niccol%C3%B2_Machiavelli",
   },
@@ -411,7 +411,7 @@ const AuthorData = [
   bookCount: 14,
   mostFamousWork: "Two Treatises of Government",
   genres: ["Political Philosophy", "Epistemology"],
-  image: QubitAuthorImageData.John_Locke,
+  image: authors_image_data.John_Locke,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/John_Locke",
   },
@@ -431,7 +431,7 @@ const AuthorData = [
   bookCount: 20,
   mostFamousWork: "On Liberty",
   genres: ["Philosophy", "Utilitarianism", "Political Theory"],
-  image: QubitAuthorImageData.John_Stuart_Mill,
+  image: authors_image_data.John_Stuart_Mill,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/John_Stuart_Mill",
   },
@@ -452,7 +452,7 @@ const AuthorData = [
   bookCount: 15,
   mostFamousWork: "Meditations on First Philosophy",
   genres: ["Philosophy", "Rationalism", "Metaphysics"],
-  image: QubitAuthorImageData.Rene_Descartes,
+  image: authors_image_data.Rene_Descartes,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Ren%C3%A9_Descartes",
   },
@@ -473,7 +473,7 @@ const AuthorData = [
   bookCount: 18,
   mostFamousWork: "The Social Contract",
   genres: ["Political Philosophy", "Education", "Enlightenment"],
-  image: QubitAuthorImageData.Jean_Jacques_Rousseau,
+  image: authors_image_data.Jean_Jacques_Rousseau,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Jean-Jacques_Rousseau",
   },
@@ -494,7 +494,7 @@ const AuthorData = [
   bookCount: 14,
   mostFamousWork: "A Treatise of Human Nature",
   genres: ["Philosophy", "Empiricism", "Ethics"],
-  image: QubitAuthorImageData.David_Hume,
+  image: authors_image_data.David_Hume,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/David_Hume",
   },
@@ -515,7 +515,7 @@ const AuthorData = [
   bookCount: 12,
   mostFamousWork: "The Logic of Scientific Discovery",
   genres: ["Philosophy of Science", "Epistemology"],
-  image: QubitAuthorImageData.Karl_Popper,
+  image: authors_image_data.Karl_Popper,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Karl_Popper",
   },
@@ -536,7 +536,7 @@ const AuthorData = [
   bookCount: 22,
   mostFamousWork: "Man and His Symbols",
   genres: ["Psychology", "Psychoanalysis"],
-  image: QubitAuthorImageData.Carl_Jung,
+  image: authors_image_data.Carl_Jung,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Carl_Jung",
   },
@@ -557,7 +557,7 @@ const AuthorData = [
   bookCount: 16,
   mostFamousWork: "Either/Or",
   genres: ["Existentialism", "Philosophy", "Theology"],
-  image: QubitAuthorImageData.Soren_Kierkegaard,
+  image: authors_image_data.Soren_Kierkegaard,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/S%C3%B8ren_Kierkegaard",
   },
@@ -578,7 +578,7 @@ const AuthorData = [
   bookCount: 20,
   mostFamousWork: "The Second Sex",
   genres: ["Feminism", "Philosophy", "Existentialism"],
-  image: QubitAuthorImageData.Simone_de_Beauvoir,
+  image: authors_image_data.Simone_de_Beauvoir,
   socials: {
     wikipedia: "https://en.wikipedia.org/wiki/Simone_de_Beauvoir",
   },

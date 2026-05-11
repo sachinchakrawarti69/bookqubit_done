@@ -19,7 +19,6 @@ import {
   FaLaptopCode,
   FaBriefcase,
   FaFlask,
-  FaLanguage,
 } from "react-icons/fa";
 import { FaUserDoctor } from "react-icons/fa6";
 import { FaSquareRootAlt } from "react-icons/fa";
@@ -280,119 +279,6 @@ const getNavigationConfig = (t) => ({
   ],
 });
 
-// Language Selector Component
-const LanguageSelector = ({ mobile = false, onItemClick }) => {
-  const {
-    language,
-    languages,
-    isLanguageMenuOpen,
-    toggleLanguageMenu,
-    setLanguage,
-    t,
-  } = useLanguage();
-  const { theme } = useTheme();
-
-  if (mobile) {
-    return (
-      <div className="navbar-mobile-dropdown">
-        <div
-          onClick={toggleLanguageMenu}
-          className={`navbar-mobile-dropdown-button ${theme.textColors.primary}`}
-        >
-          <span
-            className={`navbar-mobile-dropdown-icon ${theme.textColors.highlight}`}
-          >
-            <FaLanguage />
-          </span>
-          <span className="navbar-mobile-dropdown-text">
-            {t("nav.language")}
-          </span>
-          <span
-            className={`navbar-mobile-dropdown-chevron ${theme.textColors.secondary}`}
-          >
-            {isLanguageMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
-          </span>
-        </div>
-
-        {isLanguageMenuOpen && (
-          <div
-            className={`navbar-mobile-dropdown-content ${theme.background.section}`}
-          >
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => {
-                  setLanguage(lang.code);
-                  if (onItemClick) onItemClick();
-                }}
-                className={`navbar-mobile-dropdown-item ${theme.textColors.primary} ${language === lang.code ? `font-bold ${theme.textColors.highlight}` : ""}`}
-                style={{ width: "100%", textAlign: "left" }}
-              >
-                <span>{lang.nativeName}</span>
-                {language === lang.code && <span className="ml-2">✓</span>}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className="navbar-desktop-dropdown-container relative"
-      onMouseEnter={toggleLanguageMenu}
-      onMouseLeave={toggleLanguageMenu}
-    >
-      <div
-        className={`navbar-desktop-dropdown-button ${theme.textColors.primary}`}
-      >
-        <span
-          className={`navbar-desktop-dropdown-icon ${theme.textColors.highlight}`}
-        >
-          <FaLanguage />
-        </span>
-        <span>{t("nav.language")}</span>
-        <span
-          className={`navbar-desktop-dropdown-chevron ${theme.textColors.secondary}`}
-        >
-          {isLanguageMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
-        </span>
-      </div>
-
-      {isLanguageMenuOpen && (
-        <div
-          className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
-          style={{ minWidth: "150px" }}
-        >
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => {
-                setLanguage(lang.code);
-                if (onItemClick) onItemClick();
-              }}
-              className={`navbar-desktop-dropdown-item ${theme.textColors.primary} ${language === lang.code ? `bg-opacity-10 ${theme.background.highlight}` : ""}`}
-              style={{
-                width: "100%",
-                textAlign: "left",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <span>{lang.nativeName}</span>
-              {language === lang.code && (
-                <span className={theme.textColors.highlight}>✓</span>
-              )}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
 // Dropdown Component for Desktop
 const DesktopDropdown = ({ item, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -603,14 +489,13 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
             )}
           </div>
         ))}
-        {/* Language Selector for mobile */}
-        <LanguageSelector mobile={true} onItemClick={onItemClick} />
-        {/* Add MoreDropdown component for mobile */}
+        {/* Language Selector only for mobile */}
         <MoreDropdown mobile={true} onItemClick={onItemClick} />
       </>
     );
   }
 
+  // DESKTOP - Language Selector REMOVED from second row
   return (
     <div className="flex items-center gap-1 h-full">
       {navigationConfig.items.map((item) => (
@@ -636,9 +521,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
           )}
         </div>
       ))}
-      {/* Language Selector for desktop */}
-      <LanguageSelector mobile={false} onItemClick={onItemClick} />
-      {/* Add MoreDropdown component for desktop */}
+      {/* MoreDropdown for desktop - Language Selector REMOVED */}
       <MoreDropdown mobile={false} onItemClick={onItemClick} />
     </div>
   );

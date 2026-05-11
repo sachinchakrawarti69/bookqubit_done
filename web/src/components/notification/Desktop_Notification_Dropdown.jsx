@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   FaBell,
   FaEnvelope,
@@ -118,13 +119,93 @@ const NotificationDropdown = ({ user }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [activeTab, setActiveTab] = useState("all");
+  const [dropdownPosition, setDropdownPosition] = useState({});
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
   const router = useRouter();
   const { theme, themeName } = useTheme();
+  const { language } = useLanguage();
 
   if (!user) return null;
 
+  // Check if current language is RTL
+  const isRTL = ['ur', 'ar', 'he', 'fa', 'ps', 'sd'].includes(language);
+
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Calculate dropdown position to prevent going off-screen
+  const calculatePosition = () => {
+    if (!buttonRef.current || typeof window === "undefined") return {};
+    
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const dropdownWidth = 384; // w-96 = 384px
+    const margin = 10;
+    
+    let position = {};
+    
+    if (isRTL) {
+      // For RTL languages - align to the LEFT edge of button
+      const dropdownLeft = buttonRect.left;
+      
+      // Check if dropdown would go off the LEFT edge
+      if (dropdownLeft - dropdownWidth < 0) {
+        // If goes off left edge, align to left edge of viewport
+        position.left = `${margin}px`;
+        position.right = 'auto';
+      } 
+      // Check if it would go off the RIGHT edge
+      else if (buttonRect.left + dropdownWidth > viewportWidth) {
+        position.right = `${margin}px`;
+        position.left = 'auto';
+      }
+      else {
+        // Normal RTL positioning - align to left of button
+        position.left = '0';
+        position.right = 'auto';
+      }
+    } else {
+      // For LTR languages - align to the RIGHT edge of button
+      const dropdownRight = buttonRect.right;
+      
+      // Check if dropdown would go off the RIGHT edge
+      if (dropdownRight + dropdownWidth > viewportWidth) {
+        // If goes off right edge, align to right edge of viewport
+        position.right = `${margin}px`;
+        position.left = 'auto';
+      }
+      // Check if it would go off the LEFT edge
+      else if (buttonRect.left - dropdownWidth < 0) {
+        position.left = `${margin}px`;
+        position.right = 'auto';
+      }
+      else {
+        // Normal LTR positioning - align to right of button
+        position.right = '0';
+        position.left = 'auto';
+      }
+    }
+    
+    return position;
+  };
+
+  // Update position when dropdown opens or window resizes
+  useEffect(() => {
+    if (isOpen) {
+      const updatePosition = () => {
+        setDropdownPosition(calculatePosition());
+      };
+      
+      updatePosition();
+      window.addEventListener('resize', updatePosition);
+      window.addEventListener('scroll', updatePosition);
+      
+      return () => {
+        window.removeEventListener('resize', updatePosition);
+        window.removeEventListener('scroll', updatePosition);
+      };
+    }
+  }, [isOpen, isRTL, language]);
 
   // Load notifications
   useEffect(() => {
@@ -207,15 +288,17 @@ const NotificationDropdown = ({ user }) => {
   };
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative inline-block" ref={dropdownRef}>
       {/* Notification Bell Button */}
       <button
+        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
         className={`
           relative p-2 rounded-full transition-all duration-200 hover:scale-110
           ${isDarkMode ? "hover:bg-gray-700" : "hover:bg-gray-100"}
         `}
         aria-label="Notifications"
+        dir={isRTL ? "rtl" : "ltr"}
       >
         <FaBell className={`text-xl ${isDarkMode ? "text-gray-300" : "text-gray-600"}`} />
         {unreadCount > 0 && (
@@ -229,17 +312,22 @@ const NotificationDropdown = ({ user }) => {
       {isOpen && (
         <div
           className={`
-            absolute right-0 mt-2 w-96 rounded-xl shadow-2xl z-50 overflow-hidden
+            absolute mt-2 w-96 rounded-xl shadow-2xl z-50 overflow-hidden
             ${theme.background?.section || (isDarkMode ? 'bg-gray-800' : 'bg-white')}
             border ${theme.border?.default || (isDarkMode ? 'border-gray-700' : 'border-gray-200')}
           `}
+          style={{ 
+            top: "100%",
+            ...dropdownPosition
+          }}
+          dir={isRTL ? "rtl" : "ltr"}
         >
           {/* Header */}
           <div className={`flex items-center justify-between px-4 py-3 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
             <h3 className={`font-semibold ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
-              Notifications
+              {isRTL ? "اطلاعات" : "Notifications"}
               {notifications.length > 0 && (
-                <span className={`ml-2 text-xs ${theme.textColors?.secondary || 'text-gray-500'}`}>
+                <span className={`mr-2 text-xs ${theme.textColors?.secondary || 'text-gray-500'}`}>
                   ({notifications.length})
                 </span>
               )}
@@ -250,7 +338,8 @@ const NotificationDropdown = ({ user }) => {
                   onClick={markAllAsRead}
                   className={`text-xs ${theme.textColors?.highlight || 'text-sky-600'} hover:underline flex items-center gap-1`}
                 >
-                  <FaCheckDouble size={12} /> Mark all read
+                  <FaCheckDouble size={12} /> 
+                  {isRTL ? "سبھی پڑھیں" : "Mark all read"}
                 </button>
               )}
             </div>
@@ -266,7 +355,7 @@ const NotificationDropdown = ({ user }) => {
                   : `${theme.textColors?.secondary || 'text-gray-500'} hover:${theme.textColors?.primary || 'text-gray-900'}`
               }`}
             >
-              All
+              {isRTL ? "سب" : "All"}
             </button>
             <button
               onClick={() => setActiveTab("unread")}
@@ -276,9 +365,9 @@ const NotificationDropdown = ({ user }) => {
                   : `${theme.textColors?.secondary || 'text-gray-500'} hover:${theme.textColors?.primary || 'text-gray-900'}`
               }`}
             >
-              Unread
+              {isRTL ? "ناپڑھے" : "Unread"}
               {unreadCount > 0 && (
-                <span className="ml-1 px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">
+                <span className="mr-1 px-1.5 py-0.5 text-xs bg-red-500 text-white rounded-full">
                   {unreadCount}
                 </span>
               )}
@@ -291,7 +380,10 @@ const NotificationDropdown = ({ user }) => {
               <div className="text-center py-12">
                 <FaBell className={`text-4xl mx-auto mb-3 ${theme.textColors?.secondary || 'text-gray-400'}`} />
                 <p className={`${theme.textColors?.secondary || 'text-gray-500'}`}>
-                  {activeTab === "unread" ? "No unread notifications" : "No notifications yet"}
+                  {activeTab === "unread" 
+                    ? (isRTL ? "کوئی نہیں پڑھی اطلاع نہیں" : "No unread notifications")
+                    : (isRTL ? "کوئی اطلاع نہیں" : "No notifications yet")
+                  }
                 </p>
               </div>
             ) : (
@@ -307,7 +399,7 @@ const NotificationDropdown = ({ user }) => {
                 >
                   <button
                     onClick={() => handleNotificationClick(notification)}
-                    className="w-full text-left p-4 flex gap-3"
+                    className={`w-full text-left p-4 flex gap-3 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
                   >
                     {/* Icon */}
                     <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
@@ -316,7 +408,7 @@ const NotificationDropdown = ({ user }) => {
                     
                     {/* Content */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 mb-1">
+                      <div className={`flex items-center justify-between gap-2 mb-1 ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}>
                         <p className={`text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? 'text-white' : 'text-gray-900')}`}>
                           {notification.title}
                         </p>
@@ -340,7 +432,7 @@ const NotificationDropdown = ({ user }) => {
                       deleteNotification(notification.id);
                     }}
                     className={`
-                      absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full
+                      absolute ${isRTL ? 'left-2' : 'right-2'} top-1/2 -translate-y-1/2 p-1.5 rounded-full
                       opacity-0 group-hover:opacity-100 transition-opacity
                       ${isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
                     `}
@@ -360,7 +452,7 @@ const NotificationDropdown = ({ user }) => {
                 onClick={() => setIsOpen(false)}
                 className={`text-sm ${theme.textColors?.highlight || 'text-sky-600'} hover:underline`}
               >
-                View all notifications
+                {isRTL ? "تمام اطلاعات دیکھیں" : "View all notifications"}
               </Link>
             </div>
           )}

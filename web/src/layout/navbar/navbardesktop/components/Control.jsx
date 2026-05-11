@@ -2,35 +2,101 @@
 
 import { useState, useRef, useEffect } from "react";
 import { AiFillControl } from "react-icons/ai";
-import {
-  FaPalette,
-  FaFont,
-  FaChevronDown,
-  FaChevronUp,
-  FaCheck,
-  FaSun,
-  FaMoon,
-  FaTree,
-  FaGamepad,
-  FaWater,
-  FaHeart,
-  FaBook,
-  FaStar,
-  FaFeather,
-  FaMountain,
-} from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
+import ThemeSwitchDropdown from "./control/ThemeSwitchDropdown";
+import FontChanger from "./control/FontChanger";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Control = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("theme");
+  const [dropdownPosition, setDropdownPosition] = useState({});
   const dropdownRef = useRef(null);
-  const { theme, themeName, changeTheme, availableThemes } = useTheme();
+  const buttonRef = useRef(null);
+  const { theme, themeName } = useTheme();
+  const { language } = useLanguage();
 
-  // Guard against undefined theme
-  if (!theme) {
-    return null;
-  }
+  if (!theme) return null;
+
+  // Check if current language is RTL
+  const isRTL = ['ur', 'ar', 'he', 'fa', 'ps', 'sd'].includes(language);
+
+  const closeDropdown = () => setIsOpen(false);
+
+  // Calculate dropdown position to prevent going off-screen
+  const calculatePosition = () => {
+    if (!buttonRef.current || typeof window === "undefined") return {};
+    
+    const buttonRect = buttonRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const dropdownWidth = 384; // w-96 = 384px
+    const margin = 10;
+    
+    let position = {};
+    
+    if (isRTL) {
+      // For RTL languages - align to the LEFT edge of button
+      const dropdownLeft = buttonRect.left;
+      
+      // Check if dropdown would go off the LEFT edge
+      if (dropdownLeft - dropdownWidth < 0) {
+        // If goes off left edge, align to left edge of viewport
+        position.left = `${margin}px`;
+        position.right = 'auto';
+      } 
+      // Check if it would go off the RIGHT edge
+      else if (buttonRect.left + dropdownWidth > viewportWidth) {
+        position.right = `${margin}px`;
+        position.left = 'auto';
+      }
+      else {
+        // Normal RTL positioning - align to left of button
+        position.left = '0';
+        position.right = 'auto';
+      }
+    } else {
+      // For LTR languages - align to the RIGHT edge of button
+      const dropdownRight = buttonRect.right;
+      
+      // Check if dropdown would go off the RIGHT edge
+      if (dropdownRight + dropdownWidth > viewportWidth) {
+        // If goes off right edge, align to right edge of viewport
+        position.right = `${margin}px`;
+        position.left = 'auto';
+      }
+      // Check if it would go off the LEFT edge
+      else if (buttonRect.left - dropdownWidth < 0) {
+        position.left = `${margin}px`;
+        position.right = 'auto';
+      }
+      else {
+        // Normal LTR positioning - align to right of button
+        position.right = '0';
+        position.left = 'auto';
+      }
+    }
+    
+    return position;
+  };
+
+  // Update position when dropdown opens or window resizes
+  useEffect(() => {
+    if (isOpen) {
+      const updatePosition = () => {
+        setDropdownPosition(calculatePosition());
+      };
+      
+      updatePosition();
+      window.addEventListener('resize', updatePosition);
+      window.addEventListener('scroll', updatePosition);
+      
+      return () => {
+        window.removeEventListener('resize', updatePosition);
+        window.removeEventListener('scroll', updatePosition);
+      };
+    }
+  }, [isOpen, isRTL, language]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,230 +108,92 @@ const Control = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const isDarkMode =
-    themeName === "dark" ||
-    themeName === "midnight" ||
-    themeName === "cyberpunk";
+  // Determine dark mode for conditional classes (same as HeroSection)
+  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
-  // Theme configuration with valid icons
-  const themeConfig = {
-    light: { icon: <FaSun />, name: "Light", color: "text-yellow-500" },
-    dark: { icon: <FaMoon />, name: "Dark", color: "text-indigo-400" },
-    forest: { icon: <FaTree />, name: "Forest", color: "text-green-500" },
-    cyberpunk: {
-      icon: <FaGamepad />,
-      name: "Cyberpunk",
-      color: "text-cyan-400",
-    },
-    lavender: {
-      icon: <FaFeather />,
-      name: "Lavender",
-      color: "text-purple-400",
-    },
-    midnight: { icon: <FaStar />, name: "Midnight", color: "text-blue-400" },
-    ocean: { icon: <FaWater />, name: "Ocean", color: "text-cyan-500" },
-    rose: { icon: <FaHeart />, name: "Rose", color: "text-pink-500" },
-    sand: { icon: <FaMountain />, name: "Sand", color: "text-amber-500" },
-    sepia: { icon: <FaBook />, name: "Sepia", color: "text-amber-700" },
-  };
+  const getButtonClasses = () => `
+    flex items-center gap-2 px-4 py-2.5 rounded-xl
+    transition-all duration-300 hover:scale-105
+    ${theme.buttonColors?.secondaryButton?.background || "border-2 border-sky-500 bg-transparent"}
+    ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}
+  `;
 
-  // Font configuration
-  const [currentFont, setCurrentFont] = useState("system");
-  const fonts = [
-    {
-      name: "System",
-      value: "system",
-      font: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-    },
-    {
-      name: "Inter",
-      value: "inter",
-      font: "'Inter', -apple-system, sans-serif",
-    },
-    { name: "Roboto", value: "roboto", font: "'Roboto', sans-serif" },
-    { name: "Open Sans", value: "open-sans", font: "'Open Sans', sans-serif" },
-    { name: "Lato", value: "lato", font: "'Lato', sans-serif" },
-    {
-      name: "Montserrat",
-      value: "montserrat",
-      font: "'Montserrat', sans-serif",
-    },
-    {
-      name: "Merriweather",
-      value: "merriweather",
-      font: "'Merriweather', serif",
-    },
-    { name: "Playfair", value: "playfair", font: "'Playfair Display', serif" },
-  ];
-
-  // Load saved font
-  useEffect(() => {
-    const savedFont = localStorage.getItem("bookqubit-font");
-    if (savedFont) {
-      setCurrentFont(savedFont);
-      const fontFamily =
-        fonts.find((f) => f.value === savedFont)?.font || fonts[0].font;
-      document.documentElement.style.setProperty("--font-family", fontFamily);
-      document.body.style.fontFamily = fontFamily;
-    }
-  }, []);
-
-  const changeFont = (fontValue, fontFamily) => {
-    setCurrentFont(fontValue);
-    localStorage.setItem("bookqubit-font", fontValue);
-    document.documentElement.style.setProperty("--font-family", fontFamily);
-    document.body.style.fontFamily = fontFamily;
-  };
-
-  const getButtonClasses = (isActive = false) => {
+  const getTabClasses = (tabName) => {
+    const base = "flex-1 py-3 px-4 text-sm font-semibold transition-all duration-300";
+    const isActive = activeTab === tabName;
     if (isActive) {
-      return `${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} text-white`;
+      return `${base} border-b-2 border-sky-500 ${theme.textColors?.highlight || (isDarkMode ? "text-sky-400" : "text-sky-600")} ${theme.background?.secondary || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`;
     }
-    return `${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")} 
-            ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")} 
-            border ${theme.border?.button || (isDarkMode ? "border-gray-700" : "border-gray-300")}`;
+    return `${base} ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} hover:${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`;
   };
+
+  const dropdownBg = theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white");
+  const borderColor = theme.border?.default || (isDarkMode ? "border-gray-700" : "border-gray-200");
+  const footerBg = theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-50");
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      {/* Main Control Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`
-          flex items-center gap-2 px-3 py-2 rounded-lg
-          transition-all duration-200 hover:scale-105
-          ${getButtonClasses()}
-        `}
-        aria-label="Controls"
+    <div className="relative inline-block" ref={dropdownRef}>
+      <button 
+        ref={buttonRef}
+        onClick={() => setIsOpen(!isOpen)} 
+        className={getButtonClasses()}
+        dir={isRTL ? "rtl" : "ltr"}
       >
         <AiFillControl size={18} />
-
-        {isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}
+        <span>{isOpen ? <FaChevronUp size={12} /> : <FaChevronDown size={12} />}</span>
       </button>
 
-      {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-96 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden">
-          {/* Header with Tabs */}
-          <div className="flex border-b border-gray-200 dark:border-gray-700">
-            <button
-              onClick={() => setActiveTab("theme")}
-              className={`
-                flex-1 px-4 py-3 text-sm font-medium transition-all duration-200
-                ${
-                  activeTab === "theme"
-                    ? `${theme.textColors?.highlight || "text-sky-600"} border-b-2 border-sky-500`
-                    : `${theme.textColors?.secondary || "text-gray-500"} hover:text-gray-700 dark:hover:text-gray-300`
-                }
-              `}
+        <div 
+          className={`absolute mt-3 w-96 rounded-2xl overflow-hidden border shadow-2xl z-50 ${dropdownBg} ${borderColor}`}
+          style={{ 
+            top: "100%",
+            ...dropdownPosition
+          }}
+          dir={isRTL ? "rtl" : "ltr"}
+        >
+          {/* Tabs Header */}
+          <div className={`flex border-b ${borderColor}`}>
+            <button 
+              onClick={() => setActiveTab("theme")} 
+              className={getTabClasses("theme")}
             >
               <div className="flex items-center justify-center gap-2">
-                <FaPalette size={14} />
-                Theme
+                <span className="text-lg">🎨</span> 
+                <span>Theme</span>
               </div>
             </button>
-            <button
-              onClick={() => setActiveTab("font")}
-              className={`
-                flex-1 px-4 py-3 text-sm font-medium transition-all duration-200
-                ${
-                  activeTab === "font"
-                    ? `${theme.textColors?.highlight || "text-sky-600"} border-b-2 border-sky-500`
-                    : `${theme.textColors?.secondary || "text-gray-500"} hover:text-gray-700 dark:hover:text-gray-300`
-                }
-              `}
+            <button 
+              onClick={() => setActiveTab("font")} 
+              className={getTabClasses("font")}
             >
               <div className="flex items-center justify-center gap-2">
-                <FaFont size={14} />
-                Font
+                <span className="text-lg">🔤</span> 
+                <span>Font</span>
               </div>
             </button>
           </div>
 
-          {/* Theme Tab Content */}
-          {activeTab === "theme" && (
-            <div className="p-4 max-h-96 overflow-y-auto">
-              <div className="grid grid-cols-2 gap-2">
-                {availableThemes.map((key) => {
-                  const config = themeConfig[key];
-                  if (!config) return null;
-                  const isActive = themeName === key;
-
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => {
-                        changeTheme(key);
-                      }}
-                      className={`
-                        flex items-center gap-3 px-3 py-2.5 rounded-lg
-                        transition-all duration-200 hover:scale-105
-                        ${isActive ? getButtonClasses(true) : getButtonClasses(false)}
-                      `}
-                    >
-                      <span className={`text-lg ${config.color}`}>
-                        {config.icon}
-                      </span>
-                      <span className="flex-1 text-left text-sm font-medium">
-                        {config.name}
-                      </span>
-                      {isActive && <FaCheck className="w-3 h-3" />}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Font Tab Content */}
-          {activeTab === "font" && (
-            <div className="p-4 max-h-96 overflow-y-auto">
-              <div className="grid grid-cols-2 gap-2">
-                {fonts.map((font) => {
-                  const isActive = currentFont === font.value;
-
-                  return (
-                    <button
-                      key={font.value}
-                      onClick={() => changeFont(font.value, font.font)}
-                      className={`
-                        flex items-center justify-between px-3 py-2.5 rounded-lg
-                        transition-all duration-200 hover:scale-105
-                        ${isActive ? getButtonClasses(true) : getButtonClasses(false)}
-                      `}
-                      style={{ fontFamily: font.font }}
-                    >
-                      <span className="text-sm font-medium">{font.name}</span>
-                      {isActive && <FaCheck className="w-3 h-3" />}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Font Preview */}
-              <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
-                <p
-                  className={`text-xs ${theme.textColors?.secondary || "text-gray-500"} mb-2 text-center`}
-                >
-                  Preview
-                </p>
-                <p
-                  className={`text-center text-sm ${theme.textColors?.primary || "text-gray-900 dark:text-white"}`}
-                  style={{
-                    fontFamily: fonts.find((f) => f.value === currentFont)
-                      ?.font,
-                  }}
-                >
-                  The quick brown fox jumps over the lazy dog
-                </p>
-              </div>
-            </div>
-          )}
+          {/* Content */}
+          <div className="p-4">
+            {activeTab === "theme" && (
+              <ThemeSwitchDropdown 
+                isInline={true} 
+                onThemeChange={closeDropdown} 
+              />
+            )}
+            {activeTab === "font" && (
+              <FontChanger 
+                isInline={true} 
+                onFontChange={closeDropdown} 
+              />
+            )}
+          </div>
 
           {/* Footer */}
-          <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-            <p className="text-xs text-center text-gray-500 dark:text-gray-400">
-              Settings are saved automatically
+          <div className={`px-4 py-3 border-t text-center ${footerBg} ${borderColor}`}>
+            <p className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")}`}>
+              ⚡ Settings are saved automatically
             </p>
           </div>
         </div>
