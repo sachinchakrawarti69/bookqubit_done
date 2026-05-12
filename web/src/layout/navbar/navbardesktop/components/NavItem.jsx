@@ -25,6 +25,7 @@ import { FaSquareRootAlt } from "react-icons/fa";
 import { MoreDropdown } from "./MoreDropdown";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useRTL } from "@/contexts/RTLContext";
 
 // Navigation Configuration with translation keys
 const getNavigationConfig = (t) => ({
@@ -279,11 +280,12 @@ const getNavigationConfig = (t) => ({
   ],
 });
 
-// Dropdown Component for Desktop
+// Dropdown Component for Desktop with RTL support
 const DesktopDropdown = ({ item, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { theme } = useTheme();
+  const { isRTL } = useRTL();
 
   const handleParentClick = () => {
     if (item.path) {
@@ -302,15 +304,18 @@ const DesktopDropdown = ({ item, onItemClick }) => {
       <div
         onClick={handleParentClick}
         className={`navbar-desktop-dropdown-button ${theme.textColors.primary}`}
+        style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
       >
         <span
           className={`navbar-desktop-dropdown-icon ${theme.textColors.highlight}`}
+          style={{ marginRight: isRTL ? '0' : '0.375rem', marginLeft: isRTL ? '0.375rem' : '0' }}
         >
           {item.icon}
         </span>
         <span>{item.name}</span>
         <span
           className={`navbar-desktop-dropdown-chevron ${theme.textColors.secondary}`}
+          style={{ marginLeft: isRTL ? '0' : '0.25rem', marginRight: isRTL ? '0.25rem' : '0' }}
         >
           {isOpen ? <FaChevronUp /> : <FaChevronDown />}
         </span>
@@ -319,6 +324,7 @@ const DesktopDropdown = ({ item, onItemClick }) => {
       {isOpen && item.dropdown && (
         <div
           className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
+          style={{ left: isRTL ? 'auto' : '0', right: isRTL ? '0' : 'auto' }}
           onClick={(e) => e.stopPropagation()}
         >
           {item.dropdown.map((dropdownItem, index) => {
@@ -328,6 +334,7 @@ const DesktopDropdown = ({ item, onItemClick }) => {
                 <div
                   key={`heading-${index}`}
                   className={`navbar-desktop-dropdown-heading ${theme.textColors.secondary}`}
+                  style={{ textAlign: isRTL ? 'right' : 'left' }}
                 >
                   {dropdownItem.name}
                 </div>
@@ -340,6 +347,7 @@ const DesktopDropdown = ({ item, onItemClick }) => {
                 key={`${item.name}-${dropdownItem.path || index}`}
                 href={dropdownItem.path}
                 className={`navbar-desktop-dropdown-item ${theme.textColors.primary}`}
+                style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (onItemClick) onItemClick();
@@ -348,11 +356,12 @@ const DesktopDropdown = ({ item, onItemClick }) => {
                 {dropdownItem.icon && (
                   <span
                     className={`navbar-desktop-dropdown-item-icon ${theme.textColors.highlight}`}
+                    style={{ marginRight: isRTL ? '0' : '0.75rem', marginLeft: isRTL ? '0.75rem' : '0' }}
                   >
                     {dropdownItem.icon}
                   </span>
                 )}
-                <div className="navbar-desktop-dropdown-item-content">
+                <div className="navbar-desktop-dropdown-item-content" style={{ alignItems: isRTL ? 'flex-end' : 'flex-start' }}>
                   <span
                     className={`navbar-desktop-dropdown-item-title ${theme.textColors.primary}`}
                   >
@@ -375,11 +384,12 @@ const DesktopDropdown = ({ item, onItemClick }) => {
   );
 };
 
-// Dropdown Component for Mobile
+// Dropdown Component for Mobile with RTL support
 const MobileDropdown = ({ item, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { theme } = useTheme();
+  const { isRTL } = useRTL();
 
   const handleParentClick = (e) => {
     e.preventDefault();
@@ -396,6 +406,7 @@ const MobileDropdown = ({ item, onItemClick }) => {
       <div
         onClick={handleParentClick}
         className={`navbar-mobile-dropdown-button ${theme.textColors.primary}`}
+        style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
       >
         <span
           className={`navbar-mobile-dropdown-icon ${theme.textColors.highlight}`}
@@ -423,6 +434,7 @@ const MobileDropdown = ({ item, onItemClick }) => {
                 <div
                   key={`heading-${index}`}
                   className={`navbar-mobile-dropdown-heading ${theme.textColors.secondary}`}
+                  style={{ textAlign: isRTL ? 'right' : 'left' }}
                 >
                   {dropdownItem.name}
                 </div>
@@ -435,6 +447,7 @@ const MobileDropdown = ({ item, onItemClick }) => {
                 key={`${item.name}-${dropdownItem.path || index}`}
                 href={dropdownItem.path}
                 className={`navbar-mobile-dropdown-item ${theme.textColors.primary}`}
+                style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (onItemClick) onItemClick();
@@ -457,15 +470,16 @@ const MobileDropdown = ({ item, onItemClick }) => {
   );
 };
 
-// Main NavItem Component
+// Main NavItem Component with RTL support
 export const NavItem = ({ mobile = false, onItemClick }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
+  const { isRTL } = useRTL();
   const navigationConfig = getNavigationConfig(t);
 
   if (mobile) {
     return (
-      <>
+      <div style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
         {navigationConfig.items.map((item) => (
           <div key={item.translationKey}>
             {item.dropdown ? (
@@ -474,6 +488,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
               <Link
                 href={item.path || "#"}
                 className={`navbar-mobile-item ${theme.textColors.primary}`}
+                style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (onItemClick) onItemClick();
@@ -481,6 +496,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
               >
                 <span
                   className={`navbar-mobile-item-icon ${theme.textColors.highlight}`}
+                  style={{ marginRight: isRTL ? '0' : '0.5rem', marginLeft: isRTL ? '0.5rem' : '0' }}
                 >
                   {item.icon}
                 </span>
@@ -491,13 +507,13 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
         ))}
         {/* Language Selector only for mobile */}
         <MoreDropdown mobile={true} onItemClick={onItemClick} />
-      </>
+      </div>
     );
   }
 
-  // DESKTOP - Language Selector REMOVED from second row
+  // DESKTOP
   return (
-    <div className="flex items-center gap-1 h-full">
+    <div className="flex items-center gap-1 h-full" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {navigationConfig.items.map((item) => (
         <div key={item.translationKey} className="h-full flex items-center">
           {item.dropdown ? (
@@ -506,6 +522,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
             <Link
               href={item.path || "#"}
               className={`navbar-desktop-item ${theme.textColors.primary}`}
+              style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
               onClick={(e) => {
                 e.stopPropagation();
                 if (onItemClick) onItemClick();
@@ -513,6 +530,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
             >
               <span
                 className={`navbar-desktop-item-icon ${theme.textColors.highlight}`}
+                style={{ marginRight: isRTL ? '0' : '0.375rem', marginLeft: isRTL ? '0.375rem' : '0' }}
               >
                 {item.icon}
               </span>
@@ -521,7 +539,7 @@ export const NavItem = ({ mobile = false, onItemClick }) => {
           )}
         </div>
       ))}
-      {/* MoreDropdown for desktop - Language Selector REMOVED */}
+      {/* MoreDropdown for desktop */}
       <MoreDropdown mobile={false} onItemClick={onItemClick} />
     </div>
   );

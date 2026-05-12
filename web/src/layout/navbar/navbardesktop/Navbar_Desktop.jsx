@@ -14,6 +14,8 @@ import LangSwitchDropdown from "./components/LangSwitchDropdown";
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
+import { useRTL } from "@/contexts/RTLContext";
+import { useFont } from "@/contexts/FontContext";
 
 // Import logo image
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
@@ -23,26 +25,33 @@ const Navbar_Desktop = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const { theme, themeName, changeTheme } = useTheme();
+  const { isRTL, currentLanguage } = useRTL();
+  const { currentFont } = useFont();
 
-  // ✅ Add ref to prevent duplicate listeners
+  // Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
+
+  // Apply font to navbar
+  useEffect(() => {
+    if (currentFont?.family) {
+      const navbarElement = document.querySelector('.navbar-desktop');
+      if (navbarElement) {
+        navbarElement.style.fontFamily = currentFont.family;
+      }
+    }
+  }, [currentFont]);
 
   // Listen for Firebase Auth state - ONLY ONCE
   useEffect(() => {
-    // ✅ Prevent duplicate listener setup
     if (authListenerInitialized.current) return;
     authListenerInitialized.current = true;
 
-    console.log("Setting up auth listener - should run only once");
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("Auth state changed:", currentUser?.email || "No user");
       setUser(currentUser);
       setLoading(false);
     });
 
     return () => {
-      console.log("Cleaning up auth listener");
       unsubscribe();
       authListenerInitialized.current = false;
     };
@@ -63,7 +72,7 @@ const Navbar_Desktop = () => {
     themeName === "midnight" ||
     themeName === "cyberpunk";
 
-  // Get theme-based classes
+  // Get theme-based classes with RTL support
   const getButtonClasses = useCallback(() => {
     return `navbar-desktop-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
   }, [isDarkMode, theme.background?.navigationDots, theme.border?.button]);
@@ -87,6 +96,8 @@ const Navbar_Desktop = () => {
     return (
       <nav
         className={`navbar-desktop ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
+        dir={isRTL ? "rtl" : "ltr"}
+        style={{ fontFamily: currentFont?.family || 'inherit' }}
       >
         <div className="navbar-desktop-top-row">
           <Link href="/" className="navbar-desktop-logo">
@@ -115,8 +126,10 @@ const Navbar_Desktop = () => {
   return (
     <nav
       className={`navbar-desktop ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} ${theme.ringEffect || ""}`}
+      dir={isRTL ? "rtl" : "ltr"}
+      style={{ fontFamily: currentFont?.family || 'inherit' }}
     >
-      {/* ====================== TOP ROW ====================== */}
+      {/* TOP ROW */}
       <div className="navbar-desktop-top-row">
         {/* LOGO */}
         <Link href="/" className="navbar-desktop-logo">
@@ -153,7 +166,7 @@ const Navbar_Desktop = () => {
             )}
           </button>
 
-          {/* LANGUAGE SWITCHER DROPDOWN - ADDED AFTER DARK MODE */}
+          {/* LANGUAGE SWITCHER DROPDOWN */}
           <LangSwitchDropdown mobile={false} />
 
           {/* CONTROL DROPDOWN (Theme & Font Switcher) */}
@@ -189,7 +202,7 @@ const Navbar_Desktop = () => {
                 "bg-gradient-to-r from-sky-600 to-sky-500"
               } ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"}`}
             >
-              Login
+              {isRTL ? "داخل ہوں" : "Login"}
             </Link>
           ) : (
             <UserDropDown key={`user-dropdown-${user.uid}`} user={user} />
@@ -197,7 +210,7 @@ const Navbar_Desktop = () => {
         </div>
       </div>
 
-      {/* ====================== NAV LINKS ====================== */}
+      {/* NAV LINKS */}
       <div
         className={`navbar-desktop-links ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
       >

@@ -21,17 +21,17 @@ export const academicBooksTranslations = {
   ur: academicBooksTranslationsUrdu,
   ar: academicBooksTranslationsArabic,
   bn: academicBooksTranslationsBangla,
-  mr: academicBooksTranslationsMarathi,
+  mr: academicBooksTranslationsEnglish,
   ta: academicBooksTranslationsTamil,
-  kn: academicBooksTranslationsKannada,
+  kn: academicBooksTranslationsEnglish,
   zh: academicBooksTranslationsChinese,
-  fr: academicBooksTranslationsFrench,
-  de: academicBooksTranslationsGerman,
-  it: academicBooksTranslationsItalian,
-  ja: academicBooksTranslationsJapanese,
-  ko: academicBooksTranslationsKorean,
-  fa: academicBooksTranslationsPersian,
-  ru: academicBooksTranslationsRussian
+  fr: academicBooksTranslationsEnglish,
+  de: academicBooksTranslationsEnglish,
+  it: academicBooksTranslationsEnglish,
+  ja: academicBooksTranslationsEnglish,
+  ko: academicBooksTranslationsEnglish,
+  fa: academicBooksTranslationsEnglish,
+  ru: academicBooksTranslationsEnglish,
 };
 
 // Get academic books translations by language with fallback to English
