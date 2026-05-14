@@ -8,19 +8,29 @@ import ExploreAuthor from "@/components/homepages/ExploreAuthor";
 import ExplorePublications from "@/components/homepages/ExplorePublications";
 import ExploreComics from "@/components/homepages/ExploreComics";
 import ExploreAcademicBooks from "@/components/homepages/ExploreAcademicBooks";
+import ThirdPartyAD from "@/components/homepages/ThirdPartyAD";
+import QuickActions from "@/components/homepages/QuickActions";
+import LaunchYourBook from "@/components/homepages/LunchYourBook";
+import DiscoveryPlatform from "@/components/homepages/DiscoveryPlatform";
+import AiTools from "@/components/homepages/AiTools";
 
 
 export default function HomepagesPage() {
   return (
     <main>
+      <DiscoveryPlatform />
       <HeroSectionSlider />
+      <ThirdPartyAD />
       <HeroPartOne />
+      <QuickActions />
       <ExploreBooks />
       <ExploreAcademicBooks />
       <ExploreCollections />
       <ExploreAuthor />
       <ExplorePublications />
       <ExploreComics />
+      <LaunchYourBook />
+      <AiTools />
    
     </main>
   );

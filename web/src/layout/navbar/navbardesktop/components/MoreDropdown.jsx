@@ -5,15 +5,17 @@ import Link from "next/link";
 import { FaBoxes, FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { useCategories } from "./useCategories";
 import { useTheme } from "@/themes/useTheme";
+import { useRTL } from "@/contexts/RTLContext";
+import { useFont } from "@/contexts/FontContext";
+import "./MoreDropdown.css";
 
 export const MoreDropdown = ({ onItemClick, mobile = false }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const categories = useCategories();
   const { theme, themeName } = useTheme();
-
-  // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const { isRTL } = useRTL();
+  const { currentFont } = useFont();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -42,7 +44,6 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
     return { items: itemsToShow, hasMore: hasMoreItems };
   };
 
-  // Mobile version
   if (mobile) {
     return (
       <div className="w-full">
@@ -54,6 +55,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
             border-b border-gray-200 dark:border-gray-700
             ${theme.textColors.primary}
           `}
+          style={{ fontFamily: currentFont?.family }}
         >
           <span className={`mr-3 ${theme.textColors.highlight}`}>
             <FaBoxes />
@@ -80,6 +82,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
                         href={item.path}
                         className={`block py-1 text-sm ${theme.textColors.secondary} hover:${theme.textColors.highlight}`}
                         onClick={handleItemClick}
+                        style={{ fontFamily: currentFont?.family }}
                       >
                         {item.name}
                       </Link>
@@ -90,6 +93,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
                       href={category.viewAllPath}
                       className={`block mt-2 text-sm font-medium ${theme.textColors.highlight}`}
                       onClick={handleItemClick}
+                      style={{ fontFamily: currentFont?.family }}
                     >
                       View All →
                     </Link>
@@ -103,7 +107,6 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
     );
   }
 
-  // Desktop version
   return (
     <div className="relative flex justify-center h-full" ref={dropdownRef}>
       <div className="static inline-block h-full">
@@ -114,6 +117,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
             transition-colors duration-200 cursor-pointer h-full bg-transparent border-none
             ${theme.textColors.primary} hover:${theme.textColors.highlight}
           `}
+          style={{ fontFamily: currentFont?.family }}
           onClick={(e) => {
             e.stopPropagation();
             setIsOpen(!isOpen);
@@ -139,10 +143,10 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
               ${theme.background.section} ${theme.border.default} ${theme.shadow.container}
               animate-slideDownFade
             `}
+            style={{ fontFamily: currentFont?.family }}
             onClick={(e) => e.stopPropagation()}
             onMouseLeave={() => setIsOpen(false)}
           >
-            {/* Scrollable grid area */}
             <div
               className="flex-1 overflow-y-auto pr-2 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4
                 scrollbar-thin scrollbar-track-gray-100 dark:scrollbar-track-gray-800
@@ -174,6 +178,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
                               hover:bg-gray-100 dark:hover:bg-gray-800
                             `}
                             onClick={handleItemClick}
+                            style={{ fontFamily: currentFont?.family }}
                           >
                             <span className="text-xs font-medium">
                               {item.name}
@@ -192,6 +197,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
                             ${theme.textColors.highlight}
                           `}
                           onClick={handleItemClick}
+                          style={{ fontFamily: currentFont?.family }}
                         >
                           View All {category.title} →
                         </Link>
@@ -202,7 +208,6 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
               })}
             </div>
 
-            {/* Footer with Browse All button */}
             <div className={`flex-shrink-0 mt-4 pt-4 border-t ${theme.border.default} text-center`}>
               <Link
                 href="/browsecategories"
@@ -215,6 +220,7 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
                   text-white
                 `}
                 onClick={handleItemClick}
+                style={{ fontFamily: currentFont?.family }}
               >
                 Browse All Categories →
               </Link>

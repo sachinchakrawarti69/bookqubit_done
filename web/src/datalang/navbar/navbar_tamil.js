@@ -7,7 +7,7 @@ export const navbarTamil = {
   "nav.collections": "தொகுப்புகள்",
   "nav.authors": "ஆசிரியர்கள்",
   "nav.publications": "வெளியீடுகள்",
-  "nav.about": "எங்களை பற்றி",
+  "nav.about": " ",
   "nav.more": "மேலும்",
   
   "nav.bestsellers": "சிறந்த விற்பனையாளர்கள்",

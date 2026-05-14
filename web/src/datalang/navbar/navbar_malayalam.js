@@ -8,7 +8,7 @@ export const navbarMalayalam = {
   "nav.collections": "ശേഖരങ്ങൾ",
   "nav.authors": "രചയിതാക്കൾ",
   "nav.publications": "പ്രസിദ്ധീകരണങ്ങൾ",
-  "nav.about": "ഞങ്ങളെക്കുറിച്ച്",
+  "nav.about": " ",
   "nav.more": "കൂടുതൽ",
   
   // Books Dropdown
