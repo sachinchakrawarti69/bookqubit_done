@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -283,9 +283,21 @@ const getNavigationConfig = (t) => ({
 // Dropdown Component for Desktop with RTL support
 const DesktopDropdown = ({ item, onItemClick }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const timeoutRef = useRef(null);
   const router = useRouter();
   const { theme } = useTheme();
   const { isRTL } = useRTL();
+
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 100);
+  };
 
   const handleParentClick = () => {
     if (item.path) {
@@ -294,11 +306,18 @@ const DesktopDropdown = ({ item, onItemClick }) => {
     }
   };
 
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
   return (
     <div
       className="navbar-desktop-dropdown-container"
-      onMouseEnter={() => setIsOpen(true)}
-      onMouseLeave={() => setIsOpen(false)}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       {/* Clickable parent item */}
       <div
@@ -324,7 +343,13 @@ const DesktopDropdown = ({ item, onItemClick }) => {
       {isOpen && item.dropdown && (
         <div
           className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
-          style={{ left: isRTL ? 'auto' : '0', right: isRTL ? '0' : 'auto' }}
+          style={{ 
+            left: isRTL ? 'auto' : '0', 
+            right: isRTL ? '0' : 'auto',
+            display: 'block',
+            opacity: 1,
+            visibility: 'visible'
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           {item.dropdown.map((dropdownItem, index) => {
@@ -384,134 +409,14 @@ const DesktopDropdown = ({ item, onItemClick }) => {
   );
 };
 
-// Dropdown Component for Mobile with RTL support
-const MobileDropdown = ({ item, onItemClick }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const router = useRouter();
-  const { theme } = useTheme();
-  const { isRTL } = useRTL();
-
-  const handleParentClick = (e) => {
-    e.preventDefault();
-    if (item.path && !isOpen) {
-      router.push(item.path);
-      if (onItemClick) onItemClick();
-    } else {
-      setIsOpen(!isOpen);
-    }
-  };
-
-  return (
-    <div className="navbar-mobile-dropdown">
-      <div
-        onClick={handleParentClick}
-        className={`navbar-mobile-dropdown-button ${theme.textColors.primary}`}
-        style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
-      >
-        <span
-          className={`navbar-mobile-dropdown-icon ${theme.textColors.highlight}`}
-        >
-          {item.icon}
-        </span>
-        <span className="navbar-mobile-dropdown-text">{item.name}</span>
-        {item.dropdown && (
-          <span
-            className={`navbar-mobile-dropdown-chevron ${theme.textColors.secondary}`}
-          >
-            {isOpen ? <FaChevronUp /> : <FaChevronDown />}
-          </span>
-        )}
-      </div>
-
-      {isOpen && item.dropdown && (
-        <div
-          className={`navbar-mobile-dropdown-content ${theme.background.section}`}
-        >
-          {item.dropdown.map((dropdownItem, index) => {
-            // RENDER HEADINGS
-            if (dropdownItem.type === "heading") {
-              return (
-                <div
-                  key={`heading-${index}`}
-                  className={`navbar-mobile-dropdown-heading ${theme.textColors.secondary}`}
-                  style={{ textAlign: isRTL ? 'right' : 'left' }}
-                >
-                  {dropdownItem.name}
-                </div>
-              );
-            }
-
-            // NORMAL ITEMS
-            return (
-              <Link
-                key={`${item.name}-${dropdownItem.path || index}`}
-                href={dropdownItem.path}
-                className={`navbar-mobile-dropdown-item ${theme.textColors.primary}`}
-                style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (onItemClick) onItemClick();
-                }}
-              >
-                {dropdownItem.icon && (
-                  <span
-                    className={`navbar-mobile-dropdown-item-icon ${theme.textColors.highlight}`}
-                  >
-                    {dropdownItem.icon}
-                  </span>
-                )}
-                <span>{dropdownItem.name}</span>
-              </Link>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
-};
-
-// Main NavItem Component with RTL support
+// Main NavItem Component for Desktop only
 export const NavItem = ({ mobile = false, onItemClick }) => {
   const { theme } = useTheme();
   const { t } = useLanguage();
   const { isRTL } = useRTL();
   const navigationConfig = getNavigationConfig(t);
 
-  if (mobile) {
-    return (
-      <div style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
-        {navigationConfig.items.map((item) => (
-          <div key={item.translationKey}>
-            {item.dropdown ? (
-              <MobileDropdown item={item} onItemClick={onItemClick} />
-            ) : (
-              <Link
-                href={item.path || "#"}
-                className={`navbar-mobile-item ${theme.textColors.primary}`}
-                style={{ flexDirection: isRTL ? 'row-reverse' : 'row' }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (onItemClick) onItemClick();
-                }}
-              >
-                <span
-                  className={`navbar-mobile-item-icon ${theme.textColors.highlight}`}
-                  style={{ marginRight: isRTL ? '0' : '0.5rem', marginLeft: isRTL ? '0.5rem' : '0' }}
-                >
-                  {item.icon}
-                </span>
-                <span className="navbar-mobile-item-text">{item.name}</span>
-              </Link>
-            )}
-          </div>
-        ))}
-        {/* Language Selector only for mobile */}
-        <MoreDropdown mobile={true} onItemClick={onItemClick} />
-      </div>
-    );
-  }
-
-  // DESKTOP
+  // Only desktop version
   return (
     <div className="flex items-center gap-1 h-full" style={{ direction: isRTL ? 'rtl' : 'ltr' }}>
       {navigationConfig.items.map((item) => (
