@@ -1,4 +1,5 @@
 /* Navbar Mobile Styles - Static (No Sticky) */
+
 .navbar-mobile {
   position: relative;
   z-index: 50;
@@ -102,24 +103,43 @@
   font-weight: 500;
 }
 
-/* Mobile Menu (Slide from LEFT) */
+/* ========================================= */
+/* Mobile Menu (FIXED) */
+/* ========================================= */
+
 .navbar-mobile-menu {
   position: fixed;
   top: 0;
-  left: -100%;
+  left: 0;
+
   width: 85%;
   max-width: 400px;
   height: 100vh;
-  transition: left 0.3s ease-in-out;
+
+  transition: transform 0.3s ease-in-out;
+
   z-index: 100;
+
   box-shadow: 5px 0 20px rgba(0, 0, 0, 0.2);
+
   display: flex;
   flex-direction: column;
+
   overflow-y: auto;
+
+  /* FIX */
+  transform: translateX(-100%);
+  will-change: transform;
 }
 
+/* OPEN */
 .navbar-mobile-menu.open {
-  left: 0;
+  transform: translateX(0);
+}
+
+/* Prevent hidden menu interaction */
+.navbar-mobile-menu:not(.open) {
+  pointer-events: none;
 }
 
 /* Menu Header */
@@ -331,13 +351,15 @@
 /* RTL Support */
 [dir="rtl"] .navbar-mobile-menu {
   left: auto;
-  right: -100%;
+  right: 0;
+
+  transform: translateX(100%);
+
   box-shadow: -5px 0 20px rgba(0, 0, 0, 0.2);
 }
 
 [dir="rtl"] .navbar-mobile-menu.open {
-  left: auto;
-  right: 0;
+  transform: translateX(0);
 }
 
 [dir="rtl"] .navbar-mobile-top-row {

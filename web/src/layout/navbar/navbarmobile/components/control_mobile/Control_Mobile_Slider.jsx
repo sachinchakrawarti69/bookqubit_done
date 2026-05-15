@@ -1,69 +1,73 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { FaTimes, FaSun, FaMoon, FaPalette, FaLanguage, FaTextHeight } from "react-icons/fa";
-import { IoSettingsOutline } from "react-icons/io5";
+
+import {
+  FaTimes,
+  FaPalette,
+  FaLanguage,
+  FaTextHeight,
+} from "react-icons/fa";
+
+import { AiOutlineControl } from "react-icons/ai";
+
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
-import "./Control_Mobile_Slider.css";
+
+import FontChanger_Mobile from "./FontChanger_Mobile";
+import LangSwitch_Mobile from "./LangSwitch_Mobile";
+import ThemeSwitchMobile from "./ThemeSwitchMobile";
 
 const Control_Mobile_Slider = () => {
-  const { theme, themeName, changeTheme } = useTheme();
-  const { t, language, languages, setLanguage } = useLanguage();
+  const { theme, themeName } = useTheme();
+  const { t } = useLanguage();
+
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("theme");
-  const [currentFontSize, setCurrentFontSize] = useState("medium");
+
   const sliderRef = useRef(null);
 
-  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
 
-  // Font sizes
-  const fontSizes = [
-    { id: "small", label: "Small", size: "14px", scale: 0.9 },
-    { id: "medium", label: "Medium", size: "16px", scale: 1.0 },
-    { id: "large", label: "Large", size: "18px", scale: 1.1 },
-    { id: "xlarge", label: "Extra Large", size: "20px", scale: 1.2 },
-  ];
+  // BACKGROUND
+  const bgClass =
+    theme?.background?.section ||
+    (isDarkMode
+      ? "bg-gradient-to-b from-gray-900 to-gray-800"
+      : "bg-white");
 
-  // All available themes
-  const themes = [
-    { name: "light", label: "Light", icon: <FaSun />, gradient: "from-yellow-400 to-orange-500" },
-    { name: "dark", label: "Dark", icon: <FaMoon />, gradient: "from-gray-600 to-gray-800" },
-    { name: "midnight", label: "Midnight", icon: <FaMoon />, gradient: "from-indigo-800 to-purple-900" },
-    { name: "cyberpunk", label: "Cyberpunk", icon: <FaPalette />, gradient: "from-pink-500 to-purple-600" },
-    { name: "ocean", label: "Ocean", icon: <FaPalette />, gradient: "from-cyan-500 to-blue-600" },
-    { name: "forest", label: "Forest", icon: <FaPalette />, gradient: "from-emerald-500 to-green-600" },
-    { name: "rose", label: "Rose", icon: <FaPalette />, gradient: "from-rose-400 to-pink-500" },
-    { name: "lavender", label: "Lavender", icon: <FaPalette />, gradient: "from-purple-400 to-indigo-500" },
-  ];
+  // BORDER
+  const borderClass =
+    isDarkMode
+      ? "border-gray-700"
+      : "border-gray-200";
 
-  // Languages list
-  const languageList = [
-    { code: "en", name: "English", nativeName: "English", flag: "🇺🇸" },
-    { code: "hi", name: "Hindi", nativeName: "हिंदी", flag: "🇮🇳" },
-    { code: "ur", name: "Urdu", nativeName: "اردو", flag: "🇵🇰" },
-    { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦" },
-    { code: "bn", name: "Bangla", nativeName: "বাংলা", flag: "🇧🇩" },
-    { code: "mr", name: "Marathi", nativeName: "मराठी", flag: "🇮🇳" },
-    { code: "ta", name: "Tamil", nativeName: "தமிழ்", flag: "🇮🇳" },
-    { code: "kn", name: "Kannada", nativeName: "ಕನ್ನಡ", flag: "🇮🇳" },
-    { code: "zh", name: "Chinese", nativeName: "中文", flag: "🇨🇳" },
-    { code: "fr", name: "French", nativeName: "Français", flag: "🇫🇷" },
-    { code: "de", name: "German", nativeName: "Deutsch", flag: "🇩🇪" },
-    { code: "it", name: "Italian", nativeName: "Italiano", flag: "🇮🇹" },
-    { code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵" },
-    { code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷" },
-    { code: "fa", name: "Persian", nativeName: "فارسی", flag: "🇮🇷" },
-    { code: "ru", name: "Russian", nativeName: "Русский", flag: "🇷🇺" },
-  ];
+  // TEXT
+  const textPrimary =
+    theme?.textColors?.primary ||
+    (isDarkMode ? "text-white" : "text-gray-900");
 
+  const textSecondary =
+    theme?.textColors?.secondary ||
+    (isDarkMode ? "text-gray-400" : "text-gray-500");
+
+  // ACTIVE TAB BG
+  const activeBg =
+    isDarkMode
+      ? "bg-sky-500/20"
+      : "bg-sky-100";
+
+  // OPEN/CLOSE
   const toggleSlider = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
+    setIsOpen((prev) => {
+      document.body.style.overflow =
+        !prev ? "hidden" : "unset";
+
+      return !prev;
+    });
   };
 
   const closeSlider = () => {
@@ -71,211 +75,313 @@ const Control_Mobile_Slider = () => {
     document.body.style.overflow = "unset";
   };
 
-  const handleThemeChange = (themeNameValue) => {
-    changeTheme(themeNameValue);
-  };
-
-  const handleLanguageChange = (langCode) => {
-    setLanguage(langCode);
-  };
-
-  const handleFontChange = (fontId) => {
-    setCurrentFontSize(fontId);
-    const font = fontSizes.find(f => f.id === fontId);
-    if (font) {
-      document.documentElement.style.fontSize = font.size;
-      localStorage.setItem("bookqubit_font_size", fontId);
-    }
-  };
-
-  // Load saved font size
-  useEffect(() => {
-    const savedFontSize = localStorage.getItem("bookqubit_font_size");
-    if (savedFontSize) {
-      setCurrentFontSize(savedFontSize);
-      const font = fontSizes.find(f => f.id === savedFontSize);
-      if (font) {
-        document.documentElement.style.fontSize = font.size;
-      }
-    }
-  }, []);
-
-  // Close on escape key
+  // ESC CLOSE
   useEffect(() => {
     const handleEscape = (e) => {
-      if (e.key === "Escape" && isOpen) {
+      if (e.key === "Escape") {
         closeSlider();
       }
     };
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, [isOpen]);
 
-  // Close when clicking outside
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
+    };
+  }, []);
+
+  // OUTSIDE CLICK
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (sliderRef.current && !sliderRef.current.contains(e.target) && isOpen) {
+      if (
+        sliderRef.current &&
+        !sliderRef.current.contains(e.target) &&
+        isOpen
+      ) {
         closeSlider();
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
   }, [isOpen]);
 
-  const getIconColor = () => {
-    if (isDarkMode) return "#60a5fa";
-    return "#0ea5e9";
-  };
+  // TAB STYLE
+  const tabClass = (tab) => `
+    flex-1
+    flex
+    flex-col
+    items-center
+    gap-1
+    p-3
+    rounded-xl
+    transition-all
+    duration-200
+    ${
+      activeTab === tab
+        ? `${activeBg} text-sky-500`
+        : `${textSecondary}`
+    }
+  `;
 
   return (
     <>
-      {/* Control Button - ICON ONLY */}
+      {/* CONTROL BUTTON */}
       <button
         onClick={toggleSlider}
-        className="navbar-mobile-icon-button"
-        aria-label="Settings"
-        title="Settings"
-        style={{ color: getIconColor() }}
+        aria-label="Control Panel"
+        title="Control Panel"
+        className="
+          w-[42px]
+          h-[42px]
+          flex
+          items-center
+          justify-center
+          flex-shrink-0
+        "
       >
-        <IoSettingsOutline size={20} />
+        <AiOutlineControl
+          size={24}
+          className={
+            theme?.textColors?.highlight ||
+            "text-sky-500"
+          }
+        />
       </button>
 
-      {/* Slider Panel - Always Slides from RIGHT for all languages */}
+      {/* OVERLAY */}
+      <div
+        onClick={closeSlider}
+        className={`
+          fixed
+          inset-0
+          bg-black/50
+          z-[999]
+          transition-opacity
+          duration-300
+
+          ${
+            isOpen
+              ? "opacity-100 visible"
+              : "opacity-0 invisible pointer-events-none"
+          }
+        `}
+      />
+
+      {/* SLIDER */}
       <div
         ref={sliderRef}
-        className={`mobile-control-slider ${isOpen ? "open" : ""} ${isDarkMode ? "dark" : "light"}`}
+        style={{
+          willChange: "transform",
+        }}
+        className={`
+          fixed
+          top-0
+          right-0
+          h-screen
+          w-[85%]
+          max-w-[400px]
+          z-[1000]
+
+          flex
+          flex-col
+
+          shadow-2xl
+          border-l
+
+          transition-all
+          duration-300
+          transform
+
+          ${bgClass}
+          ${borderClass}
+
+          ${
+            isOpen
+              ? "translate-x-0 opacity-100 visible pointer-events-auto"
+              : "translate-x-full opacity-0 invisible pointer-events-none"
+          }
+        `}
       >
-        {/* Header */}
-        <div className="mobile-slider-header">
-          <h3 className={`mobile-slider-title ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-            Customize Your Experience
-          </h3>
-          <button 
-            onClick={closeSlider} 
-            className="mobile-slider-close" 
-            aria-label="Close"
+        {/* HEADER */}
+        <div
+          className={`
+            flex
+            items-center
+            justify-between
+            p-4
+            border-b
+            flex-shrink-0
+            ${borderClass}
+            ${bgClass}
+          `}
+        >
+          <div>
+            <h3
+              className={`
+                text-base
+                font-bold
+                ${textPrimary}
+              `}
+            >
+              Customize
+            </h3>
+
+            <p
+              className={`
+                text-xs
+                mt-1
+                ${textSecondary}
+              `}
+            >
+              Personalize your experience
+            </p>
+          </div>
+
+          <button
+            onClick={closeSlider}
+            className={`
+              w-9
+              h-9
+              rounded-lg
+              flex
+              items-center
+              justify-center
+              border
+              transition-all
+              duration-200
+              ${borderClass}
+              ${
+                isDarkMode
+                  ? "bg-gray-800"
+                  : "bg-gray-100"
+              }
+            `}
           >
-            <FaTimes className={isDarkMode ? "text-gray-400" : "text-gray-500"} />
+            <FaTimes
+              className={textSecondary}
+              size={15}
+            />
           </button>
         </div>
 
-        {/* Top Three Icons */}
-        <div className="mobile-slider-tabs">
+        {/* TABS */}
+        <div
+          className={`
+            flex
+            gap-2
+            p-4
+            border-b
+            flex-shrink-0
+            ${borderClass}
+            ${bgClass}
+          `}
+        >
           <button
-            onClick={() => setActiveTab("theme")}
-            className={`mobile-slider-tab ${activeTab === "theme" ? "active" : ""} ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+            onClick={() =>
+              setActiveTab("theme")
+            }
+            className={tabClass("theme")}
           >
-            <div className="mobile-slider-tab-icon">🎨</div>
-            <span className="mobile-slider-tab-label">Theme</span>
+            <FaPalette size={18} />
+
+            <span className="text-[11px] font-semibold">
+              Theme
+            </span>
           </button>
+
           <button
-            onClick={() => setActiveTab("language")}
-            className={`mobile-slider-tab ${activeTab === "language" ? "active" : ""} ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+            onClick={() =>
+              setActiveTab("language")
+            }
+            className={tabClass("language")}
           >
-            <div className="mobile-slider-tab-icon">🌐</div>
-            <span className="mobile-slider-tab-label">Language</span>
+            <FaLanguage size={18} />
+
+            <span className="text-[11px] font-semibold">
+              Language
+            </span>
           </button>
+
           <button
-            onClick={() => setActiveTab("font")}
-            className={`mobile-slider-tab ${activeTab === "font" ? "active" : ""} ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}
+            onClick={() =>
+              setActiveTab("font")
+            }
+            className={tabClass("font")}
           >
-            <div className="mobile-slider-tab-icon">🔤</div>
-            <span className="mobile-slider-tab-label">Font</span>
+            <FaTextHeight size={18} />
+
+            <span className="text-[11px] font-semibold">
+              Font
+            </span>
           </button>
         </div>
 
-        {/* Content - List View (No Boxes) */}
-        <div className="mobile-slider-content">
-          {/* Theme List */}
+        {/* CONTENT */}
+        <div
+          className={`
+            flex-1
+            overflow-y-auto
+            p-4
+            min-h-0
+            ${bgClass}
+          `}
+        >
           {activeTab === "theme" && (
-            <div className="mobile-list-container">
-              {themes.map((themeItem) => (
-                <button
-                  key={themeItem.name}
-                  onClick={() => handleThemeChange(themeItem.name)}
-                  className={`mobile-list-item ${themeName === themeItem.name ? "active" : ""}`}
-                >
-                  <div className={`mobile-list-icon bg-gradient-to-r ${themeItem.gradient}`}>
-                    {themeItem.icon}
-                  </div>
-                  <span className={`mobile-list-label ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                    {themeItem.label}
-                  </span>
-                  {themeName === themeItem.name && (
-                    <span className="mobile-list-check">✓</span>
-                  )}
-                </button>
-              ))}
-            </div>
+            <ThemeSwitchMobile
+              onClose={closeSlider}
+            />
           )}
 
-          {/* Language List */}
           {activeTab === "language" && (
-            <div className="mobile-list-container">
-              {languageList.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLanguageChange(lang.code)}
-                  className={`mobile-list-item ${language === lang.code ? "active" : ""}`}
-                >
-                  <div className="mobile-list-icon">
-                    <span className="text-xl">{lang.flag}</span>
-                  </div>
-                  <div className="mobile-list-info">
-                    <span className={`mobile-list-label ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                      {lang.nativeName}
-                    </span>
-                    <span className={`mobile-list-sub ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
-                      {lang.name}
-                    </span>
-                  </div>
-                  {language === lang.code && (
-                    <span className="mobile-list-check">✓</span>
-                  )}
-                </button>
-              ))}
-            </div>
+            <LangSwitch_Mobile
+              onClose={closeSlider}
+            />
           )}
 
-          {/* Font Size List */}
           {activeTab === "font" && (
-            <div className="mobile-list-container">
-              {fontSizes.map((font) => (
-                <button
-                  key={font.id}
-                  onClick={() => handleFontChange(font.id)}
-                  className={`mobile-list-item ${currentFontSize === font.id ? "active" : ""}`}
-                >
-                  <div className="mobile-list-icon">
-                    <span className="text-lg">Aa</span>
-                  </div>
-                  <div className="mobile-list-info">
-                    <span className={`mobile-list-label ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-                      {font.label}
-                    </span>
-                    <span className={`mobile-list-sub ${isDarkMode ? "text-gray-400" : "text-gray-500"}`} style={{ fontSize: font.size }}>
-                      Preview text
-                    </span>
-                  </div>
-                  {currentFontSize === font.id && (
-                    <span className="mobile-list-check">✓</span>
-                  )}
-                </button>
-              ))}
-            </div>
+            <FontChanger_Mobile
+              onClose={closeSlider}
+            />
           )}
         </div>
 
-        {/* Footer */}
-        <div className="mobile-slider-footer">
-          <p className={`text-xs text-center ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+        {/* FOOTER */}
+        <div
+          className={`
+            p-4
+            border-t
+            text-center
+            flex-shrink-0
+            ${borderClass}
+            ${bgClass}
+          `}
+        >
+          <p
+            className={`
+              text-xs
+              ${textSecondary}
+            `}
+          >
             Customize your reading experience
           </p>
         </div>
       </div>
-
-      {/* Overlay */}
-      {isOpen && <div className="mobile-control-overlay" onClick={closeSlider}></div>}
     </>
   );
 };

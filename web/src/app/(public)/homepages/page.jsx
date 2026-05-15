@@ -18,19 +18,19 @@ import AiTools from "@/components/homepages/AiTools";
 export default function HomepagesPage() {
   return (
     <main>
-      <DiscoveryPlatform />
+      {/* <DiscoveryPlatform /> */}
       <HeroSectionSlider />
-      <ThirdPartyAD />
+      {/* <ThirdPartyAD /> */}
       <HeroPartOne />
-      <QuickActions />
+      {/* <QuickActions /> */}
       <ExploreBooks />
       <ExploreAcademicBooks />
       <ExploreCollections />
       <ExploreAuthor />
       <ExplorePublications />
       <ExploreComics />
-      <LaunchYourBook />
-      <AiTools />
+      {/* <LaunchYourBook />
+      <AiTools /> */}
    
     </main>
   );
