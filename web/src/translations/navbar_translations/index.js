@@ -1,24 +1,25 @@
-import { navbarEnglish } from "./navbar_english";
-import { navbarHindi } from "./navbar_hindi";
-import { navbarUrdu } from "./navbar_urdu";
-import { navbarArabic } from "./navbar_arabic";
-import { navbarBangla } from "./navbar_bangla";
-import { navbarMarathi } from "./navbar_marathi";
-import { navbarTamil } from "./navbar_tamil";
-import { navbarKannada } from "./navbar_kannada";
-import { navbarTelugu } from "./navbar_telugu";
-import { navbarMalayalam } from "./navbar_malayalam";
-import { navbarSpanish } from "./navbar_spanish";
-import { navbarPashto } from "./navbar_pashto";
-import { navbarChinese } from "./navbar_chinese";
-import { navbarFrench } from "./navbar_french";
-import { navbarGerman } from "./navbar_german";
-import { navbarItalian } from "./navbar_italian";
-import { navbarJapanese } from "./navbar_japanese";
-import { navbarKorean } from "./navbar_korean";
-import { navbarPersian } from "./navbar_persian";
-import { navbarRussian } from "./navbar_russian";
+import navbarEnglish from "./navbar_translations_english";
+import navbarHindi from "./navbar_translations_hindi";
+import navbarUrdu from "./navbar_translations_urdu";
+import navbarArabic from "./navbar_translations_arabic";
+import navbarBangla from "./navbar_translations_bangla";
+import navbarMarathi from "./navbar_translations_marathi";
+import navbarTamil from "./navbar_translations_tamil";
+import navbarKannada from "./navbar_translations_kannada";
+import navbarTelugu from "./navbar_translations_telugu";
+import navbarMalayalam from "./navbar_translations_malayalam";
+import navbarSpanish from "./navbar_translations_spanish";
+import navbarPashto from "./navbar_translations_pashto";
+import navbarChinese from "./navbar_translations_chinese";
+import navbarFrench from "./navbar_translations_french";
+import navbarGerman from "./navbar_translations_german";
+import navbarItalian from "./navbar_translations_italian";
+import navbarJapanese from "./navbar_translations_japanese";
+import navbarKorean from "./navbar_translations_korean";
+import navbarPersian from "./navbar_translations_persian";
+import navbarRussian from "./navbar_translations_russian";
 
+// Export all translations
 export const navbarTranslations = {
   en: navbarEnglish,
   hi: navbarHindi,
@@ -42,6 +43,7 @@ export const navbarTranslations = {
   ru: navbarRussian
 };
 
+// Get navbar translation for a specific language
 export const getNavbarTranslation = (lang) => {
   return navbarTranslations[lang] || navbarTranslations.en;
 };
@@ -90,3 +92,6 @@ export const isRtlLanguage = (code) => {
   const language = getLanguageByCode(code);
   return language?.direction === "rtl";
 };
+
+// Default export for convenience
+export default navbarTranslations;

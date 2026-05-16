@@ -10,7 +10,6 @@ import {
   FaUser,
   FaInfoCircle,
   FaChevronDown,
-  FaChevronUp,
   FaStar,
   FaFire,
   FaNewspaper,
@@ -25,7 +24,6 @@ import { FaSquareRootAlt } from "react-icons/fa";
 import { MoreDropdown } from "./MoreDropdown";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useRTL } from "@/contexts/RTLContext";
 
 // Navigation Configuration with translation keys
 const getNavigationConfig = (t) => ({
@@ -286,7 +284,7 @@ const DesktopDropdown = ({ item, onItemClick }) => {
   const timeoutRef = useRef(null);
   const router = useRouter();
   const { theme, themeName } = useTheme();
-  const { isRTL } = useRTL();
+  const { isRTL } = useLanguage();
 
   // Check if current theme is dark mode variant
   const isDarkTheme = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -318,7 +316,7 @@ const DesktopDropdown = ({ item, onItemClick }) => {
 
   return (
     <div
-      className="navbar-desktop-dropdown-container"
+      className="relative inline-block"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -326,154 +324,70 @@ const DesktopDropdown = ({ item, onItemClick }) => {
       <div
         onClick={handleParentClick}
         className={`
-          navbar-desktop-dropdown-button
-          ${theme.textColors.primary}
-          hover:${theme.textColors.highlight}
-          transition-colors duration-200
+          inline-flex items-center px-3 py-2 rounded-md
+          ${theme.textColors?.primary || 'text-gray-700 dark:text-gray-200'}
+          hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}
+          transition-colors duration-200 cursor-pointer
         `}
         style={{ 
           flexDirection: isRTL ? 'row-reverse' : 'row',
-          cursor: 'pointer'
         }}
       >
         <span
-          className={`navbar-desktop-dropdown-icon ${theme.textColors.highlight}`}
-          style={{ 
-            marginRight: isRTL ? '0' : '0.375rem', 
-            marginLeft: isRTL ? '0.375rem' : '0',
-            display: 'flex',
-            alignItems: 'center'
-          }}
+          className={`${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} ${isRTL ? 'ml-1.5' : 'mr-1.5'}`}
         >
           {item.icon}
         </span>
         <span>{item.name}</span>
-        <span
-          className={`navbar-desktop-dropdown-chevron ${theme.textColors.secondary}`}
-          style={{ 
-            marginLeft: isRTL ? '0' : '0.25rem', 
-            marginRight: isRTL ? '0.25rem' : '0',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'transform 0.2s ease',
-            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-          }}
-        >
-          <FaChevronDown size={12} />
-        </span>
+        <FaChevronDown 
+          size={12} 
+          className={`transition-transform duration-200 ${isOpen ? 'rotate-180' : ''} ${isRTL ? 'mr-1' : 'ml-1'}`}
+        />
       </div>
 
       {/* Dropdown Menu - Controlled by React state */}
       {isOpen && item.dropdown && (
         <div
           className={`
-            navbar-desktop-dropdown-menu
-            ${theme.background.section}
-            ${theme.border.default}
-            ${theme.shadow.container}
-            animate-slideDownFade
+            absolute top-full mt-1 min-w-[200px] z-50
+            ${theme.background?.section || 'bg-white dark:bg-gray-800'}
+            ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'}
+            ${theme.shadow?.container || 'shadow-lg'}
+            rounded-lg overflow-hidden
           `}
           style={{ 
             left: isRTL ? 'auto' : '0', 
             right: isRTL ? '0' : 'auto',
-            display: 'block',
-            opacity: 1,
-            visibility: 'visible',
-            pointerEvents: 'auto',
-            transform: 'translateY(0)',
             backgroundColor: isDarkTheme ? theme.background?.section : undefined
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {item.dropdown.map((dropdownItem, index) => {
-            // RENDER HEADINGS
-            if (dropdownItem.type === "heading") {
-              return (
-                <div
-                  key={`heading-${index}`}
-                  className={`
-                    navbar-desktop-dropdown-heading
-                    ${theme.textColors.secondary}
-                  `}
-                  style={{ 
-                    textAlign: isRTL ? 'right' : 'left',
-                    padding: '0.5rem 1rem',
-                    fontSize: '0.75rem',
-                    fontWeight: 600,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.05em'
-                  }}
-                >
-                  {dropdownItem.name}
-                </div>
-              );
-            }
-
-            // NORMAL ITEMS
-            return (
-              <Link
-                key={`${item.name}-${dropdownItem.path || index}`}
-                href={dropdownItem.path}
-                className={`
-                  navbar-desktop-dropdown-item
-                  ${theme.textColors.primary}
-                  hover:${theme.textColors.highlight}
-                  transition-colors duration-150
-                `}
-                style={{ 
-                  flexDirection: isRTL ? 'row-reverse' : 'row',
-                  textDecoration: 'none'
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (onItemClick) onItemClick();
-                }}
-              >
-                {dropdownItem.icon && (
-                  <span
-                    className={`navbar-desktop-dropdown-item-icon ${theme.textColors.highlight}`}
-                    style={{ 
-                      marginRight: isRTL ? '0' : '0.75rem', 
-                      marginLeft: isRTL ? '0.75rem' : '0',
-                      display: 'flex',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {dropdownItem.icon}
-                  </span>
-                )}
-                <div 
-                  className="navbar-desktop-dropdown-item-content" 
-                  style={{ 
-                    alignItems: isRTL ? 'flex-end' : 'flex-start',
-                    flex: 1
-                  }}
-                >
-                  <span
-                    className={`navbar-desktop-dropdown-item-title ${theme.textColors.primary}`}
-                    style={{
-                      fontWeight: 500,
-                      fontSize: '0.875rem',
-                      lineHeight: 1.3
-                    }}
-                  >
-                    {dropdownItem.name}
-                  </span>
-                  {dropdownItem.description && (
-                    <span
-                      className={`navbar-desktop-dropdown-item-description ${theme.textColors.secondary}`}
-                      style={{
-                        fontSize: '0.75rem',
-                        marginTop: '0.125rem'
-                      }}
-                    >
-                      {dropdownItem.description}
-                    </span>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
+          {item.dropdown.map((dropdownItem, index) => (
+            <Link
+              key={`${item.name}-${dropdownItem.path || index}`}
+              href={dropdownItem.path}
+              className={`
+                flex items-center px-4 py-2 w-full
+                ${theme.textColors?.primary || 'text-gray-700 dark:text-gray-200'}
+                hover:${theme.background?.hover || 'bg-gray-50 dark:bg-gray-700'}
+                transition-colors duration-150
+              `}
+              style={{ 
+                flexDirection: isRTL ? 'row-reverse' : 'row',
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (onItemClick) onItemClick();
+              }}
+            >
+              {dropdownItem.icon && (
+                <span className={`${isRTL ? 'ml-3' : 'mr-3'} ${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}`}>
+                  {dropdownItem.icon}
+                </span>
+              )}
+              <span>{dropdownItem.name}</span>
+            </Link>
+          ))}
         </div>
       )}
     </div>
@@ -482,110 +396,70 @@ const DesktopDropdown = ({ item, onItemClick }) => {
 
 // Main NavItem Component for Desktop only
 export const NavItem = ({ mobile = false, onItemClick }) => {
-  const { theme, themeName } = useTheme();
-  const { t } = useLanguage();
-  const { isRTL } = useRTL();
+  const { theme } = useTheme();
+  const { t, isRTL } = useLanguage();
   const navigationConfig = getNavigationConfig(t);
 
-  // Check if current theme is dark mode variant
-  const isDarkTheme = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
-
-  // Only desktop version
   return (
     <div 
-  className="flex items-center gap-1 h-full" 
-  style={{ 
-    direction: isRTL ? 'rtl' : 'ltr',
-    backgroundColor: 'transparent'
-  }}
->
-  {navigationConfig.items
-    .filter(
-      (item) =>
-        !(
-          item.translationKey === "nav.about" &&
-          (!item.name || item.name.trim() === "")
+      className="flex items-center gap-1 h-full" 
+      style={{ 
+        direction: isRTL ? 'rtl' : 'ltr',
+      }}
+    >
+      {navigationConfig.items
+        .filter(
+          (item) =>
+            !(
+              item.translationKey === "nav.about" &&
+              (!item.name || item.name.trim() === "")
+            )
         )
-    )
-    .map((item) => (
-      <div key={item.translationKey} className="h-full flex items-center">
-        {item.dropdown ? (
-          <DesktopDropdown item={item} onItemClick={onItemClick} />
-        ) : (
-          <Link
-            href={item.path || "#"}
-            className={`
-              navbar-desktop-item
-              ${theme.textColors.primary}
-              hover:${theme.textColors.highlight}
-              transition-colors duration-200
-            `}
-            style={{ 
-              flexDirection: isRTL ? 'row-reverse' : 'row',
-              display: 'inline-flex',
-              alignItems: 'center',
-              padding: '0.5rem 0.75rem',
-              whiteSpace: 'nowrap',
-              borderRadius: '0.375rem',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-              if (onItemClick) onItemClick();
-            }}
-          >
-            <span
-              className={`navbar-desktop-item-icon ${theme.textColors.highlight}`}
-              style={{ 
-                marginRight: isRTL ? '0' : '0.375rem', 
-                marginLeft: isRTL ? '0.375rem' : '0',
-                display: 'flex',
-                alignItems: 'center'
-              }}
-            >
-              {item.icon}
-            </span>
+        .map((item) => (
+          <div key={item.translationKey} className="h-full flex items-center">
+            {item.dropdown ? (
+              <DesktopDropdown item={item} onItemClick={onItemClick} />
+            ) : (
+              <Link
+                href={item.path || "#"}
+                className={`
+                  inline-flex items-center px-3 py-2 rounded-md
+                  ${theme.textColors?.primary || 'text-gray-700 dark:text-gray-200'}
+                  hover:${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'}
+                  transition-colors duration-200
+                `}
+                style={{ 
+                  flexDirection: isRTL ? 'row-reverse' : 'row',
+                }}
+                onClick={() => onItemClick?.()}
+              >
+                <span className={`${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} ${isRTL ? 'ml-1.5' : 'mr-1.5'}`}>
+                  {item.icon}
+                </span>
+                <span>{item.name}</span>
+              </Link>
+            )}
+          </div>
+        ))}
 
-            {item.name}
-          </Link>
-        )}
-      </div>
-    ))}
-
-  <MoreDropdown mobile={false} onItemClick={onItemClick} />
-</div>
+      <MoreDropdown mobile={false} onItemClick={onItemClick} />
+    </div>
   );
 };
 
-// Helper functions
+// Helper functions (simplified)
 export const addDropdownItem = (parentName, newItem) => {
-  const parent = getNavigationConfig((key) => key).items.find(
-    (item) => item.name === parentName,
-  );
-  if (parent && parent.dropdown) {
-    parent.dropdown.push(newItem);
-  }
+  console.warn("addDropdownItem: This function needs to be updated to work with the translation system");
 };
 
 export const removeDropdownItem = (parentName, itemPath) => {
-  const parent = getNavigationConfig((key) => key).items.find(
-    (item) => item.name === parentName,
-  );
-  if (parent && parent.dropdown) {
-    parent.dropdown = parent.dropdown.filter((item) => item.path !== itemPath);
-  }
+  console.warn("removeDropdownItem: This function needs to be updated to work with the translation system");
 };
 
 export const addNavItem = (newItem) => {
-  getNavigationConfig((key) => key).items.push(newItem);
+  console.warn("addNavItem: This function needs to be updated to work with the translation system");
 };
 
 export const removeNavItem = (itemName) => {
-  const index = getNavigationConfig((key) => key).items.findIndex(
-    (item) => item.name === itemName,
-  );
-  if (index !== -1) {
-    getNavigationConfig((key) => key).items.splice(index, 1);
-  }
+  console.warn("removeNavItem: This function needs to be updated to work with the translation system");
 };
