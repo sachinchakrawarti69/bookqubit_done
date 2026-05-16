@@ -14,10 +14,12 @@ import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRouter } from "next/navigation";
 import { getBooksByLanguage } from "@/data/books";
+import { useFont } from "@/contexts/FontContext"; // Import font context
 
 const HeroSection = () => {
   const { theme, themeName } = useTheme();
   const { t, language } = useLanguage();
+  const { currentFont } = useFont(); // Use font context
   const router = useRouter();
   const [currentBookIndex, setCurrentBookIndex] = useState(0);
   const [isInWishlist, setIsInWishlist] = useState(false);
@@ -67,6 +69,7 @@ const HeroSection = () => {
     return (
       <section
         className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
+        style={{ fontFamily: currentFont?.family }} // Apply font
       >
         <div
           className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center py-20`}
@@ -157,6 +160,7 @@ const HeroSection = () => {
   return (
     <section
       className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      style={{ fontFamily: currentFont?.family }} // Apply font to entire section
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
         {/* Main Book Display */}

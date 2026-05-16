@@ -8,11 +8,14 @@ import "slick-carousel/slick/slick-theme.css";
 import { getAcademicBooksByLanguage } from "@/data/academic_books_data";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext";
 import { FaGraduationCap, FaStar } from "react-icons/fa";
+import "./ExploreAcademicBooks.css";
 
 const ExploreAcademicBooks = () => {
   const { theme, themeName } = useTheme();
   const { t, language } = useLanguage();
+  const { currentFont } = useFont();
   const [academicBooks, setAcademicBooks] = useState([]);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1280,
@@ -89,17 +92,18 @@ const ExploreAcademicBooks = () => {
   if (featuredAcademicBooks.length === 0) {
     return (
       <section
-        className={`${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+        className={`academic-books-section ${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+        style={{ fontFamily: currentFont?.family }}
       >
         <div
           className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto text-center`}
         >
-          <div className="flex justify-center mb-4">
+          <div className="academic-icon-container">
             <div
-              className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+              className={`academic-icon-wrapper rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
             >
               <FaGraduationCap
-                className={`text-3xl ${theme.textColors?.highlight || "text-sky-600"}`}
+                className={`academic-icon ${theme.textColors?.highlight || "text-sky-600"}`}
               />
             </div>
           </div>
@@ -121,16 +125,17 @@ const ExploreAcademicBooks = () => {
 
   return (
     <section
-      className={`${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+      className={`academic-books-section ${theme.background?.section || "bg-gray-50 dark:bg-gray-900"} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
+      style={{ fontFamily: currentFont?.family }}
     >
       <div className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto`}>
         <div className="text-center mb-8 md:mb-12">
-          <div className="flex justify-center mb-4">
+          <div className="academic-icon-container">
             <div
-              className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+              className={`academic-icon-wrapper rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
             >
               <FaGraduationCap
-                className={`text-3xl ${theme.textColors?.highlight || "text-sky-600"}`}
+                className={`academic-icon ${theme.textColors?.highlight || "text-sky-600"}`}
               />
             </div>
           </div>
@@ -152,14 +157,14 @@ const ExploreAcademicBooks = () => {
             {featuredAcademicBooks.map((book) => (
               <div key={book.id} className="px-2 outline-none h-full">
                 <div
-                  className={`${theme.background?.bookCoverSide || "bg-white dark:bg-gray-800"} ${theme.border?.default || "border border-gray-200 dark:border-gray-700"} ${theme.shadow?.container || "shadow-lg"} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
+                  className={`academic-book-card ${theme.background?.bookCoverSide || "bg-white dark:bg-gray-800"} ${theme.border?.default || "border border-gray-200 dark:border-gray-700"} ${theme.shadow?.container || "shadow-lg"} p-3 sm:p-4 rounded-xl h-full flex flex-col transition-all duration-300`}
                 >
                   <div className="flex justify-center mb-3">
                     {book.coverImage ? (
                       <img
                         src={book.coverImage}
                         alt={book.title}
-                        className="h-28 sm:h-40 w-auto object-contain rounded-lg"
+                        className="academic-book-cover"
                         onError={(e) => {
                           e.target.onerror = null;
                           e.target.src = fallbackImage;
@@ -176,27 +181,27 @@ const ExploreAcademicBooks = () => {
                     )}
                   </div>
                   <h3
-                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} truncate`}
+                    className={`academic-book-title ${theme.textColors?.primary || "text-gray-900 dark:text-white"}`}
                   >
                     {book.title}
                   </h3>
                   <p
-                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} truncate mb-1`}
+                    className={`academic-book-author ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
                   >
                     {t("book.by") || "by"} {book.author}
                   </p>
                   <div className="flex items-center justify-between mb-2">
                     <span
-                      className={`text-xs px-2 py-0.5 rounded-full ${getLevelBadgeClass(book.level)}`}
+                      className={`level-badge ${getLevelBadgeClass(book.level)}`}
                     >
                       {t(`academic.level.${book.level?.toLowerCase()}`) ||
                         book.level}
                     </span>
-                    <div className="flex items-center">
+                    <div className="academic-star-rating">
                       {[...Array(5)].map((_, i) => (
                         <FaStar
                           key={i}
-                          className={`w-3 h-3 ${
+                          className={`academic-star-icon ${
                             i < Math.floor(book.rating || 0)
                               ? "text-amber-400"
                               : "text-gray-300"
@@ -204,26 +209,26 @@ const ExploreAcademicBooks = () => {
                         />
                       ))}
                       <span
-                        className={`text-xs ml-1 ${theme.textColors?.secondary || "text-gray-500"}`}
+                        className={`rating-value ${theme.textColors?.secondary || "text-gray-500"}`}
                       >
                         {book.rating}
                       </span>
                     </div>
                   </div>
                   <p
-                    className={`text-xs ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} line-clamp-2 mb-3`}
+                    className={`academic-description ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
                   >
                     {book.description?.substring(0, 100)}...
                   </p>
                   <div className="flex items-center justify-between mt-auto pt-2">
                     <span
-                      className={`text-sm font-bold ${theme.textColors?.highlight || "text-sky-600"}`}
+                      className={`academic-price ${theme.textColors?.highlight || "text-sky-600"}`}
                     >
                       {book.price}
                     </span>
                     <Link
                       href={`/academicbooks/${book.slug}`}
-                      className={`text-xs px-3 py-1.5 rounded-lg font-medium ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} text-white transition-all hover:scale-105`}
+                      className={`view-details-btn ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} text-white`}
                     >
                       {t("book.view_details") || "View Details"}
                     </Link>
@@ -237,11 +242,10 @@ const ExploreAcademicBooks = () => {
         <div className="text-center">
           <Link
             href="/academicbooks"
-            className={`${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
+            className={`explore-all-btn ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"}`}
           >
             {t("academic.button.explore_all") || "Explore All Academic Books"}
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -260,51 +264,14 @@ const ExploreAcademicBooks = () => {
       {/* Dot styling */}
       <style jsx="true">{`
         .slick-dots li button:before {
-          font-size: 8px;
           color: ${isDarkMode ? "#9ca3af" : "#d1d5db"};
-          opacity: 0.5;
         }
         .slick-dots li.slick-active button:before {
           color: ${isDarkMode ? "#60a5fa" : "#3b82f6"};
-          opacity: 1;
         }
         .slick-prev:before,
         .slick-next:before {
           color: ${isDarkMode ? "#60a5fa" : "#3b82f6"};
-          font-size: 24px;
-        }
-        .slick-prev {
-          left: -25px;
-        }
-        .slick-next {
-          right: -25px;
-        }
-        @media (max-width: 768px) {
-          .slick-dots {
-            bottom: -30px;
-          }
-          .slick-dots li {
-            margin: 0 2px;
-          }
-          .slick-dots li button:before {
-            font-size: 6px;
-          }
-          .slick-prev:before,
-          .slick-next:before {
-            font-size: 16px;
-          }
-          .slick-prev {
-            left: -15px;
-          }
-          .slick-next {
-            right: -15px;
-          }
-        }
-        @media (max-width: 640px) {
-          .slick-prev,
-          .slick-next {
-            display: none !important;
-          }
         }
       `}</style>
     </section>

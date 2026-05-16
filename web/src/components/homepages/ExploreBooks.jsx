@@ -8,10 +8,13 @@ import "slick-carousel/slick/slick-theme.css";
 import { getBooksByLanguage } from "@/data/books";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext";
+import "./ExploreBooks.css"; // Import the CSS file
 
 const ExploreBooks = () => {
   const { theme, themeName } = useTheme();
   const { t, language } = useLanguage();
+  const { currentFont } = useFont();
   const [books, setBooks] = useState([]);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
   const [sliderKey, setSliderKey] = useState(0);
@@ -67,7 +70,8 @@ const ExploreBooks = () => {
 
   return (
     <section
-      className={`${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      className={`explore-books-section ${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      style={{ fontFamily: currentFont?.family }}
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
         <div className="text-center mb-8 md:mb-12">
@@ -88,13 +92,13 @@ const ExploreBooks = () => {
             {featuredBooks.map((book) => (
               <div key={book.id} className="px-2 outline-none h-full">
                 <div
-                  className={`${theme.background?.bookCoverSide || 'bg-white dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} p-3 sm:p-4 rounded-xl hover:shadow-xl h-full flex flex-col transition-all duration-300`}
+                  className={`book-card ${theme.background?.bookCoverSide || 'bg-white dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} p-3 sm:p-4 rounded-xl h-full flex flex-col transition-all duration-300`}
                 >
                   <div className="flex justify-center mb-3">
                     <img
                       src={book.imageUrl || fallbackImage}
                       alt={book.title}
-                      className="h-28 sm:h-40 w-auto object-contain rounded-lg"
+                      className="book-cover"
                       onError={(e) => {
                         e.target.onerror = null;
                         e.target.src = fallbackImage;
@@ -102,20 +106,20 @@ const ExploreBooks = () => {
                     />
                   </div>
                   <h3
-                    className={`text-base sm:text-lg font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} truncate`}
+                    className={`book-title ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
                   >
                     {book.title}
                   </h3>
                   <p
-                    className={`text-xs sm:text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} truncate mb-2`}
+                    className={`book-author ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
                   >
                     {t("book.by") || "by"} {book.author}
                   </p>
-                  <div className="flex items-center mb-4">
+                  <div className="star-rating">
                     {[...Array(5)].map((_, i) => (
                       <svg
                         key={i}
-                        className={`w-3 h-3 sm:w-4 sm:h-4 ${
+                        className={`star-icon ${
                           i < Math.floor(book.rating || 0)
                             ? theme.iconColors?.starFilled || 'text-amber-400'
                             : theme.iconColors?.starEmpty || 'text-gray-300'
@@ -130,7 +134,7 @@ const ExploreBooks = () => {
                   {/* Know More Button - Points to book details page */}
                   <Link
                     href={`/bookdeatils/${book.slug || book.id}`}
-                    className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
+                    className={`know-more-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'}`}
                   >
                     {t("book.know_more") || "Know More"}
                   </Link>
@@ -144,11 +148,10 @@ const ExploreBooks = () => {
           {/* Browse All Books Button - Points to bookslist page */}
           <Link
             href="/bookslist"
-            className={`${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
+            className={`browse-all-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'}`}
           >
             {t("explore.browse_all_books") || "Browse All Books"}
             <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 ml-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -164,54 +167,17 @@ const ExploreBooks = () => {
         </div>
       </div>
 
-      {/* Dot styling */}
+      {/* Dynamic dot styling based on theme */}
       <style jsx="true">{`
         .slick-dots li button:before {
-          font-size: 8px;
           color: ${isDarkMode ? "#9ca3af" : "#d1d5db"};
-          opacity: 0.5;
         }
         .slick-dots li.slick-active button:before {
           color: ${isDarkMode ? "#60a5fa" : "#3b82f6"};
-          opacity: 1;
         }
         .slick-prev:before,
         .slick-next:before {
           color: ${isDarkMode ? "#60a5fa" : "#3b82f6"};
-          font-size: 24px;
-        }
-        .slick-prev {
-          left: -25px;
-        }
-        .slick-next {
-          right: -25px;
-        }
-        @media (max-width: 768px) {
-          .slick-dots {
-            bottom: -30px;
-          }
-          .slick-dots li {
-            margin: 0 2px;
-          }
-          .slick-dots li button:before {
-            font-size: 6px;
-          }
-          .slick-prev:before,
-          .slick-next:before {
-            font-size: 16px;
-          }
-          .slick-prev {
-            left: -15px;
-          }
-          .slick-next {
-            right: -15px;
-          }
-        }
-        @media (max-width: 640px) {
-          .slick-prev,
-          .slick-next {
-            display: none !important;
-          }
         }
       `}</style>
     </section>

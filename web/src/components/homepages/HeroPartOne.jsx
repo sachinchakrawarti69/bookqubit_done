@@ -9,10 +9,12 @@ import { FaBookOpen, FaSearch, FaChartLine, FaLightbulb } from "react-icons/fa";
 
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext"; // Import font context
 
 const HeroPartOne = () => {
   const { theme, themeName } = useTheme();
   const { t } = useLanguage();
+  const { currentFont } = useFont(); // Use font context
   const [isMounted, setIsMounted] = useState(false);
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
 
@@ -85,6 +87,7 @@ const HeroPartOne = () => {
   return (
     <section
       className={`relative ${theme.background?.section || ''} py-16 md:py-24 overflow-hidden`}
+      style={{ fontFamily: currentFont?.family }} // Apply font to entire section
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4`}>
         <motion.div
