@@ -13,6 +13,14 @@ export const metadata = {
   // Main Domain
   metadataBase: new URL("https://bookqubit.com"),
 
+  applicationName: "BookQubit",
+
+  appleWebApp: {
+    capable: true,
+    title: "BookQubit",
+    statusBarStyle: "default",
+  },
+
   title: {
     default:
       "BookQubit – Discover Books, Read Previews & Smart Summaries Online",
@@ -21,8 +29,6 @@ export const metadata = {
 
   description:
     "Discover books you'll love with BookQubit. Read previews, explore detailed summaries, and find your next great read with confidence.",
-
-  applicationName: "BookQubit",
 
   keywords: [
     "books",
@@ -162,6 +168,28 @@ export default function RootLayout({ children }) {
           content="width=device-width, initial-scale=1, maximum-scale=5"
         />
 
+        {/* Canonical */}
+        <link
+          rel="canonical"
+          href="https://bookqubit.com"
+        />
+
+        {/* Application Name */}
+        <meta
+          name="application-name"
+          content="BookQubit"
+        />
+
+        <meta
+          name="apple-mobile-web-app-title"
+          content="BookQubit"
+        />
+
+        <meta
+          property="og:site_name"
+          content="BookQubit"
+        />
+
         {/* Google Site Verification */}
         <meta
           name="google-site-verification"
@@ -243,29 +271,18 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
 
-              "@type": "WebSite",
+              "@type": "Organization",
 
               name: "BookQubit",
 
-              alternateName: [
-                "BookQubit Books Platform",
-              ],
-
               url: "https://bookqubit.com",
+
+              logo:
+                "https://bookqubit.com/apple-touch-icon.png",
 
               sameAs: [
                 "https://bookqubit.com",
               ],
-
-              potentialAction: {
-                "@type": "SearchAction",
-
-                target:
-                  "https://bookqubit.com/search?q={search_term_string}",
-
-                "query-input":
-                  "required name=search_term_string",
-              },
             }),
           }}
         />
