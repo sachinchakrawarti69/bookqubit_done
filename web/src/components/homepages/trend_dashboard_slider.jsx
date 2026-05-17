@@ -6,98 +6,83 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "@/themes/useTheme";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getBooksByLanguage } from "@/data/books";
 
 const TrendDashboardSlider = () => {
   const { theme, themeName } = useTheme();
+  const { t, language } = useLanguage();
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 1280);
   const [sliderKey, setSliderKey] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [trendingItems, setTrendingItems] = useState([]);
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
-  // Mock data for trending items
-  const trendingItems = [
-    {
-      id: 1,
-      type: "book",
-      title: "The Midnight Library",
-      author: "Matt Haig",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 98,
-      growth: "+45%",
-      link: "/books/midnight-library",
-    },
-    {
-      id: 2,
-      type: "book",
-      title: "Atomic Habits",
-      author: "James Clear",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 95,
-      growth: "+38%",
-      link: "/books/atomic-habits",
-    },
-    {
-      id: 3,
-      type: "author",
-      title: "Matt Haig",
-      author: "Best-selling Author",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 96,
-      growth: "+52%",
-      link: "/authors/matt-haig",
-    },
-    {
-      id: 4,
-      type: "comic",
-      title: "Spider-Man: Across the Spider-Verse",
-      author: "Marvel",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 97,
-      growth: "+67%",
-      link: "/comics/spider-man",
-    },
-    {
-      id: 5,
-      type: "book",
-      title: "Project Hail Mary",
-      author: "Andy Weir",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 92,
-      growth: "+42%",
-      link: "/books/project-hail-mary",
-    },
-    {
-      id: 6,
-      type: "author",
-      title: "James Clear",
-      author: "Productivity Expert",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 94,
-      growth: "+48%",
-      link: "/authors/james-clear",
-    },
-    {
-      id: 7,
-      type: "comic",
-      title: "Batman: The Dark Knight Returns",
-      author: "DC",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 94,
-      growth: "+54%",
-      link: "/comics/batman-dark-knight",
-    },
-    {
-      id: 8,
-      type: "book",
-      title: "The Psychology of Money",
-      author: "Morgan Housel",
-      cover: "https://via.placeholder.com/120x180",
-      trendScore: 89,
-      growth: "+31%",
-      link: "/books/psychology-of-money",
-    },
-  ];
+  // Get books data based on language
+  const booksData = getBooksByLanguage(language);
+
+  // Generate trending items from real data
+  useEffect(() => {
+    if (booksData && booksData.length > 0) {
+      const items = [];
+      
+      // Add top 4 books
+      booksData.slice(0, 4).forEach((book, index) => {
+        items.push({
+          id: `book-${book.id || index}`,
+          type: "book",
+          title: book.title,
+          author: book.author,
+          cover: book.imageUrl || book.coverImage || "https://via.placeholder.com/120x180?text=Book",
+          trendScore: Math.floor(Math.random() * 30) + 70,
+          growth: `+${Math.floor(Math.random() * 50) + 20}%`,
+          link: `/books/${book.slug || book.id}`,
+        });
+      });
+      
+      // Add mock authors (you can replace with real author data)
+      const mockAuthors = [
+        { name: "Matt Haig", title: "Best-selling Author", trendScore: 96, growth: "+52%", slug: "matt-haig" },
+        { name: "James Clear", title: "Productivity Expert", trendScore: 94, growth: "+48%", slug: "james-clear" },
+        { name: "Andy Weir", title: "Science Fiction Writer", trendScore: 91, growth: "+42%", slug: "andy-weir" },
+      ];
+      
+      mockAuthors.forEach((author, index) => {
+        items.push({
+          id: `author-${index}`,
+          type: "author",
+          title: author.name,
+          author: author.title,
+          cover: "https://via.placeholder.com/120x180?text=Author",
+          trendScore: author.trendScore,
+          growth: author.growth,
+          link: `/authors/${author.slug}`,
+        });
+      });
+      
+      // Add mock comics (you can replace with real comic data)
+      const mockComics = [
+        { title: "Spider-Man: Across the Spider-Verse", publisher: "Marvel", trendScore: 97, growth: "+67%", slug: "spider-man" },
+        { title: "Batman: The Dark Knight Returns", publisher: "DC", trendScore: 94, growth: "+54%", slug: "batman-dark-knight" },
+      ];
+      
+      mockComics.forEach((comic, index) => {
+        items.push({
+          id: `comic-${index}`,
+          type: "comic",
+          title: comic.title,
+          author: comic.publisher,
+          cover: "https://via.placeholder.com/120x180?text=Comic",
+          trendScore: comic.trendScore,
+          growth: comic.growth,
+          link: `/comics/${comic.slug}`,
+        });
+      });
+      
+      setTrendingItems(items.slice(0, 10));
+    }
+  }, [booksData, language]);
 
   useEffect(() => {
     setMounted(true);
@@ -157,80 +142,236 @@ const TrendDashboardSlider = () => {
     }
   };
 
-  if (!mounted) {
+  // Get theme-based gradient for icon wrapper
+  const getIconWrapperGradient = () => {
+    if (theme.buttonColors?.primaryButton?.background) {
+      return theme.buttonColors.primaryButton.background;
+    }
+    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  };
+
+  if (!mounted || trendingItems.length === 0) {
     return null;
   }
 
   return (
     <section
-      className={`trend-slider-section ${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'}`}
-      style={{ fontFamily: 'inherit' }}
+      className="trend-slider-section"
+      style={{
+        background: theme.background?.section || (isDarkMode ? '#111827' : '#f9fafb'),
+        padding: '3rem 0',
+        transition: 'background 0.3s ease'
+      }}
     >
       <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto px-4 sm:px-6 lg:px-8`}>
         {/* Section Header */}
         <div className="text-center mb-8 md:mb-12">
           <div className="flex justify-center mb-4">
-            <div className={`trend-icon-wrapper ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}>
-              <span className="trend-icon">🔥</span>
+            <div 
+              className="trend-icon-wrapper"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '60px',
+                height: '60px',
+                borderRadius: '50%',
+                background: getIconWrapperGradient(),
+                boxShadow: theme.shadow?.button || '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+              }}
+            >
+              <span className="trend-icon" style={{ fontSize: '2rem' }}>🔥</span>
             </div>
           </div>
-          <h2 className={`text-2xl md:text-3xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-3`}>
-            Trending Now
+          <h2 
+            className="text-2xl md:text-3xl font-bold mb-3"
+            style={{ color: theme.textColors?.primary || (isDarkMode ? '#ffffff' : '#1f2937') }}
+          >
+            {t("trend.trending_now")}
           </h2>
-          <p className={`text-sm md:text-lg ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} max-w-2xl mx-auto`}>
-            Discover what's hot in our community right now
+          <p 
+            className="text-sm md:text-lg max-w-2xl mx-auto"
+            style={{ color: theme.textColors?.secondary || (isDarkMode ? '#9ca3af' : '#6b7280') }}
+          >
+            {t("trend.discover_whats_hot")}
           </p>
         </div>
 
         {/* Slider */}
-        <div className="trend-slider-wrapper">
+        <div className="trend-slider-wrapper" style={{ margin: '0 -0.5rem' }}>
           <Slider key={sliderKey} {...sliderSettings}>
             {trendingItems.map((item) => (
               <div key={item.id} className="px-2 outline-none">
                 <Link href={item.link}>
-                  <div className={`trend-card ${theme.background?.bookCoverSide || 'bg-white dark:bg-gray-800'} ${theme.border?.default || 'border border-gray-200 dark:border-gray-700'} ${theme.shadow?.container || 'shadow-lg'} rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2`}>
+                  <div 
+                    className="trend-card"
+                    style={{
+                      position: 'relative',
+                      cursor: 'pointer',
+                      background: theme.background?.bookCoverSide || (isDarkMode ? '#1f2937' : '#ffffff'),
+                      border: theme.border?.default || `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
+                      borderRadius: '1rem',
+                      overflow: 'hidden',
+                      transition: 'all 0.3s ease',
+                      boxShadow: theme.shadow?.container || '0 10px 15px -3px rgba(0, 0, 0, 0.1)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-8px)';
+                      e.currentTarget.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.15)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = theme.shadow?.container || '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                    }}
+                  >
                     {/* Trend Badge */}
-                    <div className="trend-badge" style={{ backgroundColor: getTypeBadgeColor(item.type) }}>
-                      <span className="trend-badge-icon">{getTypeIcon(item.type)}</span>
-                      <span className="trend-badge-text">{item.type}</span>
+                    <div 
+                      className="trend-badge"
+                      style={{
+                        position: 'absolute',
+                        top: '0.75rem',
+                        left: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                        padding: '0.25rem 0.5rem',
+                        borderRadius: '0.5rem',
+                        fontSize: '0.7rem',
+                        fontWeight: '600',
+                        color: 'white',
+                        backgroundColor: getTypeBadgeColor(item.type),
+                        zIndex: 10
+                      }}
+                    >
+                      <span className="trend-badge-icon" style={{ fontSize: '0.75rem' }}>{getTypeIcon(item.type)}</span>
+                      <span className="trend-badge-text">{t(`trend.${item.type}`) || item.type}</span>
                     </div>
 
                     {/* Trend Score */}
-                    <div className="trend-score-badge">
-                      <span className="trend-score-icon">🔥</span>
-                      <span className="trend-score-value">{item.trendScore}</span>
+                    <div 
+                      className="trend-score-badge"
+                      style={{
+                        position: 'absolute',
+                        top: '0.75rem',
+                        right: '0.75rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.25rem',
+                        background: 'rgba(0, 0, 0, 0.7)',
+                        backdropFilter: 'blur(4px)',
+                        padding: '0.25rem 0.5rem',
+                        borderRadius: '0.5rem',
+                        fontSize: '0.75rem',
+                        fontWeight: '600',
+                        color: '#f59e0b',
+                        zIndex: 10
+                      }}
+                    >
+                      <span className="trend-score-icon" style={{ fontSize: '0.7rem' }}>🔥</span>
+                      <span className="trend-score-value" style={{ fontWeight: '700' }}>{item.trendScore}</span>
                     </div>
 
                     {/* Image */}
-                    <div className="trend-image-wrapper">
+                    <div 
+                      className="trend-image-wrapper"
+                      style={{
+                        width: '100%',
+                        height: '200px',
+                        overflow: 'hidden',
+                        background: 'linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%)'
+                      }}
+                    >
                       <img
                         src={item.cover}
                         alt={item.title}
                         className="trend-image"
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          transition: 'transform 0.3s ease'
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                        onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          e.target.src = "https://via.placeholder.com/120x180?text=No+Image";
+                        }}
                       />
                     </div>
 
                     {/* Content */}
-                    <div className="trend-content p-4">
-                      <h3 className={`trend-title ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} truncate`}>
+                    <div className="trend-content" style={{ padding: '1rem' }}>
+                      <h3 
+                        className="trend-title"
+                        style={{
+                          fontSize: '1rem',
+                          fontWeight: '700',
+                          marginBottom: '0.25rem',
+                          color: theme.textColors?.primary || (isDarkMode ? '#ffffff' : '#1f2937'),
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
                         {item.title}
                       </h3>
-                      <p className={`trend-author ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} text-sm truncate mb-3`}>
+                      <p 
+                        className="trend-author"
+                        style={{
+                          fontSize: '0.8rem',
+                          marginBottom: '0.75rem',
+                          color: theme.textColors?.secondary || (isDarkMode ? '#9ca3af' : '#6b7280'),
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}
+                      >
                         {item.author}
                       </p>
                       
                       {/* Growth Indicator */}
-                      <div className="trend-growth">
-                        <span className="growth-label">Trending</span>
-                        <span className="growth-value" style={{ color: '#10b981' }}>
+                      <div 
+                        className="trend-growth"
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '0.5rem 0',
+                          borderTop: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
+                          borderBottom: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`
+                        }}
+                      >
+                        <span className="growth-label" style={{ fontSize: '0.7rem', color: '#6b7280' }}>
+                          {t("trend.trending") || "Trending"}
+                        </span>
+                        <span className="growth-value" style={{ fontSize: '0.8rem', fontWeight: '600', color: '#10b981' }}>
                           {item.growth}
                         </span>
                       </div>
 
                       {/* View Button */}
-                      <div className="trend-button-wrapper mt-3">
-                        <span className={`trend-view-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} text-white text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1 transition-all hover:scale-105`}>
-                          View Details
+                      <div className="trend-button-wrapper" style={{ marginTop: '0.75rem' }}>
+                        <span 
+                          className="trend-view-btn"
+                          style={{
+                            width: '100%',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.25rem',
+                            background: theme.buttonColors?.primaryButton?.background || 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)',
+                            color: 'white',
+                            fontSize: '0.75rem',
+                            padding: '0.375rem 0.75rem',
+                            borderRadius: '0.5rem',
+                            transition: 'all 0.3s ease',
+                            cursor: 'pointer'
+                          }}
+                          onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                          onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                        >
+                          {t("trend.view_details")}
                           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                           </svg>
@@ -248,9 +389,24 @@ const TrendDashboardSlider = () => {
         <div className="text-center mt-10">
           <Link
             href="/trend_dashboard"
-            className={`view-all-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center gap-2 hover:scale-105 transition-all rounded-lg`}
+            className="view-all-btn"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: theme.buttonColors?.primaryButton?.background || 'linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%)',
+              color: theme.buttonColors?.primaryButton?.textColor || 'white',
+              padding: '0.75rem 1.5rem',
+              fontSize: '1rem',
+              fontWeight: '500',
+              borderRadius: '0.5rem',
+              transition: 'all 0.3s ease',
+              textDecoration: 'none'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
-            View Full Dashboard
+            {t("trend.view_full_dashboard")}
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
             </svg>
@@ -259,144 +415,10 @@ const TrendDashboardSlider = () => {
       </div>
 
       <style jsx="true">{`
-        .trend-slider-section {
-          padding: 3rem 0;
-        }
-
-        .trend-icon-wrapper {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        .trend-icon {
-          font-size: 2rem;
-        }
-
-        .trend-slider-wrapper {
-          margin: 0 -0.5rem;
-        }
-
-        .trend-card {
-          position: relative;
-          cursor: pointer;
-        }
-
-        .trend-badge {
-          position: absolute;
-          top: 0.75rem;
-          left: 0.75rem;
-          display: flex;
-          align-items: center;
-          gap: 0.25rem;
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.5rem;
-          font-size: 0.7rem;
-          font-weight: 600;
-          color: white;
-          z-index: 10;
-        }
-
-        .trend-badge-icon {
-          font-size: 0.75rem;
-        }
-
-        .trend-score-badge {
-          position: absolute;
-          top: 0.75rem;
-          right: 0.75rem;
-          display: flex;
-          align-items: center;
-          gap: 0.25rem;
-          background: rgba(0, 0, 0, 0.7);
-          backdrop-filter: blur(4px);
-          padding: 0.25rem 0.5rem;
-          border-radius: 0.5rem;
-          font-size: 0.75rem;
-          font-weight: 600;
-          color: #f59e0b;
-          z-index: 10;
-        }
-
-        .trend-score-icon {
-          font-size: 0.7rem;
-        }
-
-        .trend-score-value {
-          font-weight: 700;
-        }
-
-        .trend-image-wrapper {
-          width: 100%;
-          height: 200px;
-          overflow: hidden;
-          background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-        }
-
-        .trend-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.3s ease;
-        }
-
-        .trend-card:hover .trend-image {
-          transform: scale(1.05);
-        }
-
-        .trend-title {
-          font-size: 1rem;
-          font-weight: 700;
-          margin-bottom: 0.25rem;
-        }
-
         @media (min-width: 640px) {
           .trend-title {
-            font-size: 1.1rem;
+            font-size: 1.1rem !important;
           }
-        }
-
-        .trend-author {
-          font-size: 0.8rem;
-        }
-
-        .trend-growth {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0.5rem 0;
-          border-top: 1px solid #e5e7eb;
-          border-bottom: 1px solid #e5e7eb;
-        }
-
-        .dark .trend-growth {
-          border-color: #374151;
-        }
-
-        .growth-label {
-          font-size: 0.7rem;
-          color: #6b7280;
-        }
-
-        .growth-value {
-          font-size: 0.8rem;
-          font-weight: 600;
-        }
-
-        .trend-view-btn {
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-        }
-
-        .view-all-btn {
-          transition: all 0.3s ease;
         }
 
         /* Slider Custom Styles */
@@ -423,10 +445,12 @@ const TrendDashboardSlider = () => {
 
         .slick-prev {
           left: -1.5rem;
+          z-index: 10;
         }
 
         .slick-next {
           right: -1.5rem;
+          z-index: 10;
         }
 
         @media (max-width: 768px) {
@@ -449,6 +473,35 @@ const TrendDashboardSlider = () => {
           .slick-next {
             display: none !important;
           }
+        }
+
+        /* RTL Support */
+        [dir="rtl"] .trend-badge {
+          left: auto;
+          right: 0.75rem;
+        }
+
+        [dir="rtl"] .trend-score-badge {
+          right: auto;
+          left: 0.75rem;
+        }
+
+        [dir="rtl"] .slick-prev {
+          left: auto;
+          right: -1.5rem;
+        }
+
+        [dir="rtl"] .slick-next {
+          right: auto;
+          left: -1.5rem;
+        }
+
+        [dir="rtl"] .slick-prev:before {
+          content: '→';
+        }
+
+        [dir="rtl"] .slick-next:before {
+          content: '←';
         }
       `}</style>
     </section>

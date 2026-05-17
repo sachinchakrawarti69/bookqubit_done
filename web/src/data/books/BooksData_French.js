@@ -404,7 +404,181 @@ const booksFrench = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+
+   {
+  "id": 8,
+  "title": "L'Amour, la Liberté et la Solitude : Le Koan des Relations",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "frenchSlug": "lamour-la-liberte-et-la-solitude-le-koan-des-relations",
+  "author": "Osho",
+  "collection": "Collection Osho",
+  "description": "Un guide spirituel explorant l'essence véritable de l'amour, l'illusion de l'attachement et le chemin vers la liberté intérieure et la solitude.",
+  "category": "Spiritualité et Philosophie",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "Inde",
+    "continent": "Asie",
+    "subRegion": "Asie du Sud"
+  },
+
+  "keyPoints": [
+    "Comprendre l'amour véritable",
+    "Liberté vs Attachement",
+    "Pouvoir de la solitude",
+    "Méditation et Conscience"
+  ],
+
+  "tags": ["Spiritualité", "Relations", "Philosophie", "Développement personnel"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002",
+  "originalPublished": "2001",
+  "format": "Broché",
+  "publisher": "St. Martin's Griffin",
+  "language": "Français",
+
+  "genres": ["Non-fiction", "Spiritualité", "Philosophie"],
+
+  "subjects": [
+    "Amour et relations",
+    "Liberté de l'âme",
+    "Croissance spirituelle",
+    "Pratiques méditatives",
+    "Réalisation de soi",
+    "Indépendance émotionnelle"
+  ],
+
+  "summary": "*L'Amour, la Liberté et la Solitude* d'Osho est une exploration profonde de ce que signifie aimer sans s'attacher, trouver la liberté sans fuir la connexion, et embrasser la solitude sans solitude douloureuse. Osho défie les notions conventionnelles des relations, exhortant les lecteurs à découvrir l'amour comme une expérience de liberté partagée plutôt que de dépendance mutuelle. Avec des aperçus tirés du mysticisme oriental et de la psychologie moderne, ce livre présente des réflexions puissantes sur la façon de vivre authentiquement dans l'amour, enraciné dans la conscience et la méditation. Le message d'Osho encourage l'indépendance spirituelle, la vie consciente et le courage de marcher seul lorsque cela est nécessaire.",
+
+  "buttons": {
+    "knowMore": "/fr/books/lamour-la-liberte-et-la-solitude-le-koan-des-relations",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "Du sexe à la superconscience",
+  "slug": "from-sex-to-superconsciousness",
+  "frenchSlug": "du-sexe-a-la-superconscience",
+  "author": "Osho",
+  "collection": "Collection Osho",
+  "description": "Un discours spirituel provocateur qui transforme la compréhension du sexe d'un acte physique en une porte d'entrée vers une conscience supérieure.",
+  "category": "Spiritualité et Philosophie",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "Inde",
+    "continent": "Asie",
+    "subRegion": "Asie du Sud"
+  },
+
+  "keyPoints": [
+    "Tantra et éveil spirituel",
+    "Le sexe comme énergie naturelle",
+    "Transcendance par la conscience",
+    "Pont entre le corps et l'âme"
+  ],
+
+  "tags": ["Spiritualité", "Tantra", "Réalisation de soi", "Philosophie"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004",
+  "originalPublished": "1968",
+  "format": "Broché",
+  "publisher": "Full Circle",
+  "language": "Français",
+
+  "genres": ["Non-fiction", "Spiritualité", "Philosophie"],
+
+  "subjects": [
+    "Tantra et illumination",
+    "Transformation de l'énergie sexuelle",
+    "Conscience méditative",
+    "Libération spirituelle",
+    "Mysticisme et corps",
+    "Alchimie intérieure"
+  ],
+
+  "summary": "*Du sexe à la superconscience* est l'une des œuvres les plus controversées mais influentes d'Osho, où il redéfinit le rôle du sexe dans le voyage spirituel. À travers une série de discours révolutionnaires, Osho présente le Tantra comme une science de la transformation — utilisant le sexe non pas pour l'indulgence ou la répression, mais comme une porte vers la transcendance. Défiant les tabous sociétaux, il parle franchement de l'énergie, de la méditation et de la libération. Le livre encourage les chercheurs à aller au-delà de la culpabilité et de la répression, à comprendre et à rediriger l'énergie sexuelle vers l'éveil spirituel et l'extase intérieure.",
+
+  "buttons": {
+    "knowMore": "/fr/books/du-sexe-a-la-superconscience",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "Le Coran",
+  "slug": "quran",
+  "frenchSlug": "le-coran",
+  "author": "Multiple (Révélé au Prophète Muhammad)",
+  "collection": "Collection Islamique",
+  "description": "Le texte religieux central de l'Islam, considéré comme la parole de Dieu révélée au Prophète Muhammad.",
+  "category": "Texte Religieux",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "Arabie Saoudite",
+    "continent": "Asie",
+    "subRegion": "Moyen-Orient"
+  },
+
+  "keyPoints": [
+    "Révélation divine",
+    "Guidance pour l'humanité",
+    "Enseignements spirituels et moraux",
+    "Principes juridiques et éthiques"
+  ],
+
+  "tags": ["Islam", "Spiritualité", "Religion", "Écriture sainte"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7ème siècle",
+  "originalPublished": "610–632 EC",
+  "format": "Relié",
+  "publisher": "Divers (éditions multiples)",
+  "language": "Français",
+
+  "genres": ["Religieux", "Spirituel", "Écriture sainte"],
+
+  "subjects": [
+    "Monothéisme",
+    "Prophétie",
+    "Vie après la mort",
+    "Loi divine",
+    "Vie éthique",
+    "Purification spirituelle"
+  ],
+
+  "summary": "*Le Coran* est le livre saint de l'Islam, que les musulmans croient être la parole littérale de Dieu révélée au Prophète Muhammad sur une période de 23 ans. Il couvre un large éventail de sujets, y compris la théologie, la loi, la moralité et des conseils pour la conduite personnelle et les affaires communautaires. Structuré en chapitres (Sourates) et en versets (Ayahs), il met l'accent sur les thèmes du monothéisme, de la compassion, de la justice et de la responsabilité. Le Coran est récité, mémorisé et vénéré dans le monde entier, offrant un réconfort spirituel et un mode de vie complet à plus d'un milliard de fidèles.",
+
+  "buttons": {
+    "knowMore": "/fr/books/le-coran",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+
+
 ];
 
 export default booksFrench;

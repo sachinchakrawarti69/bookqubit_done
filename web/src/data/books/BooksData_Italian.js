@@ -404,7 +404,181 @@ const booksItalian = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+
+{
+  "id": 8,
+  "title": "Amore, Libertà, Solitudine: Il Koan delle Relazioni",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "italianSlug": "amore-liberta-solitudine-il-koan-delle-relazioni",
+  "author": "Osho",
+  "collection": "Collezione Osho",
+  "description": "Una guida spirituale che esplora la vera essenza dell'amore, l'illusione dell'attaccamento e il percorso verso la libertà interiore e la solitudine.",
+  "category": "Spiritualità e Filosofia",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "India",
+    "continent": "Asia",
+    "subRegion": "Asia meridionale"
+  },
+
+  "keyPoints": [
+    "Comprendere l'amore vero",
+    "Libertà vs Attaccamento",
+    "Potere della solitudine",
+    "Meditazione e Coscienza"
+  ],
+
+  "tags": ["Spiritualità", "Relazioni", "Filosofia", "Auto-aiuto"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002",
+  "originalPublished": "2001",
+  "format": "Brossura",
+  "publisher": "St. Martin's Griffin",
+  "language": "Italiano",
+
+  "genres": ["Saggistica", "Spiritualità", "Filosofia"],
+
+  "subjects": [
+    "Amore e relazioni",
+    "Libertà dell'anima",
+    "Crescita spirituale",
+    "Pratiche meditative",
+    "Autorealizzazione",
+    "Indipendenza emotiva"
+  ],
+
+  "summary": "*Amore, Libertà, Solitudine* di Osho è un'esplorazione profonda di cosa significhi amare senza aggrapparsi, trovare libertà senza fuggire dalla connessione, e abbracciare la solitudine senza sentirsi soli. Osho sfida le nozioni convenzionali delle relazioni, esortando i lettori a scoprire l'amore come un'esperienza di libertà condivisa piuttosto che di dipendenza reciproca. Con intuizioni tratte dal misticismo orientale e dalla psicologia moderna, questo libro presenta potenti riflessioni su come vivere autenticamente nell'amore, radicati nella consapevolezza e nella meditazione. Il messaggio di Osho incoraggia l'indipendenza spirituale, la vita consapevole e il coraggio di camminare da soli quando necessario.",
+
+  "buttons": {
+    "knowMore": "/it/books/amore-liberta-solitudine-il-koan-delle-relazioni",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "Dal sesso alla supercoscienza",
+  "slug": "from-sex-to-superconsciousness",
+  "italianSlug": "dal-sesso-alla-supercoscienza",
+  "author": "Osho",
+  "collection": "Collezione Osho",
+  "description": "Un discorso spirituale provocatorio che trasforma la comprensione del sesso da atto fisico a porta verso la coscienza superiore.",
+  "category": "Spiritualità e Filosofia",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "India",
+    "continent": "Asia",
+    "subRegion": "Asia meridionale"
+  },
+
+  "keyPoints": [
+    "Tantra e risveglio spirituale",
+    "Il sesso come energia naturale",
+    "Trascendenza attraverso la consapevolezza",
+    "Ponte tra corpo e anima"
+  ],
+
+  "tags": ["Spiritualità", "Tantra", "Autorealizzazione", "Filosofia"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004",
+  "originalPublished": "1968",
+  "format": "Brossura",
+  "publisher": "Full Circle",
+  "language": "Italiano",
+
+  "genres": ["Saggistica", "Spiritualità", "Filosofia"],
+
+  "subjects": [
+    "Tantra e illuminazione",
+    "Trasformare l'energia sessuale",
+    "Consapevolezza meditativa",
+    "Liberazione spirituale",
+    "Misticismo e corpo",
+    "Alchimia interiore"
+  ],
+
+  "summary": "*Dal sesso alla supercoscienza* è una delle opere più controverse ma influenti di Osho, dove ridefinisce il ruolo del sesso nel viaggio spirituale. Attraverso una serie di discorsi rivoluzionari, Osho introduce il Tantra come una scienza della trasformazione — usando il sesso non per indulgenza o soppressione, ma come porta verso la trascendenza. Sfidando i tabù sociali, parla candidamente di energia, meditazione e liberazione. Il libro incoraggia i cercatori ad andare oltre il senso di colpa e la repressione, a comprendere e reindirizzare l'energia sessuale verso il risveglio spirituale e l'estasi interiore.",
+
+  "buttons": {
+    "knowMore": "/it/books/dal-sesso-alla-supercoscienza",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "Il Corano",
+  "slug": "quran",
+  "italianSlug": "il-corano",
+  "author": "Molteplice (Rivelato al Profeta Maometto)",
+  "collection": "Collezione Islamica",
+  "description": "Il testo religioso centrale dell'Islam, considerato la parola di Dio rivelata al Profeta Maometto.",
+  "category": "Testo Religioso",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "Arabia Saudita",
+    "continent": "Asia",
+    "subRegion": "Medio Oriente"
+  },
+
+  "keyPoints": [
+    "Rivelazione divina",
+    "Guida per l'umanità",
+    "Insegnamenti spirituali e morali",
+    "Principi legali ed etici"
+  ],
+
+  "tags": ["Islam", "Spiritualità", "Religione", "Scrittura"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "VII secolo",
+  "originalPublished": "610–632 d.C.",
+  "format": "Copertina rigida",
+  "publisher": "Varie (edizioni multiple)",
+  "language": "Italiano",
+
+  "genres": ["Religioso", "Spirituale", "Scrittura"],
+
+  "subjects": [
+    "Monoteismo",
+    "Profezia",
+    "Aldilà",
+    "Legge divina",
+    "Vita etica",
+    "Purificazione spirituale"
+  ],
+
+  "summary": "*Il Corano* è il libro sacro dell'Islam, che i musulmani credono essere la parola letterale di Dio rivelata al Profeta Maometto in un periodo di 23 anni. Copre un'ampia gamma di argomenti tra cui teologia, legge, moralità e guida per la condotta personale e gli affari comunitari. Strutturato in capitoli (Surah) e versetti (Ayah), enfatizza i temi del monoteismo, della compassione, della giustizia e della responsabilità. Il Corano è recitato, memorizzato e venerato in tutto il mondo, offrendo conforto spirituale e un modo di vivere completo a oltre un miliardo di seguaci.",
+
+  "buttons": {
+    "knowMore": "/it/books/il-corano",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+
+
 ];
 
 export default booksItalian;

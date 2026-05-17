@@ -403,6 +403,173 @@ const books = [
   }
 },
 
+{
+  "id": 8,
+  "title": "Love, Freedom, Aloneness: The Koan of Relationships",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "author": "Osho",
+  "collection": "Osho Collection",
+  "description": "A spiritual guide exploring the true essence of love, the illusion of attachment, and the path to inner freedom and aloneness.",
+  "category": "Spirituality & Philosophy",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "India",
+    "continent": "Asia",
+    "subRegion": "South Asia"
+  },
+
+  "keyPoints": [
+    "Understanding Real Love",
+    "Freedom vs. Attachment",
+    "Power of Being Alone",
+    "Meditation and Consciousness"
+  ],
+
+  "tags": ["Spirituality", "Relationships", "Philosophy", "Self-Help"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002",
+  "originalPublished": "2001",
+  "format": "Paperback",
+  "publisher": "St. Martin's Griffin",
+  "language": "English",
+
+  "genres": ["Non-fiction", "Spirituality", "Philosophy"],
+
+  "subjects": [
+    "Love and Relationships",
+    "Freedom of the Soul",
+    "Spiritual Growth",
+    "Meditation Practices",
+    "Self-Realization",
+    "Emotional Independence"
+  ],
+
+  "summary": "*Love, Freedom, Aloneness* by Osho is a profound exploration of what it means to love without clinging, to find freedom without escaping connection, and to embrace aloneness without loneliness. Osho challenges conventional notions of relationships, urging readers to discover love as an experience of shared freedom rather than mutual dependency. With insight drawn from Eastern mysticism and modern psychology, this book presents powerful reflections on how to live authentically in love, rooted in awareness and meditation. Osho's message encourages spiritual independence, conscious living, and the courage to walk alone when needed.",
+
+  "buttons": {
+    "knowMore": "/books/love-freedom-aloneness-the-koan-of-relationships",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 9,
+  "title": "From Sex to Superconsciousness",
+  "slug": "from-sex-to-superconsciousness",
+  "author": "Osho",
+  "collection": "Osho Collection",
+  "description": "A provocative spiritual discourse that transforms the understanding of sex from a physical act to a gateway toward higher consciousness.",
+  "category": "Spirituality & Philosophy",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "India",
+    "continent": "Asia",
+    "subRegion": "South Asia"
+  },
+
+  "keyPoints": [
+    "Tantra and Spiritual Awakening",
+    "Sex as a Natural Energy",
+    "Transcendence Through Awareness",
+    "Bridging Body and Soul"
+  ],
+
+  "tags": ["Spirituality", "Tantra", "Self-Realization", "Philosophy"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004",
+  "originalPublished": "1968",
+  "format": "Paperback",
+  "publisher": "Full Circle",
+  "language": "English",
+
+  "genres": ["Non-fiction", "Spirituality", "Philosophy"],
+
+  "subjects": [
+    "Tantra and Enlightenment",
+    "Transforming Sexual Energy",
+    "Meditative Awareness",
+    "Spiritual Liberation",
+    "Mysticism and the Body",
+    "Inner Alchemy"
+  ],
+
+  "summary": "*From Sex to Superconsciousness* is one of Osho's most controversial yet influential works, where he redefines the role of sex in the spiritual journey. Through a series of revolutionary discourses, Osho introduces Tantra as a science of transformation—using sex not for indulgence or suppression, but as a doorway to transcendence. Challenging societal taboos, he speaks candidly about energy, meditation, and liberation. The book encourages seekers to go beyond guilt and repression, to understand and redirect sexual energy toward spiritual awakening and inner ecstasy.",
+
+  "buttons": {
+    "knowMore": "/books/from-sex-to-superconsciousness",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "The Quran",
+  "slug": "quran",
+  "author": "Multiple (Revealed to Prophet Muhammad)",
+  "collection": "Islamic Collection",
+  "description": "The central religious text of Islam, considered the word of God as revealed to the Prophet Muhammad.",
+  "category": "Religious Text",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "Saudi Arabia",
+    "continent": "Asia",
+    "subRegion": "Middle East"
+  },
+
+  "keyPoints": [
+    "Divine Revelation",
+    "Guidance for Humanity",
+    "Spiritual and Moral Teachings",
+    "Legal and Ethical Principles"
+  ],
+
+  "tags": ["Islam", "Spirituality", "Religion", "Scripture"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7th century",
+  "originalPublished": "610–632 CE",
+  "format": "Hardcover",
+  "publisher": "Various (multiple editions)",
+  "language": "Arabic (with translations)",
+
+  "genres": ["Religious", "Spiritual", "Scripture"],
+
+  "subjects": [
+    "Monotheism",
+    "Prophethood",
+    "Afterlife",
+    "Divine Law",
+    "Ethical Living",
+    "Spiritual Purification"
+  ],
+
+  "summary": "*The Quran* is the holy book of Islam, believed by Muslims to be the literal word of God revealed to the Prophet Muhammad over a period of 23 years. It covers a wide range of subjects including theology, law, morality, and guidance for personal conduct and community affairs. Structured in chapters (Surahs) and verses (Ayahs), it emphasizes themes of monotheism, compassion, justice, and accountability. The Quran is recited, memorized, and revered worldwide, offering spiritual solace and a comprehensive way of life for over a billion followers.",
+
+  "buttons": {
+    "knowMore": "/books/quran",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
 
 
 ];

@@ -404,7 +404,178 @@ const booksChinese = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+
+  {
+  "id": 8,
+  "title": "爱、自由与独处：关系的禅机",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "chineseSlug": "爱自由与独处关系的禅机",
+  "author": "奥修",
+  "collection": "奥修系列",
+  "description": "一本精神指南，探索爱的真谛、执着的幻觉以及通往内在自由和独处的道路。",
+  "category": "灵性与哲学",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "印度",
+    "continent": "亚洲",
+    "subRegion": "南亚"
+  },
+
+  "keyPoints": [
+    "理解真正的爱",
+    "自由与执着的对立",
+    "独处的力量",
+    "冥想与意识"
+  ],
+
+  "tags": ["灵性", "关系", "哲学", "自助"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002年",
+  "originalPublished": "2001年",
+  "format": "平装",
+  "publisher": "圣马丁格里芬出版社",
+  "language": "中文",
+
+  "genres": ["非虚构", "灵性", "哲学"],
+
+  "subjects": [
+    "爱与关系",
+    "灵魂的自由",
+    "灵性成长",
+    "冥想实践",
+    "自我实现",
+    "情感独立"
+  ],
+
+  "summary": "奥修的《爱、自由与独处》深刻探索了如何去爱而不执着，如何在不逃避关系的情况下找到自由，以及如何拥抱独处而不感到孤独。奥修挑战了传统的关系观念，敦促读者发现爱是共享自由的体验，而非相互依赖。凭借东方神秘主义和现代心理学的洞见，这本书提供了关于如何在爱与觉知和冥想中真实地生活的深刻反思。奥修的信息鼓励精神独立、有意识的生活以及在需要时独行的勇气。",
+
+  "buttons": {
+    "knowMore": "/zh/books/爱自由与独处关系的禅机",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "从性到超意识",
+  "slug": "from-sex-to-superconsciousness",
+  "chineseSlug": "从性到超意识",
+  "author": "奥修",
+  "collection": "奥修系列",
+  "description": "一篇具有挑衅性的灵性论述，将对性的理解从身体行为转变为通往更高意识的门户。",
+  "category": "灵性与哲学",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "印度",
+    "continent": "亚洲",
+    "subRegion": "南亚"
+  },
+
+  "keyPoints": [
+    "密宗与灵性觉醒",
+    "作为自然能量的性",
+    "通过意识超越",
+    "身体与灵魂的桥梁"
+  ],
+
+  "tags": ["灵性", "密宗", "自我实现", "哲学"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004年",
+  "originalPublished": "1968年",
+  "format": "平装",
+  "publisher": "全圆出版社",
+  "language": "中文",
+
+  "genres": ["非虚构", "灵性", "哲学"],
+
+  "subjects": [
+    "密宗与开悟",
+    "转化性能量",
+    "冥想意识",
+    "灵性解放",
+    "神秘主义与身体",
+    "内在炼金术"
+  ],
+
+  "summary": "《从性到超意识》是奥修最具争议但也最具影响力的作品之一，他在书中重新定义了性在灵性旅程中的角色。通过一系列革命性的论述，奥修将密宗介绍为一门转化的科学——利用性不是为了放纵或压抑，而是作为超越的门户。挑战社会禁忌，他坦率地谈论能量、冥想和解放。这本书鼓励探索者超越内疚和压抑，理解和引导性能量走向灵性觉醒和内在狂喜。",
+
+  "buttons": {
+    "knowMore": "/zh/books/从性到超意识",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "古兰经",
+  "slug": "quran",
+  "chineseSlug": "古兰经",
+  "author": "多人（启示给先知穆罕默德）",
+  "collection": "伊斯兰系列",
+  "description": "伊斯兰教的中心宗教文本，被认为是真主启示给先知穆罕默德的言语。",
+  "category": "宗教经典",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "沙特阿拉伯",
+    "continent": "亚洲",
+    "subRegion": "中东"
+  },
+
+  "keyPoints": [
+    "神圣启示",
+    "对人类的指导",
+    "灵性与道德教导",
+    "法律与伦理原则"
+  ],
+
+  "tags": ["伊斯兰教", "灵性", "宗教", "经典"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7世纪",
+  "originalPublished": "610–632年",
+  "format": "精装",
+  "publisher": "多种（多个版本）",
+  "language": "中文",
+
+  "genres": ["宗教", "灵性", "经典"],
+
+  "subjects": [
+    "一神论",
+    "先知使命",
+    "来世",
+    "神圣律法",
+    "道德生活",
+    "灵性净化"
+  ],
+
+  "summary": "《古兰经》是伊斯兰教的圣书，穆斯林相信它是真主在23年间启示给先知穆罕默德的言语。它涵盖了广泛的主题，包括神学、法律、道德以及个人行为和社会事务的指导。以章节（苏拉）和经文（阿亚）的结构组织，它强调一神论、慈悲、正义和问责的主题。《古兰经》在世界各地被诵读、背诵和尊敬，为超过十亿的信徒提供精神慰藉和全面的生活方式。",
+
+  "buttons": {
+    "knowMore": "/zh/books/古兰经",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+    }
+},
 ];
 
 export default booksChinese;

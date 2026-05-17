@@ -404,7 +404,178 @@ const booksJapanese = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+
+  {
+  "id": 8,
+  "title": "愛・自由・孤独：人間関係の公案",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "japaneseSlug": "ai-jiyu-kodoku-ningenkankei-no-koan",
+  "author": "オショウ",
+  "collection": "オショウ・コレクション",
+  "description": "愛の真の本質、執着の幻想、そして内なる自由と孤独への道を探求するスピリチュアルガイド。",
+  "category": "スピリチュアリティと哲学",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "インド",
+    "continent": "アジア",
+    "subRegion": "南アジア"
+  },
+
+  "keyPoints": [
+    "真の愛を理解する",
+    "自由 vs 執着",
+    "孤独の力",
+    "瞑想と意識"
+  ],
+
+  "tags": ["スピリチュアリティ", "人間関係", "哲学", "自己啓発"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002年",
+  "originalPublished": "2001年",
+  "format": "ペーパーバック",
+  "publisher": "セント・マーチンズ・グリフィン",
+  "language": "日本語",
+
+  "genres": ["ノンフィクション", "スピリチュアリティ", "哲学"],
+
+  "subjects": [
+    "愛と人間関係",
+    "魂の自由",
+    "スピリチュアルな成長",
+    "瞑想実践",
+    "自己実現",
+    "感情的自立"
+  ],
+
+  "summary": "オショウの『愛・自由・孤独』は、しがみつかずに愛すること、つながりから逃げずに自由を見つけること、そして孤独感なしに孤独を受け入れることの意味を深く探求している。オショウは人間関係の conventional な概念に挑戦し、相互依存ではなく共有された自由の経験として愛を発見するよう読者に促している。東洋の神秘主義と現代心理学から得られた洞察をもとに、この本は、気づきと瞑想に根ざした、愛の中で本物に生きる方法について力強い考察を提供している。オショウのメッセージは、精神的自立、意識的な生活、そして必要なときには一人で歩く勇気を奨励している。",
+
+  "buttons": {
+    "knowMore": "/ja/books/ai-jiyu-kodoku-ningenkankei-no-koan",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "性から超意識へ",
+  "slug": "from-sex-to-superconsciousness",
+  "japaneseSlug": "sei-kara-chouishiki-e",
+  "author": "オショウ",
+  "collection": "オショウ・コレクション",
+  "description": "セックスを肉体的行為から高次意識への入り口へと変える挑発的なスピリチュアル・ディスコース。",
+  "category": "スピリチュアリティと哲学",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "インド",
+    "continent": "アジア",
+    "subRegion": "南アジア"
+  },
+
+  "keyPoints": [
+    "タントラとスピリチュアルな目覚め",
+    "自然エネルギーとしてのセックス",
+    "意識による超越",
+    "身体と魂の架け橋"
+  ],
+
+  "tags": ["スピリチュアリティ", "タントラ", "自己実現", "哲学"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004年",
+  "originalPublished": "1968年",
+  "format": "ペーパーバック",
+  "publisher": "フルサークル",
+  "language": "日本語",
+
+  "genres": ["ノンフィクション", "スピリチュアリティ", "哲学"],
+
+  "subjects": [
+    "タントラと悟り",
+    "性的エネルギーの変換",
+    "瞑想的意識",
+    "精神的解放",
+    "神秘主義と身体",
+    "内なる錬金術"
+  ],
+
+  "summary": "『性から超意識へ』はオショウの最も物議を醸したが影響力のある作品の一つであり、その中で彼はスピリチュアルな旅におけるセックスの役割を再定義している。一連の革新的な談話を通じて、オショウはタントラを変容の科学として紹介する — セックスを耽溺や抑圧のためではなく、超越への扉として使用する。社会的タブーに挑戦し、彼はエネルギー、瞑想、解放について率直に語る。この本は、探求者が罪悪感と抑圧を超え、性的エネルギーを理解し、スピリチュアルな目覚めと内なるエクスタシーへと向け直すことを奨励している。",
+
+  "buttons": {
+    "knowMore": "/ja/books/sei-kara-chouishiki-e",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "クルアーン",
+  "slug": "quran",
+  "japaneseSlug": "kuruan",
+  "author": "複数（預言者ムハンマドに啓示された）",
+  "collection": "イスラム・コレクション",
+  "description": "イスラム教の中心的宗教文書であり、預言者ムハンマドに啓示された神の言葉とされている。",
+  "category": "宗教文書",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "サウジアラビア",
+    "continent": "アジア",
+    "subRegion": "中東"
+  },
+
+  "keyPoints": [
+    "神の啓示",
+    "人類への導き",
+    "精神的および道徳的教え",
+    "法的および倫理的原則"
+  ],
+
+  "tags": ["イスラム", "スピリチュアリティ", "宗教", "聖典"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7世紀",
+  "originalPublished": "610–632年",
+  "format": "ハードカバー",
+  "publisher": "様々（複数版）",
+  "language": "日本語",
+
+  "genres": ["宗教", "スピリチュアル", "聖典"],
+
+  "subjects": [
+    "一神教",
+    "預言者性",
+    "来世",
+    "神の律法",
+    "倫理的生活",
+    "精神的浄化"
+  ],
+
+  "summary": "『クルアーン』はイスラム教の聖典であり、ムスリムはそれが23年間にわたって預言者ムハンマドに啓示された神の言葉そのものであると信じている。神学、法律、道徳、そして個人の行動や共同体の問題への指針を含む幅広いテーマをカバーしている。章（スーラ）と節（アーヤ）で構成され、一神教、慈悲、正義、説明責任のテーマを強調している。クルアーンは世界中で朗唱され、暗唱され、尊敬されており、10億以上の信者に精神的な慰めと包括的な生き方を提供している。",
+
+  "buttons": {
+    "knowMore": "/ja/books/kuruan",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
 ];
 
 export default booksJapanese;

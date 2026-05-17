@@ -404,7 +404,180 @@ const booksGerman = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+
+  {
+  "id": 8,
+  "title": "Liebe, Freiheit, Einsamkeit: Der Koan der Beziehungen",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "germanSlug": "liebe-freiheit-einsamkeit-der-koan-der-beziehungen",
+  "author": "Osho",
+  "collection": "Osho Sammlung",
+  "description": "Ein spiritueller Leitfaden, der das wahre Wesen der Liebe, die Illusion der Bindung und den Weg zu innerer Freiheit und Einsamkeit erforscht.",
+  "category": "Spiritualität & Philosophie",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "Indien",
+    "continent": "Asien",
+    "subRegion": "Südasien"
+  },
+
+  "keyPoints": [
+    "Wahre Liebe verstehen",
+    "Freiheit vs. Bindung",
+    "Kraft des Alleinseins",
+    "Meditation und Bewusstsein"
+  ],
+
+  "tags": ["Spiritualität", "Beziehungen", "Philosophie", "Selbsthilfe"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002",
+  "originalPublished": "2001",
+  "format": "Taschenbuch",
+  "publisher": "St. Martin's Griffin",
+  "language": "Deutsch",
+
+  "genres": ["Sachbuch", "Spiritualität", "Philosophie"],
+
+  "subjects": [
+    "Liebe und Beziehungen",
+    "Freiheit der Seele",
+    "Spirituelles Wachstum",
+    "Meditationspraktiken",
+    "Selbstverwirklichung",
+    "Emotionale Unabhängigkeit"
+  ],
+
+  "summary": "*Liebe, Freiheit, Einsamkeit* von Osho ist eine tiefgründige Erkundung dessen, was es bedeutet, ohne Anhaftung zu lieben, Freiheit zu finden, ohne Verbindung zu fliehen, und Einsamkeit ohne Verlassenheit zu umarmen. Osho hinterfragt konventionelle Vorstellungen von Beziehungen und fordert die Leser auf, Liebe als eine Erfahrung geteilter Freiheit anstelle gegenseitiger Abhängigkeit zu entdecken. Mit Einsichten aus östlicher Mystik und moderner Psychologie präsentiert dieses Buch kraftvolle Reflexionen darüber, wie man authentisch in Liebe leben kann, verwurzelt in Achtsamkeit und Meditation. Oshos Botschaft ermutigt zu spiritueller Unabhängigkeit, bewusstem Leben und dem Mut, bei Bedarf allein zu gehen.",
+
+  "buttons": {
+    "knowMore": "/de/books/liebe-freiheit-einsamkeit-der-koan-der-beziehungen",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "Vom Sex zum Überbewusstsein",
+  "slug": "from-sex-to-superconsciousness",
+  "germanSlug": "vom-sex-zum-ueberbewusstsein",
+  "author": "Osho",
+  "collection": "Osho Sammlung",
+  "description": "Ein provokativer spiritueller Diskurs, der das Verständnis von Sex von einem physischen Akt zu einem Tor zum höheren Bewusstsein transformiert.",
+  "category": "Spiritualität & Philosophie",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "Indien",
+    "continent": "Asien",
+    "subRegion": "Südasien"
+  },
+
+  "keyPoints": [
+    "Tantra und spirituelles Erwachen",
+    "Sex als natürliche Energie",
+    "Transzendenz durch Bewusstsein",
+    "Brücke zwischen Körper und Seele"
+  ],
+
+  "tags": ["Spiritualität", "Tantra", "Selbstverwirklichung", "Philosophie"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004",
+  "originalPublished": "1968",
+  "format": "Taschenbuch",
+  "publisher": "Full Circle",
+  "language": "Deutsch",
+
+  "genres": ["Sachbuch", "Spiritualität", "Philosophie"],
+
+  "subjects": [
+    "Tantra und Erleuchtung",
+    "Transformation sexueller Energie",
+    "Meditatives Bewusstsein",
+    "Spirituelle Befreiung",
+    "Mystik und Körper",
+    "Innere Alchemie"
+  ],
+
+  "summary": "*Vom Sex zum Überbewusstsein* ist eines der umstrittensten, aber einflussreichsten Werke Oshos, in dem er die Rolle des Sex auf der spirituellen Reise neu definiert. Durch eine Reihe revolutionärer Diskurse präsentiert Osho Tantra als eine Wissenschaft der Transformation — Sex weder für Genuss noch für Unterdrückung, sondern als Tür zur Transzendenz. Gesellschaftliche Tabus herausfordernd, spricht er offen über Energie, Meditation und Befreiung. Das Buch ermutigt Suchende, über Schuld und Unterdrückung hinauszugehen, sexuelle Energie zu verstehen und in Richtung spirituelles Erwachen und innere Ekstase umzuleiten.",
+
+  "buttons": {
+    "knowMore": "/de/books/vom-sex-zum-ueberbewusstsein",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "Der Koran",
+  "slug": "quran",
+  "germanSlug": "der-koran",
+  "author": "Mehrere (Offenbart dem Propheten Mohammed)",
+  "collection": "Islamische Sammlung",
+  "description": "Der zentrale religiöse Text des Islam, der als das Wort Gottes gilt, das dem Propheten Mohammed offenbart wurde.",
+  "category": "Religiöser Text",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "Saudi-Arabien",
+    "continent": "Asien",
+    "subRegion": "Naher Osten"
+  },
+
+  "keyPoints": [
+    "Göttliche Offenbarung",
+    "Leitfaden für die Menschheit",
+    "Spirituelle und moralische Lehren",
+    "Rechtliche und ethische Grundsätze"
+  ],
+
+  "tags": ["Islam", "Spiritualität", "Religion", "Schrift"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7. Jahrhundert",
+  "originalPublished": "610–632 n. Chr.",
+  "format": "Gebundene Ausgabe",
+  "publisher": "Verschiedene (mehrere Ausgaben)",
+  "language": "Deutsch",
+
+  "genres": ["Religiös", "Spirituell", "Schrift"],
+
+  "subjects": [
+    "Monotheismus",
+    "Prophetentum",
+    "Jenseits",
+    "Göttliches Gesetz",
+    "Ethisches Leben",
+    "Spirituelle Reinigung"
+  ],
+
+  "summary": "*Der Koran* ist das heilige Buch des Islam, von dem Muslime glauben, dass es das wörtliche Wort Gottes ist, das dem Propheten Mohammed über einen Zeitraum von 23 Jahren offenbart wurde. Es deckt ein breites Spektrum an Themen ab, darunter Theologie, Recht, Moral und Anleitung für persönliches Verhalten und gemeinschaftliche Angelegenheiten. Strukturiert in Kapiteln (Suren) und Versen (Ayat), betont es Themen wie Monotheismus, Barmherzigkeit, Gerechtigkeit und Verantwortlichkeit. Der Koran wird weltweit rezitiert, auswendig gelernt und verehrt und bietet über einer Milliarde Anhänger spirituellen Trost und eine umfassende Lebensweise.",
+
+  "buttons": {
+    "knowMore": "/de/books/der-koran",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+
 ];
 
 export default booksGerman;

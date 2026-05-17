@@ -404,7 +404,177 @@ const booksKorean = [
       "readSummary": "#",
       "listenAudiobook": "#"
     }
+  },
+  {
+  "id": 8,
+  "title": "사랑, 자유, 고독: 관계의 화두",
+  "slug": "love-freedom-aloneness-the-koan-of-relationships",
+  "koreanSlug": "sarang-jiyu-godok-gwangyeui-hwadu",
+  "author": "오쇼",
+  "collection": "오쇼 컬렉션",
+  "description": "사랑의 진정한 본질, 집착의 환상, 그리고 내적 자유와 고독으로 가는 길을 탐구하는 영적 안내서.",
+  "category": "영성과 철학",
+  "genre": "",
+  "price": "$15.99",
+  "imageUrl": QubitBookData.Love_Freedom_Aloneness,
+  "rating": 4.8,
+
+  "geography": {
+    "country": "인도",
+    "continent": "아시아",
+    "subRegion": "남아시아"
+  },
+
+  "keyPoints": [
+    "진정한 사랑 이해하기",
+    "자유 vs 집착",
+    "혼자 있는 힘",
+    "명상과 의식"
+  ],
+
+  "tags": ["영성", "관계", "철학", "자기 계발"],
+  "isbn": "9780312320725",
+  "pageCount": 304,
+  "published": "2002년",
+  "originalPublished": "2001년",
+  "format": "페이퍼백",
+  "publisher": "세인트 마틴스 그리핀",
+  "language": "한국어",
+
+  "genres": ["논픽션", "영성", "철학"],
+
+  "subjects": [
+    "사랑과 관계",
+    "영혼의 자유",
+    "영적 성장",
+    "명상 실천",
+    "자아 실현",
+    "정서적 독립"
+  ],
+
+  "summary": "오쇼의 *사랑, 자유, 고독*은 집착 없이 사랑하는 것, 연결에서 도망치지 않고 자유를 찾는 것, 그리고 외로움 없이 고독을 받아들이는 것의 의미에 대한 깊은 탐구이다. 오쇼는 관계에 대한 전통적인 개념에 도전하며, 상호 의존보다는 공유된 자유의 경험으로서 사랑을 발견하도록 독자들에게 권한다. 동양의 신비주의와 현대 심리학에서 얻은 통찰력으로, 이 책은 인식과 명상에 뿌리를 둔, 사랑 속에서 진정하게 사는 방법에 대한 강력한 성찰을 제시한다. 오쇼의 메시지는 영적 독립, 의식적인 삶, 그리고 필요할 때 혼자 걸을 용기를 장려한다.",
+
+  "buttons": {
+    "knowMore": "/ko/books/sarang-jiyu-godok-gwangyeui-hwadu",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
   }
+},
+
+{
+  "id": 9,
+  "title": "섹스에서 초의식으로",
+  "slug": "from-sex-to-superconsciousness",
+  "koreanSlug": "sexeseo-chouisigeuro",
+  "author": "오쇼",
+  "collection": "오쇼 컬렉션",
+  "description": "섹스에 대한 이해를 육체적 행위에서 더 높은 의식으로 가는 문으로 변형시키는 도발적인 영적 담론.",
+  "category": "영성과 철학",
+  "genre": "",
+  "price": "$14.99",
+  "imageUrl": QubitBookData.From_Sex_to_Superconsciousness,
+  "rating": 4.6,
+
+  "geography": {
+    "country": "인도",
+    "continent": "아시아",
+    "subRegion": "남아시아"
+  },
+
+  "keyPoints": [
+    "탄트라와 영적 각성",
+    "자연 에너지로서의 섹스",
+    "의식을 통한 초월",
+    "신체와 영혼의 연결"
+  ],
+
+  "tags": ["영성", "탄트라", "자아 실현", "철학"],
+  "isbn": "9788172610330",
+  "pageCount": 220,
+  "published": "2004년",
+  "originalPublished": "1968년",
+  "format": "페이퍼백",
+  "publisher": "풀 서클",
+  "language": "한국어",
+
+  "genres": ["논픽션", "영성", "철학"],
+
+  "subjects": [
+    "탄트라와 깨달음",
+    "성적 에너지 변환",
+    "명상적 의식",
+    "영적 해방",
+    "신비주의와 신체",
+    "내적 연금술"
+  ],
+
+  "summary": "*섹스에서 초의식으로*는 오쇼의 가장 논란이 많지만 영향력 있는 작품 중 하나로, 그가 영적 여정에서 섹스의 역할을 재정의한다. 일련의 혁명적 담론을 통해 오쇼는 탄트라를 변환의 과학으로 소개한다 — 섹스를 방종이나 억압을 위해서가 아니라 초월을 위한 문으로 사용한다. 사회적 금기에 도전하면서 그는 에너지, 명상, 해방에 대해 솔직하게 말한다. 이 책은 탐구자들이 죄책감과 억압을 넘어서고, 성적 에너지를 이해하고 영적 각성과 내적 황홀경으로 방향을 돌리도록 장려한다.",
+
+  "buttons": {
+    "knowMore": "/ko/books/sexeseo-chouisigeuro",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
+
+{
+  "id": 10,
+  "title": "코란",
+  "slug": "quran",
+  "koreanSlug": "koran",
+  "author": "복수 (예언자 무함마드에게 계시됨)",
+  "collection": "이슬람 컬렉션",
+  "description": "이슬람의 중심 종교 문헌으로, 예언자 무함마드에게 계시된 신의 말씀으로 간주된다.",
+  "category": "종교 문헌",
+  "genre": "",
+  "price": "",
+  "imageUrl": QubitBookData.The_Quran,
+  "rating": 5.0,
+
+  "geography": {
+    "country": "사우디아라비아",
+    "continent": "아시아",
+    "subRegion": "중동"
+  },
+
+  "keyPoints": [
+    "신성한 계시",
+    "인류를 위한 인도",
+    "영적 및 도덕적 가르침",
+    "법적 및 윤리적 원칙"
+  ],
+
+  "tags": ["이슬람", "영성", "종교", "경전"],
+  "isbn": "9780141393841",
+  "pageCount": 604,
+  "published": "7세기",
+  "originalPublished": "610–632년",
+  "format": "양장본",
+  "publisher": "다양함 (여러 판본)",
+  "language": "한국어",
+
+  "genres": ["종교", "영적", "경전"],
+
+  "subjects": [
+    "유일신교",
+    "예언자성",
+    "내세",
+    "신성한 법",
+    "윤리적 생활",
+    "영적 정화"
+  ],
+
+  "summary": "*코란*은 이슬람의 성경으로, 무슬림들은 그것이 23년에 걸쳐 예언자 무함마드에게 계시된 신의 문자 그대로의 말씀이라고 믿는다. 그것은 신학, 법률, 도덕성, 그리고 개인의 행동과 공동체 문제에 대한 지침을 포함한 광범위한 주제를 다룬다. 장(수라)과 절(아야)로 구성되어 있으며, 유일신교, 자비, 정의, 책임감의 주제를 강조한다. 코란은 전 세계에서 암송되고, 암기되고, 숭배되며, 10억 이상의 신자들에게 영적 위안과 포괄적인 삶의 방식을 제공한다.",
+
+  "buttons": {
+    "knowMore": "/ko/books/koran",
+    "getBook": "#",
+    "readSummary": "#",
+    "listenAudiobook": "#"
+  }
+},
 ];
 
 export default booksKorean;

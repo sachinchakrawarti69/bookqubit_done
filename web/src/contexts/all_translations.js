@@ -1,5 +1,3 @@
-// src/contexts/all_translations.js
-
 import { navbarTranslations } from "@/datalang/navbar";
 import { aboutTranslations } from "@/datalang/about";
 import { bookTranslations } from "@/datalang/booktranslations";
@@ -11,6 +9,7 @@ import { explorepageTranslations } from "@/datalang/explorepagetranslations";
 import { footerTranslations } from "@/datalang/footer";
 import authorsTranslations from "@/datalang/authors_translations";
 import { publicationsTranslations } from "@/datalang/publications_translations";
+import { trendDashboardTranslations } from "@/translations/trend_dashboard_translations";
 
 // Merge all translations for all 20 languages
 export const allTranslations = {
@@ -25,7 +24,8 @@ export const allTranslations = {
     ...explorepageTranslations.en,
     ...footerTranslations.en,
     ...authorsTranslations.en,
-    ...publicationsTranslations.en
+    ...publicationsTranslations.en,
+    ...trendDashboardTranslations.en
   },
   hi: { 
     ...navbarTranslations.hi, 
@@ -38,7 +38,8 @@ export const allTranslations = {
     ...explorepageTranslations.hi,
     ...footerTranslations.hi,
     ...authorsTranslations.hi,
-    ...publicationsTranslations.hi
+    ...publicationsTranslations.hi,
+    ...trendDashboardTranslations.hi
   },
   ur: { 
     ...navbarTranslations.ur, 
@@ -51,7 +52,8 @@ export const allTranslations = {
     ...explorepageTranslations.ur,
     ...footerTranslations.ur,
     ...authorsTranslations.ur,
-    ...publicationsTranslations.ur
+    ...publicationsTranslations.ur,
+    ...trendDashboardTranslations.ur
   },
   ar: { 
     ...navbarTranslations.ar, 
@@ -64,7 +66,8 @@ export const allTranslations = {
     ...explorepageTranslations.ar,
     ...footerTranslations.ar,
     ...authorsTranslations.ar,
-    ...publicationsTranslations.ar
+    ...publicationsTranslations.ar,
+    ...trendDashboardTranslations.ar
   },
   bn: { 
     ...navbarTranslations.bn, 
@@ -77,7 +80,8 @@ export const allTranslations = {
     ...explorepageTranslations.bn,
     ...footerTranslations.bn,
     ...authorsTranslations.bn,
-    ...publicationsTranslations.bn
+    ...publicationsTranslations.bn,
+    ...trendDashboardTranslations.bn
   },
   mr: { 
     ...navbarTranslations.mr, 
@@ -90,7 +94,8 @@ export const allTranslations = {
     ...explorepageTranslations.mr,
     ...footerTranslations.mr,
     ...authorsTranslations.mr,
-    ...publicationsTranslations.mr
+    ...publicationsTranslations.mr,
+    ...trendDashboardTranslations.mr
   },
   ta: { 
     ...navbarTranslations.ta, 
@@ -103,7 +108,8 @@ export const allTranslations = {
     ...explorepageTranslations.ta,
     ...footerTranslations.ta,
     ...authorsTranslations.ta,
-    ...publicationsTranslations.ta
+    ...publicationsTranslations.ta,
+    ...trendDashboardTranslations.ta
   },
   kn: { 
     ...navbarTranslations.kn, 
@@ -116,7 +122,8 @@ export const allTranslations = {
     ...explorepageTranslations.kn,
     ...footerTranslations.kn,
     ...authorsTranslations.kn,
-    ...publicationsTranslations.kn
+    ...publicationsTranslations.kn,
+    ...trendDashboardTranslations.kn
   },
   te: { 
     ...navbarTranslations.te, 
@@ -129,7 +136,8 @@ export const allTranslations = {
     ...explorepageTranslations.te,
     ...footerTranslations.te,
     ...authorsTranslations.te,
-    ...publicationsTranslations.te
+    ...publicationsTranslations.te,
+    ...trendDashboardTranslations.te
   },
   ml: { 
     ...navbarTranslations.ml, 
@@ -142,7 +150,8 @@ export const allTranslations = {
     ...explorepageTranslations.ml,
     ...footerTranslations.ml,
     ...authorsTranslations.ml,
-    ...publicationsTranslations.ml
+    ...publicationsTranslations.ml,
+    ...trendDashboardTranslations.ml
   },
   es: { 
     ...navbarTranslations.es, 
@@ -155,7 +164,8 @@ export const allTranslations = {
     ...explorepageTranslations.es,
     ...footerTranslations.es,
     ...authorsTranslations.es,
-    ...publicationsTranslations.es
+    ...publicationsTranslations.es,
+    ...trendDashboardTranslations.es
   },
   ps: { 
     ...navbarTranslations.ps, 
@@ -168,7 +178,8 @@ export const allTranslations = {
     ...explorepageTranslations.ps,
     ...footerTranslations.ps,
     ...authorsTranslations.ps,
-    ...publicationsTranslations.ps
+    ...publicationsTranslations.ps,
+    ...trendDashboardTranslations.ps
   },
   zh: { 
     ...navbarTranslations.zh, 
@@ -181,7 +192,8 @@ export const allTranslations = {
     ...explorepageTranslations.zh,
     ...footerTranslations.zh,
     ...authorsTranslations.zh,
-    ...publicationsTranslations.zh
+    ...publicationsTranslations.zh,
+    ...trendDashboardTranslations.zh
   },
   fr: { 
     ...navbarTranslations.fr, 
@@ -194,7 +206,8 @@ export const allTranslations = {
     ...explorepageTranslations.fr,
     ...footerTranslations.fr,
     ...authorsTranslations.fr,
-    ...publicationsTranslations.fr
+    ...publicationsTranslations.fr,
+    ...trendDashboardTranslations.fr
   },
   de: { 
     ...navbarTranslations.de, 
@@ -207,7 +220,8 @@ export const allTranslations = {
     ...explorepageTranslations.de,
     ...footerTranslations.de,
     ...authorsTranslations.de,
-    ...publicationsTranslations.de
+    ...publicationsTranslations.de,
+    ...trendDashboardTranslations.de
   },
   it: { 
     ...navbarTranslations.it, 
@@ -220,7 +234,8 @@ export const allTranslations = {
     ...explorepageTranslations.it,
     ...footerTranslations.it,
     ...authorsTranslations.it,
-    ...publicationsTranslations.it
+    ...publicationsTranslations.it,
+    ...trendDashboardTranslations.it
   },
   ja: { 
     ...navbarTranslations.ja, 
@@ -233,7 +248,8 @@ export const allTranslations = {
     ...explorepageTranslations.ja,
     ...footerTranslations.ja,
     ...authorsTranslations.ja,
-    ...publicationsTranslations.ja
+    ...publicationsTranslations.ja,
+    ...trendDashboardTranslations.ja
   },
   ko: { 
     ...navbarTranslations.ko, 
@@ -246,7 +262,8 @@ export const allTranslations = {
     ...explorepageTranslations.ko,
     ...footerTranslations.ko,
     ...authorsTranslations.ko,
-    ...publicationsTranslations.ko
+    ...publicationsTranslations.ko,
+    ...trendDashboardTranslations.ko
   },
   fa: { 
     ...navbarTranslations.fa, 
@@ -259,7 +276,8 @@ export const allTranslations = {
     ...explorepageTranslations.fa,
     ...footerTranslations.fa,
     ...authorsTranslations.fa,
-    ...publicationsTranslations.fa
+    ...publicationsTranslations.fa,
+    ...trendDashboardTranslations.fa
   },
   ru: { 
     ...navbarTranslations.ru, 
@@ -272,7 +290,8 @@ export const allTranslations = {
     ...explorepageTranslations.ru,
     ...footerTranslations.ru,
     ...authorsTranslations.ru,
-    ...publicationsTranslations.ru
+    ...publicationsTranslations.ru,
+    ...trendDashboardTranslations.ru
   }
 };
 
