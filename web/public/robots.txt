@@ -1,29 +1,6 @@
-# Allow all bots to crawl
 User-agent: *
 Allow: /
 
-# Disallow admin or private areas
-Disallow: /admin/
-Disallow: /login/
-Disallow: /dashboard/
-Disallow: /profile/
-Disallow: /cart/
-Disallow: /checkout/
-Disallow: /api/
-Disallow: /*?*
-Disallow: /*&*
+Host: https://bookqubit.com
 
-# Allow specific bots (optional)
-User-agent: Googlebot
-Allow: /
-User-agent: Bingbot
-Allow: /
-
-# Sitemap location
-Sitemap: https://bookqubit.shop/sitemap.xml
-
-# Crawl delay for polite bots
-Crawl-delay: 1
-
-# Host directive (optional)
-Host: https://bookqubit.shop
+Sitemap: https://bookqubit.com/sitemap.xml

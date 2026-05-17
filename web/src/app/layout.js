@@ -104,7 +104,6 @@ export const metadata = {
     type: "website",
     locale: "en_US",
 
-    // Main Domain
     url: "https://bookqubit.com",
 
     siteName: "BookQubit",
@@ -140,12 +139,12 @@ export const metadata = {
   },
 
   verification: {
-    google: "03_jf4AMkWf87c1mDvMXI_eaBAUTykHmYU5CzyAjEqE",
+    google: "qjvxvVO6qUEdHhidcz7qeUdwGWrklQZOMYE5CZN-paw",
 
-    yandex: "7c7b1645cdd813cc",
+    yandex: "3413ce67b7b5bd51",
 
     other: {
-      "msvalidate.01": "3ED2E923C3A826303244CCA16E813077",
+      "msvalidate.01": "79A82530E831502EBB89097AE87D6AE9",
     },
   },
 };
@@ -161,6 +160,24 @@ export default function RootLayout({ children }) {
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=5"
+        />
+
+        {/* Google Site Verification */}
+        <meta
+          name="google-site-verification"
+          content="qjvxvVO6qUEdHhidcz7qeUdwGWrklQZOMYE5CZN-paw"
+        />
+
+        {/* Bing Verification */}
+        <meta
+          name="msvalidate.01"
+          content="79A82530E831502EBB89097AE87D6AE9"
+        />
+
+        {/* Yandex Verification */}
+        <meta
+          name="yandex-verification"
+          content="3413ce67b7b5bd51"
         />
 
         {/* Theme Colors */}
@@ -215,12 +232,6 @@ export default function RootLayout({ children }) {
         {/* Alternate Domains */}
         <link
           rel="alternate"
-          href="https://bookqubit.shop"
-          hrefLang="x-default"
-        />
-
-        <link
-          rel="alternate"
           href="https://bookqubit.com"
           hrefLang="en"
         />
@@ -238,14 +249,12 @@ export default function RootLayout({ children }) {
 
               alternateName: [
                 "BookQubit Books Platform",
-                "BookQubit Shop",
               ],
 
               url: "https://bookqubit.com",
 
               sameAs: [
                 "https://bookqubit.com",
-                "https://bookqubit.shop",
               ],
 
               potentialAction: {
@@ -265,7 +274,7 @@ export default function RootLayout({ children }) {
       <body className="antialiased">
         {/* Google Analytics */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-1BW65S2PZ2"
+          src="https://www.googletagmanager.com/gtag/js?id=G-1SNY2TTZ4X"
           strategy="afterInteractive"
         />
 
@@ -282,7 +291,7 @@ export default function RootLayout({ children }) {
 
             gtag('js', new Date());
 
-            gtag('config', 'G-1BW65S2PZ2', {
+            gtag('config', 'G-1SNY2TTZ4X', {
               page_path: window.location.pathname,
               anonymize_ip: true,
             });
