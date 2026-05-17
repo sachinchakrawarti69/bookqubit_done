@@ -13,6 +13,9 @@ import QuickActions from "@/components/homepages/QuickActions";
 import LaunchYourBook from "@/components/homepages/LunchYourBook";
 import DiscoveryPlatform from "@/components/homepages/DiscoveryPlatform";
 import AiTools from "@/components/homepages/AiTools";
+import TrendDashboardSlider from "@/components/homepages/trend_dashboard_slider";
+
+
 
 
 export default function HomepagesPage() {
@@ -20,6 +23,8 @@ export default function HomepagesPage() {
     <main>
       {/* <DiscoveryPlatform /> */}
       <HeroSectionSlider />
+      <TrendDashboardSlider />
+
       {/* <ThirdPartyAD /> */}
       <HeroPartOne />
       {/* <QuickActions /> */}
