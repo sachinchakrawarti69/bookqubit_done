@@ -14,6 +14,10 @@ import booksJapanese from './BooksData_Japanese';
 import booksKorean from './BooksData_Korean';
 import booksPersian from './BooksData_Persian';
 import booksRussian from './BooksData_Russian';
+import booksMalayalam from './BooksData_Malayalam'
+import booksPashto from './BooksData_Pashto'
+import booksSpanish from './BooksData_Spanish'
+import booksTelugu from './BooksData_Telugu'
 
 export const booksTranslations = {
   en: booksEnglish,
@@ -31,7 +35,13 @@ export const booksTranslations = {
   ja: booksJapanese,
   ko: booksKorean,
   fa: booksPersian,
-  ru: booksRussian
+  ru: booksRussian,
+  ml: booksMalayalam,
+  es: booksSpanish,
+  ps: booksPashto,
+  te: booksTelugu,
+
+
 };
 
 // Get books by language with fallback to English

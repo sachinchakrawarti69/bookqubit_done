@@ -1,67 +1,48 @@
-//src\data\books\BooksData_Japanese.js
+// src\data\books\BooksData_Japanese.js
 
 import QubitBookData from './QubitBookData';
 
 const booksJapanese = [
   {
     "id": 1,
-    "title": "私はなぜ無神論者なのか",
+    "title": "なぜ私は無神論者なのか",
     "slug": "why-i-am-an-atheist",
+    "japaneseSlug": "naze-watashi-wa-mushinronsha-nanoka",
     "author": "バガット・シン",
     "collection": "",
-    "description": "インドの革命家バガット・シンが獄中で執筆した力強く論理的なエッセイ。自身の無神論を擁護し、盲目的な信仰に異議を唱える。",
+    "description": "インドの革命家バガット・シンが獄中で書いた、彼の無神論を擁護し盲目的信仰に挑戦する、力強く理路整然としたエッセイ。",
     "category": "無神論と宗教",
     "genre": "",
     "price": "$9.99",
     "imageUrl": QubitBookData.Why_I_Am_an_Atheist,
     "rating": 4.8,
-
     "geography": {
       "country": "インド",
       "continent": "アジア",
-      "Sub Region": "南アジア"
+      "subRegion": "南アジア"
     },
-
-    "keyPoints": [
-      "合理主義",
-      "革命思想",
-      "宗教批判"
-    ],
-
-    "tags": [
-      "無神論",
-      "インド史",
-      "革命"
-    ],
-
+    "keyPoints": ["合理主義", "革命的思想", "宗教批判"],
+    "tags": ["無神論", "インド史", "革命"],
     "isbn": "9788170288808",
     "pageCount": 64,
-    "published": "1930",
-    "originalPublished": "1930",
+    "published": "1930年",
+    "originalPublished": "1930年",
     "format": "ペーパーバック",
-    "publisher": "Government of India Press / 各種再版",
-    "language": "Japanese",
-
-    "genres": [
-      "自伝",
-      "政治哲学",
-      "無神論"
-    ],
-
+    "publisher": "インド政府出版局 / 複数の再版",
+    "language": "日本語",
+    "genres": ["自伝", "政治哲学", "無神論"],
     "subjects": [
       "合理主義",
-      "独立運動",
+      "自由闘争",
       "世俗主義",
-      "宗教と信仰",
-      "インド革命家",
+      "宗教と信念",
+      "インドの革命家",
       "無神論哲学"
     ],
-
-    "summary": "『私はなぜ無神論者なのか』は、1930年にラホール中央刑務所でバガット・シンによって書かれた有名なエッセイである。彼は、自身の神への不信仰が傲慢さからではなく、合理主義、人道主義、政治的意識から生まれたものであると説明する。また、盲目的な信仰と宗教的正統主義が社会改革や革命思想を妨げると批判している。",
-
+    "summary": "1930年にラホール中央刑務所の監房で書かれた『なぜ私は無神論者なのか』は、インドの革命家バガット・シンによる大胆で知的に厳格なエッセイである。神への不信仰が傲慢や未熟さから生まれたという考えに異議を唱え、シンは合理主義、ヒューマニズム、政治的意識に根ざした無神論の深い哲学的弁護を提示する。バガット・シンは、盲目的信仰が革命的思想を弱体化させると主張し、抑圧を正当化したり社会変革からエネルギーをそらしたりする宗教的正統性に疑問を投げかける。彼は単に宗教を拒絶するのではなく、論理と生きた革命的経験を通してそれを体系的に脱構築し、神聖な力への信仰が正義、自由、理性のための闘争と相容れないことを示す。ニヒリズムを提供する代わりに、彼の無神論は目的に浸っている — 神の介入よりも行動、犠牲、自己依存を要求する。このエッセイは、知的反抗の印象的な作品であり、インドの自由とイデオロギーの歴史におけるマイルストーンであり続けている。",
     "buttons": {
-      "knowMore": "/books/why-i-am-an-atheist",
-      "getBook": "https://www.amazon.in/Why-Am-Atheist-Bhagat-Singh/dp/9389847125",
+      "knowMore": `/ja/books/naze-watashi-wa-mushinronsha-nanoka`,
+      "getBook": "https://www.amazon.in/Why-Am-Atheist-Bhagat-Singh/dp/9389847125?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A1UBX5OTEI9Y7I",
       "readSummary": "#",
       "listenAudiobook": "https://youtu.be/z4qnQxWrmto?si=ZWqVKRs2Ps_qs0uY"
     }
@@ -69,13 +50,14 @@ const booksJapanese = [
 
   {
     "id": 2,
-    "title": "ネクサス",
+    "title": "ネクサス：情報ネットワークの簡潔な歴史、石器時代からAIまで",
     "originaltitle": "",
     "slug": "nexus",
+    "japaneseSlug": "nexus",
     "author": "ユヴァル・ノア・ハラリ",
     "collection": "ハラリ・コレクション",
-    "description": "人間の意識、先端技術、そして超接続社会における倫理的課題の交差点を探る作品。",
-    "category": "未来学と倫理",
+    "description": "人間の意識、先進技術、そして超接続された未来の倫理的ジレンマの交差点を探求する。",
+    "category": "未来主義と倫理",
     "country": "イスラエル",
     "price": "$14.99",
     "imageUrl": QubitBookData.Nexus,
@@ -84,48 +66,39 @@ const booksJapanese = [
     "geography": {
       "country": "イスラエル",
       "continent": "アジア",
-      "Sub Region": "中東"
+      "subRegion": "中東"
     },
 
     "keyPoints": [
-      "人間と機械の統合",
-      "AIの倫理的利用",
-      "グローバルな相互接続"
+      "人間と機械の統合の未来",
+      "AIの倫理的使用",
+      "世界的相互接続性"
     ],
 
-    "tags": [
-      "AI倫理",
-      "未来学",
-      "技術哲学"
-    ],
-
+    "tags": ["AI倫理", "未来主義", "技術哲学"],
     "isbn": "9780099590088",
     "pageCount": 320,
-    "published": "2025",
-    "originalPublished": "2025",
+    "published": "2025年",
+    "originalPublished": "2025年",
     "format": "ハードカバー",
-    "publisher": "Jonathan Cape / Penguin",
-    "language": "Japanese",
+    "publisher": "ジョナサン・ケープ / ペンギン",
+    "language": "日本語",
 
-    "genres": [
-      "ノンフィクション",
-      "哲学",
-      "テクノロジー"
-    ],
+    "genres": ["ノンフィクション", "哲学", "技術"],
 
     "subjects": [
       "人工知能",
-      "ニューロテクノロジー",
+      "神経技術",
       "グローバル倫理",
       "トランスヒューマニズム",
       "デジタル意識",
       "未来研究"
     ],
 
-    "summary": "『ネクサス』では、ユヴァル・ノア・ハラリが新興技術によって人類と文明がどのように変化しているかを考察する。人工知能、神経インターフェース、デジタル監視、技術倫理などをテーマに、自由、アイデンティティ、人間の未来について深く問いかける作品である。",
+    "summary": "『ネクサス』において、高く評価されている歴史家であり未来学者のユヴァル・ノア・ハラリは、新興技術がどのように人類を変革し、文明を再形成しているかを探求している。この本は、人間の意識と機械知能の間の成長する関係を検証し、超接続された世界の並外れた機会と深刻な危険の両方を浮き彫りにしている。ハラリは、人工知能、神経インターフェース、監視システム、デジタル倫理について議論し、社会がテクノロジーに自由、アイデンティティ、人間の意思決定に影響を与えることをどこまで許すべきかという疑問を投げかけている。歴史的洞察と未来的分析を通じて、『ネクサス』は、人間と機械がますます相互接続されていく時代において、自律性、道徳、そして人類の未来について読者に考察を促している。",
 
     "buttons": {
-      "knowMore": "/books/nexus",
+      "knowMore": "/ja/books/nexus",
       "getBook": "#",
       "readSummary": "#",
       "listenAudiobook": "#"
@@ -134,13 +107,15 @@ const booksJapanese = [
 
   {
     "id": 3,
-    "title": "サピエンス全史 ― 文明の構造と人類の幸福",
+    "title": "サピエンス全史：文明の構造と人類の幸福",
     "originaltitle": "קיצור תולדות האנושות",
     "slug": "sapiens-a-brief-history-of-humankind",
+    "japaneseSlug": "sapiens-zenshi",
     "author": "ユヴァル・ノア・ハラリ",
     "collection": "ハラリ・コレクション",
-    "description": "ホモ・サピエンスの誕生から現代まで、人類の歴史を壮大な視点で描く作品。",
+    "description": "ホモ・サピエンスの出現から現代まで、生物学と歴史がどのように私たちを定義してきたかを分析する、人類の歴史の壮大な探求。",
     "category": "歴史と人類学",
+    "nominations": "グッドリード・チョイス・アワード ベストグラフィックノベル＆コミックス",
     "price": "$18.99",
     "imageUrl": QubitBookData.Sapiens_A_Brief_History_of_Humankind,
     "rating": 4.9,
@@ -148,7 +123,7 @@ const booksJapanese = [
     "geography": {
       "country": "イスラエル",
       "continent": "アジア",
-      "Sub Region": "中東"
+      "subRegion": "中東"
     },
 
     "keyPoints": [
@@ -158,39 +133,273 @@ const booksJapanese = [
       "科学革命"
     ],
 
-    "tags": [
-      "歴史",
-      "進化",
-      "文明"
-    ],
-
+    "tags": ["歴史", "進化", "文明"],
     "isbn": "9780062316097",
     "pageCount": 498,
-    "published": "2015",
-    "originalPublished": "2011",
+    "published": "2015年",
+    "originalPublished": "2011年",
     "format": "ペーパーバック",
-    "publisher": "Harper",
-    "language": "Japanese",
+    "publisher": "ハーパー",
+    "language": "日本語",
 
-    "genres": [
-      "ノンフィクション",
-      "歴史",
-      "人類学"
-    ],
+    "genres": ["ノンフィクション", "歴史", "人類学"],
 
     "subjects": [
-      "人類の進化",
-      "文化の発展",
+      "人類進化",
+      "文化的発展",
       "経済と帝国",
-      "科学技術",
+      "科学と技術",
       "社会構造",
       "人間の想像力"
     ],
 
-    "summary": "『サピエンス全史』は、狩猟採集民から現代文明に至るまでの人類の歴史を描いた作品である。ハラリは、言語、宗教、経済、科学がどのように人類社会を形成してきたかを説明する。歴史学、人類学、哲学を融合させた本書は、人類の過去、現在、未来について深く考えさせる。",
+    "summary": "ユヴァル・ノア・ハラリの『サピエンス全史』は、原始的な狩猟採集民から地球上の支配的な種へのホモ・サピエンスの驚くべき旅路をたどっている。この本は、言語と想像力を可能にした認知革命、社会を変革した農業革命、技術の進歩を加速させた科学革命など、人類史の主要な転換点を探求している。ハラリは、共有された神話、宗教、経済、政治システムがどのように文明を形成し、何十億もの人々を団結させてきたかを説明している。歴史、人類学、哲学、科学を組み合わせた『サピエンス全史』は、読者に人類の進歩、幸福、そして人類の未来の方向性について疑問を投げかけるよう促している。",
 
     "buttons": {
-      "knowMore": "/books/sapiens-a-brief-history-of-humankind",
+      "knowMore": "/ja/books/sapiens-zenshi",
+      "getBook": "#",
+      "readSummary": "#",
+      "listenAudiobook": "#"
+    }
+  },
+
+  {
+    "id": 4,
+    "title": "シュードラとは誰だったのか？",
+    "slug": "who-were-the-shudras",
+    "japaneseSlug": "shudra-towa-dare-dattanoka",
+    "author": "B・R・アンベードカル",
+    "collection": "アンベードカル・コレクション",
+    "description": "B・R・アンベードカル博士による画期的な歴史的・社会学的研究で、伝統的なカースト制度に挑戦し、インドにおけるシュードラ社会の起源を探求する。",
+    "category": "カースト研究とインド史",
+    "genre": "インド",
+    "country": "インド",
+    "price": "$12.49",
+    "imageUrl": QubitBookData.Who_Were_the_Shudras,
+    "rating": 4.8,
+
+    "geography": {
+      "country": "インド",
+      "continent": "アジア",
+      "subRegion": "南アジア"
+    },
+
+    "keyPoints": [
+      "カースト制度の起源",
+      "歴史的脱構築",
+      "カーストと社会正義"
+    ],
+
+    "tags": ["ダリット史", "カースト制度", "インド社会"],
+    "isbn": "9788170221676",
+    "pageCount": 288,
+    "published": "1946年",
+    "originalPublished": "1946年",
+    "format": "ペーパーバック",
+    "publisher": "サッカー・アンド・カンパニー / 複数の再版",
+    "language": "日本語",
+
+    "genres": ["ノンフィクション", "歴史", "社会学"],
+
+    "subjects": [
+      "インドのカースト",
+      "古代インド社会",
+      "社会的ヒエラルキー",
+      "ダリット研究",
+      "ヒンドゥー社会秩序",
+      "アンベードカル思想"
+    ],
+
+    "summary": "『シュードラとは誰だったのか？』において、B・R・アンベードカル博士はヒンドゥー社会秩序におけるシュードラ社会の起源を批判的に検討している。古代の経典、歴史的記録、社会学的分析を用いて、アンベードカルは、シュードラは元々クシャトリヤ戦士階級の一部であったが、社会的・政治的紛争のために後に地位を低下させられたと主張している。彼はカーストの正統的解釈に挑戦し、どのように宗教的物語が不平等と差別を正当化するために使用されてきたかを明らかにしている。この影響力のある作品は、インドの歴史を再解釈するだけでなく、社会正義と平等のための闘争を強化する。アンベードカルの分析は、カースト研究と近代インド思想への本質的な貢献であり続けている。",
+
+    "buttons": {
+      "knowMore": "/ja/books/shudra-towa-dare-dattanoka",
+      "getBook": "#",
+      "readSummary": "#",
+      "listenAudiobook": "#"
+    }
+  },
+
+  {
+    "id": 5,
+    "title": "カーストの絶滅",
+    "slug": "annihilation-of-caste",
+    "japaneseSlug": "kasuto-no-zetsumetsu",
+    "collection": "アンベードカル・コレクション",
+    "author": "B・R・アンベードカル",
+    "description": "B・R・アンベードカル博士によるインドのカースト制度への急進的で力強い批判。カーストに基づく差別の廃止を訴え、社会的平等のビジョンを提供する。",
+    "category": "カースト研究とインド社会改革",
+    "genre": "",
+    "country": "インド",
+    "price": "$14.99",
+    "imageUrl": QubitBookData.Annihilation_of_Caste,
+    "rating": 4.9,
+
+    "geography": {
+      "country": "インド",
+      "continent": "アジア",
+      "subRegion": "南アジア"
+    },
+
+    "keyPoints": [
+      "カースト廃止",
+      "社会正義",
+      "ヒンドゥー教批判",
+      "急進的改革"
+    ],
+
+    "tags": ["ダリットの権利", "カースト制度", "社会正義"],
+    "isbn": "9788186814065",
+    "pageCount": 272,
+    "published": "1948年",
+    "originalPublished": "1948年",
+    "format": "ペーパーバック",
+    "publisher": "ジャイコ出版ハウス",
+    "language": "日本語",
+
+    "genres": ["ノンフィクション", "社会改革", "哲学"],
+
+    "subjects": [
+      "インドのカースト",
+      "インド社会改革",
+      "アンベードカル思想",
+      "人権",
+      "宗教批判",
+      "平等と正義"
+    ],
+
+    "summary": "『カーストの絶滅』は、B・R・アンベードカル博士の最も影響力があり革命的な作品の一つである。この力強いテキストにおいて、アンベードカルはカースト制度を強く非難し、それがヒンドゥー教の宗教的・社会的構造に深く根ざしていると主張している。元々はジャット・パット・トーダック・マンダルのための講演として書かれたこの作品は、カーストに基づく差別と社会的ヒエラルキーの完全な破壊を訴えている。アンベードカルは、カーストが社会における平等、自由、友愛をどのように妨げるかを説明し、同時に抑圧を維持する宗教的正統性を批判している。この本は、社会正義、ダリットの権利、そして現代インドの改革運動のための基礎的テキストであり続けている。",
+
+    "buttons": {
+      "knowMore": "/ja/books/kasuto-no-zetsumetsu",
+      "getBook": "#",
+      "readSummary": "#",
+      "listenAudiobook": "https://youtu.be/M6Z3T2zvzuk"
+    }
+  },
+
+  {
+    "id": 6,
+    "title": "ハイパーエフィシェント：あなたの働き方を変えるために脳を最適化する",
+    "slug": "hyperefficient-optimize-your-brain-to-transform-the-way-you-work",
+    "japaneseSlug": "hyper-efficient-anata-no-hatarakikata-wo-kaeru-tame-ni-nou-wo-saitekika-suru",
+    "author": "ミトゥ・ストローニ",
+    "collection": "生産性コレクション",
+    "description": "現代の労働環境における生産性、意思決定、認知的制御を向上させるための神経科学に裏付けられたガイド。",
+    "category": "生産性と神経科学",
+    "genre": "",
+    "country": "アメリカ合衆国",
+    "price": "$17.49",
+    "imageUrl": QubitBookData.Hyperefficient_Optimize_Your_Brain_to_Transform_the_Way_You_Work,
+    "rating": 4.6,
+
+    "geography": {
+      "country": "アメリカ合衆国",
+      "continent": "北アメリカ",
+      "subRegion": "北アメリカ"
+    },
+
+    "keyPoints": [
+      "生産性の神経科学",
+      "認知的制御",
+      "意思決定の改善",
+      "職場の最適化"
+    ],
+
+    "tags": [
+      "生産性",
+      "神経科学",
+      "脳の最適化",
+      "仕事の効率"
+    ],
+
+    "isbn": "9781785043173",
+    "pageCount": 320,
+    "published": "2020年",
+    "originalPublished": "2020年",
+    "format": "ハードカバー",
+    "publisher": "ペンギン・ライフ",
+    "language": "日本語",
+
+    "genres": ["ノンフィクション", "自助", "神経科学"],
+
+    "subjects": [
+      "脳科学",
+      "職場の効率",
+      "メンタルヘルス",
+      "認知的発達",
+      "生産性のハック",
+      "意思決定"
+    ],
+
+    "summary": "ミトゥ・ストローニの『ハイパーエフィシェント』は、読者が集中力、生産性、精神的パフォーマンスを向上させるのを助けるために設計された実用的で科学に基づいたガイドである。神経科学と認知心理学を活用して、ストローニはストレス下で脳がどのように機能するか、そして現代の労働環境がどのように効率を低下させ、ストレスを増大させるかを説明している。この本は、より良い日課、マインドフルネス、睡眠、運動、仕事のパターンを通じて、意思決定、精神的明瞭さ、認知的制御を改善するための証拠に基づいた技術を提供している。ストローニは科学的洞察と実行可能な戦略を組み合わせて、専門家が精神的ウェルビーイングを保護しながら持続可能な生産性を達成するのを助けている。この本は、速いペースの世界でよりスマートに働き、考える方法を探しているすべての人にとって必須の読書である。",
+
+    "buttons": {
+      "knowMore": "/ja/books/hyper-efficient-anata-no-hatarakikata-wo-kaeru-tame-ni-nou-wo-saitekika-suru",
+      "getBook": "#",
+      "readSummary": "#",
+      "listenAudiobook": "#"
+    }
+  },
+
+  {
+    "id": 7,
+    "title": "銃・病原菌・鉄：一万三〇〇〇年にわたる人類史の謎",
+    "slug": "guns-germs-and-steel-the-fates-of-human-societies",
+    "japaneseSlug": "juu-byoukin-tetsu-ichiman-sanzen-nen-ni-wataru-jinruishi-no-nazo",
+    "author": "ジャレド・ダイアモンド",
+    "collection": "",
+    "description": "地理と環境がどのように現代世界を形作り、世界的な不平等に貢献したかを探求する画期的な歴史分析。",
+    "category": "歴史と人類学",
+    "genre": "",
+    "country": "アメリカ合衆国",
+    "price": "$18.99",
+    "imageUrl": QubitBookData.Guns_Germs_and_Steel_The_Fates_of_Human_Societies,
+    "rating": 4.7,
+
+    "geography": {
+      "country": "アメリカ合衆国",
+      "continent": "北アメリカ",
+      "subRegion": "北アメリカ"
+    },
+
+    "keyPoints": [
+      "地理的決定論",
+      "社会の進化",
+      "植物と動物の家畜化",
+      "銃・病原菌・鉄の影響"
+    ],
+
+    "tags": [
+      "歴史",
+      "地理",
+      "人類学",
+      "文明"
+    ],
+
+    "isbn": "9780393317558",
+    "pageCount": 528,
+    "published": "1999年",
+    "originalPublished": "1997年",
+    "format": "ペーパーバック",
+    "publisher": "W・W・ノートン・アンド・カンパニー",
+    "language": "日本語",
+
+    "genres": ["ノンフィクション", "歴史", "人類学"],
+
+    "subjects": [
+      "地理的影響",
+      "農業発展",
+      "技術的進歩",
+      "文化的進化",
+      "植民地主義と帝国主義",
+      "人間の不平等"
+    ],
+
+    "summary": "ジャレド・ダイアモンドの『銃・病原菌・鉄』は、なぜ特定の文明が歴史を通じてより速く発展し、他の文明よりも多くの力を獲得したのかを検証している。人種的優越性の考えを拒否し、ダイアモンドは、地理、環境条件、そして家畜化可能な植物や動物へのアクセスが、世界的な不平等を形成した主要な要因であると主張している。この本は、農業、技術、病気、政治組織がどのように大陸間で異なって広がり、強力な社会の台頭に影響を与えたかを説明している。歴史、生物学、人類学、地理学を組み合わせて、ダイアモンドは人類文明の発展について説得力のある説明を提示している。このピューリッツァー賞受賞作品は、世界史と人類社会に関する最も影響力のある本の一つであり続けている。",
+
+    "buttons": {
+      "knowMore": "/ja/books/juu-byoukin-tetsu-ichiman-sanzen-nen-ni-wataru-jinruishi-no-nazo",
       "getBook": "#",
       "readSummary": "#",
       "listenAudiobook": "#"
