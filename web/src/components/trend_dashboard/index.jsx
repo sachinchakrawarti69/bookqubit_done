@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext";
+import { FaBook, FaUser, FaFilm, FaUsers, FaChartLine, FaFire, FaArrowRight } from "react-icons/fa";
 import BookTrendDashboard from "./book_trend_dashboard/book_trend_dashboard";
 import AuthorTrendDashboard from "./author_trend_dashboard/author_trend_dashboard";
 import ComicTrendDashboard from "./comic_trend_dashboard/comic_trend_dashboard";
@@ -11,168 +13,132 @@ import BookwormTrendDashboard from "./bookworn_trend_dashboard/bookworn_trend_da
 const TrendDashboard = () => {
   const { theme, themeName } = useTheme();
   const { t } = useLanguage();
+  const { currentFont } = useFont();
   const [activeTab, setActiveTab] = useState("books");
 
-  // Check if current theme is dark mode variant
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   const tabs = [
-    { id: "books", label: t("trend.tab_books"), component: BookTrendDashboard },
-    { id: "authors", label: t("trend.tab_authors"), component: AuthorTrendDashboard },
-    { id: "comics", label: t("trend.tab_comics"), component: ComicTrendDashboard },
-    { id: "bookworms", label: t("trend.tab_bookworms"), component: BookwormTrendDashboard },
+    { id: "books", label: t("trend.tab_books") || "Books", icon: <FaBook />, component: BookTrendDashboard },
+    { id: "authors", label: t("trend.tab_authors") || "Authors", icon: <FaUser />, component: AuthorTrendDashboard },
+    { id: "comics", label: t("trend.tab_comics") || "Comics", icon: <FaFilm />, component: ComicTrendDashboard },
+    { id: "bookworms", label: t("trend.tab_bookworms") || "Bookworms", icon: <FaUsers />, component: BookwormTrendDashboard },
   ];
 
   const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component;
 
-  // Get theme-based gradient for active tab
-  const getActiveTabGradient = () => {
-    if (theme.buttonColors?.primaryButton?.background) {
-      return theme.buttonColors.primaryButton.background;
-    }
-    return 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+  const getPrimaryGradient = () => {
+    return theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-indigo-600';
   };
 
-  // Get theme-based background for container
   const getContainerBackground = () => {
-    if (theme.background?.section) {
-      return theme.background.section;
-    }
-    return isDarkMode ? '#1a1a2e' : 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
+    return theme.background?.section || (isDarkMode ? 'bg-gray-900' : 'bg-gradient-to-br from-gray-50 to-gray-100');
   };
 
-  // Get tab container background
-  const getTabContainerBackground = () => {
-    if (theme.background?.card) {
-      return theme.background.card;
-    }
-    return isDarkMode ? '#2d2d44' : 'white';
-  };
-
-  // Get tab hover background
-  const getTabHoverBackground = () => {
-    if (theme.background?.hover) {
-      return theme.background.hover;
-    }
-    return isDarkMode ? '#3d3d5c' : '#f3f4f6';
-  };
-
-  // Get tab text color
-  const getTabTextColor = () => {
-    if (theme.textColors?.primary) {
-      return theme.textColors.primary;
-    }
-    return isDarkMode ? '#e5e7eb' : '#4b5563';
+  const getCardBackground = () => {
+    return theme.background?.card || (isDarkMode ? 'bg-gray-800/50 backdrop-blur-sm' : 'bg-white/80 backdrop-blur-sm');
   };
 
   return (
-    <div 
-      className="trend-dashboard-container"
-      style={{ 
-        background: getContainerBackground(),
-        minHeight: '100vh',
-        padding: '1.5rem'
-      }}
+    <div
+      className={`min-h-screen ${getContainerBackground()} ${theme.layout?.sectionPadding || 'py-8 px-4 sm:px-6 lg:px-8'}`}
+      style={{ fontFamily: currentFont?.family }}
     >
-      {/* Tabs Navigation */}
-      <div className="trend-dashboard-tabs">
-        <div 
-          className="trend-dashboard-tabs-inner"
-          style={{
-            display: 'flex',
-            gap: '0.75rem',
-            background: getTabContainerBackground(),
-            padding: '0.5rem',
-            borderRadius: '1rem',
-            boxShadow: theme.shadow?.container || '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-            flexWrap: 'wrap',
-            justifyContent: 'center'
-          }}
-        >
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`trend-dashboard-tab ${activeTab === tab.id ? 'active' : ''}`}
-              style={{
-                padding: '0.75rem 1.5rem',
-                fontSize: '1rem',
-                fontWeight: '600',
-                border: 'none',
-                borderRadius: '0.75rem',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                background: activeTab === tab.id ? getActiveTabGradient() : 'transparent',
-                color: activeTab === tab.id ? '#ffffff' : getTabTextColor(),
-                boxShadow: activeTab === tab.id ? (theme.shadow?.button || '0 4px 12px rgba(102, 126, 234, 0.4)') : 'none'
-              }}
-              onMouseEnter={(e) => {
-                if (activeTab !== tab.id) {
-                  e.currentTarget.style.background = getTabHoverBackground();
-                  e.currentTarget.style.transform = 'translateY(-2px)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (activeTab !== tab.id) {
-                  e.currentTarget.style.background = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }
-              }}
+      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
+        {/* Header Section */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center mb-6">
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-red-500 rounded-full blur-xl opacity-50 animate-pulse"></div>
+              <div className={`relative w-20 h-20 rounded-full ${getPrimaryGradient()} flex items-center justify-center shadow-2xl`}>
+                <FaChartLine className="text-white text-3xl" />
+              </div>
+            </div>
+          </div>
+          <h1 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-4 ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
+            Trend Dashboard
+          </h1>
+          <p className={`text-base md:text-lg max-w-2xl mx-auto ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+            Track what's trending in the literary world - from bestselling books to rising authors
+          </p>
+          <div className="flex justify-center mt-4">
+            <div className="w-24 h-1 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500"></div>
+          </div>
+        </div>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+          {[
+            { label: "Trending Books", value: "2,847", change: "+23%", icon: <FaBook />, color: "from-blue-500 to-cyan-500" },
+            { label: "Active Readers", value: "15.2K", change: "+18%", icon: <FaUsers />, color: "from-emerald-500 to-teal-500" },
+            { label: "New Authors", value: "342", change: "+12%", icon: <FaUser />, color: "from-amber-500 to-orange-500" },
+            { label: "Trend Score", value: "94.7", change: "+5%", icon: <FaFire />, color: "from-red-500 to-pink-500" },
+          ].map((stat, idx) => (
+            <div
+              key={idx}
+              className={`${getCardBackground()} rounded-2xl p-5 border ${theme.border?.default || 'border-gray-200 dark:border-gray-700'} shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}
             >
-              {tab.label}
-            </button>
+              <div className="flex items-center justify-between mb-3">
+                <div className={`w-10 h-10 rounded-xl bg-gradient-to-r ${stat.color} flex items-center justify-center text-white shadow-lg`}>
+                  {stat.icon}
+                </div>
+                <span className="text-xs font-semibold text-emerald-500 bg-emerald-100 dark:bg-emerald-900/30 px-2 py-1 rounded-full">
+                  {stat.change}
+                </span>
+              </div>
+              <h3 className={`text-2xl font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}>
+                {stat.value}
+              </h3>
+              <p className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                {stat.label}
+              </p>
+            </div>
           ))}
+        </div>
+
+        {/* Tabs Navigation */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2 justify-center">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative group flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
+                  activeTab === tab.id
+                    ? `${getPrimaryGradient()} text-white shadow-lg transform scale-105`
+                    : `${getCardBackground()} ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:shadow-md`
+                }`}
+              >
+                <span className={`text-lg ${activeTab === tab.id ? 'text-white' : 'text-current'}`}>
+                  {tab.icon}
+                </span>
+                <span>{tab.label}</span>
+                {activeTab === tab.id && (
+                  <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-8 h-1 bg-white rounded-full"></div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Content Area */}
+        <div className="animate-fadeIn">
+          <div className={`${getCardBackground()} rounded-2xl border ${theme.border?.default || 'border-gray-200 dark:border-gray-700'} shadow-xl overflow-hidden`}>
+            <div className="p-6">
+              {ActiveComponent && <ActiveComponent />}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="text-center mt-8">
+          <p className={`text-xs ${theme.textColors?.secondary || 'text-gray-500 dark:text-gray-500'}`}>
+            Data updates every hour • Last updated: {new Date().toLocaleDateString()}
+          </p>
         </div>
       </div>
 
-      {/* Content Area */}
-      <div 
-        className="trend-dashboard-content"
-        style={{
-          animation: 'fadeIn 0.5s ease-in-out'
-        }}
-      >
-        {ActiveComponent && <ActiveComponent />}
-      </div>
-
       <style jsx="true">{`
-        .trend-dashboard-container {
-          transition: background 0.3s ease;
-        }
-
-        .trend-dashboard-tabs {
-          margin-bottom: 2rem;
-          display: flex;
-          justify-content: center;
-        }
-
-        .trend-dashboard-tab {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .trend-dashboard-tab::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 0;
-          height: 0;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.2);
-          transform: translate(-50%, -50%);
-          transition: width 0.6s, height 0.6s;
-        }
-
-        .trend-dashboard-tab:active::before {
-          width: 300px;
-          height: 300px;
-        }
-
-        .trend-dashboard-content {
-          animation: fadeIn 0.5s ease-in-out;
-        }
-
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -183,24 +149,15 @@ const TrendDashboard = () => {
             transform: translateY(0);
           }
         }
-
-        @media (max-width: 768px) {
-          .trend-dashboard-container {
-            padding: 1rem !important;
-          }
-
-          .trend-dashboard-tab {
-            padding: 0.5rem 1rem !important;
-            font-size: 0.875rem !important;
-          }
-
-          .trend-dashboard-tabs-inner {
-            gap: 0.5rem !important;
+        .animate-fadeIn {
+          animation: fadeIn 0.5s ease-out;
+        }
+        @media (max-width: 640px) {
+          .stats-card {
+            padding: 1rem;
           }
         }
-
-        /* RTL Support */
-        [dir="rtl"] .trend-dashboard-tabs-inner {
+        [dir="rtl"] .flex {
           flex-direction: row-reverse;
         }
       `}</style>
