@@ -14,6 +14,10 @@ import { aboutJapanese } from "./about_japanese";
 import { aboutKorean } from "./about_korean";
 import { aboutPersian } from "./about_persian";
 import { aboutRussian } from "./about_russian";
+import { aboutMalayalam } from "./about_malayalam";
+import { aboutPashto } from "./about_pashto";
+import { aboutSpanish } from "./about_spanish";
+import { aboutTelugu } from "./about_telugu";
 
 export const aboutTranslations = {
   en: aboutEnglish,
@@ -31,7 +35,11 @@ export const aboutTranslations = {
   ja: aboutJapanese,
   ko: aboutKorean,
   fa: aboutPersian,
-  ru: aboutRussian
+  ru: aboutRussian,
+  ml: aboutMalayalam,
+  ps: aboutPashto,
+  es: aboutSpanish,
+  te: aboutTelugu
 };
 
 export const getAboutTranslation = (lang) => {
@@ -55,7 +63,11 @@ export const supportedAboutLanguages = [
   { code: "ja", name: "Japanese", nativeName: "日本語" },
   { code: "ko", name: "Korean", nativeName: "한국어" },
   { code: "fa", name: "Persian", nativeName: "فارسی" },
-  { code: "ru", name: "Russian", nativeName: "Русский" }
+  { code: "ru", name: "Russian", nativeName: "Русский" },
+  { code: "ml", name: "Malayalam", nativeName: "മലയാളം" },
+  { code: "ps", name: "Pashto", nativeName: "پښتو" },
+  { code: "es", name: "Spanish", nativeName: "Español" },
+  { code: "te", name: "Telugu", nativeName: "తెలుగు" }
 ];
 
 // Helper function to get about page content for SEO

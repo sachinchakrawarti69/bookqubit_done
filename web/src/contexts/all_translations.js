@@ -153,20 +153,6 @@ export const allTranslations = {
     ...publicationsTranslations.ml,
     ...trendDashboardTranslations.ml
   },
-  es: { 
-    ...navbarTranslations.es, 
-    ...aboutTranslations.es,
-    ...bookTranslations.es,
-    ...heropartoneTranslations.es,
-    ...academicBooksTranslations.es,
-    ...comicTranslations.es,
-    ...categoryTranslations.es,
-    ...explorepageTranslations.es,
-    ...footerTranslations.es,
-    ...authorsTranslations.es,
-    ...publicationsTranslations.es,
-    ...trendDashboardTranslations.es
-  },
   ps: { 
     ...navbarTranslations.ps, 
     ...aboutTranslations.ps,
@@ -180,6 +166,20 @@ export const allTranslations = {
     ...authorsTranslations.ps,
     ...publicationsTranslations.ps,
     ...trendDashboardTranslations.ps
+  },
+  es: { 
+    ...navbarTranslations.es, 
+    ...aboutTranslations.es,
+    ...bookTranslations.es,
+    ...heropartoneTranslations.es,
+    ...academicBooksTranslations.es,
+    ...comicTranslations.es,
+    ...categoryTranslations.es,
+    ...explorepageTranslations.es,
+    ...footerTranslations.es,
+    ...authorsTranslations.es,
+    ...publicationsTranslations.es,
+    ...trendDashboardTranslations.es
   },
   zh: { 
     ...navbarTranslations.zh, 
@@ -303,7 +303,7 @@ export const getTranslationsByLanguage = (languageCode = 'en') => {
 // List of available languages
 export const availableLanguages = Object.keys(allTranslations);
 
-// RTL languages list
+// RTL languages list (Right-to-Left scripts)
 export const rtlLanguages = ["ur", "ar", "fa", "ps"];
 
 // Default export

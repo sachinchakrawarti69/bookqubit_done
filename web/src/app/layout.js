@@ -1,5 +1,4 @@
 // src/app/layout.js
-
 import Script from "next/script";
 
 import ThemeProvider from "@/themes/ThemeProvider";
@@ -67,39 +66,24 @@ export const metadata = {
     canonical: "https://bookqubit.com",
   },
 
-  manifest: "/site.webmanifest",
+  manifest: "/favicons/site.webmanifest", // Updated path
 
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-
+      { url: "/favicons/favicon.ico" }, // Updated path
       {
-        url: "/favicon-16x16.png",
-        sizes: "16x16",
-        type: "image/png",
-      },
-
-      {
-        url: "/favicon-32x32.png",
-        sizes: "32x32",
-        type: "image/png",
-      },
-
-      {
-        url: "/favicon-96x96.png",
+        url: "/favicons/favicon-96x96.png", // Updated path
         sizes: "96x96",
         type: "image/png",
       },
-
       {
-        url: "/favicon.svg",
+        url: "/favicons/favicon.svg", // Updated path
         type: "image/svg+xml",
       },
     ],
-
     apple: [
       {
-        url: "/apple-touch-icon.png",
+        url: "/favicons/apple-touch-icon.png", // Updated path
         sizes: "180x180",
         type: "image/png",
       },
@@ -109,17 +93,12 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-
     url: "https://bookqubit.com",
-
     siteName: "BookQubit",
-
     title:
       "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
-
     description:
       "Discover your next favorite book with BookQubit. Explore detailed previews, in-depth book details, and concise summaries.",
-
     images: [
       {
         url: "https://bookqubit.com/og-image.jpg",
@@ -132,23 +111,17 @@ export const metadata = {
 
   twitter: {
     card: "summary_large_image",
-
     title:
       "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
-
     description:
       "Discover books, previews, summaries, and detailed reading insights on BookQubit.",
-
     creator: "@bookqubit",
-
     images: ["https://bookqubit.com/twitter-card.jpg"],
   },
 
   verification: {
     google: "qjvxvVO6qUEdHhidcz7qeUdwGWrklQZOMYE5CZN-paw",
-
     yandex: "3413ce67b7b5bd51",
-
     other: {
       "msvalidate.01": "79A82530E831502EBB89097AE87D6AE9",
     },
@@ -169,26 +142,12 @@ export default function RootLayout({ children }) {
         />
 
         {/* Canonical */}
-        <link
-          rel="canonical"
-          href="https://bookqubit.com"
-        />
+        <link rel="canonical" href="https://bookqubit.com" />
 
         {/* Application Name */}
-        <meta
-          name="application-name"
-          content="BookQubit"
-        />
-
-        <meta
-          name="apple-mobile-web-app-title"
-          content="BookQubit"
-        />
-
-        <meta
-          property="og:site_name"
-          content="BookQubit"
-        />
+        <meta name="application-name" content="BookQubit" />
+        <meta name="apple-mobile-web-app-title" content="BookQubit" />
+        <meta property="og:site_name" content="BookQubit" />
 
         {/* Google Site Verification */}
         <meta
@@ -197,20 +156,13 @@ export default function RootLayout({ children }) {
         />
 
         {/* Bing Verification */}
-        <meta
-          name="msvalidate.01"
-          content="79A82530E831502EBB89097AE87D6AE9"
-        />
+        <meta name="msvalidate.01" content="79A82530E831502EBB89097AE87D6AE9" />
 
         {/* Yandex Verification */}
-        <meta
-          name="yandex-verification"
-          content="3413ce67b7b5bd51"
-        />
+        <meta name="yandex-verification" content="3413ce67b7b5bd51" />
 
         {/* Theme Colors */}
         <meta name="theme-color" content="#ffffff" />
-
         <meta
           name="theme-color"
           content="#1a1a1a"
@@ -219,24 +171,57 @@ export default function RootLayout({ children }) {
 
         {/* Browser Config */}
         <meta name="msapplication-TileColor" content="#0ea5e9" />
-
-        <meta
-          name="msapplication-config"
-          content="/browserconfig.xml"
-        />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
 
         {/* Referrer */}
-        <meta
-          name="referrer"
-          content="no-referrer-when-downgrade"
+        <meta name="referrer" content="no-referrer-when-downgrade" />
+
+        {/* Favicons - Mobile & Desktop */}
+        {/* Standard Favicon */}
+        <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
+        <link rel="shortcut icon" href="/favicons/favicon.ico" />
+        
+        {/* PNG Favicons */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="96x96"
+          href="/favicons/favicon-96x96.png"
+        />
+        
+        {/* SVG Favicon */}
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href="/favicons/favicon.svg"
+        />
+        
+        {/* Apple Touch Icon (iOS, iPadOS, macOS) */}
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href="/favicons/apple-touch-icon.png"
+        />
+        
+        {/* Web App Manifest (PWA) */}
+        <link rel="manifest" href="/favicons/site.webmanifest" />
+        
+        {/* Web App Manifest Icons */}
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="192x192"
+          href="/favicons/web-app-manifest-192x192.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="512x512"
+          href="/favicons/web-app-manifest-512x512.png"
         />
 
         {/* Google Fonts */}
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-        />
-
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
@@ -244,10 +229,7 @@ export default function RootLayout({ children }) {
         />
 
         {/* DNS Prefetch */}
-        <link
-          rel="dns-prefetch"
-          href="https://www.google-analytics.com"
-        />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {/* RSS Feed */}
         <link
@@ -258,11 +240,7 @@ export default function RootLayout({ children }) {
         />
 
         {/* Alternate Domains */}
-        <link
-          rel="alternate"
-          href="https://bookqubit.com"
-          hrefLang="en"
-        />
+        <link rel="alternate" href="https://bookqubit.com" hrefLang="en" />
 
         {/* Structured Data */}
         <script
@@ -270,19 +248,11 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-
               "@type": "Organization",
-
               name: "BookQubit",
-
               url: "https://bookqubit.com",
-
-              logo:
-                "https://bookqubit.com/apple-touch-icon.png",
-
-              sameAs: [
-                "https://bookqubit.com",
-              ],
+              logo: "https://bookqubit.com/favicons/apple-touch-icon.png",
+              sameAs: ["https://bookqubit.com"],
             }),
           }}
         />
