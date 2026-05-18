@@ -1,4 +1,3 @@
-// src/app/layout.js
 import Script from "next/script";
 
 import ThemeProvider from "@/themes/ThemeProvider";
@@ -21,32 +20,21 @@ export const metadata = {
   },
 
   title: {
-    default:
-      "BookQubit – Discover Books, Read Previews & Smart Summaries Online",
+    default: "BookQubit – Discover Books, Read Previews & Smart Summaries Online",
     template: "%s | BookQubit",
   },
 
-  description:
-    "Discover books you'll love with BookQubit. Read previews, explore detailed summaries, and find your next great read with confidence.",
+  description: "Discover books you'll love with BookQubit. Read previews, explore detailed summaries, and find your next great read with confidence.",
 
   keywords: [
-    "books",
-    "book summaries",
-    "book previews",
-    "book discovery",
-    "reading app",
-    "BookQubit",
-    "ebooks",
-    "novels",
-    "online books",
-    "book reviews",
-    "book recommendations",
+    "books", "book summaries", "book previews", "book discovery", 
+    "reading app", "BookQubit", "ebooks", "novels", "online books", 
+    "book reviews", "book recommendations",
   ],
 
   authors: [{ name: "BookQubit" }],
   creator: "BookQubit",
   publisher: "BookQubit",
-
   category: "books",
 
   robots: {
@@ -61,69 +49,128 @@ export const metadata = {
     },
   },
 
-  // Canonical Domain
   alternates: {
     canonical: "https://bookqubit.com",
+    languages: {
+      'en': 'https://bookqubit.com/en',
+      'hi': 'https://bookqubit.com/hi',
+      'ur': 'https://bookqubit.com/ur',
+      'ar': 'https://bookqubit.com/ar',
+      'bn': 'https://bookqubit.com/bn',
+      'zh': 'https://bookqubit.com/zh',
+      'fr': 'https://bookqubit.com/fr',
+      'de': 'https://bookqubit.com/de',
+      'ja': 'https://bookqubit.com/ja',
+      'ko': 'https://bookqubit.com/ko',
+      'ru': 'https://bookqubit.com/ru',
+      'it': 'https://bookqubit.com/it',
+      'es': 'https://bookqubit.com/es',
+      'ta': 'https://bookqubit.com/ta',
+      'te': 'https://bookqubit.com/te',
+    },
   },
 
-  manifest: "/favicons/site.webmanifest", // Updated path
+  manifest: "/favicons/site.webmanifest",
 
   icons: {
     icon: [
-      { url: "/favicons/favicon.ico" }, // Updated path
-      {
-        url: "/favicons/favicon-96x96.png", // Updated path
-        sizes: "96x96",
-        type: "image/png",
-      },
-      {
-        url: "/favicons/favicon.svg", // Updated path
-        type: "image/svg+xml",
-      },
+      { url: "/favicons/favicon.ico" },
+      { url: "/favicons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+      { url: "/favicons/favicon.svg", type: "image/svg+xml" },
     ],
     apple: [
-      {
-        url: "/favicons/apple-touch-icon.png", // Updated path
-        sizes: "180x180",
-        type: "image/png",
-      },
+      { url: "/favicons/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
   },
 
   openGraph: {
     type: "website",
     locale: "en_US",
+    alternateLocale: ["hi_IN", "ur_PK", "ar_SA", "bn_BD", "zh_CN", "fr_FR", "de_DE", "ja_JP", "ko_KR", "ru_RU", "it_IT", "es_ES", "ta_IN", "te_IN"],
     url: "https://bookqubit.com",
     siteName: "BookQubit",
-    title:
-      "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
-    description:
-      "Discover your next favorite book with BookQubit. Explore detailed previews, in-depth book details, and concise summaries.",
+    title: "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
+    description: "Discover your next favorite book with BookQubit. Explore detailed previews, in-depth book details, and concise summaries.",
     images: [
       {
         url: "https://bookqubit.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "BookQubit - Smart Reading Platform",
+        type: "image/jpeg",
+      },
+      {
+        url: "https://bookqubit.com/og-image-square.jpg",
+        width: 600,
+        height: 600,
+        alt: "BookQubit Logo",
+        type: "image/jpeg",
       },
     ],
+    emails: ["contact@bookqubit.com"],
+    phoneNumbers: ["+1-234-567-8900"],
+    faxNumbers: ["+1-234-567-8901"],
   },
 
   twitter: {
     card: "summary_large_image",
-    title:
-      "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
-    description:
-      "Discover books, previews, summaries, and detailed reading insights on BookQubit.",
+    site: "@bookqubit",
+    siteId: "1234567890",
     creator: "@bookqubit",
-    images: ["https://bookqubit.com/twitter-card.jpg"],
+    creatorId: "1234567890",
+    title: "BookQubit | Book Discovery, Previews, Details & Smart Summaries",
+    description: "Discover books, previews, summaries, and detailed reading insights on BookQubit.",
+    images: [
+      {
+        url: "https://bookqubit.com/twitter-card.jpg",
+        alt: "BookQubit Twitter Card",
+        width: 1200,
+        height: 600,
+      },
+    ],
   },
 
   verification: {
     google: "qjvxvVO6qUEdHhidcz7qeUdwGWrklQZOMYE5CZN-paw",
     yandex: "3413ce67b7b5bd51",
+    bing: "79A82530E831502EBB89097AE87D6AE9",
+    pinterest: "16cbeead871ab4c02072d92867663687",
+    facebook: "facebook-domain-verification-code",
     other: {
       "msvalidate.01": "79A82530E831502EBB89097AE87D6AE9",
+      "p:domain_verify": "16cbeead871ab4c02072d92867663687",
+      "facebook-domain-verification": "your-facebook-verification-code",
+    },
+  },
+
+  category: "Books",
+  section: "Book Discovery Platform",
+  classification: "Book Discovery & Reading Platform",
+  referrer: "strict-origin-when-cross-origin",
+  colorScheme: "light dark",
+
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+  },
+
+  formatDetection: {
+    email: true,
+    address: false,
+    telephone: true,
+  },
+
+  appLinks: {
+    ios: {
+      url: "https://bookqubit.com/app",
+      app_store_id: "1234567890",
+      app_name: "BookQubit",
+    },
+    android: {
+      package: "com.bookqubit.app",
+      app_name: "BookQubit",
     },
   },
 };
@@ -138,7 +185,7 @@ export default function RootLayout({ children }) {
         {/* Viewport */}
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5"
+          content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"
         />
 
         {/* Canonical */}
@@ -161,6 +208,16 @@ export default function RootLayout({ children }) {
         {/* Yandex Verification */}
         <meta name="yandex-verification" content="3413ce67b7b5bd51" />
 
+        {/* Pinterest Verification */}
+        <meta name="p:domain_verify" content="16cbeead871ab4c02072d92867663687" />
+        <meta name="pinterest" content="16cbeead871ab4c02072d92867663687" />
+
+        {/* Facebook Verification */}
+        <meta
+          name="facebook-domain-verification"
+          content="your-facebook-verification-code"
+        />
+
         {/* Theme Colors */}
         <meta name="theme-color" content="#ffffff" />
         <meta
@@ -176,37 +233,26 @@ export default function RootLayout({ children }) {
         {/* Referrer */}
         <meta name="referrer" content="no-referrer-when-downgrade" />
 
-        {/* Favicons - Mobile & Desktop */}
-        {/* Standard Favicon */}
+        {/* Favicons */}
         <link rel="icon" type="image/x-icon" href="/favicons/favicon.ico" />
         <link rel="shortcut icon" href="/favicons/favicon.ico" />
-        
-        {/* PNG Favicons */}
         <link
           rel="icon"
           type="image/png"
           sizes="96x96"
           href="/favicons/favicon-96x96.png"
         />
-        
-        {/* SVG Favicon */}
         <link
           rel="icon"
           type="image/svg+xml"
           href="/favicons/favicon.svg"
         />
-        
-        {/* Apple Touch Icon (iOS, iPadOS, macOS) */}
         <link
           rel="apple-touch-icon"
           sizes="180x180"
           href="/favicons/apple-touch-icon.png"
         />
-        
-        {/* Web App Manifest (PWA) */}
         <link rel="manifest" href="/favicons/site.webmanifest" />
-        
-        {/* Web App Manifest Icons */}
         <link
           rel="icon"
           type="image/png"
@@ -220,16 +266,21 @@ export default function RootLayout({ children }) {
           href="/favicons/web-app-manifest-512x512.png"
         />
 
-        {/* Google Fonts */}
+        {/* Preconnect for Performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
 
         {/* DNS Prefetch */}
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
 
         {/* RSS Feed */}
         <link
@@ -239,20 +290,108 @@ export default function RootLayout({ children }) {
           href="/feed.xml"
         />
 
-        {/* Alternate Domains */}
+        {/* Alternate Languages */}
         <link rel="alternate" href="https://bookqubit.com" hrefLang="en" />
+        <link rel="alternate" href="https://bookqubit.com/hi" hrefLang="hi" />
+        <link rel="alternate" href="https://bookqubit.com/ur" hrefLang="ur" />
+        <link rel="alternate" href="https://bookqubit.com/ar" hrefLang="ar" />
+        <link rel="alternate" href="https://bookqubit.com/bn" hrefLang="bn" />
+        <link rel="alternate" href="https://bookqubit.com/zh" hrefLang="zh" />
+        <link rel="alternate" href="https://bookqubit.com/fr" hrefLang="fr" />
+        <link rel="alternate" href="https://bookqubit.com/de" hrefLang="de" />
+        <link rel="alternate" href="https://bookqubit.com/ja" hrefLang="ja" />
+        <link rel="alternate" href="https://bookqubit.com/ko" hrefLang="ko" />
+        <link rel="alternate" href="https://bookqubit.com/ru" hrefLang="ru" />
+        <link rel="alternate" href="https://bookqubit.com/it" hrefLang="it" />
+        <link rel="alternate" href="https://bookqubit.com/es" hrefLang="es" />
+        <link rel="alternate" href="https://bookqubit.com/ta" hrefLang="ta" />
+        <link rel="alternate" href="https://bookqubit.com/te" hrefLang="te" />
+        <link rel="alternate" href="https://bookqubit.com" hrefLang="x-default" />
 
-        {/* Structured Data */}
+        {/* Structured Data - Organization */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
+              "@id": "https://bookqubit.com/#organization",
               name: "BookQubit",
               url: "https://bookqubit.com",
-              logo: "https://bookqubit.com/favicons/apple-touch-icon.png",
-              sameAs: ["https://bookqubit.com"],
+              logo: {
+                "@type": "ImageObject",
+                url: "https://bookqubit.com/favicons/apple-touch-icon.png",
+                width: 180,
+                height: 180,
+              },
+              sameAs: [
+                "https://twitter.com/bookqubit",
+                "https://facebook.com/bookqubit",
+                "https://instagram.com/bookqubit",
+                "https://pinterest.com/bookqubit",
+                "https://linkedin.com/company/bookqubit",
+              ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+1-234-567-8900",
+                contactType: "customer service",
+                email: "contact@bookqubit.com",
+                availableLanguage: ["English", "Hindi", "Urdu", "Arabic", "Bengali", "Chinese", "French", "German", "Japanese", "Korean", "Russian", "Italian", "Spanish", "Tamil", "Telugu"],
+              },
+              foundingDate: "2024",
+              founders: [
+                {
+                  "@type": "Person",
+                  name: "BookQubit Team",
+                },
+              ],
+              address: {
+                "@type": "PostalAddress",
+                addressCountry: "IN",
+              },
+            }),
+          }}
+        />
+
+        {/* Structured Data - WebSite */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "@id": "https://bookqubit.com/#website",
+              url: "https://bookqubit.com",
+              name: "BookQubit",
+              description: "Discover books you'll love with BookQubit. Read previews, explore detailed summaries, and find your next great read with confidence.",
+              potentialAction: {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "https://bookqubit.com/search?q={search_term_string}"
+                },
+                "query-input": "required name=search_term_string",
+              },
+              inLanguage: ["en", "hi", "ur", "ar", "bn", "zh", "fr", "de", "ja", "ko", "ru", "it", "es", "ta", "te"],
+            }),
+          }}
+        />
+
+        {/* Structured Data - BreadcrumbList (Home) */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://bookqubit.com",
+                },
+              ],
             }),
           }}
         />
@@ -281,7 +420,33 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-1SNY2TTZ4X', {
               page_path: window.location.pathname,
               anonymize_ip: true,
+              send_page_view: true,
+              allow_google_signals: true,
+              allow_anchor: true,
             });
+
+            gtag('event', 'page_view', {
+              page_title: document.title,
+              page_location: window.location.href,
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+
+        {/* Pinterest Tag (Optional - for tracking) */}
+        <Script
+          id="pinterest-tag"
+          strategy="afterInteractive"
+        >
+          {`
+            !function(e){if(!window.pintrk){window.pintrk = function () {
+            window.pintrk.queue.push(Array.prototype.slice.call(arguments))};
+            var n=window.pintrk;n.queue=[],n.version="3.0";var
+            t=document.createElement("script");t.async=!0,t.src=e;var
+            r=document.getElementsByTagName("script")[0];
+            r.parentNode.insertBefore(t,r)}}("https://s.pinimg.com/ct/core.js");
+            pintrk('load', 'YOUR_PINTEREST_TAG_ID');
+            pintrk('page');
           `}
         </Script>
 
