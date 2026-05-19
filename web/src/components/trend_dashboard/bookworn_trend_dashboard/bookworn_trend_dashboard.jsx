@@ -70,32 +70,7 @@ const BookwormTrendDashboard = () => {
       streak: 72,
       contributions: 198
     },
-    {
-      id: 4,
-      name: "David Kim",
-      avatar: "https://randomuser.me/api/portraits/men/45.jpg",
-      booksRead: 154,
-      readingTime: "743 hours",
-      favoriteGenre: "Mystery",
-      badges: ["Speed Reader", "Night Owl", "Silver"],
-      impact: 765,
-      level: "Silver",
-      streak: 54,
-      contributions: 145
-    },
-    {
-      id: 5,
-      name: "Lisa Rodriguez",
-      avatar: "https://randomuser.me/api/portraits/women/89.jpg",
-      booksRead: 132,
-      readingTime: "654 hours",
-      favoriteGenre: "Romance",
-      badges: ["Genre Expert", "Community Star", "Bronze"],
-      impact: 654,
-      level: "Bronze",
-      streak: 43,
-      contributions: 112
-    },
+ 
   ];
 
   useEffect(() => {
