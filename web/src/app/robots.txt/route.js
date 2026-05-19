@@ -1,13 +1,14 @@
 export async function GET() {
-  const content = `User-agent: *
+  const robots = `
+User-agent: *
 Allow: /
-Disallow: /dashboard/
-Disallow: /auth/login/
-Disallow: /auth/register/
-Disallow: /search?
-Sitemap: https://bookqubit.com/sitemap.xml`
-  
-  return new Response(content, {
-    headers: { 'Content-Type': 'text/plain' },
+
+Sitemap: https://www.bookqubit.com/sitemap.xml
+`
+
+  return new Response(robots.trim(), {
+    headers: {
+      'Content-Type': 'text/plain',
+    },
   })
 }
