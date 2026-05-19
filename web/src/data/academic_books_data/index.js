@@ -1,19 +1,19 @@
-import { academicBooksEnglish } from "./academic_books_english";
-import { academicBooksHindi } from "./academic_books_hindi";
-import { academicBooksTamil } from "./academic_books_tamil";
-import { academicBooksUrdu } from "./academic_books_urdu";
-import { academicBooksArabic } from "./academic_books_arabic";
-import { academicBooksBangla } from "./academic_books_bangla";
-import { academicBooksMarathi } from "./academic_books_marathi";
-import { academicBooksKannada } from "./academic_books_kannada";
-import { academicBooksChinese } from "./academic_books_chinese";
-import { academicBooksFrench } from "./academic_books_french";
-import { academicBooksGerman } from "./academic_books_german";
-import { academicBooksItalian } from "./academic_books_italian";
-import { academicBooksJapanese } from "./academic_books_japanese";
-import { academicBooksKorean } from "./academic_books_korean";
-import { academicBooksPersian } from "./academic_books_persian";
-import { academicBooksRussian } from "./academic_books_russian"; // ✅ Added Russian
+import academicBooksEnglish from "./academic_books_english";
+import academicBooksHindi from "./academic_books_hindi";
+import academicBooksTamil from "./academic_books_tamil";
+import academicBooksUrdu from "./academic_books_urdu";
+import academicBooksArabic from "./academic_books_arabic";
+import academicBooksBangla from "./academic_books_bangla";
+import academicBooksMarathi from "./academic_books_marathi";
+import academicBooksKannada from "./academic_books_kannada";
+import academicBooksChinese from "./academic_books_chinese";
+import academicBooksFrench from "./academic_books_french";
+import academicBooksGerman from "./academic_books_german";
+import academicBooksItalian from "./academic_books_italian";
+import academicBooksJapanese from "./academic_books_japanese";
+import academicBooksKorean from "./academic_books_korean";
+import academicBooksPersian from "./academic_books_persian";
+import academicBooksRussian from "./academic_books_russian";
 
 // Complete translations object with all languages
 export const academicBooksTranslations = {
@@ -32,13 +32,44 @@ export const academicBooksTranslations = {
   ja: academicBooksJapanese,
   ko: academicBooksKorean,
   fa: academicBooksPersian,
-  ru: academicBooksRussian, // ✅ Added Russian (no longer fallback)
+  ru: academicBooksRussian,
+};
+
+// Get all books from all languages (for sitemap and search)
+export const getAllBooks = () => {
+  const allBooks = [
+    ...academicBooksEnglish,
+    ...academicBooksHindi,
+    ...academicBooksTamil,
+    ...academicBooksUrdu,
+    ...academicBooksArabic,
+    ...academicBooksBangla,
+    ...academicBooksMarathi,
+    ...academicBooksKannada,
+    ...academicBooksChinese,
+    ...academicBooksFrench,
+    ...academicBooksGerman,
+    ...academicBooksItalian,
+    ...academicBooksJapanese,
+    ...academicBooksKorean,
+    ...academicBooksPersian,
+    ...academicBooksRussian,
+  ];
+  
+  // Remove duplicates by slug if a book exists in multiple languages
+  const uniqueBooks = {};
+  allBooks.forEach(book => {
+    if (!uniqueBooks[book.slug] || book.language === 'en') {
+      uniqueBooks[book.slug] = book;
+    }
+  });
+  
+  return Object.values(uniqueBooks);
 };
 
 // Get academic books by language with fallback to English
 export const getAcademicBooksByLanguage = (lang) => {
   try {
-    // Support for different language code formats
     const languageMap = {
       'en': 'en', 'en-US': 'en', 'en-GB': 'en',
       'hi': 'hi', 'hi-IN': 'hi',
@@ -61,7 +92,6 @@ export const getAcademicBooksByLanguage = (lang) => {
     const normalizedLang = languageMap[lang] || lang;
     const books = academicBooksTranslations[normalizedLang] || academicBooksEnglish;
     
-    console.log(`Loading books for language: ${lang} (normalized: ${normalizedLang}), found ${books?.length || 0} books`);
     return books || [];
   } catch (error) {
     console.error("Error in getAcademicBooksByLanguage:", error);
