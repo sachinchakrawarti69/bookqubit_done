@@ -217,8 +217,8 @@ const BookSquareCard = ({ book, onTagClick }) => {
         <div className="mt-4 space-y-2">
           {/* First row - 50/50 buttons */}
           <div className="grid grid-cols-2 gap-2">
-            {/* Know More Button - FIXED: Now points to bookdeatils page with slug */}
-            <Link href={`/bookdeatils/${book.slug || book.id}`} className="block">
+            {/* Know More Button - FIXED */}
+            <Link href={`/book/${book.slug || book.id}`} className="block">
               <button
                 className={`
                 w-full py-2 px-1 sm:px-2 
