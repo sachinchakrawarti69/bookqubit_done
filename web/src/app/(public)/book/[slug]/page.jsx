@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext";
 import { getBooksByLanguage } from "@/data/books";
 
 // Import components
@@ -18,7 +19,7 @@ import BookAbout from "@/features/book/bookdeatils/components/BookAbout";
 import BookSummary from "@/features/book/bookdeatils/components/BookSummary";
 import RelatedBooks from "@/features/book/bookdeatils/components/RelatedBooks";
 import BookNavigation from "@/features/book/bookdeatils/components/BookNavigation";
-import BookSEO from "@/features/book/bookdeatils/components/BookSEO"
+import BookSEO from "@/features/book/bookdeatils/components/BookSEO";
 
 const BookDetailsPage = () => {
   const params = useParams();
@@ -26,6 +27,7 @@ const BookDetailsPage = () => {
   const slug = params?.slug;
   const { theme, themeName } = useTheme();
   const { language } = useLanguage();
+  const { currentFont } = useFont();
 
   // Create ref for summary section
   const summaryRef = useRef(null);
@@ -73,7 +75,7 @@ const BookDetailsPage = () => {
   // Redirect from ID to slug URL
   useEffect(() => {
     if (book && book.slug && !isNaN(slug)) {
-      router.replace(`/bookdeatils/${book.slug}`);
+      router.replace(`/book/${book.slug}`);
     }
   }, [book, slug, router]);
 
@@ -152,14 +154,17 @@ const BookDetailsPage = () => {
     return <BookNotFound slug={slug} />;
   }
 
-  // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  // Apply font style
+  const fontStyle = currentFont ? { fontFamily: currentFont.family } : {};
 
   return (
     <>
       <BookSEO book={book} />
 
-      <div className={`${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} min-h-screen`}>
+      <div 
+        className={`${theme.background?.section || 'bg-gray-50 dark:bg-gray-900'} min-h-screen`}
+        style={fontStyle}
+      >
         <div
           className={`
             ${theme.layout?.containerWidth || 'max-w-7xl'} 
