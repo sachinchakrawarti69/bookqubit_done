@@ -1,3 +1,4 @@
+// In UserDropDown.jsx, update the import and conditional rendering
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
@@ -5,6 +6,7 @@ import { auth } from "@/config/firebase";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
+import MobileProfile from "@/components/auth/Mobile_Profile"; // Add this import
 import {
   FaUserCircle,
   FaSignOutAlt,
@@ -17,7 +19,6 @@ import {
   FaTrophy,
   FaMedal,
   FaFire,
-  FaTimes,
 } from "react-icons/fa";
 
 export default function UserDropDown({ user }) {
@@ -31,7 +32,10 @@ export default function UserDropDown({ user }) {
 
   if (!user) return null;
 
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
 
   // Check screen size
   useEffect(() => {
@@ -49,16 +53,28 @@ export default function UserDropDown({ user }) {
       {
         rank: "Bookworm Novice",
         icon: <FaStar />,
-        color: theme.textColors?.highlight || (isDarkMode ? "text-amber-400" : "text-amber-500"),
-        bgColor: theme.background?.navigationDots || (isDarkMode ? "bg-amber-900/30" : "bg-amber-50"),
-        borderColor: theme.border?.default || (isDarkMode ? "border-amber-800" : "border-amber-200"),
+        color:
+          theme.textColors?.highlight ||
+          (isDarkMode ? "text-amber-400" : "text-amber-500"),
+        bgColor:
+          theme.background?.navigationDots ||
+          (isDarkMode ? "bg-amber-900/30" : "bg-amber-50"),
+        borderColor:
+          theme.border?.default ||
+          (isDarkMode ? "border-amber-800" : "border-amber-200"),
       },
       {
         rank: "Page Turner",
         icon: <FaStar />,
-        color: theme.textColors?.highlight || (isDarkMode ? "text-amber-300" : "text-amber-400"),
-        bgColor: theme.background?.navigationDots || (isDarkMode ? "bg-amber-900/30" : "bg-amber-50"),
-        borderColor: theme.border?.default || (isDarkMode ? "border-amber-800" : "border-amber-200"),
+        color:
+          theme.textColors?.highlight ||
+          (isDarkMode ? "text-amber-300" : "text-amber-400"),
+        bgColor:
+          theme.background?.navigationDots ||
+          (isDarkMode ? "bg-amber-900/30" : "bg-amber-50"),
+        borderColor:
+          theme.border?.default ||
+          (isDarkMode ? "border-amber-800" : "border-amber-200"),
       },
       {
         rank: "Story Devourer",
@@ -106,38 +122,22 @@ export default function UserDropDown({ user }) {
 
     const randomRank = rankings[Math.floor(Math.random() * rankings.length)];
     setUserRank(randomRank);
-
-    // Generate a random ranking number between 1 and 10000
     const randomRankNumber = Math.floor(Math.random() * 10000) + 1;
     setRankingNumber(randomRankNumber);
   }, [isDarkMode, theme]);
 
-  // Close dropdown when clicking outside
+  // Close dropdown when clicking outside (desktop only)
   useEffect(() => {
+    if (isMobile) return;
+
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, []);
-
-  // Prevent body scroll when dropdown is open on mobile
-  useEffect(() => {
-    if (open && isMobile) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [open, isMobile]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMobile]);
 
   const handleLogout = async () => {
     try {
@@ -175,45 +175,7 @@ export default function UserDropDown({ user }) {
   const displayName = user.displayName || user.email?.split("@")[0] || "User";
   const userEmail = user.email;
 
-  // Mobile button (simpler, no text)
-  const MobileButton = () => (
-    <button
-      onClick={() => setOpen(!open)}
-      className={`
-        group flex items-center justify-center
-        w-10 h-10 rounded-full
-        ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-800" : "bg-white")}
-        border ${theme.border?.button || (isDarkMode ? "border-gray-600" : "border-gray-300")}
-        shadow-md transition-all duration-300
-        hover:shadow-lg hover:scale-[1.05]
-        active:scale-[0.98] relative
-      `}
-      aria-label="User menu"
-    >
-      {user.photoURL ? (
-        <img
-          src={user.photoURL}
-          alt="User"
-          className="w-8 h-8 rounded-full object-cover border-2 border-white"
-        />
-      ) : (
-        <FaUserCircle
-          className={`w-6 h-6 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}
-        />
-      )}
-
-      {/* Ranking Badge */}
-      {rankingNumber && rankingNumber <= 1000 && (
-        <div
-          className={`absolute -top-1 -right-1 w-4 h-4 rounded-full ${getRankingBadgeStyle(rankingNumber)} flex items-center justify-center text-[8px] font-bold shadow-sm`}
-        >
-          {rankingNumber <= 10 ? "🔥" : rankingNumber <= 100 ? "⭐" : "🏆"}
-        </div>
-      )}
-    </button>
-  );
-
-  // Desktop button (with text)
+  // Desktop button (with dropdown)
   const DesktopButton = () => (
     <button
       onClick={() => setOpen(!open)}
@@ -280,156 +242,17 @@ export default function UserDropDown({ user }) {
     </button>
   );
 
-  // Mobile dropdown (full screen)
-  const MobileDropdown = () => (
-    <div className="fixed inset-0 z-[1000] flex items-end sm:items-center justify-center">
-      <div
-        className="absolute inset-0 bg-black/50 backdrop-blur-sm"
-        onClick={() => setOpen(false)}
-      />
+  // For mobile: use MobileProfile component
+  if (isMobile) {
+    return <MobileProfile user={user} />;
+  }
 
-      <div
-        className={`
-          relative w-full max-w-sm mx-4 rounded-2xl
-          ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")}
-          border ${theme.border?.default || (isDarkMode ? "border-gray-700" : "border-gray-200")}
-          shadow-xl
-          animate-slide-up
-          max-h-[80vh] overflow-y-auto
-        `}
-      >
-        <div
-          className={`sticky top-0 ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")} p-4 border-b ${theme.border?.default || (isDarkMode ? "border-gray-700" : "border-gray-200")} flex items-center justify-between`}
-        >
-          <h3 className={`font-semibold ${theme.textColors?.primary || (isDarkMode ? "text-gray-200" : "text-gray-800")}`}>
-            Account
-          </h3>
-          <button
-            onClick={() => setOpen(false)}
-            className={`p-2 rounded-full ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-700" : "bg-gray-100")}`}
-          >
-            <FaTimes className={theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} />
-          </button>
-        </div>
-
-        <div className={`p-4 ${userRank?.bgColor || ""}`}>
-          <div className="flex items-center gap-3">
-            {user.photoURL ? (
-              <img
-                src={user.photoURL}
-                alt="User"
-                className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
-              />
-            ) : (
-              <div
-                className={`w-16 h-16 rounded-full ${theme.background?.bookCoverSide || "bg-gradient-to-br from-sky-100 to-purple-100"} flex items-center justify-center`}
-              >
-                <FaUserCircle
-                  className={`w-12 h-12 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}
-                />
-              </div>
-            )}
-            <div className="flex-1">
-              <p className={`text-base font-bold ${theme.textColors?.primary || (isDarkMode ? "text-gray-200" : "text-gray-800")}`}>
-                {displayName}
-              </p>
-              <p className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")}`}>
-                {userEmail}
-              </p>
-              {userRank && (
-                <div className={`flex items-center gap-2 mt-2 ${userRank.color}`}>
-                  {userRank.icon}
-                  <span className="text-xs font-semibold">{userRank.rank}</span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {rankingNumber && (
-            <div className="mt-3 flex items-center justify-between">
-              <div className={`px-3 py-1.5 rounded-lg ${getRankingBadgeStyle(rankingNumber)} text-xs font-bold`}>
-                #{formatRankingNumber(rankingNumber)} Global Rank
-              </div>
-              <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")}`}>
-                Top {Math.round((rankingNumber / 10000) * 100)}%
-              </span>
-            </div>
-          )}
-        </div>
-
-        <div className="p-2">
-          {[
-            {
-              label: "Profile",
-              path: "/auth/profile",
-              icon: <FaUser className={theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")} />,
-              description: "View and edit your profile",
-            },
-            {
-              label: "Dashboard",
-              path: "/auth/userdashboard",
-              icon: <FaTachometerAlt className="text-emerald-500" />,
-              description: "Your reading dashboard",
-            },
-            {
-              label: "Bookworm Ranking",
-              path: "/auth/bookwormranking",
-              icon: <FaBookReader className="text-amber-500" />,
-              description: rankingNumber
-                ? `Rank #${formatRankingNumber(rankingNumber)} worldwide`
-                : "See your reading rank",
-            },
-          ].map((item) => (
-            <button
-              key={item.label}
-              onClick={() => handleNavigate(item.path)}
-              className={`
-                w-full text-left px-4 py-4 flex items-start gap-3
-                ${theme.background?.navigationDots || (isDarkMode ? "bg-gray-700" : "bg-gray-100")}
-                rounded-xl mb-2
-                active:scale-[0.98] transition-all
-              `}
-            >
-              <div className={`mt-0.5 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}>
-                {item.icon}
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center justify-between">
-                  <span className={`block font-medium ${theme.textColors?.primary || (isDarkMode ? "text-gray-200" : "text-gray-800")}`}>
-                    {item.label}
-                  </span>
-                  {item.label === "Bookworm Ranking" && rankingNumber && (
-                    <div className={`px-2 py-1 rounded-full text-xs font-bold ${getRankingBadgeStyle(rankingNumber)}`}>
-                      #{formatRankingNumber(rankingNumber)}
-                    </div>
-                  )}
-                </div>
-                <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} mt-1 block`}>
-                  {item.description}
-                </span>
-              </div>
-            </button>
-          ))}
-        </div>
-
-        <div className={`p-4 border-t ${theme.border?.default || (isDarkMode ? "border-gray-700" : "border-gray-200")}`}>
-          <button
-            onClick={handleLogout}
-            className="w-full py-4 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-medium rounded-xl flex items-center justify-center gap-2 active:scale-[0.98] transition-all"
-          >
-            <FaSignOutAlt />
-            Logout
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
+  // Desktop: render dropdown
   return (
     <div className="relative" ref={dropdownRef}>
-      {isMobile ? <MobileButton /> : <DesktopButton />}
+      <DesktopButton />
 
-      {open && (isMobile ? <MobileDropdown /> : (
+      {open && (
         <div
           className={`
             absolute right-0 mt-2 w-72 
@@ -439,35 +262,60 @@ export default function UserDropDown({ user }) {
             z-50 rounded-xl overflow-hidden
           `}
         >
-          <div className={`${userRank?.bgColor || (isDarkMode ? "bg-gray-800" : "bg-gradient-to-r from-sky-50 to-purple-50")} px-4 py-3 border-b ${userRank?.borderColor || (isDarkMode ? "border-gray-700" : "border-sky-100")}`}>
+          {/* Desktop dropdown content - same as before */}
+          <div
+            className={`${userRank?.bgColor || (isDarkMode ? "bg-gray-800" : "bg-gradient-to-r from-sky-50 to-purple-50")} px-4 py-3 border-b ${userRank?.borderColor || (isDarkMode ? "border-gray-700" : "border-sky-100")}`}
+          >
             <div className="flex items-center gap-3">
               {user.photoURL ? (
-                <img src={user.photoURL} alt="User" className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+                <img
+                  src={user.photoURL}
+                  alt="User"
+                  className="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm"
+                />
               ) : (
-                <div className={`w-12 h-12 rounded-full ${theme.background?.bookCoverSide || "bg-gradient-to-br from-sky-100 to-purple-100"} flex items-center justify-center`}>
-                  <FaUserCircle className={`w-10 h-10 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`} />
+                <div
+                  className={`w-12 h-12 rounded-full ${theme.background?.bookCoverSide || "bg-gradient-to-br from-sky-100 to-purple-100"} flex items-center justify-center`}
+                >
+                  <FaUserCircle
+                    className={`w-10 h-10 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}
+                  />
                 </div>
               )}
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-bold ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")} truncate`}>
+                <p
+                  className={`text-sm font-bold ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")} truncate`}
+                >
                   {displayName}
                 </p>
-                <p className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} truncate`}>
+                <p
+                  className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} truncate`}
+                >
                   {userEmail}
                 </p>
                 {userRank && (
-                  <div className={`flex items-center gap-2 mt-1 ${userRank.color}`}>
+                  <div
+                    className={`flex items-center gap-2 mt-1 ${userRank.color}`}
+                  >
                     {userRank.icon}
-                    <span className="text-xs font-semibold">{userRank.rank}</span>
+                    <span className="text-xs font-semibold">
+                      {userRank.rank}
+                    </span>
                   </div>
                 )}
               </div>
               {rankingNumber && (
                 <div className="flex flex-col items-center">
-                  <div className={`px-2 py-1 rounded-lg ${getRankingBadgeStyle(rankingNumber)} text-xs font-bold`}>
+                  <div
+                    className={`px-2 py-1 rounded-lg ${getRankingBadgeStyle(rankingNumber)} text-xs font-bold`}
+                  >
                     #{formatRankingNumber(rankingNumber)}
                   </div>
-                  <span className={`text-[10px] ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} mt-1`}>Global Rank</span>
+                  <span
+                    className={`text-[10px] ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} mt-1`}
+                  >
+                    Global Rank
+                  </span>
                 </div>
               )}
             </div>
@@ -478,7 +326,14 @@ export default function UserDropDown({ user }) {
               {
                 label: "Profile",
                 path: "/auth/profile",
-                icon: <FaUser className={theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")} />,
+                icon: (
+                  <FaUser
+                    className={
+                      theme.textColors?.highlight ||
+                      (isDarkMode ? "text-blue-400" : "text-sky-600")
+                    }
+                  />
+                ),
                 description: "View and edit your profile",
               },
               {
@@ -491,7 +346,9 @@ export default function UserDropDown({ user }) {
                 label: "Bookworm Ranking",
                 path: "/auth/bookwormranking",
                 icon: <FaBookReader className="text-amber-500" />,
-                description: rankingNumber ? `Rank #${formatRankingNumber(rankingNumber)} worldwide` : "See your reading rank",
+                description: rankingNumber
+                  ? `Rank #${formatRankingNumber(rankingNumber)} worldwide`
+                  : "See your reading rank",
               },
             ].map((item) => (
               <button
@@ -505,22 +362,34 @@ export default function UserDropDown({ user }) {
                   hover:pl-5 relative
                 `}
               >
-                <div className={`mt-1 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}>{item.icon}</div>
+                <div
+                  className={`mt-1 ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}
+                >
+                  {item.icon}
+                </div>
                 <div className="flex-1">
                   <div className="flex items-center justify-between">
-                    <span className={`block font-medium ${theme.textColors?.primary || (isDarkMode ? "text-gray-200" : "text-gray-800")} group-hover/item:text-sky-600 transition-colors`}>
+                    <span
+                      className={`block font-medium ${theme.textColors?.primary || (isDarkMode ? "text-gray-200" : "text-gray-800")} group-hover/item:text-sky-600 transition-colors`}
+                    >
                       {item.label}
                     </span>
                     {item.label === "Bookworm Ranking" && rankingNumber && (
                       <div className="flex items-center gap-1">
-                        <div className={`px-2 py-0.5 rounded-full text-xs font-bold ${getRankingBadgeStyle(rankingNumber)}`}>
+                        <div
+                          className={`px-2 py-0.5 rounded-full text-xs font-bold ${getRankingBadgeStyle(rankingNumber)}`}
+                        >
                           #{formatRankingNumber(rankingNumber)}
                         </div>
-                        {rankingNumber <= 100 && <FaCrown className="text-yellow-500 text-xs" />}
+                        {rankingNumber <= 100 && (
+                          <FaCrown className="text-yellow-500 text-xs" />
+                        )}
                       </div>
                     )}
                   </div>
-                  <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} mt-0.5 block`}>
+                  <span
+                    className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} mt-0.5 block`}
+                  >
                     {item.description}
                   </span>
                 </div>
@@ -529,52 +398,57 @@ export default function UserDropDown({ user }) {
           </div>
 
           {rankingNumber && (
-            <div className={`px-4 py-2 border-t ${isDarkMode ? "border-gray-700 bg-gray-900" : "border-sky-100 bg-gray-50"}`}>
+            <div
+              className={`px-4 py-2 border-t ${isDarkMode ? "border-gray-700 bg-gray-900" : "border-sky-100 bg-gray-50"}`}
+            >
               <div className="flex items-center justify-between mb-1">
-                <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")}`}>Ranking Progress</span>
-                <span className={`text-xs font-semibold ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}>
+                <span
+                  className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")}`}
+                >
+                  Ranking Progress
+                </span>
+                <span
+                  className={`text-xs font-semibold ${theme.textColors?.highlight || (isDarkMode ? "text-blue-400" : "text-sky-600")}`}
+                >
                   Top {Math.round((rankingNumber / 10000) * 100)}%
                 </span>
               </div>
-              <div className={`w-full ${isDarkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full h-1.5`}>
-                <div className={`h-1.5 rounded-full ${rankingNumber <= 1000 ? "bg-gradient-to-r from-green-400 to-emerald-500" : "bg-gradient-to-r from-sky-400 to-blue-500"}`}
-                  style={{ width: `${Math.max(5, (1 - rankingNumber / 10000) * 100)}%` }} />
+              <div
+                className={`w-full ${isDarkMode ? "bg-gray-700" : "bg-gray-200"} rounded-full h-1.5`}
+              >
+                <div
+                  className={`h-1.5 rounded-full ${rankingNumber <= 1000 ? "bg-gradient-to-r from-green-400 to-emerald-500" : "bg-gradient-to-r from-sky-400 to-blue-500"}`}
+                  style={{
+                    width: `${Math.max(5, (1 - rankingNumber / 10000) * 100)}%`,
+                  }}
+                />
               </div>
             </div>
           )}
 
-          <div className={`relative px-3 py-2 border-t ${theme.border?.default || (isDarkMode ? "border-gray-700" : "border-sky-100")}`}>
-            <button onClick={handleLogout} className={`
+          <div
+            className={`relative px-3 py-2 border-t ${theme.border?.default || (isDarkMode ? "border-gray-700" : "border-sky-100")}`}
+          >
+            <button
+              onClick={handleLogout}
+              className={`
               w-full text-left px-4 py-2.5 flex items-center gap-2 
               text-rose-600 hover:text-rose-700 hover:bg-gradient-to-r 
               ${isDarkMode ? "hover:from-rose-900/30" : "hover:from-rose-50/50"} hover:to-transparent transition-all duration-200
               rounded-lg group/logout font-medium
-            `}>
+            `}
+            >
               <FaSignOutAlt className="group-hover/logout:translate-x-1 transition-transform" />
               Logout
-              <span className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} ml-auto`}>
+              <span
+                className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-500")} ml-auto`}
+              >
                 ({displayName})
               </span>
             </button>
           </div>
         </div>
-      ))}
-
-      <style jsx>{`
-        @keyframes slideDown {
-          from { opacity: 0; transform: translateY(-10px) scale(0.95); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
-        }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.7; }
-        }
-        .animate-slide-up { animation: slideUp 0.3s ease-out; }
-      `}</style>
+      )}
     </div>
   );
 }
