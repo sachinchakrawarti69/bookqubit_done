@@ -4,10 +4,14 @@ import React from "react";
 import Link from "next/link";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useFont } from "@/contexts/FontContext";
+import { useRTL } from "@/contexts/RTLContext";
 
 const BookSquareCard = ({ book, onTagClick }) => {
   const { theme, themeName } = useTheme();
   const { t } = useLanguage();
+  const { currentFont } = useFont();
+  const { direction, textAlign, flexDirection } = useRTL();
 
   // Check if current theme is dark mode
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -32,8 +36,15 @@ const BookSquareCard = ({ book, onTagClick }) => {
     return Array.isArray(book.category) ? book.category : [book.category];
   };
 
+  // Apply font family inline style
+  const fontStyle = currentFont?.family ? {
+    fontFamily: currentFont.family
+  } : {};
+
   return (
     <article
+      dir={direction}
+      style={fontStyle}
       className={`
       w-full 
       ${theme.background?.section || 'bg-white dark:bg-gray-800'} 
@@ -68,7 +79,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
             className={`
             absolute top-2 right-2 
             bg-gradient-to-r from-sky-600 to-sky-500 
-            text-white text-xs font-bold px-2 py-1 rounded-full
+            text-white text-[10px] font-bold px-2 py-1 rounded-full
             shadow-lg
           `}
           >
@@ -82,14 +93,14 @@ const BookSquareCard = ({ book, onTagClick }) => {
         <div className="flex-grow">
           {/* Title */}
           <h3
-            className={`text-lg font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} line-clamp-2 mb-1`}
+            className={`text-base font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} line-clamp-2 mb-1 ${textAlign}`}
             title={book.title}
           >
             {book.title}
           </h3>
 
           {/* Author and Published Year */}
-          <div className="flex items-center gap-2 text-sm mb-2 flex-wrap">
+          <div className={`flex items-center gap-2 text-xs mb-2 flex-wrap ${flexDirection}`}>
             <span className={theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}>
               {t("book.by")}
             </span>
@@ -106,7 +117,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
               </span>
             )}
             {book.published && (
-              <span className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+              <span className={`text-[10px] ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
                 ({formatPublishedYear(book.published)})
               </span>
             )}
@@ -115,7 +126,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
           {/* Description */}
           {book.description && (
             <p
-              className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-3 line-clamp-2`}
+              className={`text-xs ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} mb-3 line-clamp-2 ${textAlign}`}
               title={book.description}
             >
               {book.description}
@@ -126,23 +137,24 @@ const BookSquareCard = ({ book, onTagClick }) => {
           {book.category && getCategoryArray().length > 0 && (
             <div className="mb-2">
               <span
-                className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
+                className={`text-[10px] font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} uppercase tracking-wider`}
               >
-                {t("book.category")}:{" "}
+                {t("book.category") || "Category"}
               </span>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className={`flex flex-wrap gap-1 mt-1 ${flexDirection}`}>
                 {getCategoryArray().map((cat, i) => (
                   <button
                     key={i}
                     onClick={() => onTagClick && onTagClick(cat)}
                     className={`
-                      text-xs px-2 py-1 
+                      text-[10px] px-2 py-0.5 
                       ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-700'} 
                       ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}
                       hover:${theme.background?.bookCoverSide || 'bg-gray-200 dark:bg-gray-600'}
                       hover:${theme.textColors?.primary || 'text-gray-900 dark:text-white'}
                       rounded-full transition-all duration-200
                       ${theme.border?.button || 'border border-gray-200 dark:border-gray-600'}
+                      font-normal
                     `}
                   >
                     {cat}
@@ -156,23 +168,24 @@ const BookSquareCard = ({ book, onTagClick }) => {
           {book.subjects && book.subjects.length > 0 && (
             <div className="mb-2">
               <span
-                className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
+                className={`text-[10px] font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} uppercase tracking-wider`}
               >
-                {t("book.subjects")}:{" "}
+                {t("book.subjects") || "Subjects"}
               </span>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className={`flex flex-wrap gap-1 mt-1 ${flexDirection}`}>
                 {book.subjects.slice(0, 3).map((subject, i) => (
                   <button
                     key={i}
                     onClick={() => onTagClick && onTagClick(subject)}
                     className={`
-                      text-xs px-2 py-1 
+                      text-[10px] px-2 py-0.5 
                       ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-700'} 
                       ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}
                       hover:${theme.background?.bookCoverSide || 'bg-gray-200 dark:bg-gray-600'}
                       hover:${theme.textColors?.primary || 'text-gray-900 dark:text-white'}
                       rounded-full transition-all duration-200
                       ${theme.border?.button || 'border border-gray-200 dark:border-gray-600'}
+                      font-normal
                     `}
                   >
                     {subject}
@@ -186,23 +199,24 @@ const BookSquareCard = ({ book, onTagClick }) => {
           {book.tags && book.tags.length > 0 && (
             <div className="mb-2">
               <span
-                className={`text-xs font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}
+                className={`text-[10px] font-semibold ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} uppercase tracking-wider`}
               >
-                {t("book.tags")}:{" "}
+                {t("book.tags") || "Tags"}
               </span>
-              <div className="flex flex-wrap gap-1 mt-1">
+              <div className={`flex flex-wrap gap-1 mt-1 ${flexDirection}`}>
                 {book.tags.slice(0, 3).map((tag, i) => (
                   <button
                     key={i}
                     onClick={() => onTagClick && onTagClick(tag)}
                     className={`
-                      text-xs px-2 py-1 
+                      text-[10px] px-2 py-0.5 
                       ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-700'} 
                       ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}
                       hover:${theme.background?.bookCoverSide || 'bg-gray-200 dark:bg-gray-600'}
                       hover:${theme.textColors?.primary || 'text-gray-900 dark:text-white'}
                       rounded-full transition-all duration-200
                       ${theme.border?.button || 'border border-gray-200 dark:border-gray-600'}
+                      font-normal
                     `}
                   >
                     {tag}
@@ -216,9 +230,9 @@ const BookSquareCard = ({ book, onTagClick }) => {
         {/* Buttons */}
         <div className="mt-4 space-y-2">
           {/* First row - 50/50 buttons */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className={`grid grid-cols-2 gap-2 ${flexDirection}`}>
             {/* Know More Button - FIXED */}
-            <Link href={`/book/${book.slug || book.id}`} className="block">
+            <Link href={`/books/${book.slug || book.id}`} className="block">
               <button
                 className={`
                 w-full py-2 px-1 sm:px-2 

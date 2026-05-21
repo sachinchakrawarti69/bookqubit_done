@@ -133,7 +133,7 @@ const ExploreBooks = () => {
                   </div>
                   {/* Know More Button - Points to book details page */}
                   <Link
-                    href={`/bookdeatils/${book.slug || book.id}`}
+                    href={`/books/${book.slug || book.id}`}
                     className={`know-more-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'}`}
                   >
                     {t("book.know_more") || "Know More"}

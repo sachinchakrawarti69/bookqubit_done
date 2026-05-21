@@ -89,7 +89,7 @@ const RelatedBookCard = ({ book }) => {
         {/* Button */}
         <div className="flex justify-between items-center">
           <Link
-            href={`/book/${book.slug || book.id}`}
+            href={`/books/${book.slug || book.id}`}
             className={`
               px-4 py-2 text-sm rounded-lg 
               ${theme.buttonColors?.secondaryButton?.background || 'border-2 border-sky-500 bg-transparent'}

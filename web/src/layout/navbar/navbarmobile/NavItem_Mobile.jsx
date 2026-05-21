@@ -28,7 +28,7 @@ const getNavigationConfig = (t) => ({
     {
       name: t("nav.books"),
       icon: <FaBook />,
-      path: "/book",
+      path: "/books",
       translationKey: "nav.books",
     },
     {

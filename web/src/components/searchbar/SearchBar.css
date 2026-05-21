@@ -1,0 +1,241 @@
+/* SearchBar Styles */
+.search-bar-wrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  position: relative;
+  width: 100%;
+}
+
+.search-bar-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.search-bar-container.focused {
+  transform: scale(1.02);
+}
+
+.search-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 20px;
+  pointer-events: none;
+}
+
+.search-icon {
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.search-input {
+  flex: 1;
+  padding: 12px 12px;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-weight: 400;
+}
+
+.search-input::placeholder {
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+.clear-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 8px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.clear-button:hover {
+  transform: scale(1.1);
+  opacity: 0.7;
+}
+
+.search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  margin: 6px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  gap: 8px;
+}
+
+.search-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(105%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.search-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.search-button svg {
+  font-size: 16px;
+}
+
+.search-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 60px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: radial-gradient(circle at center, rgba(14, 165, 233, 0.1), transparent);
+}
+
+.search-bar-container.focused .search-glow {
+  opacity: 1;
+}
+
+.search-border-gradient {
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 62px;
+  background: linear-gradient(45deg, #0284c7, #0ea5e9, #38bdf8);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.search-bar-container.focused .search-border-gradient {
+  opacity: 0.5;
+}
+
+.search-hints {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  animation: slideDown 0.3s ease;
+  z-index: 100;
+  flex-wrap: wrap;
+  background: inherit;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hint-label {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.hint-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: none;
+  border-radius: 30px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.hint-tag:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.95);
+}
+
+.hint-icon {
+  font-size: 11px;
+}
+
+/* RTL Support */
+[dir="rtl"] .search-icon-wrapper {
+  padding-left: 0;
+  padding-right: 20px;
+}
+
+[dir="rtl"] .clear-button {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+[dir="rtl"] .search-hints {
+  left: auto;
+  right: 0;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .search-bar-wrapper {
+    max-width: 400px;
+  }
+  
+  .search-input {
+    font-size: 14px;
+    padding: 10px 8px;
+  }
+  
+  .search-button {
+    padding: 6px 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-bar-wrapper {
+    max-width: 300px;
+  }
+  
+  .search-input {
+    font-size: 13px;
+  }
+  
+  .search-input::placeholder {
+    font-size: 12px;
+  }
+  
+  .hint-tag {
+    padding: 3px 8px;
+    font-size: 10px;
+  }
+}

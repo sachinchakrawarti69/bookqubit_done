@@ -1,0 +1,111 @@
+{
+  "tags": [
+    {
+      "name": "Books",
+      "slug": "books",
+      "icon": "📚",
+      "type": "content",
+      "category": "Content",
+      "path": "/books"
+    },
+    {
+      "name": "Comics",
+      "slug": "comics",
+      "icon": "🦸",
+      "type": "content",
+      "category": "Content",
+      "path": "/comics"
+    },
+    {
+      "name": "Authors",
+      "slug": "authors",
+      "icon": "✍️",
+      "type": "people",
+      "category": "Content",
+      "path": "/tags/authors"
+    },
+    {
+      "name": "News",
+      "slug": "news",
+      "icon": "📰",
+      "type": "content",
+      "category": "Content",
+      "path": "/tags/news"
+    },
+
+    {
+      "name": "Fantasy",
+      "slug": "fantasy",
+      "icon": "🐉",
+      "type": "genre",
+      "category": "Genres",
+      "path": "/tags/fantasy"
+    },
+    {
+      "name": "Sci-Fi",
+      "slug": "sci-fi",
+      "icon": "🚀",
+      "type": "genre",
+      "category": "Genres",
+      "path": "/tags/sci-fi"
+    },
+    {
+      "name": "Romance",
+      "slug": "romance",
+      "icon": "💖",
+      "type": "genre",
+      "category": "Genres",
+      "path": "/tags/romance"
+    },
+    {
+      "name": "Thriller",
+      "slug": "thriller",
+      "icon": "🔪",
+      "type": "genre",
+      "category": "Genres",
+      "path": "/tags/thriller"
+    },
+
+    {
+      "name": "India",
+      "slug": "india",
+      "icon": "🇮🇳",
+      "type": "region",
+      "category": "Countries",
+      "path": "/tags/india"
+    },
+    {
+      "name": "Japan",
+      "slug": "japan",
+      "icon": "🇯🇵",
+      "type": "region",
+      "category": "Countries",
+      "path": "/tags/japan"
+    },
+    {
+      "name": "USA",
+      "slug": "usa",
+      "icon": "🇺🇸",
+      "type": "region",
+      "category": "Countries",
+      "path": "/tags/usa"
+    }
+  ],
+
+  "popular": ["books", "comics", "news", "fantasy", "sci-fi"],
+
+  "tree": [
+    {
+      "name": "Content",
+      "children": ["books", "comics", "news", "authors"]
+    },
+    {
+      "name": "Genres",
+      "children": ["fantasy", "sci-fi", "romance", "thriller"]
+    },
+    {
+      "name": "Countries",
+      "children": ["india", "japan", "usa"]
+    }
+  ]
+}
