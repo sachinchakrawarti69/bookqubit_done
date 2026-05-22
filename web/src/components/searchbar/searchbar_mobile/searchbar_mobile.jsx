@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { FaSearch, FaTimes } from "react-icons/fa";
 import SearchPage_Mobile from "./SearchPage_Mobile";
 import "./searchbar_mobile.css";
 
@@ -20,6 +20,18 @@ const SearchBar_Mobile = () => {
     document.body.style.overflow = "unset";
   };
 
+  // Handle escape key press
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === "Escape" && showSearchPage) {
+        handleCloseSearch();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscKey);
+    return () => document.removeEventListener("keydown", handleEscKey);
+  }, [showSearchPage]);
+
   return (
     <>
       {/* Search Icon Button for Mobile Navbar */}
@@ -33,7 +45,18 @@ const SearchBar_Mobile = () => {
 
       {/* Full Screen Search Page */}
       {showSearchPage && (
-        <SearchPage_Mobile onClose={handleCloseSearch} />
+        <div className="mobile-search-overlay">
+          <div className="mobile-search-header">
+            <button
+              onClick={handleCloseSearch}
+              className="mobile-search-close"
+              aria-label="Close search"
+            >
+              <FaTimes size={24} />
+            </button>
+          </div>
+          <SearchPage_Mobile onClose={handleCloseSearch} />
+        </div>
       )}
     </>
   );

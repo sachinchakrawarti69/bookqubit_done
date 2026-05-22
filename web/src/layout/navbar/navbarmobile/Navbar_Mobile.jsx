@@ -76,8 +76,26 @@ const Navbar_Mobile = () => {
     };
   }, [isMenuOpen]);
 
-  // REMOVED: Body scroll blocking for search page - navbar stays visible
-  // The search page now renders below the navbar without blocking scroll
+  // Handle escape key for search page
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === "Escape" && showSearchPage) {
+        closeSearchPage();
+      }
+    };
+
+    if (showSearchPage) {
+      document.addEventListener("keydown", handleEscKey);
+      // Prevent body scroll when search is open
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }, [showSearchPage]);
 
   // Dark mode toggle - switches between light and dark only
   const toggleDarkMode = useCallback(() => {
@@ -94,6 +112,7 @@ const Navbar_Mobile = () => {
     // Close menu if open
     if (isMenuOpen) {
       setIsMenuOpen(false);
+      document.body.style.overflow = "unset";
     }
   };
 
@@ -103,17 +122,18 @@ const Navbar_Mobile = () => {
       // Navigate to book page with correct route
       const slug = selectedBook.slug || selectedBook.id;
       router.push(`/books/${slug}`);
-      setShowSearchPage(false);
+      closeSearchPage();
     } else if (query && query.trim()) {
       // Navigate to search results page
       router.push(`/search?q=${encodeURIComponent(query.trim())}`);
-      setShowSearchPage(false);
+      closeSearchPage();
     }
   };
 
   // Close search page
   const closeSearchPage = () => {
     setShowSearchPage(false);
+    document.body.style.overflow = "unset";
   };
 
   // Toggle mobile menu
@@ -277,13 +297,15 @@ const Navbar_Mobile = () => {
         {isMenuOpen && <div className="navbar-mobile-overlay" onClick={closeMenu}></div>}
       </nav>
 
-      {/* Mobile Search Page Component - Renders BELOW navbar, not as overlay */}
+      {/* Mobile Search Page Component - Fixed overlay with proper z-index */}
       {showSearchPage && (
-        <SearchPage_Mobile
-          onSearch={handleSearch}
-          onClose={closeSearchPage}
-          initialQuery=""
-        />
+        <div className="mobile-search-fullscreen-overlay">
+          <SearchPage_Mobile
+            onSearch={handleSearch}
+            onClose={closeSearchPage}
+            initialQuery=""
+          />
+        </div>
       )}
     </>
   );
