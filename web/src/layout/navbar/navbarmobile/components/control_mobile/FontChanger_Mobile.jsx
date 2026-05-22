@@ -6,9 +6,11 @@ import { FaFont, FaCheck, FaSpinner } from "react-icons/fa";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
 import { useTheme } from "@/themes/useTheme";
+import { useRTL } from "@/contexts/RTLContext";
 
 const FontChanger_Mobile = ({ onClose }) => {
-  const { isRTL } = useLanguage();
+  const { isRTL: isLanguageRTL } = useLanguage();
+  const { direction, isRTL, textAlign } = useRTL();
 
   const {
     currentFont,
@@ -106,58 +108,37 @@ const FontChanger_Mobile = ({ onClose }) => {
   }
 
   return (
-    <div className="w-full">
+    <div className="w-full" dir={direction}>
       {/* FONT GRID */}
-      <div className="max-h-[60vh] overflow-y-auto pr-1">
+      <div className="max-h-[60vh] overflow-y-auto" style={{ paddingRight: isRTL ? '0' : '0.25rem', paddingLeft: isRTL ? '0.25rem' : '0' }}>
         <div className="grid grid-cols-2 gap-3">
           {availableFonts.map((font) => {
-            const isActive =
-              currentFont?.id === font.id;
+            const isActive = currentFont?.id === font.id;
 
             return (
               <button
                 key={font.id}
-                onClick={() =>
-                  handleFontChange(font.id)
-                }
+                onClick={() => handleFontChange(font.id)}
                 style={{
                   fontFamily: font.family,
-
-                  // FIXED SOLID BACKGROUND
-                  backgroundColor: isActive
-                    ? activeBg
-                    : cardBg,
-
-                  border: `1px solid ${
-                    isActive
-                      ? activeBg
-                      : borderColor
-                  }`,
-
+                  backgroundColor: isActive ? activeBg : cardBg,
+                  border: `1px solid ${isActive ? activeBg : borderColor}`,
                   opacity: 1,
-
                   backdropFilter: "none",
                   WebkitBackdropFilter: "none",
-
                   boxShadow: isActive
                     ? "0 4px 12px rgba(14,165,233,0.25)"
                     : isDarkMode
                     ? "0 2px 8px rgba(0,0,0,0.35)"
                     : "0 2px 6px rgba(0,0,0,0.08)",
-
-                  transition:
-                    "all 0.25s ease",
+                  transition: "all 0.25s ease",
                 }}
                 className={`
                   flex items-center gap-2
                   p-3 rounded-xl
                   active:scale-95
                   w-full
-                  ${
-                    isRTL
-                      ? "flex-row-reverse"
-                      : "flex-row"
-                  }
+                  ${isRTL ? "flex-row-reverse" : "flex-row"}
                 `}
               >
                 {/* ICON */}
@@ -179,9 +160,7 @@ const FontChanger_Mobile = ({ onClose }) => {
                     <FaFont
                       size={13}
                       style={{
-                        color: isActive
-                          ? "#ffffff"
-                          : textPrimary,
+                        color: isActive ? "#ffffff" : textPrimary,
                       }}
                     />
                   </div>
@@ -191,18 +170,14 @@ const FontChanger_Mobile = ({ onClose }) => {
                 <div
                   className={`
                     flex-1 overflow-hidden
-                    ${
-                      isRTL
-                        ? "text-right"
-                        : "text-left"
-                    }
+                    ${isRTL ? "text-right" : "text-left"}
                   `}
                 >
                   <div
                     style={{
-                      color: isActive
-                        ? "#ffffff"
-                        : textPrimary,
+                      color: isActive ? "#ffffff" : textPrimary,
+                      fontFamily: font.family,
+                      textAlign: isRTL ? 'right' : 'left',
                     }}
                     className="
                       text-sm
@@ -215,18 +190,17 @@ const FontChanger_Mobile = ({ onClose }) => {
 
                   <div
                     style={{
-                      color: isActive
-                        ? "rgba(255,255,255,0.8)"
-                        : textSecondary,
+                      color: isActive ? "rgba(255,255,255,0.8)" : textSecondary,
+                      textAlign: isRTL ? 'right' : 'left',
                     }}
                     className="
                       text-[10px]
                       truncate
                     "
                   >
-                    {isActive
-                      ? "Active"
-                      : "Tap to apply"}
+                    {isActive 
+                      ? (isLanguageRTL ? "نشط" : "Active")
+                      : (isLanguageRTL ? "انقر للتطبيق" : "Tap to apply")}
                   </div>
                 </div>
 

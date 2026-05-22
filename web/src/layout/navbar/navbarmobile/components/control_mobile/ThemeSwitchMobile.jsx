@@ -3,9 +3,11 @@
 import React from "react";
 import { FaCheck } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
+import { useRTL } from "@/contexts/RTLContext";
 
 const ThemeSwitchMobile = ({ onClose }) => {
   const { themeName, changeTheme, theme } = useTheme();
+  const { direction, isRTL, textAlign } = useRTL();
 
   const isDarkMode =
     themeName === "dark" ||
@@ -14,42 +16,34 @@ const ThemeSwitchMobile = ({ onClose }) => {
 
   // TAILWIND CLASSES
   const cardBg =
-    isDarkMode
-      ? "bg-gray-800"
-      : "bg-white";
+    isDarkMode ? "bg-gray-800" : "bg-white";
 
   const borderClass =
-    isDarkMode
-      ? "border-gray-700"
-      : "border-gray-200";
+    isDarkMode ? "border-gray-700" : "border-gray-200";
 
   const textPrimary =
     theme?.textColors?.primary ||
-    (isDarkMode
-      ? "text-white"
-      : "text-gray-900");
+    (isDarkMode ? "text-white" : "text-gray-900");
 
   const textSecondary =
     theme?.textColors?.secondary ||
-    (isDarkMode
-      ? "text-gray-400"
-      : "text-gray-500");
+    (isDarkMode ? "text-gray-400" : "text-gray-500");
 
   const activeCard =
     theme?.buttonColors?.primaryButton?.background ||
     "bg-gradient-to-r from-sky-600 to-sky-500";
 
   const themesList = [
-    { key: "light", icon: "☀️", name: "Light" },
-    { key: "dark", icon: "🌙", name: "Dark" },
-    { key: "forest", icon: "🌲", name: "Forest" },
-    { key: "cyberpunk", icon: "🎮", name: "Cyberpunk" },
-    { key: "lavender", icon: "🌸", name: "Lavender" },
-    { key: "midnight", icon: "🌃", name: "Midnight" },
-    { key: "ocean", icon: "🌊", name: "Ocean" },
-    { key: "rose", icon: "🌹", name: "Rose" },
-    { key: "sand", icon: "🏖️", name: "Sand" },
-    { key: "sepia", icon: "📜", name: "Sepia" },
+    { key: "light", icon: "☀️", name: "Light", nameAr: "فاتح" },
+    { key: "dark", icon: "🌙", name: "Dark", nameAr: "داكن" },
+    { key: "forest", icon: "🌲", name: "Forest", nameAr: "غابة" },
+    { key: "cyberpunk", icon: "🎮", name: "Cyberpunk", nameAr: "سايبربانك" },
+    { key: "lavender", icon: "🌸", name: "Lavender", nameAr: "لافندر" },
+    { key: "midnight", icon: "🌃", name: "Midnight", nameAr: "منتصف الليل" },
+    { key: "ocean", icon: "🌊", name: "Ocean", nameAr: "محيط" },
+    { key: "rose", icon: "🌹", name: "Rose", nameAr: "ورد" },
+    { key: "sand", icon: "🏖️", name: "Sand", nameAr: "رمل" },
+    { key: "sepia", icon: "📜", name: "Sepia", nameAr: "سيبيا" },
   ];
 
   const handleThemeChange = (themeKey) => {
@@ -60,20 +54,31 @@ const ThemeSwitchMobile = ({ onClose }) => {
     }
   };
 
+  // Get theme name based on RTL
+  const getThemeName = (theme, isRTL) => {
+    if (isRTL && theme.nameAr) {
+      return theme.nameAr;
+    }
+    return theme.name;
+  };
+
   return (
-    <div className="w-full">
-      <div className="max-h-[60vh] overflow-y-auto pr-1">
+    <div className="w-full" dir={direction}>
+      <div 
+        className="max-h-[60vh] overflow-y-auto" 
+        style={{ 
+          paddingRight: isRTL ? '0' : '0.25rem', 
+          paddingLeft: isRTL ? '0.25rem' : '0' 
+        }}
+      >
         <div className="grid grid-cols-2 gap-3">
           {themesList.map((item) => {
-            const isActive =
-              themeName === item.key;
+            const isActive = themeName === item.key;
 
             return (
               <button
                 key={item.key}
-                onClick={() =>
-                  handleThemeChange(item.key)
-                }
+                onClick={() => handleThemeChange(item.key)}
                 className={`
                   flex items-center gap-2
                   p-3
@@ -83,6 +88,7 @@ const ThemeSwitchMobile = ({ onClose }) => {
                   active:scale-95
                   w-full
                   shadow-sm
+                  ${isRTL ? "flex-row-reverse" : "flex-row"}
 
                   ${
                     isActive
@@ -114,36 +120,39 @@ const ThemeSwitchMobile = ({ onClose }) => {
                 </div>
 
                 {/* INFO */}
-                <div className="flex-1 text-left overflow-hidden">
+                <div 
+                  className={`
+                    flex-1 overflow-hidden
+                    ${isRTL ? "text-right" : "text-left"}
+                  `}
+                >
                   <div
                     className={`
                       text-sm
                       font-semibold
                       truncate
-                      ${
-                        isActive
-                          ? "text-white"
-                          : textPrimary
-                      }
+                      ${isActive ? "text-white" : textPrimary}
                     `}
+                    style={{
+                      textAlign: isRTL ? 'right' : 'left',
+                    }}
                   >
-                    {item.name}
+                    {getThemeName(item, isRTL)}
                   </div>
 
                   <div
                     className={`
                       text-[10px]
                       truncate
-                      ${
-                        isActive
-                          ? "text-white/80"
-                          : textSecondary
-                      }
+                      ${isActive ? "text-white/80" : textSecondary}
                     `}
+                    style={{
+                      textAlign: isRTL ? 'right' : 'left',
+                    }}
                   >
-                    {isActive
-                      ? "Active"
-                      : "Tap to apply"}
+                    {isActive 
+                      ? (isRTL ? "نشط" : "Active")
+                      : (isRTL ? "انقر للتطبيق" : "Tap to apply")}
                   </div>
                 </div>
 

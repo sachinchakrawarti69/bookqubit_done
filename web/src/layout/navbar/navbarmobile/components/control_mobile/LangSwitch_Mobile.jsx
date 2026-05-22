@@ -2,14 +2,11 @@
 
 import React, { useState, useMemo } from "react";
 
-import {
-  FaCheck,
-  FaSearch,
-  FaTimes,
-} from "react-icons/fa";
+import { FaCheck, FaSearch, FaTimes } from "react-icons/fa";
 
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useTheme } from "@/themes/useTheme";
+import { useRTL } from "@/contexts/RTLContext";
 
 const LangSwitch_Mobile = ({ onClose }) => {
   const {
@@ -20,6 +17,7 @@ const LangSwitch_Mobile = ({ onClose }) => {
   } = useLanguage();
 
   const { theme, themeName } = useTheme();
+  const { direction, isRTL, textAlign, positionStart, positionEnd } = useRTL();
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -29,31 +27,19 @@ const LangSwitch_Mobile = ({ onClose }) => {
     themeName === "cyberpunk";
 
   // USE TAILWIND CLASSES
-  const cardBg =
-    isDarkMode
-      ? "bg-gray-800"
-      : "bg-white";
+  const cardBg = isDarkMode ? "bg-gray-800" : "bg-white";
 
-  const borderClass =
-    isDarkMode
-      ? "border-gray-700"
-      : "border-gray-200";
+  const borderClass = isDarkMode ? "border-gray-700" : "border-gray-200";
 
   const textPrimary =
-    theme?.textColors?.primary ||
-    (isDarkMode
-      ? "text-white"
-      : "text-gray-900");
+    theme?.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900");
 
   const textSecondary =
     theme?.textColors?.secondary ||
-    (isDarkMode
-      ? "text-gray-400"
-      : "text-gray-500");
+    (isDarkMode ? "text-gray-400" : "text-gray-500");
 
   const activeCard =
-    theme?.buttonColors?.primaryButton
-      ?.background ||
+    theme?.buttonColors?.primaryButton?.background ||
     "bg-gradient-to-r from-sky-600 to-sky-500";
 
   // SORT
@@ -72,23 +58,14 @@ const LangSwitch_Mobile = ({ onClose }) => {
     });
 
     priorityLangs.sort((a, b) => {
-      const aIndex =
-        priorityCodes.indexOf(a.code);
-
-      const bIndex =
-        priorityCodes.indexOf(b.code);
-
+      const aIndex = priorityCodes.indexOf(a.code);
+      const bIndex = priorityCodes.indexOf(b.code);
       return aIndex - bIndex;
     });
 
-    otherLangs.sort((a, b) =>
-      a.name.localeCompare(b.name)
-    );
+    otherLangs.sort((a, b) => a.name.localeCompare(b.name));
 
-    return [
-      ...priorityLangs,
-      ...otherLangs,
-    ];
+    return [...priorityLangs, ...otherLangs];
   }, [originalLanguages]);
 
   // FILTER
@@ -97,29 +74,19 @@ const LangSwitch_Mobile = ({ onClose }) => {
       return sortedLanguages;
     }
 
-    const term =
-      searchTerm.toLowerCase();
+    const term = searchTerm.toLowerCase();
 
     return sortedLanguages.filter(
       (lang) =>
-        lang.name
-          .toLowerCase()
-          .includes(term) ||
-        lang.nativeName
-          .toLowerCase()
-          .includes(term) ||
-        lang.code
-          .toLowerCase()
-          .includes(term)
+        lang.name.toLowerCase().includes(term) ||
+        lang.nativeName.toLowerCase().includes(term) ||
+        lang.code.toLowerCase().includes(term),
     );
   }, [sortedLanguages, searchTerm]);
 
   // CHANGE
-  const handleLanguageChange = (
-    langCode
-  ) => {
+  const handleLanguageChange = (langCode) => {
     setLanguage(langCode);
-
     setSearchTerm("");
 
     if (onClose) {
@@ -132,7 +99,7 @@ const LangSwitch_Mobile = ({ onClose }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full" dir={direction}>
       {/* SEARCH */}
       <div className="mb-4">
         <div className="relative">
@@ -140,7 +107,7 @@ const LangSwitch_Mobile = ({ onClose }) => {
             size={13}
             className={`
               absolute
-              left-3
+              ${isRTL ? "right-3" : "left-3"}
               top-1/2
               -translate-y-1/2
               ${textSecondary}
@@ -149,20 +116,12 @@ const LangSwitch_Mobile = ({ onClose }) => {
 
           <input
             type="text"
-            placeholder={
-              t("nav.searchLanguages") ||
-              "Search languages..."
-            }
+            placeholder={t("nav.searchLanguages") || "Search languages..."}
             value={searchTerm}
-            onChange={(e) =>
-              setSearchTerm(
-                e.target.value
-              )
-            }
+            onChange={(e) => setSearchTerm(e.target.value)}
             className={`
               w-full
-              pl-9
-              pr-9
+              ${isRTL ? "pr-9 pl-9" : "pl-9 pr-9"}
               py-2.5
               text-sm
               rounded-xl
@@ -174,7 +133,11 @@ const LangSwitch_Mobile = ({ onClose }) => {
               ${textPrimary}
               focus:ring-2
               focus:ring-sky-500
+              ${isRTL ? "text-right" : "text-left"}
             `}
+            style={{
+              textAlign: isRTL ? "right" : "left",
+            }}
           />
 
           {searchTerm && (
@@ -182,10 +145,12 @@ const LangSwitch_Mobile = ({ onClose }) => {
               onClick={clearSearch}
               className={`
                 absolute
-                right-3
+                ${isRTL ? "left-3" : "right-3"}
                 top-1/2
                 -translate-y-1/2
                 ${textSecondary}
+                hover:opacity-70
+                transition
               `}
             >
               <FaTimes size={13} />
@@ -196,144 +161,112 @@ const LangSwitch_Mobile = ({ onClose }) => {
 
       {/* LANGUAGES */}
       <div className="max-h-[60vh] overflow-y-auto pr-1">
-        {filteredLanguages.length ===
-        0 ? (
+        {filteredLanguages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
-            <div className="text-4xl mb-3">
-              🔍
-            </div>
-
-            <p
-              className={`
-                text-sm
-                ${textSecondary}
-              `}
-            >
-              {t(
-                "nav.noLanguagesFound"
-              ) ||
-                "No languages found"}
+            <div className="text-4xl mb-3">🔍</div>
+            <p className={`text-sm ${textSecondary}`}>
+              {t("nav.noLanguagesFound") || "No languages found"}
             </p>
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {filteredLanguages.map(
-              (lang) => {
-                const isActive =
-                  language ===
-                  lang.code;
+            {filteredLanguages.map((lang) => {
+              const isActive = language === lang.code;
 
-                return (
-                  <button
-                    key={lang.code}
-                    onClick={() =>
-                      handleLanguageChange(
-                        lang.code
-                      )
+              return (
+                <button
+                  key={lang.code}
+                  onClick={() => handleLanguageChange(lang.code)}
+                  className={`
+                    flex items-center gap-2
+                    p-3
+                    rounded-xl
+                    border
+                    transition-all duration-200
+                    active:scale-95
+                    w-full
+                    shadow-sm
+                    ${isRTL ? "flex-row-reverse" : ""}
+
+                    ${
+                      isActive
+                        ? `${activeCard} border-transparent shadow-lg`
+                        : `${cardBg} ${borderClass}`
                     }
-                    className={`
-                      flex items-center gap-2
-                      p-3
-                      rounded-xl
-                      border
-                      transition-all duration-200
-                      active:scale-95
-                      w-full
-                      shadow-sm
+                  `}
+                >
+                  {/* FLAG */}
+                  <div className="flex-shrink-0">
+                    <span className="text-xl">
+                      {lang.flagEmoji || lang.flag}
+                    </span>
+                  </div>
 
-                      ${
-                        isActive
-                          ? `${activeCard} border-transparent shadow-lg`
-                          : `${cardBg} ${borderClass}`
-                      }
+                  {/* INFO */}
+                  <div
+                    className={`
+                      flex-1 
+                      overflow-hidden
+                      ${isRTL ? "text-right" : "text-left"}
                     `}
                   >
-                    {/* FLAG */}
-                    <div className="flex-shrink-0">
-                      <span className="text-xl">
-                        {lang.flagEmoji ||
-                          lang.flag}
-                      </span>
+                    <div
+                      style={{
+                        fontFamily:
+                          lang.code === "ur"
+                            ? "'Noto Nastaliq Urdu', serif"
+                            : "inherit",
+                        textAlign: isRTL ? "right" : "left",
+                      }}
+                      className={`
+                        text-sm
+                        font-semibold
+                        truncate
+                        ${isActive ? "text-white" : textPrimary}
+                      `}
+                    >
+                      {lang.nativeName}
                     </div>
 
-                    {/* INFO */}
-                    <div className="flex-1 text-left overflow-hidden">
-                      <div
-                        style={{
-                          fontFamily:
-                            lang.code ===
-                            "ur"
-                              ? "'Noto Nastaliq Urdu', serif"
-                              : "inherit",
-                        }}
-                        className={`
-                          text-sm
-                          font-semibold
-                          truncate
-                          ${
-                            isActive
-                              ? "text-white"
-                              : textPrimary
-                          }
-                        `}
-                      >
-                        {
-                          lang.nativeName
-                        }
-                      </div>
-
-                      <div
-                        className={`
-                          text-[10px]
-                          truncate
-                          ${
-                            isActive
-                              ? "text-white/80"
-                              : textSecondary
-                          }
-                        `}
-                      >
-                        {lang.name}
-                      </div>
+                    <div
+                      className={`
+                        text-[10px]
+                        truncate
+                        ${isActive ? "text-white/80" : textSecondary}
+                        ${isRTL ? "text-right" : "text-left"}
+                      `}
+                    >
+                      {lang.name}
                     </div>
+                  </div>
 
-                    {/* CHECK */}
-                    {isActive && (
-                      <FaCheck
-                        size={12}
-                        className="text-white flex-shrink-0"
-                      />
-                    )}
-                  </button>
-                );
-              }
-            )}
+                  {/* CHECK */}
+                  {isActive && (
+                    <FaCheck size={12} className="text-white flex-shrink-0" />
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
 
       {/* RESULTS */}
-      {filteredLanguages.length >
-        0 &&
-        filteredLanguages.length !==
-          sortedLanguages.length && (
+      {filteredLanguages.length > 0 &&
+        filteredLanguages.length !== sortedLanguages.length && (
           <div
             className={`
-              mt-3
-              pt-3
-              text-center
-              text-xs
-              border-t
-              ${borderClass}
-              ${textSecondary}
-            `}
+            mt-3
+            pt-3
+            text-center
+            text-xs
+            border-t
+            ${borderClass}
+            ${textSecondary}
+          `}
           >
-            {t(
-              "nav.showingResults"
-            ) || "Showing"}{" "}
-            {filteredLanguages.length}{" "}
-            {t("nav.of") || "of"}{" "}
-            {sortedLanguages.length}
+            {t("nav.showingResults") || "Showing"} {filteredLanguages.length}{" "}
+            {t("nav.of") || "of"} {sortedLanguages.length}
           </div>
         )}
     </div>
