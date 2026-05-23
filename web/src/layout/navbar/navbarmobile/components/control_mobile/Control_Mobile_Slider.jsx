@@ -2,7 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 
-import { FaTimes, FaPalette, FaLanguage, FaTextHeight } from "react-icons/fa";
+import {
+  FaTimes,
+  FaPalette,
+  FaLanguage,
+  FaTextHeight,
+} from "react-icons/fa";
 
 import { AiOutlineControl } from "react-icons/ai";
 
@@ -17,100 +22,192 @@ import FontChanger_Mobile from "./FontChanger_Mobile";
 import "./Control_Mobile_Slider.css";
 
 export default function Control_Mobile_Slider() {
-  const { theme, themeName } = useTheme();
-  const { t } = useLanguage();
-  const { direction, isRTL } = useRTL();
+  const { theme, themeName } =
+    useTheme();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("theme");
+  useLanguage();
 
-  const sliderRef = useRef(null);
+  const { direction } =
+    useRTL();
+
+  const [isOpen, setIsOpen] =
+    useState(false);
+
+  const [activeTab, setActiveTab] =
+    useState("theme");
+
+  const sliderRef =
+    useRef(null);
 
   const dark =
-    themeName === "dark" ||
-    themeName === "midnight" ||
-    themeName === "cyberpunk";
+    [
+      "dark",
+      "midnight",
+      "cyberpunk",
+    ].includes(themeName);
 
-  const bg = theme?.background?.section || (dark ? "bg-gray-900" : "bg-white");
+  const bg =
+    theme?.background?.section ||
+    (dark
+      ? "bg-gray-900"
+      : "bg-white");
 
-  const border = dark ? "border-gray-700" : "border-gray-200";
+  const border =
+    dark
+      ? "border-gray-700"
+      : "border-gray-200";
 
   const text =
-    theme?.textColors?.primary || (dark ? "text-white" : "text-gray-900");
+    theme?.textColors?.primary ||
+    (dark
+      ? "text-white"
+      : "text-gray-900");
 
   const secondary =
-    theme?.textColors?.secondary || (dark ? "text-gray-400" : "text-gray-500");
+    theme?.textColors?.secondary ||
+    (dark
+      ? "text-gray-400"
+      : "text-gray-500");
 
-  const active = dark
-    ? "bg-sky-500/20 text-sky-400"
-    : "bg-sky-100 text-sky-600";
+  const active =
+    dark
+      ? "bg-sky-500/20 text-sky-400"
+      : "bg-sky-100 text-sky-600";
 
-  const close = () => {
-    setIsOpen(false);
-    document.body.style.overflow = "";
+  const lockScroll = () => {
+    document.body.classList.add(
+      "slider-open"
+    );
+
+    document.documentElement.classList.add(
+      "slider-open"
+    );
   };
+
+  const unlockScroll =
+    () => {
+      document.body.classList.remove(
+        "slider-open"
+      );
+
+      document.documentElement.classList.remove(
+        "slider-open"
+      );
+    };
 
   const open = () => {
     setIsOpen(true);
-    document.body.style.overflow = "hidden";
+    lockScroll();
+  };
+
+  const close = () => {
+    setIsOpen(false);
+    unlockScroll();
   };
 
   useEffect(() => {
-    const esc = (e) => {
-      if (e.key === "Escape") {
-        close();
-      }
+    return () => {
+      unlockScroll();
     };
-
-    document.addEventListener("keydown", esc);
-
-    return () => document.removeEventListener("keydown", esc);
   }, []);
 
   useEffect(() => {
-    const outside = (e) => {
+    const esc = (e) => {
+      if (e.key === "Escape")
+        close();
+    };
+
+    const outside = (
+      e
+    ) => {
       if (
         isOpen &&
         sliderRef.current &&
-        !sliderRef.current.contains(e.target)
+        !sliderRef.current.contains(
+          e.target
+        )
       ) {
         close();
       }
     };
 
-    document.addEventListener("mousedown", outside);
+    document.addEventListener(
+      "keydown",
+      esc
+    );
 
-    return () => document.removeEventListener("mousedown", outside);
+    document.addEventListener(
+      "mousedown",
+      outside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        esc
+      );
+
+      document.removeEventListener(
+        "mousedown",
+        outside
+      );
+    };
   }, [isOpen]);
 
-  const tab = (key, icon, label) => (
+  const tab = (
+    key,
+    Icon,
+    label
+  ) => (
     <button
-      onClick={() => setActiveTab(key)}
+      key={key}
+      onClick={() =>
+        setActiveTab(key)
+      }
       className={`
       flex-1
-      rounded-xl
+
       p-3
+
+      rounded-xl
+
       flex
+
       flex-col
+
       items-center
+
       gap-1
+
       transition
 
-      ${activeTab === key ? active : secondary}
-      `}
+      ${
+        activeTab === key
+          ? active
+          : secondary
+      }
+    `}
     >
-      {icon}
-      <span className="text-[11px]">{label}</span>
+      <Icon />
+
+      <span className="text-[11px]">
+        {label}
+      </span>
     </button>
   );
 
   return (
     <>
       <button
-        onClick={isOpen ? close : open}
+        onClick={
+          isOpen
+            ? close
+            : open
+        }
         className="
         w-[42px]
         h-[42px]
+
         flex
         items-center
         justify-center
@@ -118,91 +215,163 @@ export default function Control_Mobile_Slider() {
       >
         <AiOutlineControl
           size={24}
-          className={theme?.textColors?.highlight || "text-sky-500"}
+          className={
+            theme
+              ?.textColors
+              ?.highlight ||
+            "text-sky-500"
+          }
         />
       </button>
 
       {isOpen && (
         <div
-          onClick={close}
           className="
           fixed
           inset-0
-          bg-black/50
+          bg-black/40
           z-[999]
         "
+          onClick={
+            close
+          }
         />
       )}
 
       <aside
         ref={sliderRef}
+        dir={direction}
         className={`
         control-mobile-slider
-        fixed
-        top-0
-        z-[1000]
+
+        ${
+          isOpen
+            ? "open"
+            : ""
+        }
+
         ${bg}
+
+        border-l
+
         ${border}
-        ${isOpen ? "open" : ""}
       `}
-        dir={direction}
       >
-        {/* HEADER */}
         <div
           className={`
-          shrink-0
           p-4
+
           border-b
+
           flex
+
           justify-between
+
           items-center
+
           ${border}
         `}
         >
           <div>
-            <h3 className={`font-bold ${text}`}>Customize</h3>
-            <p className={`text-xs ${secondary}`}>Personalize</p>
+            <h3
+              className={`font-bold ${text}`}
+            >
+              Customize
+            </h3>
+
+            <p
+              className={`text-xs ${secondary}`}
+            >
+              Personalize
+            </p>
           </div>
 
-          <button onClick={close} className="hover:opacity-70 transition">
+          <button
+            onClick={
+              close
+            }
+          >
             <FaTimes />
           </button>
         </div>
 
-        {/* TABS */}
         <div
           className={`
           flex
+
           gap-2
+
           p-4
+
           border-b
-          shrink-0
+
           ${border}
         `}
         >
-          {tab("theme", <FaPalette />, "Theme")}
-          {tab("language", <FaLanguage />, "Language")}
-          {tab("font", <FaTextHeight />, "Font")}
+          {tab(
+            "theme",
+            FaPalette,
+            "Theme"
+          )}
+
+          {tab(
+            "language",
+            FaLanguage,
+            "Language"
+          )}
+
+          {tab(
+            "font",
+            FaTextHeight,
+            "Font"
+          )}
         </div>
 
-        {/* CONTENT */}
         <div className="control-mobile-content">
-          {activeTab === "theme" && <ThemeSwitchMobile onClose={close} />}
 
-          {activeTab === "language" && <LangSwitch_Mobile onClose={close} />}
+          {activeTab ===
+            "theme" && (
+            <ThemeSwitchMobile
+              onClose={
+                close
+              }
+            />
+          )}
 
-          {activeTab === "font" && <FontChanger_Mobile onClose={close} />}
+          {activeTab ===
+            "language" && (
+            <LangSwitch_Mobile
+              onClose={
+                close
+              }
+            />
+          )}
+
+          {activeTab ===
+            "font" && (
+            <FontChanger_Mobile
+              onClose={
+                close
+              }
+            />
+          )}
+
         </div>
 
-        {/* FOOTER */}
         <div
           className={`
           control-mobile-footer
+
           border-t
+
           ${border}
         `}
         >
-          <p className={secondary}>Customize your reading experience</p>
+          <p
+            className={secondary}
+          >
+            Customize your reading experience
+          </p>
         </div>
       </aside>
     </>

@@ -20,6 +20,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRTL } from "@/contexts/RTLContext";
+
 import { NavItemMobile } from "./NavItem_Mobile";
 
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
@@ -29,60 +30,96 @@ import "./Navbar_Mobile_Slider.css";
 const Navbar_Mobile_Slider = () => {
   const router = useRouter();
 
+  const { theme, themeName, changeTheme } = useTheme();
+  const { t } = useLanguage();
+  const { direction, isRTL } = useRTL();
+
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const { theme, themeName, changeTheme } = useTheme();
-  const { t, isRTL: isLanguageRTL } = useLanguage();
-  const { direction, isRTL, textAlign, positionStart, positionEnd } = useRTL();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const menuRef = useRef(null);
   const searchRef = useRef(null);
 
-  const authListenerInitialized = useRef(false);
+  const isDarkMode = [
+    "dark",
+    "midnight",
+    "cyberpunk",
+  ].includes(themeName);
 
-  const isDarkMode = ["dark", "midnight", "cyberpunk"].includes(themeName);
-
-  const userMenuItems = [
-    {
-      name: t("nav.myProfile") || "My Profile",
-      nameAr: "ملفي الشخصي",
-      path: "/auth/profile",
-      icon: <FaUser />,
-    },
-    {
-      name: t("nav.dashboard") || "Dashboard",
-      nameAr: "لوحة التحكم",
-      path: "/auth/userdashboard",
-      icon: <FaUser />,
-    },
-    {
-      name: t("nav.bookwormRanking") || "Bookworm Ranking",
-      nameAr: "ترتيب محبي الكتب",
-      path: "/auth/bookwormranking",
-      icon: <FaUser />,
-    },
-  ];
-
+  /* LOCK PAGE SCROLL - ONLY WHEN MENU IS OPEN */
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    const body = document.body;
+    const html = document.documentElement;
 
+    if (isMenuOpen) {
+      // Store current scroll position
+      const scrollY = window.scrollY;
+      body.dataset.scrollY = scrollY;
+      
+      // Lock scroll
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.left = "0";
+      body.style.right = "0";
+      body.style.width = "100%";
+      body.style.overflow = "hidden";
+      html.style.overflow = "hidden";
+    } else {
+      // Restore scroll position
+      const scrollY = Number(body.dataset.scrollY || 0);
+      
+      // Remove scroll lock styles
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      html.style.overflow = "";
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY);
+      
+      // Clean up
+      delete body.dataset.scrollY;
+    }
+
+    // Cleanup function
     return () => {
-      document.body.style.overflow = "";
+      if (isMenuOpen) {
+        const scrollY = Number(body.dataset.scrollY || 0);
+        body.style.position = "";
+        body.style.top = "";
+        body.style.left = "";
+        body.style.right = "";
+        body.style.width = "";
+        body.style.overflow = "";
+        html.style.overflow = "";
+        window.scrollTo(0, scrollY);
+        delete body.dataset.scrollY;
+      }
     };
   }, [isMenuOpen]);
 
+  /* CLOSE MENU/SEARCH ON CLICK OUTSIDE OR ESC KEY */
   useEffect(() => {
     const closeOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
+      ) {
         setIsMenuOpen(false);
       }
 
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(e.target)
+      ) {
         setIsSearchOpen(false);
       }
     };
@@ -94,60 +131,74 @@ const Navbar_Mobile_Slider = () => {
       }
     };
 
-    document.addEventListener("mousedown", closeOutside);
-    document.addEventListener("keydown", esc);
+    document.addEventListener(
+      "mousedown",
+      closeOutside
+    );
+
+    document.addEventListener(
+      "keydown",
+      esc
+    );
 
     return () => {
-      document.removeEventListener("mousedown", closeOutside);
-      document.removeEventListener("keydown", esc);
+      document.removeEventListener(
+        "mousedown",
+        closeOutside
+      );
+
+      document.removeEventListener(
+        "keydown",
+        esc
+      );
     };
   }, []);
 
+  /* AUTH STATE */
   useEffect(() => {
-    if (authListenerInitialized.current) return;
-
-    authListenerInitialized.current = true;
-
-    return onAuthStateChanged(auth, (u) => {
-      setUser(u);
-      setLoading(false);
-    });
+    return onAuthStateChanged(
+      auth,
+      (u) => {
+        setUser(u);
+        setLoading(false);
+      }
+    );
   }, []);
 
-  const handleNavigation = (path) => {
+  const toggleDarkMode =
+    useCallback(() => {
+      changeTheme(
+        themeName === "dark"
+          ? "light"
+          : "dark"
+      );
+    }, [themeName, changeTheme]);
+
+  const navigate = (path) => {
     setIsMenuOpen(false);
     router.push(path);
   };
 
-  const handleLogout = async () => {
+  const logout = async () => {
     await signOut(auth);
     setIsMenuOpen(false);
     router.push("/");
   };
 
-  const toggleDarkMode = useCallback(() => {
-    changeTheme(themeName === "dark" ? "light" : "dark");
-  }, [themeName, changeTheme]);
-
   const handleSearch = (e) => {
     e.preventDefault();
 
-    if (!searchQuery.trim()) return;
+    if (!searchQuery.trim())
+      return;
 
-    router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
+    router.push(
+      `/search?q=${encodeURIComponent(
+        searchQuery
+      )}`
+    );
+
     setSearchQuery("");
     setIsSearchOpen(false);
-  };
-
-  const highlight =
-    theme.textColors?.highlight ||
-    (isDarkMode ? "text-blue-400" : "text-sky-600");
-
-  const getMenuItemName = (item) => {
-    if (isRTL && item.nameAr) {
-      return item.nameAr;
-    }
-    return item.name;
   };
 
   if (loading) return null;
@@ -155,17 +206,25 @@ const Navbar_Mobile_Slider = () => {
   return (
     <>
       <div
-        className={`navbar-mobile-slider ${isDarkMode ? "dark" : "light"}`}
+        className={`navbar-mobile-slider ${
+          isDarkMode
+            ? "dark"
+            : "light"
+        }`}
         dir={direction}
       >
         <div className="navbar-mobile-container">
-          <Link href="/" className="navbar-mobile-logo">
+          <Link
+            href="/"
+            className="navbar-mobile-logo"
+          >
             <img
               src={bookqubitLogo.src}
               alt="BookQubit"
               className="navbar-mobile-logo-img"
             />
-            <span className={`navbar-mobile-logo-text ${highlight}`}>
+
+            <span className="navbar-mobile-logo-text">
               BookQubit
             </span>
           </Link>
@@ -173,34 +232,41 @@ const Navbar_Mobile_Slider = () => {
           <div className="navbar-mobile-icons">
             <button
               className="navbar-mobile-icon-btn"
-              onClick={() => setIsSearchOpen(!isSearchOpen)}
-              aria-label={t("nav.search") || "Search"}
+              onClick={() =>
+                setIsSearchOpen(
+                  !isSearchOpen
+                )
+              }
             >
               <FaSearch />
             </button>
 
             <button
               className="navbar-mobile-icon-btn"
-              onClick={toggleDarkMode}
-              aria-label={
-                isDarkMode
-                  ? t("nav.lightMode") || "Light mode"
-                  : t("nav.darkMode") || "Dark mode"
+              onClick={
+                toggleDarkMode
               }
             >
-              {isDarkMode ? <FaSun /> : <FaMoon />}
+              {isDarkMode ? (
+                <FaSun />
+              ) : (
+                <FaMoon />
+              )}
             </button>
 
             <button
               className="navbar-mobile-icon-btn"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={
-                isMenuOpen
-                  ? t("nav.closeMenu") || "Close menu"
-                  : t("nav.openMenu") || "Open menu"
+              onClick={() =>
+                setIsMenuOpen(
+                  !isMenuOpen
+                )
               }
             >
-              {isMenuOpen ? <FaTimes /> : <FaBars />}
+              {isMenuOpen ? (
+                <FaTimes />
+              ) : (
+                <FaBars />
+              )}
             </button>
           </div>
         </div>
@@ -210,17 +276,34 @@ const Navbar_Mobile_Slider = () => {
         <div
           ref={searchRef}
           className="navbar-mobile-search-overlay"
-          dir={direction}
         >
-          <form onSubmit={handleSearch} className="navbar-mobile-search-form">
+          <form
+            onSubmit={
+              handleSearch
+            }
+            className="navbar-mobile-search-form"
+          >
             <input
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
               className="navbar-mobile-search-input"
-              placeholder={t("nav.searchPlaceholder") || "Search books..."}
-              style={{ textAlign: isRTL ? "right" : "left" }}
+              value={
+                searchQuery
+              }
+              onChange={(e) =>
+                setSearchQuery(
+                  e.target.value
+                )
+              }
+              placeholder={
+                t(
+                  "nav.search"
+                ) ||
+                "Search..."
+              }
             />
-            <button type="submit">{t("nav.search") || "Search"}</button>
+
+            <button>
+              Search
+            </button>
           </form>
         </div>
       )}
@@ -229,83 +312,99 @@ const Navbar_Mobile_Slider = () => {
         <>
           <div
             className="navbar-mobile-backdrop"
-            onClick={() => setIsMenuOpen(false)}
+            onClick={() =>
+              setIsMenuOpen(
+                false
+              )
+            }
           />
 
           <aside
             ref={menuRef}
-            className={`
-              navbar-mobile-slide-menu
-              open
-              ${isDarkMode ? "dark" : "light"}
-              ${isRTL ? "rtl" : "ltr"}
-            `}
             dir={direction}
+            className={`navbar-mobile-slide-menu open ${
+              isDarkMode
+                ? "dark"
+                : "light"
+            }`}
           >
-            <div
-              className="navbar-mobile-menu-header"
-              style={{ textAlign: isRTL ? "right" : "left" }}
-            >
-              {t("nav.menu") || "MENU"}
+            <div className="navbar-mobile-menu-header">
+              MENU
             </div>
 
             <div className="p-4">
               <button
                 className="navbar-mobile-ai-btn"
-                onClick={() => handleNavigation("/bookqubitai")}
-                style={{ flexDirection: isRTL ? "row-reverse" : "row" }}
+                onClick={() =>
+                  navigate(
+                    "/bookqubitai"
+                  )
+                }
               >
                 <FaRobot />
-                <span>{t("nav.aiAssistant") || "AI Assistant"}</span>
+                AI Assistant
               </button>
             </div>
 
-            <div className="navbar-mobile-nav-container overflow-y-auto">
-              <NavItemMobile onItemClick={() => setIsMenuOpen(false)} />
+            <div className="navbar-mobile-nav-container">
+              <NavItemMobile
+                onItemClick={() =>
+                  setIsMenuOpen(
+                    false
+                  )
+                }
+              />
             </div>
 
             {user && (
               <div className="navbar-mobile-account-section">
-                {userMenuItems.map((item) => (
-                  <button
-                    key={item.name}
-                    onClick={() => handleNavigation(item.path)}
-                    className="navbar-mobile-menu-item"
-                    style={{ flexDirection: isRTL ? "row-reverse" : "row" }}
-                  >
-                    <span className="menu-item-icon">{item.icon}</span>
-                    <span>{getMenuItemName(item)}</span>
-                  </button>
-                ))}
+                <button
+                  className="navbar-mobile-menu-item"
+                  onClick={() =>
+                    navigate(
+                      "/auth/profile"
+                    )
+                  }
+                >
+                  <FaUser />
+                  Profile
+                </button>
               </div>
             )}
 
             <div className="navbar-mobile-auth-container">
               {!user ? (
-                <div
-                  className="navbar-mobile-auth-buttons"
-                  style={{ flexDirection: isRTL ? "row-reverse" : "row" }}
-                >
+                <div className="navbar-mobile-auth-buttons">
                   <button
-                    onClick={() => handleNavigation("/auth/login")}
                     className="auth-button"
+                    onClick={() =>
+                      navigate(
+                        "/auth/login"
+                      )
+                    }
                   >
-                    {t("nav.login") || "Login"}
+                    Login
                   </button>
 
                   <button
-                    onClick={() => handleNavigation("/auth/register")}
                     className="auth-button"
+                    onClick={() =>
+                      navigate(
+                        "/auth/register"
+                      )
+                    }
                   >
-                    {t("nav.signUp") || "Sign Up"}
+                    Signup
                   </button>
                 </div>
               ) : (
                 <button
-                  onClick={handleLogout}
-                  className="auth-button logout-button"
+                  className="auth-button"
+                  onClick={
+                    logout
+                  }
                 >
-                  {t("nav.logout") || "Logout"}
+                  Logout
                 </button>
               )}
             </div>

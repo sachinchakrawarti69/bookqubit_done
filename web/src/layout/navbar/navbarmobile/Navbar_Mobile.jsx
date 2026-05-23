@@ -23,7 +23,7 @@ import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useRTL } from "@/contexts/RTLContext"; // Import RTL context
+import { useRTL } from "@/contexts/RTLContext";
 
 // Import logo image
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
@@ -44,11 +44,88 @@ const Navbar_Mobile = () => {
     positionEnd,
     flexDirection,
     isRTL,
-  } = useRTL(); // Get RTL utilities
+  } = useRTL();
   const menuRef = useRef(null);
 
   // Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
+
+  /* ==========================================
+     SCROLL LOCK FOR MENU ONLY (NOT SEARCH)
+  ========================================== */
+  
+  // Lock body scroll when menu opens, restore when closed
+  useEffect(() => {
+    const body = document.body;
+    const html = document.documentElement;
+
+    if (isMenuOpen) {
+      // Store current scroll position
+      const scrollY = window.scrollY;
+      body.dataset.scrollY = scrollY;
+      
+      // Lock scroll
+      body.style.position = "fixed";
+      body.style.top = `-${scrollY}px`;
+      body.style.left = "0";
+      body.style.right = "0";
+      body.style.width = "100%";
+      body.style.overflow = "hidden";
+      html.style.overflow = "hidden";
+    } else {
+      // Restore scroll position
+      const scrollY = Number(body.dataset.scrollY || 0);
+      
+      // Remove scroll lock styles
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      html.style.overflow = "";
+      
+      // Restore scroll position
+      window.scrollTo(0, scrollY);
+      
+      // Clean up
+      delete body.dataset.scrollY;
+    }
+
+    // Cleanup function
+    return () => {
+      if (isMenuOpen) {
+        const scrollY = Number(body.dataset.scrollY || 0);
+        body.style.position = "";
+        body.style.top = "";
+        body.style.left = "";
+        body.style.right = "";
+        body.style.width = "";
+        body.style.overflow = "";
+        html.style.overflow = "";
+        window.scrollTo(0, scrollY);
+        delete body.dataset.scrollY;
+      }
+    };
+  }, [isMenuOpen]);
+
+  // Handle escape key for search page (NO scroll lock for search)
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === "Escape" && showSearchPage) {
+        closeSearchPage();
+      }
+    };
+
+    if (showSearchPage) {
+      document.addEventListener("keydown", handleEscKey);
+      // NOTE: Search page does NOT lock scroll - user can still scroll
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey);
+    };
+  }, [showSearchPage]);
 
   // Listen for Firebase Auth state - ONLY ONCE
   useEffect(() => {
@@ -66,7 +143,7 @@ const Navbar_Mobile = () => {
     };
   }, []);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside (only handles menu state, scroll lock handled above)
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -75,14 +152,12 @@ const Navbar_Mobile = () => {
         isMenuOpen
       ) {
         setIsMenuOpen(false);
-        document.body.style.overflow = "unset";
       }
     };
 
     const handleEscape = (event) => {
       if (event.key === "Escape" && isMenuOpen) {
         setIsMenuOpen(false);
-        document.body.style.overflow = "unset";
       }
     };
 
@@ -97,27 +172,6 @@ const Navbar_Mobile = () => {
     };
   }, [isMenuOpen]);
 
-  // Handle escape key for search page
-  useEffect(() => {
-    const handleEscKey = (event) => {
-      if (event.key === "Escape" && showSearchPage) {
-        closeSearchPage();
-      }
-    };
-
-    if (showSearchPage) {
-      document.addEventListener("keydown", handleEscKey);
-      // Prevent body scroll when search is open
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscKey);
-    };
-  }, [showSearchPage]);
-
   // Dark mode toggle - switches between light and dark only
   const toggleDarkMode = useCallback(() => {
     if (themeName === "dark") {
@@ -127,13 +181,12 @@ const Navbar_Mobile = () => {
     }
   }, [themeName, changeTheme]);
 
-  // Handle search icon click - opens search page component
+  // Handle search icon click - opens search page component (NO scroll lock)
   const handleSearchClick = () => {
     setShowSearchPage(true);
     // Close menu if open
     if (isMenuOpen) {
       setIsMenuOpen(false);
-      document.body.style.overflow = "unset";
     }
   };
 
@@ -151,25 +204,18 @@ const Navbar_Mobile = () => {
     }
   };
 
-  // Close search page
+  // Close search page (NO scroll lock changes)
   const closeSearchPage = () => {
     setShowSearchPage(false);
-    document.body.style.overflow = "unset";
   };
 
   // Toggle mobile menu
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    if (!isMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
   };
 
   const closeMenu = () => {
     setIsMenuOpen(false);
-    document.body.style.overflow = "unset";
   };
 
   const isDarkMode =
@@ -263,7 +309,7 @@ const Navbar_Mobile = () => {
 
           {/* RIGHT: ICON ACTIONS */}
           <div className="navbar-mobile-actions">
-            {/* SEARCH ICON - Opens search page component */}
+            {/* SEARCH ICON - Opens search page component (NO scroll lock) */}
             <button
               onClick={handleSearchClick}
               className="navbar-mobile-icon-button"
@@ -285,7 +331,7 @@ const Navbar_Mobile = () => {
               )}
             </button>
 
-            {/* CONTROL SLIDER */}
+            {/* CONTROL SLIDER COMPONENT */}
             <Control_Mobile_Slider />
 
             {/* LOGIN BUTTON WITH TEXT */}
@@ -380,7 +426,7 @@ const Navbar_Mobile = () => {
         )}
       </nav>
 
-      {/* Mobile Search Page Component - Fixed overlay with proper z-index */}
+      {/* Mobile Search Page Component - Fixed overlay (DOES NOT lock scroll) */}
       {showSearchPage && (
         <div className="mobile-search-fullscreen-overlay">
           <SearchPage_Mobile

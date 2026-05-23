@@ -1,180 +1,182 @@
-/* Control_Mobile_Slider.css */
+/* ==========================================
+   CONTROL MOBILE SLIDER
+========================================== */
 
-.control-mobile-slider {
-  right: -100%;
-  width: 92vw;
-  max-width: 360px;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: -5px 0 25px rgba(0, 0, 0, 0.15);
+/* LOCK PAGE WHEN OPEN */
+
+html.slider-open,
+body.slider-open {
+  overflow: hidden !important;
+
+  height: 100%;
+
+  touch-action: none;
+
+  overscroll-behavior: none;
 }
 
-/* RTL Support - Slider comes from left instead of right */
+/* PANEL */
+
+.control-mobile-slider {
+  position: fixed;
+
+  top: 0;
+
+  right: 0;
+
+  width: min(92vw, 360px);
+
+  height: 100dvh;
+
+  z-index: 1000;
+
+  display: flex;
+
+  flex-direction: column;
+
+  overflow: hidden;
+
+  transform: translateX(100%);
+
+  transition:
+    transform 0.28s ease,
+    background 0.25s ease;
+
+  box-shadow:
+    -10px 0 35px
+    rgba(0, 0, 0, 0.18);
+
+  will-change: transform;
+}
+
+/* OPEN */
+
+.control-mobile-slider.open {
+  transform: translateX(0);
+}
+
+/* RTL */
+
 [dir="rtl"] .control-mobile-slider {
   right: auto;
-  left: -100%;
-  box-shadow: 5px 0 25px rgba(0, 0, 0, 0.15);
+
+  left: 0;
+
+  transform: translateX(-100%);
 }
 
 [dir="rtl"] .control-mobile-slider.open {
-  left: 0;
-  right: auto;
+  transform: translateX(0);
 }
 
-.control-mobile-slider.open {
-  right: 0;
+/* HEADER */
+
+.control-mobile-slider > :first-child {
+  flex-shrink: 0;
 }
+
+/* TAB BAR */
+
+.control-mobile-slider > :nth-child(2) {
+  flex-shrink: 0;
+}
+
+/* CONTENT */
 
 .control-mobile-content {
   flex: 1;
+
   min-height: 0;
+
   overflow-y: auto;
+
   overflow-x: hidden;
+
   padding: 16px;
+
   display: block;
+
+  -webkit-overflow-scrolling: touch;
+
+  overscroll-behavior: contain;
 }
 
-/* RTL Content padding adjustment */
-[dir="rtl"] .control-mobile-content {
-  padding: 16px;
-}
+/* PREVENT SHRINK */
 
 .control-mobile-content > * {
-  height: auto !important;
+  width: 100%;
+
+  max-width: 100%;
 }
 
+/* FOOTER */
+
 .control-mobile-footer {
-  padding: 12px;
+  flex-shrink: 0;
+
+  padding: 14px;
+
   text-align: center;
-  flex: none;
+
+  background: inherit;
+
   font-size: 12px;
 }
 
-/* RTL Footer text alignment */
-[dir="rtl"] .control-mobile-footer {
-  text-align: center;
+/* BUTTON SAFETY */
+
+.control-mobile-slider button {
+  min-width: 0;
 }
 
-body {
-  overflow-x: hidden;
-}
+/* SCROLLBAR */
 
-/* RTL specific adjustments for header */
-[dir="rtl"] .control-mobile-slider .flex.justify-between {
-  flex-direction: row-reverse;
-}
-
-/* Tab button RTL adjustments */
-[dir="rtl"] .control-mobile-slider .flex.gap-2 {
-  flex-direction: row;
-}
-
-/* Close button positioning for RTL */
-[dir="rtl"] .control-mobile-slider button:last-child {
-  margin-left: 0;
-  margin-right: auto;
-}
-
-/* Animation for RTL slide in */
-@keyframes slideInLTR {
-  from {
-    right: -100%;
-  }
-  to {
-    right: 0;
-  }
-}
-
-@keyframes slideOutLTR {
-  from {
-    right: 0;
-  }
-  to {
-    right: -100%;
-  }
-}
-
-@keyframes slideInRTL {
-  from {
-    left: -100%;
-  }
-  to {
-    left: 0;
-  }
-}
-
-@keyframes slideOutRTL {
-  from {
-    left: 0;
-  }
-  to {
-    left: -100%;
-  }
-}
-
-/* Smooth transitions for theme changes */
-.control-mobile-slider,
-.control-mobile-content,
-.control-mobile-footer {
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-/* Responsive adjustments for RTL */
-@media (max-width: 480px) {
-  .control-mobile-slider {
-    width: 85vw;
-    max-width: 320px;
-  }
-}
-
-/* Tablet adjustments */
-@media (min-width: 481px) and (max-width: 768px) {
-  .control-mobile-slider {
-    max-width: 360px;
-  }
-}
-
-/* Prevent body scroll when slider is open */
-body.slider-open {
-  overflow: hidden;
-}
-
-/* Focus states for accessibility */
-.control-mobile-slider button:focus-visible {
-  outline: 2px solid #0ea5e9;
-  outline-offset: 2px;
-}
-
-/* Scrollbar styling for content */
 .control-mobile-content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.control-mobile-content::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
+  width: 5px;
 }
 
 .control-mobile-content::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+  background:
+    rgba(140, 140, 140, 0.3);
+
+  border-radius: 999px;
 }
 
-.control-mobile-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(0, 0, 0, 0.3);
+.control-mobile-content::-webkit-scrollbar-track {
+  background: transparent;
 }
 
-.dark .control-mobile-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
+/* DARK */
 
 .dark .control-mobile-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background:
+    rgba(255, 255, 255, 0.2);
 }
 
-.dark .control-mobile-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+/* MOBILE */
+
+@media (max-width: 480px) {
+  .control-mobile-slider {
+    width: 88vw;
+
+    max-width: 340px;
+  }
+
+  .control-mobile-content {
+    padding: 14px;
+  }
+}
+
+/* TABLET */
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .control-mobile-slider {
+    width: 360px;
+  }
+}
+
+/* SAFE FIX */
+
+body {
+  overflow-x: hidden;
 }

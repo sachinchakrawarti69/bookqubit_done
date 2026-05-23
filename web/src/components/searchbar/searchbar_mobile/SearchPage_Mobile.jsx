@@ -9,14 +9,15 @@ import { getBooksByLanguage } from "@/data/books";
 import { 
   FaSearch, 
   FaTimes, 
-  FaArrowLeft, 
   FaFilter,
   FaSpinner,
   FaStar,
   FaUser,
-  FaBookOpen
+  FaBookOpen,
+  FaTh,
+  FaList
 } from "react-icons/fa";
-import Link from "next/link";
+import "./SearchPage_Mobile.css";
 
 const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
   const router = useRouter();
@@ -37,6 +38,8 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
     categories: [],
     authors: [],
   });
+  const [sortBy, setSortBy] = useState("title");
+  const [viewMode, setViewMode] = useState("list");
 
   const inputRef = useRef(null);
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
@@ -69,11 +72,10 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
 
     setIsLoading(true);
     
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 300));
     
     const books = getBooksByLanguage(language);
-    const results = books.filter((book) => {
+    let results = books.filter((book) => {
       const searchLower = searchTerm.toLowerCase();
       return (
         book.title?.toLowerCase().includes(searchLower) ||
@@ -83,15 +85,37 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
       );
     });
 
+    // Apply filters
+    if (selectedFilters.categories.length > 0) {
+      results = results.filter(book => 
+        selectedFilters.categories.includes(book.category)
+      );
+    }
+    
+    if (selectedFilters.authors.length > 0) {
+      results = results.filter(book => 
+        selectedFilters.authors.includes(book.author)
+      );
+    }
+
+    // Sort results
+    if (sortBy === "title") {
+      results.sort((a, b) => a.title?.localeCompare(b.title));
+    } else if (sortBy === "rating") {
+      results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+    } else if (sortBy === "newest") {
+      results.sort((a, b) => (b.year || 0) - (a.year || 0));
+    }
+    
     setSearchResults(results);
     
     // Extract filter options
-    const categories = [...new Set(results.map(book => book.category).filter(Boolean))];
-    const authors = [...new Set(results.map(book => book.author).filter(Boolean))];
+    const categories = [...new Set(books.map(book => book.category).filter(Boolean))];
+    const authors = [...new Set(books.map(book => book.author).filter(Boolean))];
     setFilterOptions({ categories, authors });
     
     setIsLoading(false);
-  }, [language]);
+  }, [language, sortBy, selectedFilters]);
 
   // Debounced search
   useEffect(() => {
@@ -106,27 +130,6 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
     
     return () => clearTimeout(debounceTimer);
   }, [query, performSearch]);
-
-  // Apply filters
-  useEffect(() => {
-    if (!query) return;
-    
-    let results = [...searchResults];
-    
-    if (selectedFilters.categories.length > 0) {
-      results = results.filter(book => 
-        selectedFilters.categories.includes(book.category)
-      );
-    }
-    
-    if (selectedFilters.authors.length > 0) {
-      results = results.filter(book => 
-        selectedFilters.authors.includes(book.author)
-      );
-    }
-    
-    setSearchResults(results);
-  }, [selectedFilters]);
 
   const saveToRecentSearches = (searchTerm) => {
     if (!searchTerm.trim()) return;
@@ -184,7 +187,6 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
 
   const fontStyle = currentFont ? { fontFamily: currentFont.family } : {};
 
-  // Render star rating
   const renderStars = (rating = 0) => {
     return (
       <div className="flex items-center gap-0.5">
@@ -206,29 +208,30 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
       className={`search-page-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-gray-50")}`}
       style={fontStyle}
     >
-      {/* Search Header - No back button since navbar is visible */}
-      <div className={`sticky top-0 z-10 ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`}>
-        <div className="px-4 py-3">
+      {/* Search Header - Below navbar position */}
+      <div className={`search-header ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`}>
+        <div className="search-header-content">
           {/* Search Input Row */}
-          <div className="flex items-center gap-3">
-            {/* Close/Cancel Button */}
+          <div className="search-input-row">
+            {/* Close Button with X Icon */}
             <button
               onClick={onClose}
-              className={`px-3 py-2 text-sm font-medium rounded-lg transition-all ${isDarkMode ? "text-gray-300 hover:bg-gray-800" : "text-gray-600 hover:bg-gray-100"}`}
+              className="search-close-btn"
+              aria-label="Close search"
             >
-              Cancel
+              <FaTimes size={20} />
             </button>
             
             {/* Search Input */}
-            <div className="flex-1 relative">
-              <FaSearch className={`absolute left-3 top-1/2 -translate-y-1/2 ${theme.textColors?.secondary || "text-gray-400"} text-sm`} />
+            <div className="search-input-wrapper">
+              <FaSearch className="search-input-icon" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("search.placeholder") || "Search books, authors..."}
-                className={`w-full pl-9 pr-8 py-2.5 rounded-full border focus:outline-none focus:ring-2 focus:ring-sky-500 text-base
+                placeholder="Search books by title, author, or description..."
+                className={`search-input
                   ${theme.background?.input || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}
                   ${theme.border?.default || "border-gray-200 dark:border-gray-700"}
                   ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}
@@ -237,59 +240,85 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
               {query && (
                 <button
                   onClick={handleClearSearch}
-                  className="absolute right-3 top-1/2 -translate-y-1/2"
+                  className="search-clear-btn"
                 >
-                  <FaTimes className={theme.textColors?.secondary || "text-gray-400"} size={14} />
+                  <FaTimes size={14} />
                 </button>
               )}
             </div>
 
             {/* Filter Button */}
-            {searchResults.length > 0 && (
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className={`p-2 rounded-full transition-all relative ${showFilters ? 'bg-sky-500 text-white' : (isDarkMode ? "hover:bg-gray-800" : "hover:bg-gray-100")}`}
-              >
-                <FaFilter size={16} className={showFilters ? "text-white" : (theme.textColors?.secondary || "text-gray-500")} />
-              </button>
-            )}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`search-filter-btn ${showFilters ? 'active' : ''}`}
+            >
+              <FaFilter size={16} />
+            </button>
           </div>
 
-          {/* Stats */}
+          {/* Stats and Sort Row */}
           {!isLoading && query && (
-            <div className={`text-xs px-2 mt-2 ${theme.textColors?.secondary || "text-gray-500"}`}>
-              {searchResults.length} {searchResults.length === 1 ? "result" : "results"}
+            <div className="search-stats-row">
+              <div className="search-stats">
+                {searchResults.length === 0 ? "No results" : `Showing ${searchResults.length} books`}
+              </div>
+              {searchResults.length > 0 && (
+                <div className="search-controls">
+                  <div className="search-sort">
+                    <span className="search-sort-label">Sort by:</span>
+                    <select 
+                      value={sortBy}
+                      onChange={(e) => setSortBy(e.target.value)}
+                      className={`search-sort-select ${theme.background?.input || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+                    >
+                      <option value="title">Title (A-Z)</option>
+                      <option value="rating">Rating</option>
+                      <option value="newest">Newest</option>
+                    </select>
+                  </div>
+                  <div className="search-view">
+                    <button
+                      onClick={() => setViewMode("list")}
+                      className={`search-view-btn ${viewMode === "list" ? "active" : ""}`}
+                    >
+                      <FaList size={14} />
+                    </button>
+                    <button
+                      onClick={() => setViewMode("grid")}
+                      className={`search-view-btn ${viewMode === "grid" ? "active" : ""}`}
+                    >
+                      <FaTh size={14} />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
       </div>
 
       {/* Filters Panel */}
-      {showFilters && searchResults.length > 0 && (
-        <div className={`px-4 py-3 border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"} ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")}`}>
-          <div className="flex justify-between items-center mb-3">
-            <span className={`text-sm font-medium ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-              Filter Results
-            </span>
-            <button onClick={clearFilters} className="text-xs text-sky-500">
+      {showFilters && (
+        <div className={`filters-panel ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`}>
+          <div className="filters-header">
+            <span className="filters-title">Filter Results</span>
+            <button onClick={clearFilters} className="filters-clear">
               Clear All
             </button>
           </div>
           
-          <div className="space-y-3">
+          <div className="filters-body">
             {filterOptions.categories.length > 0 && (
-              <div>
-                <div className="text-xs font-medium mb-2">Category</div>
-                <div className="flex flex-wrap gap-2">
+              <div className="filter-group">
+                <div className="filter-group-title">Category</div>
+                <div className="filter-options">
                   {filterOptions.categories.map(cat => (
                     <button
                       key={cat}
                       onClick={() => handleFilterChange("categories", cat)}
-                      className={`px-3 py-1.5 rounded-full text-xs transition-all ${
-                        selectedFilters.categories.includes(cat)
-                          ? "bg-sky-500 text-white"
-                          : `${isDarkMode ? "bg-gray-700" : "bg-gray-100"} ${theme.textColors?.secondary || "text-gray-600"}`
-                      }`}
+                      className={`filter-option ${
+                        selectedFilters.categories.includes(cat) ? 'active' : ''
+                      } ${isDarkMode ? 'dark' : 'light'}`}
                     >
                       {cat}
                     </button>
@@ -299,18 +328,16 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
             )}
             
             {filterOptions.authors.length > 0 && (
-              <div>
-                <div className="text-xs font-medium mb-2">Author</div>
-                <div className="flex flex-wrap gap-2">
+              <div className="filter-group">
+                <div className="filter-group-title">Author</div>
+                <div className="filter-options">
                   {filterOptions.authors.map(author => (
                     <button
                       key={author}
                       onClick={() => handleFilterChange("authors", author)}
-                      className={`px-3 py-1.5 rounded-full text-xs transition-all ${
-                        selectedFilters.authors.includes(author)
-                          ? "bg-sky-500 text-white"
-                          : `${isDarkMode ? "bg-gray-700" : "bg-gray-100"} ${theme.textColors?.secondary || "text-gray-600"}`
-                      }`}
+                      className={`filter-option ${
+                        selectedFilters.authors.includes(author) ? 'active' : ''
+                      } ${isDarkMode ? 'dark' : 'light'}`}
                     >
                       {author}
                     </button>
@@ -322,64 +349,54 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
         </div>
       )}
 
-      {/* Content Area */}
-      <div className="flex-1 overflow-y-auto pb-20">
+      {/* Content Area - Scrollable */}
+      <div className="search-content">
         {/* Loading State */}
         {isLoading && (
-          <div className="flex flex-col items-center justify-center py-20">
-            <FaSpinner className="animate-spin text-3xl text-sky-500 mb-3" />
-            <p className={`text-sm ${theme.textColors?.secondary || "text-gray-500"}`}>
-              Searching...
-            </p>
+          <div className="loading-state">
+            <FaSpinner className="loading-spinner" />
+            <p className="loading-text">Searching...</p>
           </div>
         )}
 
-        {/* Search Results */}
-        {!isLoading && query && searchResults.length > 0 && (
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+        {/* Search Results - List View */}
+        {!isLoading && query && searchResults.length > 0 && viewMode === "list" && (
+          <div className="search-results-list">
             {searchResults.map((book) => (
               <div
                 key={book.id}
                 onClick={() => handleBookClick(book)}
-                className={`flex gap-3 p-4 cursor-pointer transition-all active:bg-gray-100 dark:active:bg-gray-800 ${isDarkMode ? "hover:bg-gray-800/50" : "hover:bg-gray-50"}`}
+                className="search-result-item"
               >
-                {/* Book Cover */}
-                <div className="flex-shrink-0 w-16 h-24 rounded-lg overflow-hidden bg-gray-200 dark:bg-gray-700">
+                <div className="result-cover">
                   {book.imageUrl ? (
                     <img
                       src={book.imageUrl}
                       alt={book.title}
-                      className="w-full h-full object-cover"
+                      className="result-cover-img"
                       loading="lazy"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <FaBookOpen className="text-gray-400" />
+                    <div className="result-cover-placeholder">
+                      <FaBookOpen className="text-gray-400 text-2xl" />
                     </div>
                   )}
                 </div>
                 
-                {/* Book Info */}
-                <div className="flex-1 min-w-0">
-                  <h3 className={`font-semibold text-base mb-1 line-clamp-2 ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-                    {book.title}
-                  </h3>
-                  
-                  <div className="flex items-center gap-2 mb-1">
-                    <FaUser className="text-xs text-gray-400" />
-                    <span className={`text-xs ${theme.textColors?.secondary || "text-gray-500"}`}>
-                      {book.author}
-                    </span>
+                <div className="result-info">
+                  <h3 className="result-title">{book.title}</h3>
+                  <div className="result-author">
+                    <FaUser className="result-author-icon" />
+                    <span>{book.author}</span>
                   </div>
-                  
                   {book.rating && (
-                    <div className="mb-1">
+                    <div className="result-rating">
                       {renderStars(book.rating)}
+                      <span className="result-rating-value">({book.rating})</span>
                     </div>
                   )}
-                  
                   {book.category && (
-                    <span className={`inline-block text-xs px-2 py-0.5 rounded-full mt-1 ${isDarkMode ? "bg-gray-700 text-gray-300" : "bg-gray-100 text-gray-600"}`}>
+                    <span className="result-category">
                       {book.category}
                     </span>
                   )}
@@ -389,14 +406,49 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
           </div>
         )}
 
+        {/* Search Results - Grid View */}
+        {!isLoading && query && searchResults.length > 0 && viewMode === "grid" && (
+          <div className="search-results-grid">
+            {searchResults.map((book) => (
+              <div
+                key={book.id}
+                onClick={() => handleBookClick(book)}
+                className="search-result-grid-item"
+              >
+                <div className="result-grid-cover">
+                  {book.imageUrl ? (
+                    <img
+                      src={book.imageUrl}
+                      alt={book.title}
+                      className="result-grid-cover-img"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="result-grid-cover-placeholder">
+                      <FaBookOpen className="text-gray-400 text-3xl" />
+                    </div>
+                  )}
+                </div>
+                <div className="result-grid-info">
+                  <h3 className="result-grid-title">{book.title}</h3>
+                  <div className="result-grid-author">{book.author}</div>
+                  {book.rating && (
+                    <div className="result-grid-rating">
+                      {renderStars(book.rating)}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
         {/* No Results */}
         {!isLoading && query && searchResults.length === 0 && (
-          <div className="text-center py-20">
-            <FaSearch className="text-5xl mx-auto mb-4 text-gray-400" />
-            <h3 className={`text-lg font-semibold mb-2 ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-              No results found
-            </h3>
-            <p className={`text-sm ${theme.textColors?.secondary || "text-gray-500"}`}>
+          <div className="no-results">
+            <FaSearch className="no-results-icon" />
+            <h3 className="no-results-title">No results found</h3>
+            <p className="no-results-text">
               Try searching with different keywords
             </p>
           </div>
@@ -404,39 +456,32 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
 
         {/* Recent Searches */}
         {!isLoading && !query && recentSearches.length > 0 && (
-          <div className="p-4">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className={`text-sm font-semibold ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-                Recent Searches
-              </h3>
-              <button
-                onClick={clearAllRecents}
-                className="text-xs text-sky-500"
-              >
+          <div className="recent-searches">
+            <div className="recent-header">
+              <h3 className="recent-title">Recent Searches</h3>
+              <button onClick={clearAllRecents} className="recent-clear">
                 Clear All
               </button>
             </div>
-            <div className="space-y-2">
+            <div className="recent-list">
               {recentSearches.map((recent, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between p-2 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                  className="recent-item"
                   onClick={() => handleRecentClick(recent)}
                 >
-                  <div className="flex items-center gap-2">
-                    <FaSearch className="text-gray-400 text-xs" />
-                    <span className={`text-sm ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-                      {recent}
-                    </span>
+                  <div className="recent-item-content">
+                    <FaSearch className="recent-item-icon" />
+                    <span className="recent-item-text">{recent}</span>
                   </div>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemoveRecent(recent);
                     }}
-                    className="p-1"
+                    className="recent-remove"
                   >
-                    <FaTimes className="text-gray-400 text-xs" />
+                    <FaTimes size={12} />
                   </button>
                 </div>
               ))}
@@ -444,14 +489,12 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
           </div>
         )}
 
-        {/* Initial State - No query */}
+        {/* Initial State */}
         {!isLoading && !query && recentSearches.length === 0 && (
-          <div className="text-center py-20">
-            <FaSearch className="text-5xl mx-auto mb-4 text-gray-400" />
-            <h3 className={`text-lg font-semibold mb-2 ${theme.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900")}`}>
-              Search for books
-            </h3>
-            <p className={`text-sm ${theme.textColors?.secondary || "text-gray-500"}`}>
+          <div className="initial-state">
+            <FaSearch className="initial-state-icon" />
+            <h3 className="initial-state-title">Search for books</h3>
+            <p className="initial-state-text">
               Find your next great read
             </p>
           </div>
