@@ -44,6 +44,41 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
   const inputRef = useRef(null);
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
+  // Lock body scroll when search page is open
+  useEffect(() => {
+    const body = document.body;
+    const html = document.documentElement;
+
+    // Store current scroll position
+    const scrollY = window.scrollY;
+    body.dataset.scrollY = scrollY;
+
+    // Lock scroll
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+
+    // Cleanup function to restore scroll when component unmounts
+    return () => {
+      const restoredScrollY = Number(body.dataset.scrollY || 0);
+      
+      body.style.position = "";
+      body.style.top = "";
+      body.style.left = "";
+      body.style.right = "";
+      body.style.width = "";
+      body.style.overflow = "";
+      html.style.overflow = "";
+      
+      window.scrollTo(0, restoredScrollY);
+      delete body.dataset.scrollY;
+    };
+  }, []);
+
   // Load recent searches
   useEffect(() => {
     const stored = localStorage.getItem("recentSearches");
