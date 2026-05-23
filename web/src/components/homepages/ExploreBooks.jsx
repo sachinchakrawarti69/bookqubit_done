@@ -147,7 +147,7 @@ const ExploreBooks = () => {
         <div className="text-center">
           {/* Browse All Books Button - Points to bookslist page */}
           <Link
-            href="/bookslist"
+            href="/books"
             className={`browse-all-btn ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'} ${theme.border?.button || ''} ${theme.shadow?.button || 'shadow-md'}`}
           >
             {t("explore.browse_all_books") || "Browse All Books"}

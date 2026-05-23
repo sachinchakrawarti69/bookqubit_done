@@ -418,7 +418,7 @@ const Collections = () => {
                                 )}
                               </div>
                               <Link
-                                href={`/bookdeatils/${book.slug || book.id}`}
+                                href={`/books/${book.slug || book.id}`}
                                 className={`inline-block w-full text-center px-4 py-2 text-sm font-medium ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} text-white ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"} rounded-lg transition-all hover:shadow-lg`}
                               >
                                 {t("book.view_details") || "View Details"}
