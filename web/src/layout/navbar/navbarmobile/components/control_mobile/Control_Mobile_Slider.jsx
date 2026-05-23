@@ -15,9 +15,9 @@ import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRTL } from "@/contexts/RTLContext";
 
-import ThemeSwitchMobile from "./ThemeSwitchMobile";
-import LangSwitch_Mobile from "./LangSwitch_Mobile";
-import FontChanger_Mobile from "./FontChanger_Mobile";
+import ThemeSwitchMobile from "../themeswitch_mobile/ThemeSwitchMobile";
+import LangSwitch_Mobile from "../langswitch_mobile/LangSwitch_Mobile";
+import FontChanger_Mobile from "../fontchanger_mobile/FontChanger_Mobile";
 
 import "./Control_Mobile_Slider.css";
 

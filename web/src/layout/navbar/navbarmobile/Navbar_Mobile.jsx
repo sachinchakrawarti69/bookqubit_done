@@ -13,7 +13,7 @@ import {
   FaUserCircle,
 } from "react-icons/fa";
 
-import { NavItemMobile } from "./NavItem_Mobile";
+import { NavItemMobile } from "./components/navItem_mobile/NavItem_Mobile";
 import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control_Mobile_Slider from "./components/control_mobile/Control_Mobile_Slider";
