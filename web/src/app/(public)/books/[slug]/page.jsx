@@ -21,6 +21,14 @@ import RelatedBooks from "@/features/book/bookdeatils/components/RelatedBooks";
 import BookNavigation from "@/features/book/bookdeatils/components/BookNavigation";
 import BookSEO from "@/features/book/bookdeatils/components/BookSEO";
 
+// Import dynamic tags components
+import { 
+  extractDynamicTagsFromBook, 
+  getRelatedTagsForBook,
+  getCategorizedBookTags,
+  RelatedTagsSection 
+} from "@/features/tags/dynamic_book_tags";
+
 const BookDetailsPage = () => {
   const params = useParams();
   const router = useRouter();
@@ -39,6 +47,11 @@ const BookDetailsPage = () => {
   const [book, setBook] = useState(null);
   const [booksData, setBooksData] = useState([]);
   const [isRedirecting, setIsRedirecting] = useState(false);
+  
+  // State for dynamic tags
+  const [dynamicTags, setDynamicTags] = useState([]);
+  const [relatedTags, setRelatedTags] = useState([]);
+  const [categorizedTags, setCategorizedTags] = useState({});
 
   // Load books based on language
   useEffect(() => {
@@ -73,6 +86,23 @@ const BookDetailsPage = () => {
     }
   }, [slug, booksData, isRedirecting]);
 
+  // Extract dynamic tags when book is found
+  useEffect(() => {
+    if (book && booksData.length > 0) {
+      // Extract tags from current book
+      const tags = extractDynamicTagsFromBook(book);
+      setDynamicTags(tags);
+      
+      // Get categorized tags
+      const categorized = getCategorizedBookTags(book);
+      setCategorizedTags(categorized);
+      
+      // Get related tags from other books
+      const related = getRelatedTagsForBook(book, booksData, 15);
+      setRelatedTags(related);
+    }
+  }, [book, booksData]);
+
   // Redirect from ID to slug URL
   useEffect(() => {
     if (book && book.slug && !isNaN(slug) && !isRedirecting) {
@@ -93,6 +123,16 @@ const BookDetailsPage = () => {
     }
   };
 
+  // Handle tag click - Navigate to tag page
+  const handleTagClick = (tag) => {
+    // Generate slug from tag name
+    const tagSlug = tag
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    router.push(`/tags/${tagSlug}`);
+  };
+
   // Find related books with proper null checks and deduplication
   const relatedByAuthor =
     book && booksData.length > 0
@@ -103,7 +143,7 @@ const BookDetailsPage = () => {
               b.id !== book.id &&
               b.slug !== book.slug,
           )
-          .slice(0, 4) // Limit to 4 related books
+          .slice(0, 4)
       : [];
 
   const relatedByCategory =
@@ -115,7 +155,7 @@ const BookDetailsPage = () => {
               b.id !== book.id &&
               b.slug !== book.slug,
           )
-          .slice(0, 4) // Limit to 4 related books
+          .slice(0, 4)
       : [];
 
   // Remove duplicates from related books
@@ -281,6 +321,18 @@ const BookDetailsPage = () => {
           <div ref={summaryRef}>
             <BookSummary book={book} />
           </div>
+
+          {/* Dynamic Tags Section - BEFORE RELATED BOOKS */}
+          {(dynamicTags.length > 0 || relatedTags.length > 0) && (
+            <div className="my-12">
+              <RelatedTagsSection
+                currentTags={dynamicTags}
+                relatedTags={relatedTags}
+                categorizedTags={categorizedTags}
+                onTagClick={handleTagClick}
+              />
+            </div>
+          )}
 
           {/* Related Books */}
           {uniqueRelatedBooks.length > 0 && (

@@ -2,7 +2,7 @@
 
 import HeroSectionSlider from "@/components/homepages/HeroSectionSlider";
 import HeroPartOne from "@/components/homepages/HeroPartOne";
-import ExploreBooks from "@/components/homepages/ExploreBooks"
+import ExploreBooks from "@/components/homepages/ExploreBooks";
 import ExploreCollections from "@/components/homepages/ExploreCollections";
 import ExploreAuthor from "@/components/homepages/ExploreAuthor";
 import ExplorePublications from "@/components/homepages/ExplorePublications";
@@ -14,9 +14,7 @@ import LaunchYourBook from "@/components/homepages/LunchYourBook";
 import DiscoveryPlatform from "@/components/homepages/DiscoveryPlatform";
 import AiTools from "@/components/homepages/AiTools";
 import TrendDashboardSlider from "@/components/homepages/trend_dashboard_slider";
-
-
-
+import TagsHome from "@/components/homepages/TagsHome";
 
 export default function HomepagesPage() {
   return (
@@ -24,6 +22,7 @@ export default function HomepagesPage() {
       {/* <DiscoveryPlatform /> */}
       <HeroSectionSlider />
       <TrendDashboardSlider />
+      <TagsHome />
 
       {/* <ThirdPartyAD /> */}
       <HeroPartOne />
@@ -36,7 +35,6 @@ export default function HomepagesPage() {
       <ExploreComics />
       {/* <LaunchYourBook />
       <AiTools /> */}
-   
     </main>
   );
 }

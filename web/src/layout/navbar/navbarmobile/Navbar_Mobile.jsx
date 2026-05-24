@@ -119,7 +119,6 @@ const Navbar_Mobile = () => {
 
     if (showSearchPage) {
       document.addEventListener("keydown", handleEscKey);
-      // NOTE: Search page does NOT lock scroll - user can still scroll
     }
 
     return () => {
@@ -143,7 +142,7 @@ const Navbar_Mobile = () => {
     };
   }, []);
 
-  // Close menu when clicking outside (only handles menu state, scroll lock handled above)
+  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -172,7 +171,7 @@ const Navbar_Mobile = () => {
     };
   }, [isMenuOpen]);
 
-  // Dark mode toggle - switches between light and dark only
+  // Dark mode toggle
   const toggleDarkMode = useCallback(() => {
     if (themeName === "dark") {
       changeTheme("light");
@@ -181,10 +180,9 @@ const Navbar_Mobile = () => {
     }
   }, [themeName, changeTheme]);
 
-  // Handle search icon click - opens search page component (NO scroll lock)
+  // Handle search icon click
   const handleSearchClick = () => {
     setShowSearchPage(true);
-    // Close menu if open
     if (isMenuOpen) {
       setIsMenuOpen(false);
     }
@@ -193,18 +191,16 @@ const Navbar_Mobile = () => {
   // Handle search from search page component
   const handleSearch = (query, selectedBook = null) => {
     if (selectedBook) {
-      // Navigate to book page with correct route
       const slug = selectedBook.slug || selectedBook.id;
       router.push(`/books/${slug}`);
       closeSearchPage();
     } else if (query && query.trim()) {
-      // Navigate to search results page
       router.push(`/search?q=${encodeURIComponent(query.trim())}`);
       closeSearchPage();
     }
   };
 
-  // Close search page (NO scroll lock changes)
+  // Close search page
   const closeSearchPage = () => {
     setShowSearchPage(false);
   };
@@ -280,7 +276,7 @@ const Navbar_Mobile = () => {
         dir={direction}
       >
         <div className="navbar-mobile-top-row">
-          {/* HAMBURGER MENU - Position changes based on RTL */}
+          {/* HAMBURGER MENU - Position based on RTL */}
           <button
             onClick={toggleMenu}
             className="navbar-mobile-icon-button"
@@ -293,7 +289,7 @@ const Navbar_Mobile = () => {
             )}
           </button>
 
-          {/* LOGO */}
+          {/* LOGO - Centers in RTL */}
           <Link href="/" className="navbar-mobile-logo" onClick={closeMenu}>
             <img
               src={bookqubitLogo.src}
@@ -307,9 +303,9 @@ const Navbar_Mobile = () => {
             </span>
           </Link>
 
-          {/* RIGHT: ICON ACTIONS */}
+          {/* RIGHT: ICON ACTIONS - RTL aware */}
           <div className="navbar-mobile-actions">
-            {/* SEARCH ICON - Opens search page component (NO scroll lock) */}
+            {/* SEARCH ICON */}
             <button
               onClick={handleSearchClick}
               className="navbar-mobile-icon-button"
@@ -331,10 +327,10 @@ const Navbar_Mobile = () => {
               )}
             </button>
 
-            {/* CONTROL SLIDER COMPONENT */}
+            {/* CONTROL SLIDER - RTL aware (slider opens from opposite side) */}
             <Control_Mobile_Slider />
 
-            {/* LOGIN BUTTON WITH TEXT */}
+            {/* LOGIN BUTTON */}
             {!user ? (
               <Link
                 href="/auth/login"
@@ -349,7 +345,7 @@ const Navbar_Mobile = () => {
           </div>
         </div>
 
-        {/* MOBILE MENU (SLIDE FROM LEFT/RIGHT BASED ON RTL) - FIXED POSITION OVERLAY */}
+        {/* MOBILE MENU - SLIDES FROM RIGHT IN RTL, LEFT IN LTR */}
         <div
           ref={menuRef}
           className={`navbar-mobile-menu ${isMenuOpen ? "open" : ""} ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
@@ -359,6 +355,8 @@ const Navbar_Mobile = () => {
               : isRTL
                 ? "translateX(100%)"
                 : "translateX(-100%)",
+            [isRTL ? "right" : "left"]: 0,
+            [isRTL ? "left" : "right"]: "auto",
           }}
         >
           {/* Menu Header */}
@@ -411,7 +409,7 @@ const Navbar_Mobile = () => {
               </Link>
             </div>
 
-            {/* Notification Section (if logged in) */}
+            {/* Notification Section */}
             {user && (
               <div className="navbar-mobile-notification-section">
                 <Notification_Dropdown user={user} mobile={true} />
@@ -426,7 +424,7 @@ const Navbar_Mobile = () => {
         )}
       </nav>
 
-      {/* Mobile Search Page Component - Fixed overlay (DOES NOT lock scroll) */}
+      {/* Mobile Search Page Component - Fixed overlay */}
       {showSearchPage && (
         <div className="mobile-search-fullscreen-overlay">
           <SearchPage_Mobile

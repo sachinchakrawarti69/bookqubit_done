@@ -1,144 +1,117 @@
 /* ==========================================
    CONTROL MOBILE SLIDER
+   ALWAYS SLIDES FROM RIGHT SIDE
+   (Both LTR and RTL)
 ========================================== */
 
 /* LOCK PAGE WHEN OPEN */
-
 html.slider-open,
 body.slider-open {
   overflow: hidden !important;
-
   height: 100%;
-
   touch-action: none;
-
   overscroll-behavior: none;
 }
 
-/* PANEL */
+/* ==========================================
+   CONTROL PANEL - ALWAYS FROM RIGHT
+   (Same behavior for both LTR and RTL)
+========================================== */
 
 .control-mobile-slider {
   position: fixed;
-
   top: 0;
-
   right: 0;
-
   width: min(92vw, 360px);
-
   height: 100dvh;
-
   z-index: 1000;
-
   display: flex;
-
   flex-direction: column;
-
   overflow: hidden;
-
   transform: translateX(100%);
-
-  transition:
-    transform 0.28s ease,
-    background 0.25s ease;
-
-  box-shadow:
-    -10px 0 35px
-    rgba(0, 0, 0, 0.18);
-
+  transition: transform 0.28s ease, background 0.25s ease;
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.18);
   will-change: transform;
 }
 
-/* OPEN */
-
+/* OPEN STATE - Same for both LTR and RTL */
 .control-mobile-slider.open {
   transform: translateX(0);
 }
 
-/* RTL */
-
+/* RTL - SAME BEHAVIOR (slides from right) */
 [dir="rtl"] .control-mobile-slider {
-  right: auto;
-
-  left: 0;
-
-  transform: translateX(-100%);
+  right: 0;
+  left: auto;
+  transform: translateX(100%);
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.18);
 }
 
 [dir="rtl"] .control-mobile-slider.open {
   transform: translateX(0);
 }
 
-/* HEADER */
+/* ==========================================
+   HEADER SECTION
+========================================== */
 
 .control-mobile-slider > :first-child {
   flex-shrink: 0;
 }
 
 /* TAB BAR */
-
 .control-mobile-slider > :nth-child(2) {
   flex-shrink: 0;
 }
 
-/* CONTENT */
+/* ==========================================
+   CONTENT AREA
+========================================== */
 
 .control-mobile-content {
   flex: 1;
-
   min-height: 0;
-
   overflow-y: auto;
-
   overflow-x: hidden;
-
   padding: 16px;
-
   display: block;
-
   -webkit-overflow-scrolling: touch;
-
   overscroll-behavior: contain;
 }
 
-/* PREVENT SHRINK */
+/* RTL text alignment for content */
+[dir="rtl"] .control-mobile-content {
+  text-align: right;
+}
 
+/* PREVENT SHRINK */
 .control-mobile-content > * {
   width: 100%;
-
   max-width: 100%;
 }
 
-/* FOOTER */
+/* ==========================================
+   FOOTER
+========================================== */
 
 .control-mobile-footer {
   flex-shrink: 0;
-
   padding: 14px;
-
   text-align: center;
-
   background: inherit;
-
   font-size: 12px;
 }
 
-/* BUTTON SAFETY */
-
-.control-mobile-slider button {
-  min-width: 0;
-}
-
-/* SCROLLBAR */
+/* ==========================================
+   SCROLLBAR
+========================================== */
 
 .control-mobile-content::-webkit-scrollbar {
   width: 5px;
 }
 
 .control-mobile-content::-webkit-scrollbar-thumb {
-  background:
-    rgba(140, 140, 140, 0.3);
-
+  background: rgba(140, 140, 140, 0.3);
   border-radius: 999px;
 }
 
@@ -146,28 +119,24 @@ body.slider-open {
   background: transparent;
 }
 
-/* DARK */
-
 .dark .control-mobile-content::-webkit-scrollbar-thumb {
-  background:
-    rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2);
 }
 
-/* MOBILE */
+/* ==========================================
+   RESPONSIVE
+========================================== */
 
 @media (max-width: 480px) {
   .control-mobile-slider {
     width: 88vw;
-
     max-width: 340px;
   }
-
+  
   .control-mobile-content {
     padding: 14px;
   }
 }
-
-/* TABLET */
 
 @media (min-width: 481px) and (max-width: 768px) {
   .control-mobile-slider {
@@ -175,8 +144,79 @@ body.slider-open {
   }
 }
 
-/* SAFE FIX */
+@media (min-width: 769px) {
+  .control-mobile-slider {
+    max-width: 400px;
+  }
+}
+
+/* ==========================================
+   ANIMATIONS
+========================================== */
+
+.control-mobile-content > * {
+  animation: fadeInUp 0.25s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .control-mobile-slider {
+    transition: none;
+  }
+  
+  .control-mobile-content > * {
+    animation: none;
+  }
+}
+
+/* ==========================================
+   SAFE FIXES
+========================================== */
 
 body {
   overflow-x: hidden;
+}
+
+body.slider-open {
+  position: fixed;
+  width: 100%;
+}
+
+.control-mobile-slider * {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* ==========================================
+   DARK MODE
+========================================== */
+
+.dark .control-mobile-slider {
+  box-shadow: -10px 0 35px rgba(0, 0, 0, 0.4);
+}
+
+/* ==========================================
+   SAFE AREA FOR NOTCH DEVICES
+========================================== */
+
+@supports (padding: max(0px)) {
+  .control-mobile-slider {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .control-mobile-content {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
 }
