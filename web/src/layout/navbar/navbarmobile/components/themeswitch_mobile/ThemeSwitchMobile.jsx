@@ -14,21 +14,15 @@ const ThemeSwitchMobile = ({ onClose }) => {
     themeName === "midnight" ||
     themeName === "cyberpunk";
 
-  // TAILWIND CLASSES
-  const cardBg =
-    isDarkMode ? "bg-gray-800" : "bg-white";
-
-  const borderClass =
-    isDarkMode ? "border-gray-700" : "border-gray-200";
-
+  // Tailwind classes
+  const cardBg = isDarkMode ? "bg-gray-800" : "bg-white";
+  const borderClass = isDarkMode ? "border-gray-700" : "border-gray-200";
   const textPrimary =
     theme?.textColors?.primary ||
     (isDarkMode ? "text-white" : "text-gray-900");
-
   const textSecondary =
     theme?.textColors?.secondary ||
     (isDarkMode ? "text-gray-400" : "text-gray-500");
-
   const activeCard =
     theme?.buttonColors?.primaryButton?.background ||
     "bg-gradient-to-r from-sky-600 to-sky-500";
@@ -48,30 +42,17 @@ const ThemeSwitchMobile = ({ onClose }) => {
 
   const handleThemeChange = (themeKey) => {
     changeTheme(themeKey);
-
-    if (onClose) {
-      setTimeout(() => onClose(), 300);
-    }
+    if (onClose) setTimeout(() => onClose(), 300);
   };
 
-  // Get theme name based on RTL
   const getThemeName = (theme, isRTL) => {
-    if (isRTL && theme.nameAr) {
-      return theme.nameAr;
-    }
-    return theme.name;
+    return (isRTL && theme.nameAr) ? theme.nameAr : theme.name;
   };
 
   return (
     <div className="w-full" dir={direction}>
-      <div 
-        className="max-h-[60vh] overflow-y-auto" 
-        style={{ 
-          paddingRight: isRTL ? '0' : '0.25rem', 
-          paddingLeft: isRTL ? '0.25rem' : '0' 
-        }}
-      >
-        <div className="grid grid-cols-2 gap-3">
+      <div className="max-h-[60vh] overflow-y-auto" style={{ padding: "0 0.25rem" }}>
+        <div className="grid grid-cols-2 gap-3" dir={direction}>
           {themesList.map((item) => {
             const isActive = themeName === item.key;
 
@@ -79,90 +60,49 @@ const ThemeSwitchMobile = ({ onClose }) => {
               <button
                 key={item.key}
                 onClick={() => handleThemeChange(item.key)}
-                className={`
-                  flex items-center gap-2
-                  p-3
-                  rounded-xl
-                  border
-                  transition-all duration-200
-                  active:scale-95
-                  w-full
-                  shadow-sm
-                  ${isRTL ? "flex-row-reverse" : "flex-row"}
-
-                  ${
-                    isActive
-                      ? `${activeCard} border-transparent shadow-lg`
-                      : `${cardBg} ${borderClass}`
-                  }
-                `}
+                // Force consistent flex direction (icon always left, checkmark always right)
+                style={{ display: "flex", flexDirection: "row" }}
+                className={`items-center gap-2 p-3 rounded-xl border transition-all duration-200 active:scale-95 w-full shadow-sm ${
+                  isActive
+                    ? `${activeCard} border-transparent shadow-lg`
+                    : `${cardBg} ${borderClass}`
+                }`}
               >
-                {/* ICON */}
+                {/* Icon - always first (visual left) */}
                 <div className="flex-shrink-0">
                   <div
-                    className={`
-                      w-8 h-8
-                      rounded-lg
-                      flex items-center justify-center
-                      ${
-                        isActive
-                          ? "bg-white/20"
-                          : isDarkMode
-                          ? "bg-gray-700"
-                          : "bg-gray-100"
-                      }
-                    `}
+                    className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                      isActive
+                        ? "bg-white/20"
+                        : isDarkMode
+                        ? "bg-gray-700"
+                        : "bg-gray-100"
+                    }`}
                   >
-                    <span className="text-lg">
-                      {item.icon}
-                    </span>
+                    <span className="text-lg">{item.icon}</span>
                   </div>
                 </div>
 
-                {/* INFO */}
-                <div 
-                  className={`
-                    flex-1 overflow-hidden
-                    ${isRTL ? "text-right" : "text-left"}
-                  `}
-                >
+                {/* Text info - always second, with RTL text alignment */}
+                <div className={`flex-1 overflow-hidden ${isRTL ? "text-right" : "text-left"}`}>
                   <div
-                    className={`
-                      text-sm
-                      font-semibold
-                      truncate
-                      ${isActive ? "text-white" : textPrimary}
-                    `}
-                    style={{
-                      textAlign: isRTL ? 'right' : 'left',
-                    }}
+                    className={`text-sm font-semibold truncate ${isActive ? "text-white" : textPrimary}`}
+                    style={{ textAlign: isRTL ? "right" : "left" }}
                   >
                     {getThemeName(item, isRTL)}
                   </div>
-
                   <div
-                    className={`
-                      text-[10px]
-                      truncate
-                      ${isActive ? "text-white/80" : textSecondary}
-                    `}
-                    style={{
-                      textAlign: isRTL ? 'right' : 'left',
-                    }}
+                    className={`text-[10px] truncate ${isActive ? "text-white/80" : textSecondary}`}
+                    style={{ textAlign: isRTL ? "right" : "left" }}
                   >
-                    {isActive 
+                    {isActive
                       ? (isRTL ? "نشط" : "Active")
                       : (isRTL ? "انقر للتطبيق" : "Tap to apply")}
                   </div>
                 </div>
 
-                {/* CHECK */}
-                {isActive && (
-                  <FaCheck
-                    size={12}
-                    className="text-white flex-shrink-0"
-                  />
-                )}
+                {/* Checkmark - always last (visual right) */}
+                {isActive && <FaCheck size={12} className="text-white flex-shrink-0" />}
               </button>
             );
           })}

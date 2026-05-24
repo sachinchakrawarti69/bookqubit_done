@@ -1,393 +1,7 @@
-// "use client";
-
-// import React, { useState, useRef, useEffect } from "react";
-
-// import {
-//   FaTimes,
-//   FaPalette,
-//   FaLanguage,
-//   FaTextHeight,
-// } from "react-icons/fa";
-
-// import { AiOutlineControl } from "react-icons/ai";
-
-// import { useTheme } from "@/themes/useTheme";
-// import { useLanguage } from "@/contexts/LanguageContext";
-// import { useRTL } from "@/contexts/RTLContext";
-
-// import ThemeSwitchMobile from "../themeswitch_mobile/ThemeSwitchMobile";
-// import LangSwitch_Mobile from "../langswitch_mobile/LangSwitch_Mobile";
-// import FontChanger_Mobile from "../fontchanger_mobile/FontChanger_Mobile";
-
-// import "./Control_Mobile_Slider.css";
-
-// export default function Control_Mobile_Slider() {
-//   const { theme, themeName } =
-//     useTheme();
-
-//   useLanguage();
-
-//   const { direction } =
-//     useRTL();
-
-//   const [isOpen, setIsOpen] =
-//     useState(false);
-
-//   const [activeTab, setActiveTab] =
-//     useState("theme");
-
-//   const sliderRef =
-//     useRef(null);
-
-//   const dark =
-//     [
-//       "dark",
-//       "midnight",
-//       "cyberpunk",
-//     ].includes(themeName);
-
-//   const bg =
-//     theme?.background?.section ||
-//     (dark
-//       ? "bg-gray-900"
-//       : "bg-white");
-
-//   const border =
-//     dark
-//       ? "border-gray-700"
-//       : "border-gray-200";
-
-//   const text =
-//     theme?.textColors?.primary ||
-//     (dark
-//       ? "text-white"
-//       : "text-gray-900");
-
-//   const secondary =
-//     theme?.textColors?.secondary ||
-//     (dark
-//       ? "text-gray-400"
-//       : "text-gray-500");
-
-//   const active =
-//     dark
-//       ? "bg-sky-500/20 text-sky-400"
-//       : "bg-sky-100 text-sky-600";
-
-//   const lockScroll = () => {
-//     document.body.classList.add(
-//       "slider-open"
-//     );
-
-//     document.documentElement.classList.add(
-//       "slider-open"
-//     );
-//   };
-
-//   const unlockScroll =
-//     () => {
-//       document.body.classList.remove(
-//         "slider-open"
-//       );
-
-//       document.documentElement.classList.remove(
-//         "slider-open"
-//       );
-//     };
-
-//   const open = () => {
-//     setIsOpen(true);
-//     lockScroll();
-//   };
-
-//   const close = () => {
-//     setIsOpen(false);
-//     unlockScroll();
-//   };
-
-//   useEffect(() => {
-//     return () => {
-//       unlockScroll();
-//     };
-//   }, []);
-
-//   useEffect(() => {
-//     const esc = (e) => {
-//       if (e.key === "Escape")
-//         close();
-//     };
-
-//     const outside = (
-//       e
-//     ) => {
-//       if (
-//         isOpen &&
-//         sliderRef.current &&
-//         !sliderRef.current.contains(
-//           e.target
-//         )
-//       ) {
-//         close();
-//       }
-//     };
-
-//     document.addEventListener(
-//       "keydown",
-//       esc
-//     );
-
-//     document.addEventListener(
-//       "mousedown",
-//       outside
-//     );
-
-//     return () => {
-//       document.removeEventListener(
-//         "keydown",
-//         esc
-//       );
-
-//       document.removeEventListener(
-//         "mousedown",
-//         outside
-//       );
-//     };
-//   }, [isOpen]);
-
-//   const tab = (
-//     key,
-//     Icon,
-//     label
-//   ) => (
-//     <button
-//       key={key}
-//       onClick={() =>
-//         setActiveTab(key)
-//       }
-//       className={`
-//       flex-1
-
-//       p-3
-
-//       rounded-xl
-
-//       flex
-
-//       flex-col
-
-//       items-center
-
-//       gap-1
-
-//       transition
-
-//       ${
-//         activeTab === key
-//           ? active
-//           : secondary
-//       }
-//     `}
-//     >
-//       <Icon />
-
-//       <span className="text-[11px]">
-//         {label}
-//       </span>
-//     </button>
-//   );
-
-//   return (
-//     <>
-//       <button
-//         onClick={
-//           isOpen
-//             ? close
-//             : open
-//         }
-//         className="
-//         w-[42px]
-//         h-[42px]
-
-//         flex
-//         items-center
-//         justify-center
-//       "
-//       >
-//         <AiOutlineControl
-//           size={24}
-//           className={
-//             theme
-//               ?.textColors
-//               ?.highlight ||
-//             "text-sky-500"
-//           }
-//         />
-//       </button>
-
-//       {isOpen && (
-//         <div
-//           className="
-//           fixed
-//           inset-0
-//           bg-black/40
-//           z-[999]
-//         "
-//           onClick={a
-//             close
-//           }
-//         />
-//       )}
-
-//       <aside
-//         ref={sliderRef}
-//         dir={direction}
-//         className={`
-//         control-mobile-slider
-
-//         ${
-//           isOpen
-//             ? "open"
-//             : ""
-//         }
-
-//         ${bg}
-
-//         border-l
-
-//         ${border}
-//       `}
-//       >
-//         <div
-//           className={`
-//           p-4
-
-//           border-b
-
-//           flex
-
-//           justify-between
-
-//           items-center
-
-//           ${border}
-//         `}
-//         >
-//           <div>
-//             <h3
-//               className={`font-bold ${text}`}
-//             >
-//               Customize
-//             </h3>
-
-//             <p
-//               className={`text-xs ${secondary}`}
-//             >
-//               Personalize
-//             </p>
-//           </div>
-
-//           <button
-//             onClick={
-//               close
-//             }
-//           >
-//             <FaTimes />
-//           </button>
-//         </div>
-
-//         <div
-//           className={`
-//           flex
-
-//           gap-2
-
-//           p-4
-
-//           border-b
-
-//           ${border}
-//         `}
-//         >
-//           {tab(
-//             "theme",
-//             FaPalette,
-//             "Theme"
-//           )}
-
-//           {tab(
-//             "language",
-//             FaLanguage,
-//             "Language"
-//           )}
-
-//           {tab(
-//             "font",
-//             FaTextHeight,
-//             "Font"
-//           )}
-//         </div>
-
-//         <div className="control-mobile-content">
-
-//           {activeTab ===
-//             "theme" && (
-//             <ThemeSwitchMobile
-//               onClose={
-//                 close
-//               }
-//             />
-//           )}
-
-//           {activeTab ===
-//             "language" && (
-//             <LangSwitch_Mobile
-//               onClose={
-//                 close
-//               }
-//             />
-//           )}
-
-//           {activeTab ===
-//             "font" && (
-//             <FontChanger_Mobile
-//               onClose={
-//                 close
-//               }
-//             />
-//           )}
-
-//         </div>
-
-//         <div
-//           className={`
-//           control-mobile-footer
-
-//           border-t
-
-//           ${border}
-//         `}
-//         >
-//           <p
-//             className={secondary}
-//           >
-//             Customize your reading experience
-//           </p>
-//         </div>
-//       </aside>
-//     </>
-//   );
-// }
-
-
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import {
-  FaTimes,
-  FaPalette,
-  FaLanguage,
-  FaTextHeight,
-} from "react-icons/fa";
+import { FaTimes, FaPalette, FaLanguage, FaTextHeight } from "react-icons/fa";
 import { AiOutlineControl } from "react-icons/ai";
 
 import { useTheme } from "@/themes/useTheme";
@@ -402,29 +16,42 @@ import "./Control_Mobile_Slider.css";
 
 export default function Control_Mobile_Slider() {
   const { theme, themeName } = useTheme();
-  useLanguage();
   const { direction, isRTL } = useRTL();
 
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("theme");
   const sliderRef = useRef(null);
+  const openButtonRef = useRef(null);
 
   const dark = ["dark", "midnight", "cyberpunk"].includes(themeName);
 
   const bg = theme?.background?.section || (dark ? "bg-gray-900" : "bg-white");
   const border = dark ? "border-gray-700" : "border-gray-200";
-  const text = theme?.textColors?.primary || (dark ? "text-white" : "text-gray-900");
-  const secondary = theme?.textColors?.secondary || (dark ? "text-gray-400" : "text-gray-500");
-  const active = dark ? "bg-sky-500/20 text-sky-400" : "bg-sky-100 text-sky-600";
+  const text =
+    theme?.textColors?.primary || (dark ? "text-white" : "text-gray-900");
+  const secondary =
+    theme?.textColors?.secondary || (dark ? "text-gray-400" : "text-gray-500");
+  const active = dark
+    ? "bg-sky-500/20 text-sky-400"
+    : "bg-sky-100 text-sky-600";
 
   const lockScroll = () => {
+    // Get current scroll position
+    const scrollY = window.scrollY;
+    // Store scroll position in a data attribute
+    document.body.style.top = `-${scrollY}px`;
     document.body.classList.add("slider-open");
     document.documentElement.classList.add("slider-open");
   };
 
   const unlockScroll = () => {
+    // Get stored scroll position
+    const scrollY = parseInt(document.body.style.top || "0") * -1;
     document.body.classList.remove("slider-open");
     document.documentElement.classList.remove("slider-open");
+    document.body.style.top = "";
+    // Restore scroll position
+    window.scrollTo(0, scrollY);
   };
 
   const open = () => {
@@ -439,49 +66,66 @@ export default function Control_Mobile_Slider() {
 
   useEffect(() => {
     return () => {
-      unlockScroll();
+      if (isOpen) {
+        unlockScroll();
+      }
     };
   }, []);
 
   useEffect(() => {
-    const esc = (e) => {
-      if (e.key === "Escape") close();
-    };
-
-    const outside = (e) => {
-      if (isOpen && sliderRef.current && !sliderRef.current.contains(e.target)) {
+    const handleEsc = (e) => {
+      if (e.key === "Escape" && isOpen) {
         close();
       }
     };
 
-    document.addEventListener("keydown", esc);
-    document.addEventListener("mousedown", outside);
+    const handleOutside = (e) => {
+      if (
+        isOpen &&
+        sliderRef.current &&
+        !sliderRef.current.contains(e.target) &&
+        openButtonRef.current &&
+        !openButtonRef.current.contains(e.target)
+      ) {
+        close();
+      }
+    };
+
+    document.addEventListener("keydown", handleEsc);
+    document.addEventListener("mousedown", handleOutside);
+    document.addEventListener("touchstart", handleOutside);
 
     return () => {
-      document.removeEventListener("keydown", esc);
-      document.removeEventListener("mousedown", outside);
+      document.removeEventListener("keydown", handleEsc);
+      document.removeEventListener("mousedown", handleOutside);
+      document.removeEventListener("touchstart", handleOutside);
     };
   }, [isOpen]);
 
-  const tab = (key, Icon, label) => (
+  const TabButton = ({ icon: Icon, label, tabKey }) => (
     <button
-      key={key}
-      onClick={() => setActiveTab(key)}
-      className={`
-        flex-1 p-3 rounded-xl flex flex-col items-center gap-1 transition
-        ${activeTab === key ? active : secondary}
-      `}
+      onClick={() => setActiveTab(tabKey)}
+      className={`flex-1 p-3 rounded-xl flex flex-col items-center gap-1 transition-all duration-200 ${
+        activeTab === tabKey ? active : secondary
+      } hover:opacity-80`}
+      aria-label={`Switch to ${label} tab`}
+      role="tab"
+      aria-selected={activeTab === tabKey}
     >
-      <Icon />
-      <span className="text-[11px]">{label}</span>
+      <Icon size={18} />
+      <span className="text-[11px] font-medium">{label}</span>
     </button>
   );
 
   return (
     <>
       <button
+        ref={openButtonRef}
         onClick={isOpen ? close : open}
-        className="w-[42px] h-[42px] flex items-center justify-center"
+        className="w-[42px] h-[42px] flex items-center justify-center rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500"
+        aria-label={isOpen ? "Close settings" : "Open settings"}
+        aria-expanded={isOpen}
+        aria-haspopup="dialog"
       >
         <AiOutlineControl
           size={24}
@@ -492,8 +136,9 @@ export default function Control_Mobile_Slider() {
       {/* Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-[999]"
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[999] transition-all duration-300"
           onClick={close}
+          aria-hidden="true"
         />
       )}
 
@@ -501,51 +146,70 @@ export default function Control_Mobile_Slider() {
       <aside
         ref={sliderRef}
         dir={direction}
-        className={`
-          control-mobile-slider fixed top-0 z-[1000] w-[85%] max-w-[380px] h-full
-          transition-transform duration-300 ease-in-out
-          ${bg} border-l ${border}
-          ${isOpen ? "open" : ""}
-          ${isRTL ? "slider-rtl" : "slider-ltr"}
-        `}
+        className={`control-mobile-slider fixed top-0 z-[1000] h-full transition-transform duration-300 ease-in-out ${bg} ${border} ${isOpen ? "open" : ""}`}
+        role="dialog"
+        aria-label="Customization settings"
+        aria-modal="true"
         style={{
-          [isRTL ? "right" : "left"]: 0,
-          [isRTL ? "left" : "right"]: "auto",
-          transform: isOpen 
-            ? "translateX(0)" 
-            : isRTL 
-              ? "translateX(100%)" 
-              : "translateX(-100%)"
+          wordBreak: "break-word",
+          overflowWrap: "break-word",
+          boxSizing: "border-box",
         }}
       >
         {/* Header */}
-        <div className={`p-4 border-b flex justify-between items-center ${border}`}>
-          <div>
-            <h3 className={`font-bold ${text}`}>Customize</h3>
-            <p className={`text-xs ${secondary}`}>Personalize</p>
+        <div
+          className={`p-4 border-b flex justify-between items-center ${border}`}
+        >
+          <div className="min-w-0 flex-1">
+            <h3 className={`font-bold ${text} truncate`}>Customize</h3>
+            <p className={`text-xs ${secondary} truncate`}>
+              Personalize your experience
+            </p>
           </div>
-          <button onClick={close} className="p-1">
-            <FaTimes />
+          <button
+            onClick={close}
+            className="p-2 flex-shrink-0 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-sky-500"
+            aria-label="Close settings"
+          >
+            <FaTimes size={18} />
           </button>
         </div>
 
         {/* Tabs */}
-        <div className={`flex gap-2 p-4 border-b ${border}`}>
-          {tab("theme", FaPalette, "Theme")}
-          {tab("language", FaLanguage, "Language")}
-          {tab("font", FaTextHeight, "Font")}
+        <div
+          className={`flex gap-2 p-4 border-b ${border}`}
+          role="tablist"
+          aria-label="Settings categories"
+        >
+          <TabButton icon={FaPalette} label="Theme" tabKey="theme" />
+          <TabButton icon={FaLanguage} label="Language" tabKey="language" />
+          <TabButton icon={FaTextHeight} label="Font" tabKey="font" />
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4">
-          {activeTab === "theme" && <ThemeSwitchMobile onClose={close} />}
-          {activeTab === "language" && <LangSwitch_Mobile onClose={close} />}
-          {activeTab === "font" && <FontChanger_Mobile onClose={close} />}
+        <div className="flex-1 overflow-y-auto p-4 break-words">
+          <div className="break-words">
+            {activeTab === "theme" && (
+              <div role="tabpanel" aria-label="Theme settings">
+                <ThemeSwitchMobile onClose={close} />
+              </div>
+            )}
+            {activeTab === "language" && (
+              <div role="tabpanel" aria-label="Language settings">
+                <LangSwitch_Mobile onClose={close} />
+              </div>
+            )}
+            {activeTab === "font" && (
+              <div role="tabpanel" aria-label="Font settings">
+                <FontChanger_Mobile onClose={close} />
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Footer */}
-        <div className={`control-mobile-footer border-t p-4 ${border}`}>
-          <p className={`text-xs text-center ${secondary}`}>
+        <div className={`border-t p-4 ${border}`}>
+          <p className={`text-xs text-center ${secondary} break-words`}>
             Customize your reading experience
           </p>
         </div>

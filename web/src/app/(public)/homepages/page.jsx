@@ -15,11 +15,13 @@ import DiscoveryPlatform from "@/components/homepages/DiscoveryPlatform";
 import AiTools from "@/components/homepages/AiTools";
 import TrendDashboardSlider from "@/components/homepages/trend_dashboard_slider";
 import TagsHome from "@/components/homepages/TagsHome";
+import HeroSectionSlider_mobile from "@/components/homepages/mobile_homepages/HeroSectionSlider_mobile";
 
 export default function HomepagesPage() {
   return (
     <main>
       {/* <DiscoveryPlatform /> */}
+      <HeroSectionSlider_mobile />
       <HeroSectionSlider />
       <TrendDashboardSlider />
       <TagsHome />

@@ -25,7 +25,6 @@ import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRTL } from "@/contexts/RTLContext";
 
-// Import logo image
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
 import "./Navbar_Mobile.css";
 
@@ -37,34 +36,18 @@ const Navbar_Mobile = () => {
   const [showSearchPage, setShowSearchPage] = useState(false);
   const { theme, themeName, changeTheme } = useTheme();
   const { t } = useLanguage();
-  const {
-    direction,
-    textAlign,
-    positionStart,
-    positionEnd,
-    flexDirection,
-    isRTL,
-  } = useRTL();
+  const { direction, isRTL } = useRTL();
   const menuRef = useRef(null);
-
-  // Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
 
-  /* ==========================================
-     SCROLL LOCK FOR MENU ONLY (NOT SEARCH)
-  ========================================== */
-  
-  // Lock body scroll when menu opens, restore when closed
+  // Scroll lock for menu
   useEffect(() => {
     const body = document.body;
     const html = document.documentElement;
 
     if (isMenuOpen) {
-      // Store current scroll position
       const scrollY = window.scrollY;
       body.dataset.scrollY = scrollY;
-      
-      // Lock scroll
       body.style.position = "fixed";
       body.style.top = `-${scrollY}px`;
       body.style.left = "0";
@@ -73,10 +56,7 @@ const Navbar_Mobile = () => {
       body.style.overflow = "hidden";
       html.style.overflow = "hidden";
     } else {
-      // Restore scroll position
       const scrollY = Number(body.dataset.scrollY || 0);
-      
-      // Remove scroll lock styles
       body.style.position = "";
       body.style.top = "";
       body.style.left = "";
@@ -84,15 +64,10 @@ const Navbar_Mobile = () => {
       body.style.width = "";
       body.style.overflow = "";
       html.style.overflow = "";
-      
-      // Restore scroll position
       window.scrollTo(0, scrollY);
-      
-      // Clean up
       delete body.dataset.scrollY;
     }
 
-    // Cleanup function
     return () => {
       if (isMenuOpen) {
         const scrollY = Number(body.dataset.scrollY || 0);
@@ -109,40 +84,30 @@ const Navbar_Mobile = () => {
     };
   }, [isMenuOpen]);
 
-  // Handle escape key for search page (NO scroll lock for search)
+  // Escape key for search
   useEffect(() => {
-    const handleEscKey = (event) => {
-      if (event.key === "Escape" && showSearchPage) {
-        closeSearchPage();
-      }
+    const handleEsc = (e) => {
+      if (e.key === "Escape" && showSearchPage) closeSearchPage();
     };
-
-    if (showSearchPage) {
-      document.addEventListener("keydown", handleEscKey);
-    }
-
-    return () => {
-      document.removeEventListener("keydown", handleEscKey);
-    };
+    if (showSearchPage) document.addEventListener("keydown", handleEsc);
+    return () => document.removeEventListener("keydown", handleEsc);
   }, [showSearchPage]);
 
-  // Listen for Firebase Auth state - ONLY ONCE
+  // Auth listener once
   useEffect(() => {
     if (authListenerInitialized.current) return;
     authListenerInitialized.current = true;
-
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
     });
-
     return () => {
       unsubscribe();
       authListenerInitialized.current = false;
     };
   }, []);
 
-  // Close menu when clicking outside
+  // Close menu on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -153,85 +118,49 @@ const Navbar_Mobile = () => {
         setIsMenuOpen(false);
       }
     };
-
     const handleEscape = (event) => {
-      if (event.key === "Escape" && isMenuOpen) {
-        setIsMenuOpen(false);
-      }
+      if (event.key === "Escape" && isMenuOpen) setIsMenuOpen(false);
     };
-
     if (isMenuOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("keydown", handleEscape);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscape);
     };
   }, [isMenuOpen]);
 
-  // Dark mode toggle
   const toggleDarkMode = useCallback(() => {
-    if (themeName === "dark") {
-      changeTheme("light");
-    } else {
-      changeTheme("dark");
-    }
+    changeTheme(themeName === "dark" ? "light" : "dark");
   }, [themeName, changeTheme]);
 
-  // Handle search icon click
   const handleSearchClick = () => {
     setShowSearchPage(true);
-    if (isMenuOpen) {
-      setIsMenuOpen(false);
-    }
+    if (isMenuOpen) setIsMenuOpen(false);
   };
 
-  // Handle search from search page component
   const handleSearch = (query, selectedBook = null) => {
     if (selectedBook) {
-      const slug = selectedBook.slug || selectedBook.id;
-      router.push(`/books/${slug}`);
+      router.push(`/books/${selectedBook.slug || selectedBook.id}`);
       closeSearchPage();
-    } else if (query && query.trim()) {
+    } else if (query?.trim()) {
       router.push(`/search?q=${encodeURIComponent(query.trim())}`);
       closeSearchPage();
     }
   };
 
-  // Close search page
-  const closeSearchPage = () => {
-    setShowSearchPage(false);
-  };
+  const closeSearchPage = () => setShowSearchPage(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const closeMenu = () => setIsMenuOpen(false);
 
-  // Toggle mobile menu
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const closeMenu = () => {
-    setIsMenuOpen(false);
-  };
-
-  const isDarkMode =
-    themeName === "dark" ||
-    themeName === "midnight" ||
-    themeName === "cyberpunk";
-
-  const getTextHighlightClass = useCallback(
-    () =>
-      theme.textColors?.highlight ||
-      (isDarkMode ? "text-blue-400" : "text-sky-600"),
-    [isDarkMode, theme.textColors?.highlight],
-  );
-
-  const getTextSecondaryClass = useCallback(
-    () =>
-      theme.textColors?.secondary ||
-      (isDarkMode ? "text-gray-400" : "text-gray-500"),
-    [isDarkMode, theme.textColors?.secondary],
-  );
+  const isDarkMode = ["dark", "midnight", "cyberpunk"].includes(themeName);
+  const getTextHighlightClass = () =>
+    theme.textColors?.highlight ||
+    (isDarkMode ? "text-blue-400" : "text-sky-600");
+  const getTextSecondaryClass = () =>
+    theme.textColors?.secondary ||
+    (isDarkMode ? "text-gray-400" : "text-gray-500");
 
   if (loading) {
     return (
@@ -240,25 +169,19 @@ const Navbar_Mobile = () => {
         dir={direction}
       >
         <div className="navbar-mobile-top-row">
-          <button
-            className="navbar-mobile-icon-button"
-            aria-label="Loading menu"
-            disabled
-          >
-            <FaBars className={getTextHighlightClass()} size={22} />
-          </button>
-          <Link href="/" className="navbar-mobile-logo">
-            <img
-              src={bookqubitLogo.src}
-              alt="BookQubit"
-              className="navbar-mobile-logo-img"
-            />
-            <span
-              className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}
-            >
-              BookQubit
-            </span>
-          </Link>
+          <div className="navbar-mobile-left">
+            <button className="navbar-mobile-icon-button" disabled>
+              <FaBars size={22} />
+            </button>
+            <div className="navbar-mobile-logo">
+              <img
+                src={bookqubitLogo.src}
+                alt="BookQubit"
+                className="navbar-mobile-logo-img"
+              />
+              <span className="navbar-mobile-logo-text">BookQubit</span>
+            </div>
+          </div>
           <div className="navbar-mobile-actions">
             <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
             <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse"></div>
@@ -276,49 +199,52 @@ const Navbar_Mobile = () => {
         dir={direction}
       >
         <div className="navbar-mobile-top-row">
-          {/* HAMBURGER MENU - Position based on RTL */}
-          <button
-            onClick={toggleMenu}
-            className="navbar-mobile-icon-button"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? (
-              <FaTimes className={getTextHighlightClass()} size={22} />
-            ) : (
-              <FaBars className={getTextHighlightClass()} size={22} />
-            )}
-          </button>
-
-          {/* LOGO - Centers in RTL */}
-          <Link href="/" className="navbar-mobile-logo" onClick={closeMenu}>
-            <img
-              src={bookqubitLogo.src}
-              alt="BookQubit"
-              className="navbar-mobile-logo-img"
-            />
-            <span
-              className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}
+          {/* 
+            Clean Single Layout:
+            Left Block stays Left Block in source code. 
+            Right Block stays Right Block in source code.
+            The CSS [dir="rtl"] handles reversing the layout perfectly.
+          */}
+          <div className="navbar-mobile-left">
+            <button
+              onClick={toggleMenu}
+              className="navbar-mobile-icon-button"
             >
-              BookQubit
-            </span>
-          </Link>
+              {isMenuOpen ? <FaTimes size={22} /> : <FaBars size={22} />}
+            </button>
+            <Link
+              href="/"
+              className="navbar-mobile-logo"
+              onClick={closeMenu}
+            >
+              <img
+                src={bookqubitLogo.src}
+                alt="BookQubit"
+                className="navbar-mobile-logo-img"
+              />
+              <span
+                className={`navbar-mobile-logo-text ${getTextHighlightClass()}`}
+              >
+                BookQubit
+              </span>
+            </Link>
+          </div>
 
-          {/* RIGHT: ICON ACTIONS - RTL aware */}
           <div className="navbar-mobile-actions">
-            {/* SEARCH ICON */}
+            {/* 
+              Inside the action block, icons are lined up: [Search, Theme, Config Slider, Auth Status].
+              In LTR, they read left-to-right. In RTL, the group shifts to the left of the screen,
+              and inside the group, they read right-to-left automatically.
+            */}
             <button
               onClick={handleSearchClick}
               className="navbar-mobile-icon-button"
-              aria-label="Search"
             >
               <FaSearch className={getTextSecondaryClass()} size={18} />
             </button>
-
-            {/* DARK MODE TOGGLE */}
             <button
               onClick={toggleDarkMode}
               className="navbar-mobile-icon-button"
-              aria-label="Toggle dark mode"
             >
               {isDarkMode ? (
                 <FaSun className={getTextHighlightClass()} size={18} />
@@ -326,40 +252,30 @@ const Navbar_Mobile = () => {
                 <FaMoon className={getTextSecondaryClass()} size={18} />
               )}
             </button>
-
-            {/* CONTROL SLIDER - RTL aware (slider opens from opposite side) */}
             <Control_Mobile_Slider />
-
-            {/* LOGIN BUTTON */}
             {!user ? (
               <Link
                 href="/auth/login"
                 className="navbar-mobile-login-text-button"
                 onClick={closeMenu}
               >
-                <span className="navbar-mobile-login-text">Login</span>
+                <span>Login</span>
               </Link>
             ) : (
-              <UserDropDown mobile={true} user={user} onItemClick={closeMenu} />
+              <UserDropDown
+                mobile={true}
+                user={user}
+                onItemClick={closeMenu}
+              />
             )}
           </div>
         </div>
 
-        {/* MOBILE MENU - SLIDES FROM RIGHT IN RTL, LEFT IN LTR */}
+        {/* Mobile Sidebar Menu */}
         <div
           ref={menuRef}
           className={`navbar-mobile-menu ${isMenuOpen ? "open" : ""} ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
-          style={{
-            transform: isMenuOpen
-              ? "translateX(0)"
-              : isRTL
-                ? "translateX(100%)"
-                : "translateX(-100%)",
-            [isRTL ? "right" : "left"]: 0,
-            [isRTL ? "left" : "right"]: "auto",
-          }}
         >
-          {/* Menu Header */}
           <div className="navbar-mobile-menu-header">
             <div className="navbar-mobile-user-info">
               <div className="navbar-mobile-avatar">
@@ -381,23 +297,15 @@ const Navbar_Mobile = () => {
                   {user ? "Welcome back!" : "Sign in to continue"}
                 </p>
               </div>
-              <button
-                onClick={closeMenu}
-                className="navbar-mobile-close-btn"
-                aria-label="Close menu"
-              >
+              <button onClick={closeMenu} className="navbar-mobile-close-btn">
                 <FaTimes />
               </button>
             </div>
           </div>
-
           <div className="navbar-mobile-menu-content">
-            {/* Navigation Items */}
             <div className="navbar-mobile-nav-items">
               <NavItemMobile onItemClick={closeMenu} />
             </div>
-
-            {/* AI Button Section */}
             <div className="navbar-mobile-ai-section">
               <Link
                 href="/bookqubitai"
@@ -408,8 +316,6 @@ const Navbar_Mobile = () => {
                 <span className="navbar-mobile-ai-text">AI Assistant</span>
               </Link>
             </div>
-
-            {/* Notification Section */}
             {user && (
               <div className="navbar-mobile-notification-section">
                 <Notification_Dropdown user={user} mobile={true} />
@@ -417,14 +323,11 @@ const Navbar_Mobile = () => {
             )}
           </div>
         </div>
-
-        {/* Overlay */}
         {isMenuOpen && (
           <div className="navbar-mobile-overlay" onClick={closeMenu}></div>
         )}
       </nav>
 
-      {/* Mobile Search Page Component - Fixed overlay */}
       {showSearchPage && (
         <div className="mobile-search-fullscreen-overlay">
           <SearchPage_Mobile

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-
 import { FaCheck, FaSearch, FaTimes } from "react-icons/fa";
 
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -26,26 +25,21 @@ const LangSwitch_Mobile = ({ onClose }) => {
     themeName === "midnight" ||
     themeName === "cyberpunk";
 
-  // USE TAILWIND CLASSES
+  // THEME STYLES
   const cardBg = isDarkMode ? "bg-gray-800" : "bg-white";
-
   const borderClass = isDarkMode ? "border-gray-700" : "border-gray-200";
-
   const textPrimary =
     theme?.textColors?.primary || (isDarkMode ? "text-white" : "text-gray-900");
-
   const textSecondary =
     theme?.textColors?.secondary ||
     (isDarkMode ? "text-gray-400" : "text-gray-500");
-
   const activeCard =
     theme?.buttonColors?.primaryButton?.background ||
     "bg-gradient-to-r from-sky-600 to-sky-500";
 
-  // SORT
+  // SORT LANGUAGES (priority: en, hi, ur)
   const sortedLanguages = useMemo(() => {
     const priorityCodes = ["en", "hi", "ur"];
-
     const priorityLangs = [];
     const otherLangs = [];
 
@@ -62,7 +56,6 @@ const LangSwitch_Mobile = ({ onClose }) => {
       const bIndex = priorityCodes.indexOf(b.code);
       return aIndex - bIndex;
     });
-
     otherLangs.sort((a, b) => a.name.localeCompare(b.name));
 
     return [...priorityLangs, ...otherLangs];
@@ -70,12 +63,8 @@ const LangSwitch_Mobile = ({ onClose }) => {
 
   // FILTER
   const filteredLanguages = useMemo(() => {
-    if (!searchTerm.trim()) {
-      return sortedLanguages;
-    }
-
+    if (!searchTerm.trim()) return sortedLanguages;
     const term = searchTerm.toLowerCase();
-
     return sortedLanguages.filter(
       (lang) =>
         lang.name.toLowerCase().includes(term) ||
@@ -84,74 +73,35 @@ const LangSwitch_Mobile = ({ onClose }) => {
     );
   }, [sortedLanguages, searchTerm]);
 
-  // CHANGE
   const handleLanguageChange = (langCode) => {
     setLanguage(langCode);
     setSearchTerm("");
-
-    if (onClose) {
-      setTimeout(() => onClose(), 300);
-    }
+    if (onClose) setTimeout(() => onClose(), 300);
   };
 
-  const clearSearch = () => {
-    setSearchTerm("");
-  };
+  const clearSearch = () => setSearchTerm("");
 
   return (
     <div className="w-full" dir={direction}>
-      {/* SEARCH */}
+      {/* SEARCH BAR */}
       <div className="mb-4">
         <div className="relative">
           <FaSearch
             size={13}
-            className={`
-              absolute
-              ${isRTL ? "right-3" : "left-3"}
-              top-1/2
-              -translate-y-1/2
-              ${textSecondary}
-            `}
+            className={`absolute ${isRTL ? "right-3" : "left-3"} top-1/2 -translate-y-1/2 ${textSecondary}`}
           />
-
           <input
             type="text"
             placeholder={t("nav.searchLanguages") || "Search languages..."}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className={`
-              w-full
-              ${isRTL ? "pr-9 pl-9" : "pl-9 pr-9"}
-              py-2.5
-              text-sm
-              rounded-xl
-              border
-              outline-none
-              transition-all
-              ${cardBg}
-              ${borderClass}
-              ${textPrimary}
-              focus:ring-2
-              focus:ring-sky-500
-              ${isRTL ? "text-right" : "text-left"}
-            `}
-            style={{
-              textAlign: isRTL ? "right" : "left",
-            }}
+            className={`w-full ${isRTL ? "pr-9 pl-9" : "pl-9 pr-9"} py-2.5 text-sm rounded-xl border outline-none transition-all ${cardBg} ${borderClass} ${textPrimary} focus:ring-2 focus:ring-sky-500 ${isRTL ? "text-right" : "text-left"}`}
+            style={{ textAlign: isRTL ? "right" : "left" }}
           />
-
           {searchTerm && (
             <button
               onClick={clearSearch}
-              className={`
-                absolute
-                ${isRTL ? "left-3" : "right-3"}
-                top-1/2
-                -translate-y-1/2
-                ${textSecondary}
-                hover:opacity-70
-                transition
-              `}
+              className={`absolute ${isRTL ? "left-3" : "right-3"} top-1/2 -translate-y-1/2 ${textSecondary} hover:opacity-70 transition`}
             >
               <FaTimes size={13} />
             </button>
@@ -159,7 +109,7 @@ const LangSwitch_Mobile = ({ onClose }) => {
         </div>
       </div>
 
-      {/* LANGUAGES */}
+      {/* LANGUAGE LIST */}
       <div className="max-h-[60vh] overflow-y-auto pr-1">
         {filteredLanguages.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
@@ -169,46 +119,31 @@ const LangSwitch_Mobile = ({ onClose }) => {
             </p>
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3" dir={direction}>
             {filteredLanguages.map((lang) => {
               const isActive = language === lang.code;
-
               return (
                 <button
                   key={lang.code}
                   onClick={() => handleLanguageChange(lang.code)}
-                  className={`
-                    flex items-center gap-2
-                    p-3
-                    rounded-xl
-                    border
-                    transition-all duration-200
-                    active:scale-95
-                    w-full
-                    shadow-sm
-                    ${isRTL ? "flex-row-reverse" : ""}
-
-                    ${
-                      isActive
-                        ? `${activeCard} border-transparent shadow-lg`
-                        : `${cardBg} ${borderClass}`
-                    }
-                  `}
+                  // Force flex-direction row (no reverse) for consistent icon placement
+                  style={{ display: "flex", flexDirection: "row" }}
+                  className={`items-center gap-2 p-3 rounded-xl border transition-all duration-200 active:scale-95 w-full shadow-sm ${
+                    isActive
+                      ? `${activeCard} border-transparent shadow-lg`
+                      : `${cardBg} ${borderClass}`
+                  }`}
                 >
-                  {/* FLAG */}
+                  {/* FLAG EMOJI - always first (visual left) */}
                   <div className="flex-shrink-0">
                     <span className="text-xl">
                       {lang.flagEmoji || lang.flag}
                     </span>
                   </div>
 
-                  {/* INFO */}
+                  {/* TEXT INFO - always second, with RTL text alignment */}
                   <div
-                    className={`
-                      flex-1 
-                      overflow-hidden
-                      ${isRTL ? "text-right" : "text-left"}
-                    `}
+                    className={`flex-1 overflow-hidden ${isRTL ? "text-right" : "text-left"}`}
                   >
                     <div
                       style={{
@@ -218,29 +153,18 @@ const LangSwitch_Mobile = ({ onClose }) => {
                             : "inherit",
                         textAlign: isRTL ? "right" : "left",
                       }}
-                      className={`
-                        text-sm
-                        font-semibold
-                        truncate
-                        ${isActive ? "text-white" : textPrimary}
-                      `}
+                      className={`text-sm font-semibold truncate ${isActive ? "text-white" : textPrimary}`}
                     >
                       {lang.nativeName}
                     </div>
-
                     <div
-                      className={`
-                        text-[10px]
-                        truncate
-                        ${isActive ? "text-white/80" : textSecondary}
-                        ${isRTL ? "text-right" : "text-left"}
-                      `}
+                      className={`text-[10px] truncate ${isActive ? "text-white/80" : textSecondary} ${isRTL ? "text-right" : "text-left"}`}
                     >
                       {lang.name}
                     </div>
                   </div>
 
-                  {/* CHECK */}
+                  {/* CHECKMARK - always last (visual right) */}
                   {isActive && (
                     <FaCheck size={12} className="text-white flex-shrink-0" />
                   )}
@@ -251,19 +175,11 @@ const LangSwitch_Mobile = ({ onClose }) => {
         )}
       </div>
 
-      {/* RESULTS */}
+      {/* RESULTS COUNT */}
       {filteredLanguages.length > 0 &&
         filteredLanguages.length !== sortedLanguages.length && (
           <div
-            className={`
-            mt-3
-            pt-3
-            text-center
-            text-xs
-            border-t
-            ${borderClass}
-            ${textSecondary}
-          `}
+            className={`mt-3 pt-3 text-center text-xs border-t ${borderClass} ${textSecondary}`}
           >
             {t("nav.showingResults") || "Showing"} {filteredLanguages.length}{" "}
             {t("nav.of") || "of"} {sortedLanguages.length}
