@@ -27,30 +27,22 @@ export default function Control_Mobile_Slider() {
 
   const bg = theme?.background?.section || (dark ? "bg-gray-900" : "bg-white");
   const border = dark ? "border-gray-700" : "border-gray-200";
-  const text =
-    theme?.textColors?.primary || (dark ? "text-white" : "text-gray-900");
-  const secondary =
-    theme?.textColors?.secondary || (dark ? "text-gray-400" : "text-gray-500");
-  const active = dark
-    ? "bg-sky-500/20 text-sky-400"
-    : "bg-sky-100 text-sky-600";
+  const text = theme?.textColors?.primary || (dark ? "text-white" : "text-gray-900");
+  const secondary = theme?.textColors?.secondary || (dark ? "text-gray-400" : "text-gray-500");
+  const active = dark ? "bg-sky-500/20 text-sky-400" : "bg-sky-100 text-sky-600";
 
   const lockScroll = () => {
-    // Get current scroll position
     const scrollY = window.scrollY;
-    // Store scroll position in a data attribute
     document.body.style.top = `-${scrollY}px`;
     document.body.classList.add("slider-open");
     document.documentElement.classList.add("slider-open");
   };
 
   const unlockScroll = () => {
-    // Get stored scroll position
-    const scrollY = parseInt(document.body.style.top || "0") * -1;
+    const scrollY = parseInt(document.body.style.top || "0", 10) * -1;
+    document.body.removeProperty ? document.body.style.removeProperty('top') : document.body.style.top = "";
     document.body.classList.remove("slider-open");
     document.documentElement.classList.remove("slider-open");
-    document.body.style.top = "";
-    // Restore scroll position
     window.scrollTo(0, scrollY);
   };
 
@@ -70,7 +62,7 @@ export default function Control_Mobile_Slider() {
         unlockScroll();
       }
     };
-  }, []);
+  }, [isOpen]);
 
   useEffect(() => {
     const handleEsc = (e) => {
@@ -105,15 +97,15 @@ export default function Control_Mobile_Slider() {
   const TabButton = ({ icon: Icon, label, tabKey }) => (
     <button
       onClick={() => setActiveTab(tabKey)}
-      className={`flex-1 p-3 rounded-xl flex flex-col items-center gap-1 transition-all duration-200 ${
+      className={`flex-1 min-w-0 p-2 rounded-xl flex flex-col items-center gap-1 transition-all duration-200 ${
         activeTab === tabKey ? active : secondary
       } hover:opacity-80`}
       aria-label={`Switch to ${label} tab`}
       role="tab"
       aria-selected={activeTab === tabKey}
     >
-      <Icon size={18} />
-      <span className="text-[11px] font-medium">{label}</span>
+      <Icon size={18} className="flex-shrink-0" />
+      <span className="text-[11px] font-medium truncate w-full text-center">{label}</span>
     </button>
   );
 
@@ -150,16 +142,9 @@ export default function Control_Mobile_Slider() {
         role="dialog"
         aria-label="Customization settings"
         aria-modal="true"
-        style={{
-          wordBreak: "break-word",
-          overflowWrap: "break-word",
-          boxSizing: "border-box",
-        }}
       >
         {/* Header */}
-        <div
-          className={`p-4 border-b flex justify-between items-center ${border}`}
-        >
+        <div className={`p-4 border-b flex justify-between items-center gap-4 ${border}`}>
           <div className="min-w-0 flex-1">
             <h3 className={`font-bold ${text} truncate`}>Customize</h3>
             <p className={`text-xs ${secondary} truncate`}>
@@ -177,7 +162,7 @@ export default function Control_Mobile_Slider() {
 
         {/* Tabs */}
         <div
-          className={`flex gap-2 p-4 border-b ${border}`}
+          className={`flex flex-nowrap items-center justify-between gap-1.5 p-4 border-b ${border}`}
           role="tablist"
           aria-label="Settings categories"
         >
@@ -187,20 +172,20 @@ export default function Control_Mobile_Slider() {
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 break-words">
-          <div className="break-words">
+        <div className="slider-content-area">
+          <div className="w-full">
             {activeTab === "theme" && (
-              <div role="tabpanel" aria-label="Theme settings">
+              <div role="tabpanel" aria-label="Theme settings" className="w-full">
                 <ThemeSwitchMobile onClose={close} />
               </div>
             )}
             {activeTab === "language" && (
-              <div role="tabpanel" aria-label="Language settings">
+              <div role="tabpanel" aria-label="Language settings" className="w-full">
                 <LangSwitch_Mobile onClose={close} />
               </div>
             )}
             {activeTab === "font" && (
-              <div role="tabpanel" aria-label="Font settings">
+              <div role="tabpanel" aria-label="Font settings" className="w-full">
                 <FontChanger_Mobile onClose={close} />
               </div>
             )}
@@ -208,8 +193,8 @@ export default function Control_Mobile_Slider() {
         </div>
 
         {/* Footer */}
-        <div className={`border-t p-4 ${border}`}>
-          <p className={`text-xs text-center ${secondary} break-words`}>
+        <div className={`border-t p-4 mt-auto ${border}`}>
+          <p className={`text-xs text-center ${secondary} truncate`}>
             Customize your reading experience
           </p>
         </div>

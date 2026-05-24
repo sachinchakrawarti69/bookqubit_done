@@ -21,7 +21,7 @@ export default function HomepagesPage() {
   return (
     <main>
       {/* <DiscoveryPlatform /> */}
-      <HeroSectionSlider_mobile />
+      {/* <HeroSectionSlider_mobile /> */}
       <HeroSectionSlider />
       <TrendDashboardSlider />
       <TagsHome />
