@@ -1,9 +1,23 @@
-/* Mobile Auth Section - Compact */
-.mobile-auth-section {
-  padding: 16px 16px 12px 16px;
+/* ========================================= */
+/* Mobile Auth Section - Fixed & Improved   */
+/* ========================================= */
+
+/* Base Styles */
+.mobile-auth-section,
+.mobile-auth-guest {
+  padding: 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-/* User Profile - Compact */
+.dark.mobile-auth-section,
+.dark.mobile-auth-guest {
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ========================================= */
+/* User Profile */
+/* ========================================= */
+
 .mobile-auth-profile {
   display: flex;
   align-items: center;
@@ -66,13 +80,24 @@
   color: #111827;
 }
 
+.dark .mobile-auth-name {
+  color: #f3f4f6;
+}
+
 .mobile-auth-email {
   font-size: 11px;
   color: #6b7280;
   word-break: break-all;
 }
 
-/* Three Buttons - Compact */
+.dark .mobile-auth-email {
+  color: #9ca3af;
+}
+
+/* ========================================= */
+/* Action Buttons */
+/* ========================================= */
+
 .mobile-auth-buttons {
   display: flex;
   flex-direction: column;
@@ -90,12 +115,14 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
+  background: transparent;
 }
 
 .mobile-auth-btn svg {
   width: 18px;
   height: 18px;
   margin-right: 12px;
+  flex-shrink: 0;
 }
 
 .mobile-auth-btn span {
@@ -104,12 +131,12 @@
 }
 
 /* RTL Support for Buttons */
-.mobile-auth-section[dir="rtl"] .mobile-auth-btn svg {
+[dir="rtl"] .mobile-auth-btn svg {
   margin-right: 0;
   margin-left: 12px;
 }
 
-.mobile-auth-section[dir="rtl"] .mobile-auth-btn span {
+[dir="rtl"] .mobile-auth-btn span {
   text-align: right;
 }
 
@@ -124,8 +151,12 @@
   transform: translateX(2px);
 }
 
-.mobile-auth-section[dir="rtl"] .dashboard-btn:hover {
+[dir="rtl"] .dashboard-btn:hover {
   transform: translateX(-2px);
+}
+
+.dashboard-btn:active {
+  transform: scale(0.98);
 }
 
 /* Ranking Button */
@@ -135,8 +166,22 @@
   border: 1px solid #e5e7eb;
 }
 
+.dark .ranking-btn {
+  background: #374151;
+  color: #f3f4f6;
+  border-color: #4b5563;
+}
+
 .ranking-btn:hover {
   background: #e5e7eb;
+}
+
+.dark .ranking-btn:hover {
+  background: #4b5563;
+}
+
+.ranking-btn:active {
+  transform: scale(0.98);
 }
 
 .ranking-badge {
@@ -147,9 +192,10 @@
   font-size: 10px;
   font-weight: 600;
   margin-left: 8px;
+  white-space: nowrap;
 }
 
-.mobile-auth-section[dir="rtl"] .ranking-badge {
+[dir="rtl"] .ranking-badge {
   margin-left: 0;
   margin-right: 8px;
 }
@@ -161,14 +207,26 @@
   border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
+.dark .logout-btn {
+  background: rgba(220, 38, 38, 0.15);
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
 .logout-btn:hover {
   background: rgba(220, 38, 38, 0.15);
 }
 
-/* Guest View - Compact */
-.mobile-auth-guest {
-  padding: 16px;
+.dark .logout-btn:hover {
+  background: rgba(220, 38, 38, 0.25);
 }
+
+.logout-btn:active {
+  transform: scale(0.98);
+}
+
+/* ========================================= */
+/* Guest View */
+/* ========================================= */
 
 .mobile-auth-guest-content {
   display: flex;
@@ -221,9 +279,17 @@
   color: #111827;
 }
 
+.dark .mobile-auth-guest-title {
+  color: #f3f4f6;
+}
+
 .mobile-auth-guest-subtitle {
   font-size: 11px;
   color: #6b7280;
+}
+
+.dark .mobile-auth-guest-subtitle {
+  color: #9ca3af;
 }
 
 .mobile-auth-guest-login {
@@ -236,53 +302,29 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .mobile-auth-guest-login:hover {
   opacity: 0.9;
+  transform: translateY(-1px);
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  .mobile-auth-name {
-    color: #f3f4f6;
-  }
-  
-  .mobile-auth-email {
-    color: #9ca3af;
-  }
-  
-  .ranking-btn {
-    background: #374151;
-    color: #f3f4f6;
-    border-color: #4b5563;
-  }
-  
-  .ranking-btn:hover {
-    background: #4b5563;
-  }
-  
-  .mobile-auth-guest-title {
-    color: #f3f4f6;
-  }
-  
-  .mobile-auth-guest-subtitle {
-    color: #9ca3af;
-  }
+.mobile-auth-guest-login:active {
+  transform: scale(0.98);
 }
 
+/* ========================================= */
 /* Mobile Optimization */
+/* ========================================= */
+
 @media (max-width: 480px) {
-  .mobile-auth-section {
-    padding: 12px 12px 8px 12px;
+  .mobile-auth-section,
+  .mobile-auth-guest {
+    padding: 12px;
   }
   
-  .mobile-auth-avatar-wrapper {
-    width: 40px;
-    height: 40px;
-  }
-  
+  .mobile-auth-avatar,
   .mobile-auth-avatar-placeholder {
     width: 40px;
     height: 40px;
@@ -314,4 +356,69 @@
     font-size: 9px;
     padding: 2px 6px;
   }
+  
+  .mobile-auth-guest-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .mobile-auth-guest-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .mobile-auth-guest-title {
+    font-size: 14px;
+  }
+  
+  .mobile-auth-guest-subtitle {
+    font-size: 10px;
+  }
+  
+  .mobile-auth-guest-login {
+    padding: 8px;
+    font-size: 13px;
+  }
+}
+
+/* ========================================= */
+/* Reduced Motion */
+/* ========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-auth-btn,
+  .mobile-auth-guest-login {
+    transition: none;
+  }
+  
+  .mobile-auth-btn:hover,
+  .mobile-auth-guest-login:hover {
+    transform: none;
+  }
+  
+  .dashboard-btn:hover {
+    transform: none;
+  }
+}
+
+/* ========================================= */
+/* Focus States for Accessibility */
+/* ========================================= */
+
+.mobile-auth-btn:focus-visible,
+.mobile-auth-guest-login:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+/* ========================================= */
+/* Active States */
+/* ========================================= */
+
+.mobile-auth-btn:active {
+  transform: scale(0.97);
+}
+
+.mobile-auth-guest-login:active {
+  transform: scale(0.97);
 }

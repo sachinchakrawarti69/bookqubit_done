@@ -1,15 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
 import Silder_Menu_Mobile from "./components/Silder_Menu_Mobile";
 import Slider_Auth_Mobile from "./components/Slider_Auth_Mobile";
 import "./silder_mobile.css";
 
-const Silder_Mobile = ({ user = null }) => {
+const Silder_Mobile = ({ user = null, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { theme, themeName } = useTheme();
   const { direction, isRTL } = useRTL();
 
+  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
+
+  // Handle escape key to close
   useEffect(() => {
     const handleEsc = (e) => {
       if (e.key === "Escape" && isOpen) {
@@ -20,13 +25,28 @@ const Silder_Mobile = ({ user = null }) => {
     return () => window.removeEventListener("keydown", handleEsc);
   }, [isOpen]);
 
+  // Lock body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
+      const scrollY = window.scrollY;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
     } else {
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
     }
     return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
       document.body.style.overflow = "";
     };
   }, [isOpen]);
@@ -34,25 +54,35 @@ const Silder_Mobile = ({ user = null }) => {
   const openMenu = () => setIsOpen(true);
   const closeMenu = () => setIsOpen(false);
 
+  const handleTriggerKeyDown = (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openMenu();
+    }
+  };
+
   return (
     <>
-      {/* Menu Trigger Button */}
+      {/* Menu Trigger */}
       <button
         className={`silder-mobile-trigger ${isOpen ? "active" : ""}`}
         onClick={openMenu}
+        onKeyDown={handleTriggerKeyDown}
         aria-label="Open menu"
+        aria-expanded={isOpen}
       >
         <span className="silder-mobile-hamburger">
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
-          <span className="hamburger-line"></span>
+          <span className={`hamburger-line ${isOpen ? "open" : ""}`}></span>
+          <span className={`hamburger-line ${isOpen ? "open" : ""}`}></span>
+          <span className={`hamburger-line ${isOpen ? "open" : ""}`}></span>
         </span>
       </button>
 
       {/* Sidebar */}
-      <div
-        className={`silder-mobile-sidebar ${isOpen ? "open" : ""} ${isRTL ? "rtl" : "ltr"}`}
+      <aside
+        className={`silder-mobile-sidebar ${isOpen ? "open" : ""} ${isRTL ? "rtl" : "ltr"} ${isDarkMode ? "dark" : "light"}`}
         dir={direction}
+        aria-hidden={!isOpen}
       >
         {/* Header with Logo */}
         <div className="silder-mobile-header">
@@ -77,12 +107,16 @@ const Silder_Mobile = ({ user = null }) => {
 
         {/* Content Container */}
         <div className="silder-mobile-content-wrapper">
-          {/* User Section - 30% */}
+          {/* User Section */}
           <div className="silder-mobile-user-section">
-            <Slider_Auth_Mobile user={user} onItemClick={closeMenu} />
+            <Slider_Auth_Mobile 
+              user={user} 
+              onItemClick={closeMenu}
+              onLogout={onLogout}
+            />
           </div>
 
-          {/* Menu Section - 70% */}
+          {/* Menu Section */}
           <div className="silder-mobile-menu-section">
             <Silder_Menu_Mobile onItemClick={closeMenu} />
           </div>
@@ -93,7 +127,7 @@ const Silder_Mobile = ({ user = null }) => {
           <p>© 2024 BookQubit. All rights reserved.</p>
           <p className="footer-version">Version 2.0.0</p>
         </div>
-      </div>
+      </aside>
 
       {/* Overlay */}
       {isOpen && (

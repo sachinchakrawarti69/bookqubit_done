@@ -1,0 +1,109 @@
+/* ========================================= */
+/* Dark Mode Mobile - Optimized for Mobile  */
+/* ========================================= */
+
+.darkmode-mobile-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+/* Light Mode Styles */
+.darkmode-mobile-btn.light {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.darkmode-mobile-btn.light:hover {
+  background: #e5e7eb;
+  transform: scale(1.05);
+}
+
+/* Dark Mode Styles */
+.darkmode-mobile-btn.dark {
+  background: #374151;
+  color: #fbbf24;
+}
+
+.darkmode-mobile-btn.dark:hover {
+  background: #4b5563;
+  transform: scale(1.05);
+}
+
+/* Active/Press State */
+.darkmode-mobile-btn:active {
+  transform: scale(0.95);
+}
+
+/* Icon Styles */
+.darkmode-icon {
+  transition: all 0.2s ease;
+}
+
+.sun-icon {
+  color: #fbbf24;
+}
+
+.moon-icon {
+  color: #6b7280;
+}
+
+.dark .moon-icon {
+  color: #9ca3af;
+}
+
+/* RTL Support */
+[dir="rtl"] .darkmode-mobile-btn {
+  /* No special RTL needed for circular button */
+}
+
+/* Mobile Responsive */
+@media (max-width: 480px) {
+  .darkmode-mobile-btn {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .darkmode-icon {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .darkmode-mobile-btn,
+  .darkmode-icon {
+    transition: none;
+  }
+  
+  .darkmode-mobile-btn:hover {
+    transform: none;
+  }
+  
+  .darkmode-mobile-btn:active {
+    transform: none;
+  }
+}
+
+/* Focus States for Accessibility */
+.darkmode-mobile-btn:focus-visible {
+  outline: 2px solid #0ea5e9;
+  outline-offset: 2px;
+}
+
+/* Touch Friendly - Larger tap area */
+@media (hover: none) and (pointer: coarse) {
+  .darkmode-mobile-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
