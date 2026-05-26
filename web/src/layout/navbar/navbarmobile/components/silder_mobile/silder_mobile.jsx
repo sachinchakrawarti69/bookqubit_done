@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
+import { useFont } from "@/contexts/FontContext"; 
 import Silder_Menu_Mobile from "./components/Silder_Menu_Mobile";
 import Slider_Auth_Mobile from "./components/Slider_Auth_Mobile";
 import "./silder_mobile.css";
@@ -10,7 +11,8 @@ import "./silder_mobile.css";
 const Silder_Mobile = ({ user = null, onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { theme, themeName } = useTheme();
-  const { direction, isRTL } = useRTL();
+  const { direction } = useRTL();
+  const { currentFont } = useFont(); // Destructured active font configuration
 
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
@@ -78,11 +80,12 @@ const Silder_Mobile = ({ user = null, onLogout }) => {
         </span>
       </button>
 
-      {/* Sidebar */}
+      {/* Sidebar Container */}
       <aside
-        className={`silder-mobile-sidebar ${isOpen ? "open" : ""} ${isRTL ? "rtl" : "ltr"} ${isDarkMode ? "dark" : "light"}`}
+        className={`silder-mobile-sidebar ${isOpen ? "open" : ""} ${isDarkMode ? "dark" : "light"}`}
         dir={direction}
         aria-hidden={!isOpen}
+        style={{ fontFamily: currentFont?.family }} // Applies dynamic typography style
       >
         {/* Header with Logo */}
         <div className="silder-mobile-header">
@@ -124,12 +127,12 @@ const Silder_Mobile = ({ user = null, onLogout }) => {
 
         {/* Footer */}
         <div className="silder-mobile-footer">
-          <p>© 2024 BookQubit. All rights reserved.</p>
+          <p>© 2026 BookQubit. All rights reserved.</p>
           <p className="footer-version">Version 2.0.0</p>
         </div>
       </aside>
 
-      {/* Overlay */}
+      {/* Overlay Background */}
       {isOpen && (
         <div 
           className="silder-mobile-overlay" 

@@ -1,8 +1,7 @@
 /* ========================================= */
-/* Mobile Auth Section - Fixed & Improved   */
+/* Mobile Auth Section Base Wrappers         */
 /* ========================================= */
 
-/* Base Styles */
 .mobile-auth-section,
 .mobile-auth-guest {
   padding: 16px;
@@ -14,22 +13,27 @@
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
+/* Demo Badge Context */
+.fake-user-badge {
+  display: inline-flex;
+  margin-bottom: 12px;
+  padding: 2px 8px;
+  background-color: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #d97706;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 /* ========================================= */
-/* User Profile */
+/* User Profile Section                      */
 /* ========================================= */
 
 .mobile-auth-profile {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
-}
-
-.mobile-auth-profile.ltr {
-  flex-direction: row;
-}
-
-.mobile-auth-profile.rtl {
-  flex-direction: row-reverse;
 }
 
 .mobile-auth-avatar-wrapper {
@@ -56,21 +60,14 @@
 .avatar-initials {
   font-size: 18px;
   font-weight: bold;
-  color: white;
+  color: #ffffff;
   text-transform: uppercase;
 }
 
 .mobile-auth-info {
   flex: 1;
-  margin: 0 12px;
-}
-
-.mobile-auth-profile.ltr .mobile-auth-info {
-  text-align: left;
-}
-
-.mobile-auth-profile.rtl .mobile-auth-info {
-  text-align: right;
+  margin-inline: 12px; /* Replaces manual left/right margins safely */
+  text-align: start;   /* Auto flips text block alignments dynamically */
 }
 
 .mobile-auth-name {
@@ -95,7 +92,7 @@
 }
 
 /* ========================================= */
-/* Action Buttons */
+/* Action Controls & Navigation Links       */
 /* ========================================= */
 
 .mobile-auth-buttons {
@@ -118,32 +115,27 @@
   background: transparent;
 }
 
-.mobile-auth-btn svg {
+.mobile-auth-btn .nav-icon {
   width: 18px;
   height: 18px;
-  margin-right: 12px;
+  margin-inline-end: 12px; /* Automatically handles structural spacing gap for LTR/RTL styles */
   flex-shrink: 0;
 }
 
-.mobile-auth-btn span {
+/* Dynamic mirror icons transformation for RTL modes */
+[dir="rtl"] .mobile-auth-btn .nav-icon {
+  transform: scaleX(-1);
+}
+
+.mobile-auth-btn .nav-text {
   flex: 1;
-  text-align: left;
+  text-align: start; /* Locks flow alignment cleanly */
 }
 
-/* RTL Support for Buttons */
-[dir="rtl"] .mobile-auth-btn svg {
-  margin-right: 0;
-  margin-left: 12px;
-}
-
-[dir="rtl"] .mobile-auth-btn span {
-  text-align: right;
-}
-
-/* Dashboard Button */
+/* Dashboard Context Configuration Layout */
 .dashboard-btn {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #ffffff;
 }
 
 .dashboard-btn:hover {
@@ -155,91 +147,66 @@
   transform: translateX(-2px);
 }
 
-.dashboard-btn:active {
-  transform: scale(0.98);
-}
-
-/* Ranking Button */
+/* Ranking Context Configuration Layout */
 .ranking-btn {
-  background: #f3f4f6;
+  background-color: #f3f4f6;
   color: #111827;
   border: 1px solid #e5e7eb;
 }
 
 .dark .ranking-btn {
-  background: #374151;
+  background-color: #374151;
   color: #f3f4f6;
   border-color: #4b5563;
 }
 
 .ranking-btn:hover {
-  background: #e5e7eb;
+  background-color: #e5e7eb;
 }
 
 .dark .ranking-btn:hover {
-  background: #4b5563;
-}
-
-.ranking-btn:active {
-  transform: scale(0.98);
+  background-color: #4b5563;
 }
 
 .ranking-badge {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  color: #ffffff;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 10px;
   font-weight: 600;
-  margin-left: 8px;
+  margin-inline-start: 8px; /* Perfectly aligns spacing edge profiles bidirectional */
   white-space: nowrap;
 }
 
-[dir="rtl"] .ranking-badge {
-  margin-left: 0;
-  margin-right: 8px;
-}
-
-/* Logout Button */
+/* Logout Context Configuration Layout */
 .logout-btn {
-  background: rgba(220, 38, 38, 0.1);
+  background-color: rgba(220, 38, 38, 0.1);
   color: #dc2626;
   border: 1px solid rgba(220, 38, 38, 0.2);
 }
 
 .dark .logout-btn {
-  background: rgba(220, 38, 38, 0.15);
+  background-color: rgba(220, 38, 38, 0.15);
   border-color: rgba(220, 38, 38, 0.3);
 }
 
 .logout-btn:hover {
-  background: rgba(220, 38, 38, 0.15);
+  background-color: rgba(220, 38, 38, 0.15);
 }
 
 .dark .logout-btn:hover {
-  background: rgba(220, 38, 38, 0.25);
-}
-
-.logout-btn:active {
-  transform: scale(0.98);
+  background-color: rgba(220, 38, 38, 0.25);
 }
 
 /* ========================================= */
-/* Guest View */
+/* Guest View Layout Components              */
 /* ========================================= */
 
 .mobile-auth-guest-content {
   display: flex;
   align-items: center;
   margin-bottom: 16px;
-}
-
-.mobile-auth-guest-content.ltr {
-  flex-direction: row;
-}
-
-.mobile-auth-guest-content.rtl {
-  flex-direction: row-reverse;
 }
 
 .mobile-auth-guest-icon {
@@ -256,20 +223,17 @@
 .mobile-auth-guest-icon svg {
   width: 24px;
   height: 24px;
-  color: white;
+  color: #ffffff;
+}
+
+[dir="rtl"] .mobile-auth-guest-icon svg {
+  transform: scaleX(-1);
 }
 
 .mobile-auth-guest-text {
   flex: 1;
-  margin: 0 12px;
-}
-
-.mobile-auth-guest-content.ltr .mobile-auth-guest-text {
-  text-align: left;
-}
-
-.mobile-auth-guest-content.rtl .mobile-auth-guest-text {
-  text-align: right;
+  margin-inline: 12px;
+  text-align: start;
 }
 
 .mobile-auth-guest-title {
@@ -298,7 +262,7 @@
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 10px;
-  color: white;
+  color: #ffffff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
@@ -310,12 +274,8 @@
   transform: translateY(-1px);
 }
 
-.mobile-auth-guest-login:active {
-  transform: scale(0.98);
-}
-
 /* ========================================= */
-/* Mobile Optimization */
+/* Responsiveness & Universal Optimizations  */
 /* ========================================= */
 
 @media (max-width: 480px) {
@@ -347,7 +307,7 @@
     font-size: 13px;
   }
   
-  .mobile-auth-btn svg {
+  .mobile-auth-btn .nav-icon {
     width: 16px;
     height: 16px;
   }
@@ -381,9 +341,17 @@
   }
 }
 
-/* ========================================= */
-/* Reduced Motion */
-/* ========================================= */
+/* Accessibility Focus & Transitions handling rules */
+.mobile-auth-btn:focus-visible,
+.mobile-auth-guest-login:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+}
+
+.mobile-auth-btn:active,
+.mobile-auth-guest-login:active {
+  transform: scale(0.97);
+}
 
 @media (prefers-reduced-motion: reduce) {
   .mobile-auth-btn,
@@ -392,33 +360,8 @@
   }
   
   .mobile-auth-btn:hover,
-  .mobile-auth-guest-login:hover {
-    transform: none;
-  }
-  
+  .mobile-auth-guest-login:hover,
   .dashboard-btn:hover {
     transform: none;
   }
-}
-
-/* ========================================= */
-/* Focus States for Accessibility */
-/* ========================================= */
-
-.mobile-auth-btn:focus-visible,
-.mobile-auth-guest-login:focus-visible {
-  outline: 2px solid #667eea;
-  outline-offset: 2px;
-}
-
-/* ========================================= */
-/* Active States */
-/* ========================================= */
-
-.mobile-auth-btn:active {
-  transform: scale(0.97);
-}
-
-.mobile-auth-guest-login:active {
-  transform: scale(0.97);
 }

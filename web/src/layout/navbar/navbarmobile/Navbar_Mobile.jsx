@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaBell, FaUserCircle } from "react-icons/fa";
+import { FaUser, FaBell } from "react-icons/fa";
 import { useRTL } from "@/contexts/RTLContext";
 import { useTheme } from "@/themes/useTheme";
+import { useFont } from "@/contexts/FontContext"; // Imported font context
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Silder_Mobile from "./components/silder_mobile/silder_mobile";
@@ -16,8 +17,9 @@ import "./Navbar_Mobile.css";
 
 const Navbar_Mobile = () => {
   const router = useRouter();
-  const { direction, isRTL } = useRTL();
-  const { theme, themeName } = useTheme();
+  const { direction } = useRTL();
+  const { theme } = useTheme();
+  const { currentFont } = useFont(); // Destructured active font tokens
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -58,7 +60,11 @@ const Navbar_Mobile = () => {
 
   if (loading) {
     return (
-      <nav className="navbar-mobile" dir={direction}>
+      <nav 
+        className="navbar-mobile navbar-loading-state" 
+        dir={direction}
+        style={{ fontFamily: currentFont?.family }}
+      >
         <div className="navbar-mobile-left">
           <div className="skeleton-loader"></div>
         </div>
@@ -75,7 +81,11 @@ const Navbar_Mobile = () => {
   }
 
   return (
-    <nav className="navbar-mobile" dir={direction}>
+    <nav 
+      className="navbar-mobile" 
+      dir={direction}
+      style={{ fontFamily: currentFont?.family }} // Applies customized theme font dynamically
+    >
       {/* Left Section - Menu Icon */}
       <div className="navbar-mobile-left">
         <Silder_Mobile user={user} />

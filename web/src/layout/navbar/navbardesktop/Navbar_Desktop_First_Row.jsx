@@ -10,6 +10,7 @@ import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control from "./components/Control";
 import LangSwitchDropdown from "./components/LangSwitchDropdown";
+import BookQubitSnapDropdown from "./components/BookQubitSnapDropdown"; // Add this import
 
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -213,6 +214,11 @@ const Navbar_Desktop_First_Row = () => {
             maxSuggestions={8}
             autoFocus={false}
           />
+        </div>
+
+        {/* BOOKQUBITSNAP DROPDOWN - ADDED AFTER SEARCH BAR */}
+        <div className="navbar-desktop-snap-dropdown">
+          <BookQubitSnapDropdown />
         </div>
 
         {/* USER ACTIONS */}

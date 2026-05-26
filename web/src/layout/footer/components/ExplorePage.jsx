@@ -62,6 +62,7 @@ const ExplorePage = () => {
       links: [
         { name: t("explorepage.authors.all_authors") || "All Authors", href: "/authors", icon: <span className="text-sky-400 text-sm">👥</span> },
         { name: t("explorepage.authors.top_authors") || "Top Authors", href: "/authors/top", icon: <span className="text-amber-400 text-sm">👑</span> },
+        { name: t("explorepage.authors.social_media") || "BookQubit Snap", href: "/bookqubitsnap", icon: <span className="text-green-400 text-sm">📤</span> },
       ],
       gradient: "from-amber-50 to-orange-50",
       darkGradient: "from-amber-900/30 to-orange-900/30",

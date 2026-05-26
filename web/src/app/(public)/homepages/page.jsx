@@ -24,11 +24,11 @@ export default function HomepagesPage() {
       {/* <HeroSectionSlider_mobile /> */}
       <HeroSectionSlider />
       <TrendDashboardSlider />
-      <TagsHome />
+      {/* <TagsHome /> */}
 
       {/* <ThirdPartyAD /> */}
       <HeroPartOne />
-      {/* <QuickActions /> */}
+      <QuickActions />
       <ExploreBooks />
       <ExploreAcademicBooks />
       <ExploreCollections />

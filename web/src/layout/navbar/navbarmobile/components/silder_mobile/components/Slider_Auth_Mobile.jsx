@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
+import { useFont } from "@/contexts/FontContext"; // Imported font context
 import "./Slider_Auth_Mobile.css";
 
 // FAKE USER DATA FOR TESTING
@@ -23,7 +24,8 @@ const FAKE_USER = {
 const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true }) => {
   const router = useRouter();
   const { theme, themeName } = useTheme();
-  const { direction, isRTL } = useRTL();
+  const { direction } = useRTL();
+  const { currentFont } = useFont(); // Destructured active font context
 
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
@@ -69,7 +71,11 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
   // If user is logged in (real or fake)
   if (displayUser) {
     return (
-      <div className={`mobile-auth-section ${isDarkMode ? 'dark' : 'light'}`} dir={direction}>
+      <div 
+        className={`mobile-auth-section ${isDarkMode ? 'dark' : 'light'}`} 
+        dir={direction}
+        style={{ fontFamily: currentFont?.family }} // Applies dynamic typography configurations
+      >
         {/* Fake User Badge - Only show for fake user */}
         {useFakeUser && !user && (
           <div className="fake-user-badge">
@@ -78,7 +84,7 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
         )}
 
         {/* User Profile */}
-        <div className={`mobile-auth-profile ${isRTL ? "rtl" : "ltr"}`}>
+        <div className="mobile-auth-profile">
           <div className="mobile-auth-avatar-wrapper">
             {displayUser?.photoURL ? (
               <img
@@ -110,16 +116,16 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
             onClick={() => handleNavigation("/userdashboard")}
             className="mobile-auth-btn dashboard-btn"
           >
-            <FaTachometerAlt />
-            <span>Dashboard</span>
+            <FaTachometerAlt className="nav-icon" />
+            <span className="nav-text">Dashboard</span>
           </button>
 
           <button
             onClick={() => handleNavigation("/bookwormranking")}
             className="mobile-auth-btn ranking-btn"
           >
-            <FaBookReader />
-            <span>Bookworm Ranking</span>
+            <FaBookReader className="nav-icon" />
+            <span className="nav-text">Bookworm Ranking</span>
             <span className="ranking-badge">
               #{formatRankingNumber(rankingNumber)}
             </span>
@@ -129,18 +135,22 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
             onClick={handleLogout}
             className="mobile-auth-btn logout-btn"
           >
-            <FaSignOutAlt />
-            <span>{useFakeUser && !user ? "Exit Demo" : "Logout"}</span>
+            <FaSignOutAlt className="nav-icon" />
+            <span className="nav-text">{useFakeUser && !user ? "Exit Demo" : "Logout"}</span>
           </button>
         </div>
       </div>
     );
   }
 
-  // Guest View - Not Logged In (only shown if no fake user and no real user)
+  // Guest View - Not Logged In
   return (
-    <div className={`mobile-auth-guest ${isDarkMode ? 'dark' : 'light'}`} dir={direction}>
-      <div className={`mobile-auth-guest-content ${isRTL ? "rtl" : "ltr"}`}>
+    <div 
+      className={`mobile-auth-guest ${isDarkMode ? 'dark' : 'light'}`} 
+      dir={direction}
+      style={{ fontFamily: currentFont?.family }}
+    >
+      <div className="mobile-auth-guest-content">
         <div className="mobile-auth-guest-icon">
           <FaUser />
         </div>

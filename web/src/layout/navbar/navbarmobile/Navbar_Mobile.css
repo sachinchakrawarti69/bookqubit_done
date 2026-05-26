@@ -1,28 +1,33 @@
-/* Mobile Navbar */
+/* Mobile Navbar Wrapper */
 .navbar-mobile {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 60px;
-  background: #ffffff;
+  background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 12px;
+  padding-inline: 12px; /* RTL Friendly spacing */
   z-index: 999;
   backdrop-filter: blur(10px);
 }
 
-/* Left Section */
+/* Custom Theme Overrides mapped from global context wrappers */
+.dark .navbar-mobile {
+  background-color: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Structural Sections alignment */
 .navbar-mobile-left {
   display: flex;
   align-items: center;
   min-width: 44px;
 }
 
-/* Center Section - Logo */
 .navbar-mobile-center {
   flex: 1;
   display: flex;
@@ -30,6 +35,29 @@
   justify-content: center;
 }
 
+.navbar-mobile-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 44px;
+  justify-content: flex-end;
+}
+
+/* Custom Bidirectional (RTL) Layout System */
+[dir="rtl"] .navbar-mobile-left {
+  order: 3;
+}
+
+[dir="rtl"] .navbar-mobile-center {
+  order: 2;
+}
+
+[dir="rtl"] .navbar-mobile-right {
+  order: 1;
+  justify-content: flex-start;
+}
+
+/* Components and Interactive Logo Elements */
 .navbar-mobile-logo {
   display: flex;
   align-items: center;
@@ -57,16 +85,7 @@
   letter-spacing: -0.5px;
 }
 
-/* Right Section */
-.navbar-mobile-right {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  min-width: 44px;
-  justify-content: flex-end;
-}
-
-/* Control Buttons - All Icons Same Style */
+/* Universal Control Buttons Styles */
 .nav-control-btn {
   width: 40px;
   height: 40px;
@@ -82,36 +101,34 @@
   font-size: 20px;
 }
 
+.dark .nav-control-btn {
+  color: #9ca3af;
+}
+
 .nav-control-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
   transform: scale(1.05);
+}
+
+.dark .nav-control-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .nav-control-btn:active {
   transform: scale(0.95);
 }
 
-/* Menu Button */
-.menu-btn {
-  color: #4b5563;
+/* Universal icon mirrors handling for directional workflows */
+[dir="rtl"] .nav-control-btn,
+[dir="rtl"] .login-btn-nav svg {
+  transform: scaleX(-1);
 }
 
-/* Search Button */
-.search-btn {
-  color: #4b5563;
+[dir="rtl"] .nav-control-btn:hover {
+  transform: scaleX(-1) scale(1.05);
 }
 
-/* Theme Button */
-.theme-btn {
-  background: transparent;
-  color: #4b5563;
-}
-
-.theme-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-/* Notification Button with Badge */
+/* Notification Badge Container positioning rules */
 .notification-btn {
   position: relative;
 }
@@ -119,9 +136,9 @@
 .notification-badge {
   position: absolute;
   top: 2px;
-  right: 2px;
-  background: #ef4444;
-  color: white;
+  inset-inline-end: 2px; /* Swaps alignment right-to-left dynamically */
+  background-color: #ef4444;
+  color: #ffffff;
   font-size: 10px;
   font-weight: bold;
   width: 18px;
@@ -132,7 +149,52 @@
   justify-content: center;
 }
 
-/* Login Button in Navbar */
+/* Profiles and Initial Avatars configuration rules */
+.profile-btn {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.profile-btn:active {
+  transform: scale(0.95);
+}
+
+.profile-avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.profile-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.dark .profile-initials {
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+}
+
+/* Interactive Action Buttons login context styles */
 .login-btn-nav {
   display: flex;
   align-items: center;
@@ -142,15 +204,11 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  color: white;
+  color: #ffffff;
   font-size: 13px;
   font-weight: 600;
   transition: all 0.3s ease;
   white-space: nowrap;
-}
-
-.login-btn-nav svg {
-  font-size: 14px;
 }
 
 .login-btn-nav:hover {
@@ -162,7 +220,7 @@
   transform: translateY(0);
 }
 
-/* Animations */
+/* Keyframes Definitions */
 @keyframes bounce {
   0%, 100% {
     transform: translateY(0);
@@ -172,61 +230,10 @@
   }
 }
 
-/* RTL Support */
-[dir="rtl"] .navbar-mobile-left {
-  order: 3;
-}
-
-[dir="rtl"] .navbar-mobile-center {
-  order: 2;
-}
-
-[dir="rtl"] .navbar-mobile-right {
-  order: 1;
-  justify-content: flex-start;
-}
-
-[dir="rtl"] .nav-control-btn {
-  transform: scaleX(-1);
-}
-
-[dir="rtl"] .nav-control-btn:hover {
-  transform: scaleX(-1) scale(1.05);
-}
-
-[dir="rtl"] .login-btn-nav svg {
-  transform: scaleX(-1);
-}
-
-[dir="rtl"] .notification-badge {
-  right: auto;
-  left: 2px;
-}
-
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-  .navbar-mobile {
-    background: #1f2937;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  }
-  
-  .nav-control-btn {
-    color: #9ca3af;
-  }
-  
-  .nav-control-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .theme-btn {
-    color: #9ca3af;
-  }
-}
-
-/* Responsive */
+/* Mobile Media Queries responsive layers setup */
 @media (max-width: 480px) {
   .navbar-mobile {
-    padding: 0 8px;
+    padding-inline: 8px;
   }
   
   .logo-icon {
@@ -248,7 +255,7 @@
     height: 16px;
     font-size: 9px;
     top: 1px;
-    right: 1px;
+    inset-inline-end: 1px;
   }
   
   .login-btn-nav {
@@ -256,75 +263,20 @@
     font-size: 12px;
   }
   
-  .login-btn-nav svg {
-    font-size: 12px;
-  }
-}
-
-@media (min-width: 769px) {
-  .navbar-mobile {
-    display: none;
-  }
-}
-
-/* Profile Button Styles */
-.profile-btn {
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 50%;
-  overflow: hidden;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.profile-btn:active {
-  transform: scale(0.95);
-}
-
-/* Profile Avatar Image */
-.profile-avatar {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-/* Profile Initials (when no photo) */
-.profile-initials {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-/* Dark mode support */
-.dark .profile-initials {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-}
-
-/* Mobile Responsive */
-@media (max-width: 480px) {
-  .profile-btn {
-    width: 32px;
-    height: 32px;
-  }
-  
+  .profile-btn,
   .profile-initials {
     width: 32px;
     height: 32px;
+  }
+
+  .profile-initials {
     font-size: 12px;
+  }
+}
+
+/* Safety Desktop breakout configurations fallback closure */
+@media (min-width: 769px) {
+  .navbar-mobile {
+    display: none;
   }
 }
