@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { FaSearch, FaTimes } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import SearchPage_Mobile from "./SearchPage_Mobile";
 import "./searchbar_mobile.css";
 
@@ -43,18 +43,10 @@ const SearchBar_Mobile = () => {
         <FaSearch size={20} />
       </button>
 
-      {/* Full Screen Search Page */}
+      {/* Full Screen Search Page Context */}
       {showSearchPage && (
         <div className="mobile-search-overlay">
-          <div className="mobile-search-header">
-            <button
-              onClick={handleCloseSearch}
-              className="mobile-search-close"
-              aria-label="Close search"
-            >
-              <FaTimes size={24} />
-            </button>
-          </div>
+          {/* Note: The close action handler 'onClose' is successfully managed directly inside SearchPage_Mobile */}
           <SearchPage_Mobile onClose={handleCloseSearch} />
         </div>
       )}

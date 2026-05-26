@@ -1,14 +1,19 @@
 /* ========================================= */
-/* Search Page Mobile - Below Navbar        */
+/* Search Page Mobile - Fixed Below Navbar   */
 /* ========================================= */
 
 .search-page-mobile {
-  position: relative;
+  position: fixed; /* Fixes container relative to screen viewport boundary */
+  top: 64px; /* Leaves room so your top BookQubit Navbar stays visible */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999; /* Higher than layouts/footers, lower than top navbar dropdowns */
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - 64px);
+  height: calc(100vh - 64px);
   width: 100%;
-  overflow: hidden;
+  overflow: hidden; /* Prevents container-level breakages or footer leakage */
 }
 
 /* RTL Support */
@@ -17,13 +22,12 @@
 }
 
 /* ========================================= */
-/* Header Styles */
+/* Header Styles                             */
 /* ========================================= */
 
 .search-header {
   flex-shrink: 0;
-  position: sticky;
-  top: 0;
+  position: relative; /* Changed from sticky to normal flow inside our fixed wrapper */
   z-index: 10;
 }
 
@@ -288,14 +292,14 @@
 }
 
 /* ========================================= */
-/* Filters Panel */
+/* Filters Panel                             */
 /* ========================================= */
 
 .filters-panel {
   flex-shrink: 0;
   padding: 1rem;
   border-bottom: 1px solid;
-  max-height: 50vh;
+  max-height: 40vh;
   overflow-y: auto;
 }
 
@@ -389,13 +393,15 @@
 }
 
 /* ========================================= */
-/* Content Area - Scrollable */
+/* Content Area - Scrollable                 */
 /* ========================================= */
 
 .search-content {
   flex: 1;
   overflow-y: auto;
   padding-bottom: 2rem;
+  background-color: inherit; /* Inherits parent theme backgrounds to block layout leaks */
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Loading State */
@@ -794,7 +800,7 @@
 }
 
 /* ========================================= */
-/* Scrollbar Styling */
+/* Scrollbar Styling                         */
 /* ========================================= */
 
 .search-content::-webkit-scrollbar {
@@ -820,7 +826,7 @@
 }
 
 /* ========================================= */
-/* Responsive Adjustments */
+/* Responsive Adjustments                    */
 /* ========================================= */
 
 @media (max-width: 480px) {

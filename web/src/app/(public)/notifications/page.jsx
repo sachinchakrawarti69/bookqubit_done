@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { FaBell, FaArrowLeft, FaHeart, FaComment, FaUserPlus, FaBookmark, FaFilter } from "react-icons/fa";
+import { 
+  FaBell, FaArrowLeft, FaHeart, FaComment, FaUserPlus, FaBookmark, FaTimes 
+} from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
+import { allNotifications } from "./data/notifications";
 
 export default function NotificationsPage() {
   const router = useRouter();
@@ -17,69 +19,18 @@ export default function NotificationsPage() {
 
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
-  // Mock all notifications data
-  const allNotifications = [
-    {
-      id: 1,
-      type: "like",
-      title: "Someone liked your review",
-      message: "Priyal Shrivastava liked your review on 'The Great Gatsby'",
-      time: "5 minutes ago",
-      read: false,
-      link: "/books/the-great-gatsby",
-    },
-    {
-      id: 2,
-      type: "comment",
-      title: "New comment on your post",
-      message: "Sachin commented on your book review",
-      time: "1 hour ago",
-      read: false,
-      link: "/books/atomic-habits",
-    },
-    {
-      id: 3,
-      type: "follow",
-      title: "New follower",
-      message: "Rahul Sharma started following you",
-      time: "3 hours ago",
-      read: true,
-      link: "/profile/rahul",
-    },
-    {
-      id: 4,
-      type: "bookmark",
-      title: "Book saved to your list",
-      message: "Your book 'Atomic Habits' has been saved by 50 users",
-      time: "Yesterday",
-      read: true,
-      link: "/books/atomic-habits",
-    },
-    {
-      id: 5,
-      type: "like",
-      title: "Someone liked your comment",
-      message: "Amit Kumar liked your comment on 'Deep Work'",
-      time: "2 days ago",
-      read: true,
-      link: "/books/deep-work",
-    },
-    {
-      id: 6,
-      type: "follow",
-      title: "New follower",
-      message: "Neha Gupta started following you",
-      time: "3 days ago",
-      read: true,
-      link: "/profile/neha",
-    },
-  ];
-
   useEffect(() => {
+    // Locks layout background scrolling while inside the panel view
+    document.body.style.overflow = 'hidden';
+    
     setTimeout(() => {
       setNotifications(allNotifications);
       setIsLoading(false);
-    }, 500);
+    }, 400);
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
   }, []);
 
   const getFilteredNotifications = () => {
@@ -98,7 +49,7 @@ export default function NotificationsPage() {
   };
 
   const handleNotificationClick = (notification) => {
-    router.push(notification.link);
+    router.push(`/notifications/${notification.slug}`);
   };
 
   const filteredNotifications = getFilteredNotifications();
@@ -107,76 +58,108 @@ export default function NotificationsPage() {
   if (isLoading) {
     return (
       <div style={{
-        minHeight: '100vh',
+        position: 'fixed',
+        top: '64px', // Pushed down to keep navbar visible during loading status
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 999,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         background: isDarkMode ? '#1a1a1a' : '#f9fafb'
       }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{
-            width: 40,
-            height: 40,
-            border: `3px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
-            borderTopColor: '#0ea5e9',
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite'
-          }} />
-          <p style={{ marginTop: 16, color: isDarkMode ? '#9ca3af' : '#6b7280' }}>Loading notifications...</p>
-          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        </div>
+        <div style={{
+          width: 40,
+          height: 40,
+          border: `3px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
+          borderTopColor: '#0ea5e9',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite'
+        }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: isDarkMode ? '#1a1a1a' : '#f9fafb',
-    }}>
-      {/* Header */}
+    <div 
+      dir={direction}
+      style={{
+        position: 'fixed', 
+        top: '64px', // CHANGED: This offsets the component from the top so your BookQubit header shows!
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: isDarkMode ? '#1a1a1a' : 'white',
+        overflowY: 'auto', 
+        zIndex: 999, // Lowered slightly so your main navbar stays stacked on top of it if needed
+        WebkitOverflowScrolling: 'touch'
+      }}
+    >
+      {/* Header Bar */}
       <div style={{
         position: 'sticky',
         top: 0,
         background: isDarkMode ? '#1a1a1a' : 'white',
         borderBottom: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
         padding: '12px 16px',
-        zIndex: 10
+        zIndex: 1000
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={() => router.back()}
+              style={{
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                color: isDarkMode ? '#9ca3af' : '#6b7280',
+                padding: '4px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transform: isRTL ? 'rotate(180deg)' : 'none'
+              }}
+            >
+              <FaArrowLeft size={18} />
+            </button>
+            
+            <div style={{ textAlign: isRTL ? 'right' : 'left' }}>
+              <h1 style={{ fontSize: 18, fontWeight: 700, margin: 0, color: isDarkMode ? '#f3f4f6' : '#111827' }}>
+                Notifications
+              </h1>
+              {unreadCount > 0 && (
+                <p style={{ fontSize: 11, color: '#6b7280', margin: '2px 0 0' }}>
+                  {unreadCount} unread
+                </p>
+              )}
+            </div>
+          </div>
+
+          {/* Close/Cross Button */}
           <button
             onClick={() => router.back()}
             style={{
-              background: 'none',
+              background: isDarkMode ? '#2a2a2a' : '#f3f4f6',
               border: 'none',
               cursor: 'pointer',
-              color: isDarkMode ? '#9ca3af' : '#6b7280'
+              color: isDarkMode ? '#9ca3af' : '#6b7280',
+              width: 32,
+              height: 32,
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'background 0.2s'
             }}
           >
-            <FaArrowLeft size={20} />
-          </button>
-          <div style={{ flex: 1 }}>
-            <h1 style={{ fontSize: 20, fontWeight: 700, margin: 0 }}>Notifications</h1>
-            {unreadCount > 0 && (
-              <p style={{ fontSize: 12, color: '#6b7280', margin: '4px 0 0' }}>
-                {unreadCount} unread
-              </p>
-            )}
-          </div>
-          <button
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              color: isDarkMode ? '#9ca3af' : '#6b7280'
-            }}
-          >
-            <FaFilter size={18} />
+            <FaTimes size={16} />
           </button>
         </div>
 
         {/* Filter Tabs */}
-        <div style={{ display: 'flex', gap: 8, marginTop: 12, overflowX: 'auto' }}>
+        <div style={{ display: 'flex', gap: 8, marginTop: 14, overflowX: 'auto', scrollbarWidth: 'none' }}>
           {['all', 'like', 'comment', 'follow', 'bookmark'].map((f) => (
             <button
               key={f}
@@ -199,17 +182,14 @@ export default function NotificationsPage() {
         </div>
       </div>
 
-      {/* Notifications List */}
-      <div style={{ padding: '8px 0' }}>
+      {/* Notifications List Content */}
+      <div style={{ padding: '4px 0', background: isDarkMode ? '#1a1a1a' : 'white' }}>
         {filteredNotifications.length === 0 ? (
           <div style={{ textAlign: 'center', padding: '60px 20px' }}>
-            <FaBell style={{ fontSize: 64, color: '#d1d5db', marginBottom: 16 }} />
-            <h3 style={{ fontSize: 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#f3f4f6' : '#111827' }}>
-              No {filter !== 'all' ? filter : ''} notifications
+            <FaBell style={{ fontSize: 48, color: '#d1d5db', marginBottom: 16 }} />
+            <h3 style={{ fontSize: 16, fontWeight: 600, color: isDarkMode ? '#f3f4f6' : '#111827' }}>
+              No notifications found
             </h3>
-            <p style={{ fontSize: 14, color: '#6b7280' }}>
-              {filter !== 'all' ? `You haven't received any ${filter} notifications yet` : 'When you get notifications, they\'ll appear here'}
-            </p>
           </div>
         ) : (
           filteredNotifications.map((notification) => (
@@ -222,26 +202,25 @@ export default function NotificationsPage() {
                 gap: 12,
                 padding: 16,
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
                 borderBottom: `1px solid ${isDarkMode ? '#2a2a2a' : '#f3f4f6'}`,
                 background: !notification.read ? (isDarkMode ? '#1a3a4a' : '#f0f9ff') : 'transparent'
               }}
             >
               <div style={{
-                width: 48,
-                height: 48,
+                width: 40,
+                height: 40,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 background: isDarkMode ? '#374151' : '#f3f4f6',
-                fontSize: 20,
+                fontSize: 16,
                 flexShrink: 0
               }}>
                 {getNotificationIcon(notification.type)}
               </div>
-              <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 4, color: isDarkMode ? '#f3f4f6' : '#111827' }}>
+              <div style={{ flex: 1, textAlign: isRTL ? 'right' : 'left' }}>
+                <div style={{ fontSize: 14, fontWeight: 600, marginBottom: 2, color: isDarkMode ? '#f3f4f6' : '#111827' }}>
                   {notification.title}
                 </div>
                 <div style={{ fontSize: 13, color: isDarkMode ? '#9ca3af' : '#6b7280', marginBottom: 4 }}>
@@ -250,7 +229,7 @@ export default function NotificationsPage() {
                 <div style={{ fontSize: 11, color: '#9ca3af' }}>{notification.time}</div>
               </div>
               {!notification.read && (
-                <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#0ea5e9', marginTop: 8 }} />
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#0ea5e9', marginTop: 6 }} />
               )}
             </div>
           ))

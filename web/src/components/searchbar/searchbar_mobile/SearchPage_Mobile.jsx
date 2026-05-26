@@ -44,38 +44,16 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
   const inputRef = useRef(null);
   const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
-  // Lock body scroll when search page is open
+  // Lock body scroll cleanly without position fixes that bleed layouts or display footers
   useEffect(() => {
-    const body = document.body;
-    const html = document.documentElement;
+    // Lock background scrolling completely 
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
 
-    // Store current scroll position
-    const scrollY = window.scrollY;
-    body.dataset.scrollY = scrollY;
-
-    // Lock scroll
-    body.style.position = "fixed";
-    body.style.top = `-${scrollY}px`;
-    body.style.left = "0";
-    body.style.right = "0";
-    body.style.width = "100%";
-    body.style.overflow = "hidden";
-    html.style.overflow = "hidden";
-
-    // Cleanup function to restore scroll when component unmounts
     return () => {
-      const restoredScrollY = Number(body.dataset.scrollY || 0);
-      
-      body.style.position = "";
-      body.style.top = "";
-      body.style.left = "";
-      body.style.right = "";
-      body.style.width = "";
-      body.style.overflow = "";
-      html.style.overflow = "";
-      
-      window.scrollTo(0, restoredScrollY);
-      delete body.dataset.scrollY;
+      // Re-enable original scroll context naturally on close
+      document.body.style.overflow = "unset";
+      document.documentElement.style.overflow = "unset";
     };
   }, []);
 
@@ -241,31 +219,45 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
   return (
     <div 
       className={`search-page-mobile ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-gray-50")}`}
-      style={fontStyle}
+      style={{
+        ...fontStyle,
+        position: 'fixed',
+        top: '64px', // Keeps BookQubit Header Navbar visible
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 999, // Floating safely over background content and footers
+        display: 'flex',
+        flexDirection: 'column',
+        height: 'calc(100vh - 64px)',
+        overflow: 'hidden'
+      }}
     >
-      {/* Search Header - Below navbar position */}
+      {/* Search Header Bar */}
       <div className={`search-header ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`}>
-        <div className="search-header-content">
+        <div className="search-header-content" style={{ padding: '12px 16px' }}>
           {/* Search Input Row */}
-          <div className="search-input-row">
+          <div className="search-input-row" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Close Button with X Icon */}
             <button
               onClick={onClose}
               className="search-close-btn"
               aria-label="Close search"
+              style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4 }}
             >
               <FaTimes size={20} />
             </button>
             
-            {/* Search Input */}
-            <div className="search-input-wrapper">
-              <FaSearch className="search-input-icon" />
+            {/* Search Input Custom Styling wrapper Layout context */}
+            <div className="search-input-wrapper" style={{ flex: 1, position: 'relative', display: 'flex', alignItems: 'center' }}>
+              <FaSearch className="search-input-icon" style={{ position: 'absolute', left: 12, color: '#9ca3af' }} />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search books by title, author, or description..."
+                placeholder="Search books by title, author..."
+                style={{ width: '100%', padding: '8px 12px 8px 36px', borderRadius: 8, border: '1px solid #e5e7eb' }}
                 className={`search-input
                   ${theme.background?.input || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}
                   ${theme.border?.default || "border-gray-200 dark:border-gray-700"}
@@ -276,16 +268,18 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
                 <button
                   onClick={handleClearSearch}
                   className="search-clear-btn"
+                  style={{ position: 'absolute', right: 12, background: 'none', border: 'none' }}
                 >
                   <FaTimes size={14} />
                 </button>
               )}
             </div>
 
-            {/* Filter Button */}
+            {/* Filter Toggle */}
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`search-filter-btn ${showFilters ? 'active' : ''}`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
             >
               <FaFilter size={16} />
             </button>
@@ -293,37 +287,22 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
 
           {/* Stats and Sort Row */}
           {!isLoading && query && (
-            <div className="search-stats-row">
+            <div className="search-stats-row" style={{ display: 'flex', justifyContent: 'space-between', marginTop: 12, fontSize: 13 }}>
               <div className="search-stats">
                 {searchResults.length === 0 ? "No results" : `Showing ${searchResults.length} books`}
               </div>
               {searchResults.length > 0 && (
-                <div className="search-controls">
+                <div className="search-controls" style={{ display: 'flex', gap: 12 }}>
                   <div className="search-sort">
-                    <span className="search-sort-label">Sort by:</span>
                     <select 
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
-                      className={`search-sort-select ${theme.background?.input || (isDarkMode ? "bg-gray-800" : "bg-gray-100")}`}
+                      style={{ border: 'none', background: 'transparent' }}
                     >
                       <option value="title">Title (A-Z)</option>
                       <option value="rating">Rating</option>
                       <option value="newest">Newest</option>
                     </select>
-                  </div>
-                  <div className="search-view">
-                    <button
-                      onClick={() => setViewMode("list")}
-                      className={`search-view-btn ${viewMode === "list" ? "active" : ""}`}
-                    >
-                      <FaList size={14} />
-                    </button>
-                    <button
-                      onClick={() => setViewMode("grid")}
-                      className={`search-view-btn ${viewMode === "grid" ? "active" : ""}`}
-                    >
-                      <FaTh size={14} />
-                    </button>
                   </div>
                 </div>
               )}
@@ -334,47 +313,27 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
 
       {/* Filters Panel */}
       {showFilters && (
-        <div className={`filters-panel ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`}>
-          <div className="filters-header">
-            <span className="filters-title">Filter Results</span>
-            <button onClick={clearFilters} className="filters-clear">
+        <div className={`filters-panel ${theme.background?.section || (isDarkMode ? "bg-gray-800" : "bg-white")} border-b ${theme.border?.default || "border-gray-200 dark:border-gray-700"}`} style={{ padding: 16 }}>
+          <div className="filters-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+            <span className="filters-title" style={{ fontWeight: 600 }}>Filter Results</span>
+            <button onClick={clearFilters} style={{ background: 'none', border: 'none', color: '#0ea5e9', cursor: 'pointer' }}>
               Clear All
             </button>
           </div>
           
           <div className="filters-body">
             {filterOptions.categories.length > 0 && (
-              <div className="filter-group">
-                <div className="filter-group-title">Category</div>
-                <div className="filter-options">
+              <div className="filter-group" style={{ marginBottom: 12 }}>
+                <div className="filter-group-title" style={{ fontSize: 12, color: '#6b7280', marginBottom: 6 }}>Category</div>
+                <div className="filter-options" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                   {filterOptions.categories.map(cat => (
                     <button
                       key={cat}
                       onClick={() => handleFilterChange("categories", cat)}
-                      className={`filter-option ${
-                        selectedFilters.categories.includes(cat) ? 'active' : ''
-                      } ${isDarkMode ? 'dark' : 'light'}`}
+                      style={{ padding: '4px 10px', borderRadius: 12, fontSize: 12, border: 'none' }}
+                      className={`filter-option ${selectedFilters.categories.includes(cat) ? 'active' : ''}`}
                     >
                       {cat}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-            
-            {filterOptions.authors.length > 0 && (
-              <div className="filter-group">
-                <div className="filter-group-title">Author</div>
-                <div className="filter-options">
-                  {filterOptions.authors.map(author => (
-                    <button
-                      key={author}
-                      onClick={() => handleFilterChange("authors", author)}
-                      className={`filter-option ${
-                        selectedFilters.authors.includes(author) ? 'active' : ''
-                      } ${isDarkMode ? 'dark' : 'light'}`}
-                    >
-                      {author}
                     </button>
                   ))}
                 </div>
@@ -384,154 +343,86 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
         </div>
       )}
 
-      {/* Content Area - Scrollable */}
-      <div className="search-content">
+      {/* Internal Scroll Container for items — isolates scrolling away from structural footprint elements */}
+      <div className="search-content" style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', WebkitOverflowScrolling: 'touch' }}>
         {/* Loading State */}
         {isLoading && (
-          <div className="loading-state">
-            <FaSpinner className="loading-spinner" />
-            <p className="loading-text">Searching...</p>
+          <div className="loading-state" style={{ textAlign: 'center', padding: 40 }}>
+            <FaSpinner className="loading-spinner" style={{ animation: 'spin 1s linear infinite' }} />
+            <p className="loading-text" style={{ marginTop: 8 }}>Searching...</p>
           </div>
         )}
 
         {/* Search Results - List View */}
         {!isLoading && query && searchResults.length > 0 && viewMode === "list" && (
-          <div className="search-results-list">
+          <div className="search-results-list" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {searchResults.map((book) => (
               <div
                 key={book.id}
                 onClick={() => handleBookClick(book)}
                 className="search-result-item"
+                style={{ display: 'flex', gap: 12, cursor: 'pointer' }}
               >
-                <div className="result-cover">
+                <div className="result-cover" style={{ width: 60, height: 80, flexShrink: 0 }}>
                   {book.imageUrl ? (
-                    <img
-                      src={book.imageUrl}
-                      alt={book.title}
-                      className="result-cover-img"
-                      loading="lazy"
-                    />
+                    <img src={book.imageUrl} alt={book.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 6 }} />
                   ) : (
-                    <div className="result-cover-placeholder">
+                    <div style={{ width: '100%', height: '100%', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: 6 }}>
                       <FaBookOpen className="text-gray-400 text-2xl" />
                     </div>
                   )}
                 </div>
                 
                 <div className="result-info">
-                  <h3 className="result-title">{book.title}</h3>
-                  <div className="result-author">
-                    <FaUser className="result-author-icon" />
+                  <h3 style={{ fontSize: 14, fontWeight: 600, margin: 0 }}>{book.title}</h3>
+                  <div style={{ fontSize: 12, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 4, marginTop: 2 }}>
+                    <FaUser size={10} />
                     <span>{book.author}</span>
                   </div>
-                  {book.rating && (
-                    <div className="result-rating">
-                      {renderStars(book.rating)}
-                      <span className="result-rating-value">({book.rating})</span>
-                    </div>
-                  )}
-                  {book.category && (
-                    <span className="result-category">
-                      {book.category}
-                    </span>
-                  )}
                 </div>
               </div>
             ))}
           </div>
         )}
 
-        {/* Search Results - Grid View */}
-        {!isLoading && query && searchResults.length > 0 && viewMode === "grid" && (
-          <div className="search-results-grid">
-            {searchResults.map((book) => (
-              <div
-                key={book.id}
-                onClick={() => handleBookClick(book)}
-                className="search-result-grid-item"
-              >
-                <div className="result-grid-cover">
-                  {book.imageUrl ? (
-                    <img
-                      src={book.imageUrl}
-                      alt={book.title}
-                      className="result-grid-cover-img"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <div className="result-grid-cover-placeholder">
-                      <FaBookOpen className="text-gray-400 text-3xl" />
-                    </div>
-                  )}
-                </div>
-                <div className="result-grid-info">
-                  <h3 className="result-grid-title">{book.title}</h3>
-                  <div className="result-grid-author">{book.author}</div>
-                  {book.rating && (
-                    <div className="result-grid-rating">
-                      {renderStars(book.rating)}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* No Results */}
+        {/* No Results Fallback */}
         {!isLoading && query && searchResults.length === 0 && (
-          <div className="no-results">
-            <FaSearch className="no-results-icon" />
-            <h3 className="no-results-title">No results found</h3>
-            <p className="no-results-text">
-              Try searching with different keywords
-            </p>
+          <div className="no-results" style={{ textAlign: 'center', padding: '40px 20px' }}>
+            <FaSearch size={32} style={{ color: '#d1d5db', marginBottom: 12 }} />
+            <h3 style={{ fontSize: 16, margin: 0 }}>No results found</h3>
           </div>
         )}
 
-        {/* Recent Searches */}
+        {/* Recent Searches Panel */}
         {!isLoading && !query && recentSearches.length > 0 && (
           <div className="recent-searches">
-            <div className="recent-header">
-              <h3 className="recent-title">Recent Searches</h3>
-              <button onClick={clearAllRecents} className="recent-clear">
+            <div className="recent-header" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+              <h3 style={{ fontSize: 14, fontWeight: 600, margin: 0 }}>Recent Searches</h3>
+              <button onClick={clearAllRecents} style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: 12 }}>
                 Clear All
               </button>
             </div>
-            <div className="recent-list">
+            <div className="recent-list" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {recentSearches.map((recent, index) => (
                 <div
                   key={index}
                   className="recent-item"
                   onClick={() => handleRecentClick(recent)}
+                  style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 12px', background: isDarkMode ? '#222' : '#f9fafb', borderRadius: 6, cursor: 'pointer' }}
                 >
-                  <div className="recent-item-content">
-                    <FaSearch className="recent-item-icon" />
-                    <span className="recent-item-text">{recent}</span>
-                  </div>
+                  <span style={{ fontSize: 13 }}>{recent}</span>
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       handleRemoveRecent(recent);
                     }}
-                    className="recent-remove"
+                    style={{ background: 'none', border: 'none', color: '#9ca3af' }}
                   >
-                    <FaTimes size={12} />
+                    <FaTimes size={10} />
                   </button>
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* Initial State */}
-        {!isLoading && !query && recentSearches.length === 0 && (
-          <div className="initial-state">
-            <FaSearch className="initial-state-icon" />
-            <h3 className="initial-state-title">Search for books</h3>
-            <p className="initial-state-text">
-              Find your next great read
-            </p>
           </div>
         )}
       </div>
