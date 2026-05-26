@@ -6,11 +6,11 @@ import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
 import { useRTL } from "@/contexts/RTLContext";
-import BookQubitSnapNavbar from "@/bookqubit_snap_components/layout/bookqubitsnap_navbar/bookqubitsnap_navbar";
-import BookQubitSnapFooter from "@/bookqubit_snap_components/layout/bookqubitsnap_footer/bookqubitsnap_footer";
-import FeedPage from "@/bookqubit_snap_components/pages/feed/feed";
-import AuthorsPage from "@/bookqubit_snap_components/pages/authors/AuthorsPage";
-import TrendingPage from "@/bookqubit_snap_components/pages/trending/TrendingPage";
+import BookQubitSnapNavbar from "@/components_bookqubit_snap/layout/bookqubitsnap_navbar/bookqubitsnap_navbar";
+import BookQubitSnapFooter from "@/components_bookqubit_snap/layout/bookqubitsnap_footer/bookqubitsnap_footer";
+import FeedPage from "@/components_bookqubit_snap/pages/feed/feed";
+import AuthorsPage from "@/components_bookqubit_snap/pages/authors/AuthorsPage";
+import TrendingPage from "@/components_bookqubit_snap/pages/trending/TrendingPage";
 import {
   FaNewspaper,
   FaUser,

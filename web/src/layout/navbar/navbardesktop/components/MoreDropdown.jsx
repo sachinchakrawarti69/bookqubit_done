@@ -72,7 +72,9 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
               const { items, hasMore } = getDisplayItems(category);
               return (
                 <div key={category.id || index} className="py-2">
-                  <h3 className={`text-sm font-semibold mb-2 ${theme.textColors.primary}`}>
+                  <h3
+                    className={`text-sm font-semibold mb-2 ${theme.textColors.primary}`}
+                  >
                     {category.title}
                   </h3>
                   <div className="flex flex-col gap-1">
@@ -125,12 +127,16 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
           }}
           onMouseEnter={() => setIsOpen(true)}
         >
-          <span className={`mr-1.5 text-sm flex items-center ${theme.textColors.highlight}`}>
+          <span
+            className={`mr-1.5 text-sm flex items-center ${theme.textColors.highlight}`}
+          >
             <FaBoxes />
           </span>
           <span style={{ fontWeight: "500" }}>More</span>
-          <span className={`ml-1 text-xs flex items-center transition-transform duration-200 ${theme.textColors.secondary}`}
-            style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+          <span
+            className={`ml-1 text-xs flex items-center transition-transform duration-200 ${theme.textColors.secondary}`}
+            style={{ transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+          >
             <FaChevronDown size={12} />
           </span>
         </button>
@@ -208,15 +214,17 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
               })}
             </div>
 
-            <div className={`flex-shrink-0 mt-4 pt-4 border-t ${theme.border.default} text-center`}>
+            <div
+              className={`flex-shrink-0 mt-4 pt-4 border-t ${theme.border.default} text-center`}
+            >
               <Link
                 href="/browsecategories"
                 className={`
                   inline-block px-6 py-2 rounded-md font-medium
                   transition-all duration-200 shadow-md hover:-translate-y-0.5
                   hover:shadow-lg active:translate-y-0 active:shadow-sm
-                  ${theme.buttonColors?.primaryButton?.background || 'bg-blue-500'}
-                  ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:bg-blue-600'}
+                  ${theme.buttonColors?.primaryButton?.background || "bg-blue-500"}
+                  ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:bg-blue-600"}
                   text-white
                 `}
                 onClick={handleItemClick}
@@ -231,3 +239,5 @@ export const MoreDropdown = ({ onItemClick, mobile = false }) => {
     </div>
   );
 };
+
+export default MoreDropdown;

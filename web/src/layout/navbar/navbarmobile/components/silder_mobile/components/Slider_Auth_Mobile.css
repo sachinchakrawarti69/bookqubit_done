@@ -1,35 +1,27 @@
-/* ========================================= */
-/* Mobile Auth Section Base Wrappers         */
-/* ========================================= */
-
+/* ==========================================================================
+   Mobile Auth Section Base Wrappers Structure
+   ========================================================================== */
 .mobile-auth-section,
 .mobile-auth-guest {
   padding: 16px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.dark.mobile-auth-section,
-.dark.mobile-auth-guest {
-  border-bottom-color: rgba(255, 255, 255, 0.08);
-}
-
-/* Demo Badge Context */
+/* Demo Badge Context Fallbacks */
 .fake-user-badge {
   display: inline-flex;
   margin-bottom: 12px;
   padding: 2px 8px;
-  background-color: rgba(245, 158, 11, 0.15);
-  border: 1px solid rgba(245, 158, 11, 0.3);
+  background-color: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.25);
   color: #d97706;
   border-radius: 6px;
   font-size: 11px;
   font-weight: 600;
 }
 
-/* ========================================= */
-/* User Profile Section                      */
-/* ========================================= */
-
+/* ==========================================================================
+   User Profile Section Presentation rules 
+   ========================================================================== */
 .mobile-auth-profile {
   display: flex;
   align-items: center;
@@ -51,7 +43,6 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,35 +57,26 @@
 
 .mobile-auth-info {
   flex: 1;
-  margin-inline: 12px; /* Replaces manual left/right margins safely */
-  text-align: start;   /* Auto flips text block alignments dynamically */
+  margin-inline: 12px; /* RTL clean structural spacing rules */
+  text-align: start;   
 }
 
 .mobile-auth-name {
   font-size: 15px;
   font-weight: 600;
   margin-bottom: 2px;
-  color: #111827;
-}
-
-.dark .mobile-auth-name {
-  color: #f3f4f6;
+  transition: color 0.2s ease;
 }
 
 .mobile-auth-email {
   font-size: 11px;
-  color: #6b7280;
   word-break: break-all;
+  transition: color 0.2s ease;
 }
 
-.dark .mobile-auth-email {
-  color: #9ca3af;
-}
-
-/* ========================================= */
-/* Action Controls & Navigation Links       */
-/* ========================================= */
-
+/* ==========================================================================
+   Action Controls & Navigation Links Block Setup
+   ========================================================================== */
 .mobile-auth-buttons {
   display: flex;
   flex-direction: column;
@@ -106,40 +88,32 @@
   align-items: center;
   width: 100%;
   padding: 10px 14px;
-  border: none;
   border-radius: 10px;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
   transition: all 0.2s ease;
-  background: transparent;
 }
 
 .mobile-auth-btn .nav-icon {
   width: 18px;
   height: 18px;
-  margin-inline-end: 12px; /* Automatically handles structural spacing gap for LTR/RTL styles */
+  margin-inline-end: 12px; /* Auto switches padding alignments dynamically */
   flex-shrink: 0;
 }
 
-/* Dynamic mirror icons transformation for RTL modes */
+/* Logical mirror transformations handling across RTL interfaces */
 [dir="rtl"] .mobile-auth-btn .nav-icon {
   transform: scaleX(-1);
 }
 
 .mobile-auth-btn .nav-text {
   flex: 1;
-  text-align: start; /* Locks flow alignment cleanly */
+  text-align: start; 
 }
 
-/* Dashboard Context Configuration Layout */
-.dashboard-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
-}
-
+/* Dashboard Action Variant */
 .dashboard-btn:hover {
-  opacity: 0.9;
+  opacity: 0.95;
   transform: translateX(2px);
 }
 
@@ -147,62 +121,34 @@
   transform: translateX(-2px);
 }
 
-/* Ranking Context Configuration Layout */
-.ranking-btn {
-  background-color: #f3f4f6;
-  color: #111827;
-  border: 1px solid #e5e7eb;
-}
-
-.dark .ranking-btn {
-  background-color: #374151;
-  color: #f3f4f6;
-  border-color: #4b5563;
-}
-
+/* Dynamic Ranking List Container */
 .ranking-btn:hover {
-  background-color: #e5e7eb;
-}
-
-.dark .ranking-btn:hover {
-  background-color: #4b5563;
+  background-color: rgba(156, 163, 175, 0.12);
 }
 
 .ranking-badge {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #ffffff;
   padding: 2px 8px;
   border-radius: 12px;
   font-size: 10px;
   font-weight: 600;
-  margin-inline-start: 8px; /* Perfectly aligns spacing edge profiles bidirectional */
+  margin-inline-start: 8px; 
   white-space: nowrap;
 }
 
-/* Logout Context Configuration Layout */
+/* System Logout Variant Actions (Kept semantically clear across all layouts) */
 .logout-btn {
-  background-color: rgba(220, 38, 38, 0.1);
+  background-color: rgba(220, 38, 38, 0.08);
   color: #dc2626;
-  border: 1px solid rgba(220, 38, 38, 0.2);
-}
-
-.dark .logout-btn {
-  background-color: rgba(220, 38, 38, 0.15);
-  border-color: rgba(220, 38, 38, 0.3);
+  border: 1px solid rgba(220, 38, 38, 0.15);
 }
 
 .logout-btn:hover {
   background-color: rgba(220, 38, 38, 0.15);
 }
 
-.dark .logout-btn:hover {
-  background-color: rgba(220, 38, 38, 0.25);
-}
-
-/* ========================================= */
-/* Guest View Layout Components              */
-/* ========================================= */
-
+/* ==========================================================================
+   Guest View Components Style Controls
+   ========================================================================== */
 .mobile-auth-guest-content {
   display: flex;
   align-items: center;
@@ -213,7 +159,6 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -223,7 +168,6 @@
 .mobile-auth-guest-icon svg {
   width: 24px;
   height: 24px;
-  color: #ffffff;
 }
 
 [dir="rtl"] .mobile-auth-guest-icon svg {
@@ -240,44 +184,30 @@
   font-size: 16px;
   font-weight: 600;
   margin-bottom: 2px;
-  color: #111827;
-}
-
-.dark .mobile-auth-guest-title {
-  color: #f3f4f6;
 }
 
 .mobile-auth-guest-subtitle {
   font-size: 11px;
-  color: #6b7280;
-}
-
-.dark .mobile-auth-guest-subtitle {
-  color: #9ca3af;
 }
 
 .mobile-auth-guest-login {
   width: 100%;
   padding: 10px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border: none;
   border-radius: 10px;
-  color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .mobile-auth-guest-login:hover {
-  opacity: 0.9;
+  opacity: 0.95;
   transform: translateY(-1px);
 }
 
-/* ========================================= */
-/* Responsiveness & Universal Optimizations  */
-/* ========================================= */
-
+/* ==========================================================================
+   Responsiveness Breakpoints Layers Setup
+   ========================================================================== */
 @media (max-width: 480px) {
   .mobile-auth-section,
   .mobile-auth-guest {
@@ -341,7 +271,7 @@
   }
 }
 
-/* Accessibility Focus & Transitions handling rules */
+/* Accessibility Focus Transitions rules Handling */
 .mobile-auth-btn:focus-visible,
 .mobile-auth-guest-login:focus-visible {
   outline: 2px solid #667eea;

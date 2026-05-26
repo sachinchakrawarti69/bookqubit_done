@@ -1,8 +1,7 @@
-/* ========================================= */
-/* Trigger Hamburger Icon Button Styles      */
-/* ========================================= */
-
-.silder-mobile-trigger {
+/* ==========================================================================
+   Simplified Slider Trigger Button Styles      
+   ========================================================================== */
+.silder-mobile-trigger-simple {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,58 +11,24 @@
   background: transparent;
   border: none;
   padding: 0;
-  position: relative;
   border-radius: 8px;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.silder-mobile-trigger:active {
-  transform: scale(0.95);
-  background: rgba(0, 0, 0, 0.05);
+.silder-mobile-trigger-simple:active {
+  transform: scale(0.92);
+  background: rgba(156, 163, 175, 0.12);
 }
 
-.dark .silder-mobile-trigger:active {
-  background: rgba(255, 255, 255, 0.1);
-}
-
-.silder-mobile-hamburger {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  width: 22px;
-}
-
-.hamburger-line {
-  width: 100%;
-  height: 2px;
-  background-color: currentColor;
-  transition: all 0.3s ease;
-  border-radius: 2px;
-}
-
-/* Hamburger transition transformations when open */
-.hamburger-line.open:nth-child(1) {
-  transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger-line.open:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger-line.open:nth-child(3) {
-  transform: rotate(-45deg) translate(5px, -5px);
-}
-
-/* ========================================= */
-/* Sidebar Drawer Panels                    */
-/* ========================================= */
-
+/* ==========================================================================
+   Sidebar Drawer Panels (Strict 80% Layout Profile)
+   ========================================================================== */
 .silder-mobile-sidebar {
   position: fixed;
   top: 0;
-  inset-inline-start: -100%; /* Adapts from left to right positioning on dir modifications */
-  width: 85%;
-  max-width: 360px;
+  inset-inline-start: -80%;
+  width: 80%;               
+  max-width: 420px;         
   height: 100vh;
   transition: inset-inline-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10000;
@@ -73,157 +38,78 @@
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
 }
 
-.silder-mobile-sidebar.light {
-  background-color: #ffffff;
-  color: #111827;
-}
-
-.silder-mobile-sidebar.dark {
-  background-color: #1a1a1a;
-  color: #f3f4f6;
-}
-
-/* Dynamic open slide positioning configurations */
 .silder-mobile-sidebar.open {
   inset-inline-start: 0;
 }
 
-/* ========================================= */
-/* Header Component Structuring Styles      */
-/* ========================================= */
-
-.silder-mobile-header {
+/* ==========================================================================
+   Top Header Controls & Relocated Close Mechanism
+   ========================================================================== */
+.silder-mobile-top-controls {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid;
+  padding: 12px 16px 4px 16px;
   flex-shrink: 0;
 }
 
-.light .silder-mobile-header {
-  border-bottom-color: #e5e7eb;
+/* Structural flip adjustment support for RTL setups */
+[dir="rtl"] .silder-mobile-top-controls {
+  justify-content: flex-start;
 }
 
-.dark .silder-mobile-header {
-  border-bottom-color: #374151;
-}
-
-.header-logo-section {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.logo-icon {
-  font-size: 28px;
-}
-
-.header-logo {
-  display: flex;
-  flex-direction: column;
-  text-align: start; /* Standardized text layout rule */
-}
-
-.logo-text {
-  font-weight: 700;
-  font-size: 18px;
-  background: linear-gradient(135deg, #0ea5e9, #3b82f6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.logo-badge {
-  font-size: 10px;
-  color: #6b7280;
-}
-
-.dark .logo-badge {
-  color: #9ca3af;
-}
-
-.header-close-btn {
+.header-close-btn-top {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: all 0.2s ease;
-  color: #6b7280;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.light .header-close-btn:hover {
-  background-color: #f3f4f6;
+.header-close-btn-top:hover {
+  background-color: rgba(156, 163, 175, 0.12);
 }
 
-.dark .header-close-btn {
-  color: #9ca3af;
+.header-close-btn-top:active {
+  transform: scale(0.92);
 }
 
-.dark .header-close-btn:hover {
-  background-color: #374151;
+/* ==========================================================================
+   Structural Section Partitions
+   ========================================================================== */
+.silder-mobile-user-section {
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--panel-border, rgba(156, 163, 175, 0.15));
+  padding-bottom: 4px;
 }
 
-.header-close-btn:active {
-  transform: scale(0.95);
-}
-
-/* ========================================= */
-/* Content Scroller Layout                   */
-/* ========================================= */
-
+/* ==========================================================================
+   Content Scroller Container Layout
+   ========================================================================== */
 .silder-mobile-content-wrapper {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
+  scrollbar-width: thin;
 }
 
-/* Webkit Scrollbars Custom configurations */
 .silder-mobile-content-wrapper::-webkit-scrollbar {
   width: 4px;
 }
 
 .silder-mobile-content-wrapper::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  background: rgba(156, 163, 175, 0.05);
 }
 
 .silder-mobile-content-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--panel-border, rgba(156, 163, 175, 0.15));
   border-radius: 4px;
-}
-
-.dark .silder-mobile-content-wrapper::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.dark .silder-mobile-content-wrapper::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* Firefox scrollbar configurations framework */
-.silder-mobile-content-wrapper {
-  scrollbar-width: thin;
-}
-
-/* Content Border Separator Layout Profiles */
-.silder-mobile-user-section {
-  flex-shrink: 0;
-  border-bottom: 1px solid;
-}
-
-.light .silder-mobile-user-section {
-  border-bottom-color: #e5e7eb;
-}
-
-.dark .silder-mobile-user-section {
-  border-bottom-color: #374151;
 }
 
 .silder-mobile-menu-section {
@@ -233,26 +119,16 @@
   min-height: 0;
 }
 
-/* ========================================= */
-/* Footer Navigation Details Sections        */
-/* ========================================= */
-
+/* ==========================================================================
+   Footer Component Structural Configurations
+   ========================================================================== */
 .silder-mobile-footer {
   flex-shrink: 0;
   padding: 16px 20px;
-  border-top: 1px solid;
+  border-top: 1px solid var(--panel-border, rgba(156, 163, 175, 0.15));
   text-align: center;
   font-size: 11px;
-}
-
-.light .silder-mobile-footer {
-  border-top-color: #e5e7eb;
-  color: #6b7280;
-}
-
-.dark .silder-mobile-footer {
-  border-top-color: #374151;
-  color: #9ca3af;
+  color: var(--panel-secondary-text, inherit);
 }
 
 .silder-mobile-footer p {
@@ -265,51 +141,31 @@
   opacity: 0.7;
 }
 
-/* ========================================= */
-/* Overlay Glass background effect layers   */
-/* ========================================= */
-
+/* ==========================================================================
+   Overlay Glass Background Effect Layer
+   ========================================================================== */
 .silder-mobile-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(2px);
   z-index: 9999;
-  animation: fadeIn 0.3s ease;
+  aria-hidden: true;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* ========================================= */
-/* Mobile Media Query Layers Optimization    */
-/* ========================================= */
-
+/* ==========================================================================
+   Mobile Breakpoints & Screen Layer Optimizations
+   ========================================================================== */
 @media (max-width: 480px) {
   .silder-mobile-sidebar {
-    width: 100%;
-    max-width: 100%;
+    width: 80%; 
   }
   
-  .silder-mobile-header {
-    padding: 16px;
-  }
-  
-  .logo-icon {
-    font-size: 24px;
-  }
-  
-  .logo-text {
-    font-size: 16px;
+  .silder-mobile-top-controls {
+    padding: 8px 12px 2px 12px;
   }
   
   .silder-mobile-footer {
@@ -318,22 +174,18 @@
   }
 }
 
-/* Accessibility Focus options mapping setup */
-.silder-mobile-trigger:focus-visible,
-.header-close-btn:focus-visible {
-  outline: 2px solid #0ea5e9;
+.silder-mobile-trigger-simple:focus-visible,
+.header-close-btn-top:focus-visible {
+  outline: 2px solid var(--active-outline, #0ea5e9);
   outline-offset: 2px;
   border-radius: 8px;
 }
 
-/* Motion suppression fallback handlers logic rules */
 @media (prefers-reduced-motion: reduce) {
   .silder-mobile-sidebar,
   .silder-mobile-overlay,
-  .hamburger-line,
-  .header-close-btn,
-  .silder-mobile-trigger {
+  .header-close-btn-top,
+  .silder-mobile-trigger-simple {
     transition: none;
-    animation: none;
   }
 }

@@ -29,7 +29,10 @@ const HeroSection = () => {
   const scrollInterval = useRef(null);
 
   // Check if current theme is dark mode
-  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+  const isDarkMode =
+    themeName === "dark" ||
+    themeName === "midnight" ||
+    themeName === "cyberpunk";
 
   // Load books based on language
   useEffect(() => {
@@ -51,7 +54,7 @@ const HeroSection = () => {
   // Auto-scroll functionality - MOVED BEFORE conditional return
   useEffect(() => {
     if (filteredBooks.length === 0) return;
-    
+
     scrollInterval.current = setInterval(() => {
       setCurrentBookIndex(
         (prevIndex) => (prevIndex + 1) % filteredBooks.length,
@@ -68,13 +71,15 @@ const HeroSection = () => {
   if (filteredBooks.length === 0) {
     return (
       <section
-        className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4'}`}
+        className={`${theme.background?.section || ""} ${theme.layout?.sectionPadding || "py-12 px-4"}`}
         style={{ fontFamily: currentFont?.family }} // Apply font
       >
         <div
-          className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto text-center py-20`}
+          className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto text-center py-20`}
         >
-          <h2 className={`text-2xl font-bold ${theme.textColors?.primary || ''}`}>
+          <h2
+            className={`text-2xl font-bold ${theme.textColors?.primary || ""}`}
+          >
             {t("hero.no_books_available") || "No books available"}
           </h2>
         </div>
@@ -151,7 +156,7 @@ const HeroSection = () => {
     return [...Array(5)].map((_, i) => (
       <FaStar
         key={i}
-        className={`${i < Math.floor(rating || 0) ? (theme.iconColors?.starFilled || 'text-amber-400') : (theme.iconColors?.starEmpty || 'text-gray-300')} ${i > 0 ? "ml-1" : ""}`}
+        className={`${i < Math.floor(rating || 0) ? theme.iconColors?.starFilled || "text-amber-400" : theme.iconColors?.starEmpty || "text-gray-300"} ${i > 0 ? "ml-1" : ""}`}
         size={16}
       />
     ));
@@ -159,13 +164,13 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`${theme.background?.section || ''} ${theme.layout?.sectionPadding || 'py-12 px-4 sm:px-6 lg:px-8'}`}
+      className={`${theme.background?.section || ""} ${theme.layout?.sectionPadding || "py-12 px-4 sm:px-6 lg:px-8"}`}
       style={{ fontFamily: currentFont?.family }} // Apply font to entire section
     >
-      <div className={`${theme.layout?.containerWidth || 'max-w-7xl'} mx-auto`}>
+      <div className={`${theme.layout?.containerWidth || "max-w-7xl"} mx-auto`}>
         {/* Main Book Display */}
         <div
-          className={`relative ${theme.background?.bookCoverSide || ''} ${theme.border?.default || ''} ${theme.shadow?.container || ''} overflow-hidden ${theme.ringEffect || ''} rounded-xl`}
+          className={`relative ${theme.background?.bookCoverSide || ""} ${theme.border?.default || ""} ${theme.shadow?.container || ""} overflow-hidden ${theme.ringEffect || ""} rounded-xl`}
         >
           {/* Navigation Arrows - Hidden on mobile */}
           {filteredBooks.length > 1 && (
@@ -176,7 +181,7 @@ const HeroSection = () => {
                 aria-label={t("hero.previous_book") || "Previous book"}
               >
                 <FaChevronLeft
-                  className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || 'text-sky-600 dark:text-sky-400'}`}
+                  className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || "text-sky-600 dark:text-sky-400"}`}
                 />
               </button>
 
@@ -186,7 +191,7 @@ const HeroSection = () => {
                 aria-label={t("hero.next_book") || "Next book"}
               >
                 <FaChevronRight
-                  className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || 'text-sky-600 dark:text-sky-400'}`}
+                  className={`w-5 h-5 md:w-6 md:h-6 ${theme.iconColors?.navigationArrow || "text-sky-600 dark:text-sky-400"}`}
                 />
               </button>
             </>
@@ -195,13 +200,13 @@ const HeroSection = () => {
           <div className="flex flex-col lg:flex-row">
             {/* Book Cover - Left Side */}
             <div
-              className={`lg:w-2/5 p-6 sm:p-8 md:p-10 flex items-center justify-center ${theme.background?.bookCoverSide || ''} relative`}
+              className={`lg:w-2/5 p-6 sm:p-8 md:p-10 flex items-center justify-center ${theme.background?.bookCoverSide || ""} relative`}
             >
               <div
-                className={`absolute inset-0 ${theme.opacityOverlay || 'opacity-10'} bg-[url('https://www.transparenttextures.com/patterns/soft-circle-scales.png')]`}
+                className={`absolute inset-0 ${theme.opacityOverlay || "opacity-10"} bg-[url('https://www.transparenttextures.com/patterns/soft-circle-scales.png')]`}
               ></div>
               <div
-                className={`relative max-w-xs w-full aspect-[2/3] ${theme.shadow?.book || 'shadow-2xl'} rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105`}
+                className={`relative max-w-xs w-full aspect-[2/3] ${theme.shadow?.book || "shadow-2xl"} rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105`}
               >
                 <img
                   src={currentBook.imageUrl}
@@ -217,19 +222,19 @@ const HeroSection = () => {
               <div className="max-w-2xl">
                 {/* Category Badge */}
                 <span
-                  className={`inline-block ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-800'} ${theme.textColors?.badge || 'text-sky-800 dark:text-sky-400'} px-3 py-1 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4 ${theme.shadow?.button || ''}`}
+                  className={`inline-block ${theme.background?.navigationDots || "bg-gray-100 dark:bg-gray-800"} ${theme.textColors?.badge || "text-sky-800 dark:text-sky-400"} px-3 py-1 rounded-full text-xs sm:text-sm font-medium mb-3 sm:mb-4 ${theme.shadow?.button || ""}`}
                 >
                   {currentBook.category}
                 </span>
 
                 {/* Title and Author */}
                 <h1
-                  className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-2 sm:mb-3 leading-tight`}
+                  className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif font-bold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} mb-2 sm:mb-3 leading-tight`}
                 >
                   {currentBook.title}
                 </h1>
                 <p
-                  className={`text-base sm:text-lg ${theme.textColors?.highlight || 'text-sky-700 dark:text-sky-400'} mb-4 sm:mb-6 font-medium`}
+                  className={`text-base sm:text-lg ${theme.textColors?.highlight || "text-sky-700 dark:text-sky-400"} mb-4 sm:mb-6 font-medium`}
                 >
                   {t("book.by") || "by"} {currentBook.author}
                 </p>
@@ -240,38 +245,46 @@ const HeroSection = () => {
                     <div className="flex mr-2">
                       {renderStars(currentBook.rating)}
                     </div>
-                    <span className={`text-sm ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                    <span
+                      className={`text-sm ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
+                    >
                       ({currentBook.rating?.toFixed(1) || "0"}/5)
                     </span>
                   </div>
 
                   <div className="flex gap-3 sm:gap-4">
                     <div className="text-xs sm:text-sm">
-                      <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                      <span
+                        className={`block ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
+                      >
                         {t("book.pages") || "Pages"}
                       </span>
                       <span
-                        className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
+                        className={`font-medium ${theme.textColors?.primary || "text-gray-900 dark:text-white"}`}
                       >
                         {currentBook.pageCount}
                       </span>
                     </div>
                     <div className="text-xs sm:text-sm">
-                      <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                      <span
+                        className={`block ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
+                      >
                         {t("book.language") || "Language"}
                       </span>
                       <span
-                        className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
+                        className={`font-medium ${theme.textColors?.primary || "text-gray-900 dark:text-white"}`}
                       >
                         {currentBook.language}
                       </span>
                     </div>
                     <div className="text-xs sm:text-sm">
-                      <span className={`block ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'}`}>
+                      <span
+                        className={`block ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"}`}
+                      >
                         {t("book.published") || "Year"}
                       </span>
                       <span
-                        className={`font-medium ${theme.textColors?.primary || 'text-gray-900 dark:text-white'}`}
+                        className={`font-medium ${theme.textColors?.primary || "text-gray-900 dark:text-white"}`}
                       >
                         {currentBook.published}
                       </span>
@@ -282,7 +295,7 @@ const HeroSection = () => {
                 {/* Key Features */}
                 <div className="mb-6 sm:mb-8">
                   <h3
-                    className={`text-lg sm:text-xl font-semibold ${theme.textColors?.primary || 'text-gray-900 dark:text-white'} mb-3 sm:mb-4`}
+                    className={`text-lg sm:text-xl font-semibold ${theme.textColors?.primary || "text-gray-900 dark:text-white"} mb-3 sm:mb-4`}
                   >
                     {t("book.key_features") || "Key Features"}
                   </h3>
@@ -290,12 +303,12 @@ const HeroSection = () => {
                     {currentBook.keyPoints?.map((point, index) => (
                       <li key={index} className="flex items-start">
                         <span
-                          className={`${theme.textColors?.highlight || 'text-sky-600 dark:text-sky-400'} mr-2 sm:mr-3 mt-0.5`}
+                          className={`${theme.textColors?.highlight || "text-sky-600 dark:text-sky-400"} mr-2 sm:mr-3 mt-0.5`}
                         >
                           •
                         </span>
                         <span
-                          className={`${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} text-sm sm:text-base`}
+                          className={`${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} text-sm sm:text-base`}
                         >
                           {point}
                         </span>
@@ -308,7 +321,7 @@ const HeroSection = () => {
                 <div className="flex flex-wrap gap-3 sm:gap-4">
                   <button
                     onClick={handleGetBook}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} ${theme.buttonColors?.primaryButton?.textColor || 'text-white'}`}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"}`}
                   >
                     <FaShoppingCart size={18} />
                     {t("book.get_book") || "Get Book"}
@@ -316,15 +329,22 @@ const HeroSection = () => {
 
                   <button
                     onClick={handleWishlist}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border ${isInWishlist ? 'bg-rose-50 border-rose-400 text-rose-600 dark:bg-rose-900/20 dark:border-rose-600 dark:text-rose-400' : 'border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800'}`}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border ${isInWishlist ? "bg-rose-50 border-rose-400 text-rose-600 dark:bg-rose-900/20 dark:border-rose-600 dark:text-rose-400" : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"}`}
                   >
-                    <FaHeart className={isInWishlist ? 'text-rose-600 dark:text-rose-400' : ''} size={18} />
-                    {isInWishlist ? (t("book.wishlisted") || "Saved to Wishlist") : (t("book.wishlist") || "Add to Wishlist")}
+                    <FaHeart
+                      className={
+                        isInWishlist ? "text-rose-600 dark:text-rose-400" : ""
+                      }
+                      size={18}
+                    />
+                    {isInWishlist
+                      ? t("book.wishlisted") || "Saved to Wishlist"
+                      : t("book.wishlist") || "Add to Wishlist"}
                   </button>
 
                   <button
                     onClick={handleSummaryClick}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border-2 ${theme.buttonColors?.secondaryButton?.background || 'border-sky-500'} ${theme.buttonColors?.secondaryButton?.hoverBackground || 'hover:bg-sky-50 dark:hover:bg-sky-900/20'} ${theme.buttonColors?.secondaryButton?.textColor || 'text-sky-600 dark:text-sky-400'}`}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all hover:scale-105 border-2 ${theme.buttonColors?.secondaryButton?.background || "border-sky-500"} ${theme.buttonColors?.secondaryButton?.hoverBackground || "hover:bg-sky-50 dark:hover:bg-sky-900/20"} ${theme.buttonColors?.secondaryButton?.textColor || "text-sky-600 dark:text-sky-400"}`}
                   >
                     <FaBookOpen size={18} />
                     {t("book.summary") || "Read Summary"}
@@ -332,7 +352,7 @@ const HeroSection = () => {
 
                   <button
                     onClick={handleShare}
-                    className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-800'} ${theme.textColors?.secondary || 'text-gray-600 dark:text-gray-400'} hover:bg-gray-200 dark:hover:bg-gray-700`}
+                    className={`flex items-center gap-2 px-4 py-3 rounded-lg font-medium transition-all hover:scale-105 ${theme.background?.navigationDots || "bg-gray-100 dark:bg-gray-800"} ${theme.textColors?.secondary || "text-gray-600 dark:text-gray-400"} hover:bg-gray-200 dark:hover:bg-gray-700`}
                   >
                     <FaShare size={18} />
                     {t("book.share") || "Share"}
@@ -347,16 +367,16 @@ const HeroSection = () => {
         {filteredBooks.length > 1 && (
           <div className="flex justify-center mt-6 sm:mt-8">
             <div
-              className={`inline-flex space-x-1 sm:space-x-2 p-2 ${theme.background?.navigationDots || 'bg-gray-100 dark:bg-gray-800'} ${theme.border?.navigationDot || ''} ${theme.shadow?.navigationDotContainer || ''} hidden md:inline-flex rounded-full`}
+              className={`inline-flex space-x-1 sm:space-x-2 p-2 ${theme.background?.navigationDots || "bg-gray-100 dark:bg-gray-800"} ${theme.border?.navigationDot || ""} ${theme.shadow?.navigationDotContainer || ""} hidden md:inline-flex rounded-full`}
             >
               {filteredBooks.slice(0, 10).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => handleManualSelect(index)}
-                  className={`${theme.border?.navigationDot || ''} transition-all rounded-full ${
+                  className={`${theme.border?.navigationDot || ""} transition-all rounded-full ${
                     index === currentBookIndex
-                      ? `${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} w-6`
-                      : `${theme.background?.navigationDots || 'bg-gray-200 dark:bg-gray-700'} hover:bg-sky-300 dark:hover:bg-sky-600 w-3`
+                      ? `${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} w-6`
+                      : `${theme.background?.navigationDots || "bg-gray-200 dark:bg-gray-700"} hover:bg-sky-300 dark:hover:bg-sky-600 w-3`
                   }`}
                   style={{
                     width: index === currentBookIndex ? "1.5rem" : "0.75rem",

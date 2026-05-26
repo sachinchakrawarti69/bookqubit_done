@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
-import { useFont } from "@/contexts/FontContext"; // Imported font context
+import { useFont } from "@/contexts/FontContext";
 import "./Slider_Auth_Mobile.css";
 
 // FAKE USER DATA FOR TESTING
@@ -17,24 +17,27 @@ const FAKE_USER = {
   uid: "fake_user_123",
   displayName: "Priyal Shrivastava",
   email: "priyal.shrivastava@bookqubit.com",
-  photoURL: null, // No photo, will show initials
+  photoURL: null,
   emailVerified: true,
 };
 
-const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true }) => {
+const Slider_Auth_Mobile = ({
+  user,
+  onItemClick,
+  onLogout,
+  useFakeUser = true,
+}) => {
   const router = useRouter();
-  const { theme, themeName } = useTheme();
+  const { theme } = useTheme();
   const { direction } = useRTL();
-  const { currentFont } = useFont(); // Destructured active font context
-
-  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
+  const { currentFont } = useFont();
 
   // Determine which user to display
-  const displayUser = (useFakeUser && !user) ? FAKE_USER : user;
+  const displayUser = useFakeUser && !user ? FAKE_USER : user;
 
   // Get initials from name
   const getInitials = (name) => {
-    if (!name) return "PS"; // Default for Priyal Shrivastava
+    if (!name) return "PS";
     const nameParts = name.split(" ");
     if (nameParts.length >= 2) {
       return `${nameParts[0].charAt(0)}${nameParts[1].charAt(0)}`;
@@ -49,13 +52,12 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
   };
 
   const handleLogout = async () => {
-    // If using fake user, just redirect without actual logout
     if (useFakeUser && !user) {
       onItemClick?.();
       router.push("/");
       return;
     }
-    
+
     if (onLogout) {
       await onLogout();
     }
@@ -71,19 +73,24 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
   // If user is logged in (real or fake)
   if (displayUser) {
     return (
-      <div 
-        className={`mobile-auth-section ${isDarkMode ? 'dark' : 'light'}`} 
+      <div
+        className={`mobile-auth-section border-b transition-colors duration-300 ${theme.background?.section || ""}`}
         dir={direction}
-        style={{ fontFamily: currentFont?.family }} // Applies dynamic typography configurations
+        style={{
+          fontFamily: currentFont?.family,
+          borderColor: theme.border?.default || "rgba(0,0,0,0.08)",
+        }}
       >
-        {/* Fake User Badge - Only show for fake user */}
+        {/* Fake User Badge */}
         {useFakeUser && !user && (
-          <div className="fake-user-badge">
+          <div
+            className={`fake-user-badge ${theme.background?.badge ? "border" : ""}`}
+          >
             <span>Demo Mode</span>
           </div>
         )}
 
-        {/* User Profile */}
+        {/* User Profile Info Card Layout */}
         <div className="mobile-auth-profile">
           <div className="mobile-auth-avatar-wrapper">
             {displayUser?.photoURL ? (
@@ -93,7 +100,9 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
                 className="mobile-auth-avatar"
               />
             ) : (
-              <div className="mobile-auth-avatar-placeholder">
+              <div
+                className={`mobile-auth-avatar-placeholder ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"}`}
+              >
                 <span className="avatar-initials">
                   {getInitials(displayUser?.displayName || displayUser?.email)}
                 </span>
@@ -101,20 +110,26 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
             )}
           </div>
           <div className="mobile-auth-info">
-            <div className="mobile-auth-name">
-              {displayUser?.displayName || displayUser?.email?.split('@')[0] || "Priyal Shrivastava"}
+            <div
+              className={`mobile-auth-name ${theme.textColors?.primary || "text-gray-900"}`}
+            >
+              {displayUser?.displayName ||
+                displayUser?.email?.split("@")[0] ||
+                "Priyal Shrivastava"}
             </div>
-            <div className="mobile-auth-email">
+            <div
+              className={`mobile-auth-email ${theme.textColors?.secondary || "text-gray-500"}`}
+            >
               {displayUser?.email || "priyal.shrivastava@bookqubit.com"}
             </div>
           </div>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons Link Blocks */}
         <div className="mobile-auth-buttons">
           <button
             onClick={() => handleNavigation("/userdashboard")}
-            className="mobile-auth-btn dashboard-btn"
+            className={`mobile-auth-btn dashboard-btn font-medium transition-all ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"}`}
           >
             <FaTachometerAlt className="nav-icon" />
             <span className="nav-text">Dashboard</span>
@@ -122,21 +137,26 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
 
           <button
             onClick={() => handleNavigation("/bookwormranking")}
-            className="mobile-auth-btn ranking-btn"
+            className={`mobile-auth-btn ranking-btn border font-medium ${theme.background?.navigationDots || "bg-gray-100"} ${theme.textColors?.primary || "text-gray-900"}`}
+            style={{ borderColor: theme.border?.default || "rgba(0,0,0,0.1)" }}
           >
             <FaBookReader className="nav-icon" />
             <span className="nav-text">Bookworm Ranking</span>
-            <span className="ranking-badge">
+            <span
+              className={`ranking-badge ${theme.buttonColors?.primaryButton?.background || "bg-sky-600"} text-white`}
+            >
               #{formatRankingNumber(rankingNumber)}
             </span>
           </button>
 
           <button
             onClick={handleLogout}
-            className="mobile-auth-btn logout-btn"
+            className="mobile-auth-btn logout-btn font-medium"
           >
             <FaSignOutAlt className="nav-icon" />
-            <span className="nav-text">{useFakeUser && !user ? "Exit Demo" : "Logout"}</span>
+            <span className="nav-text">
+              {useFakeUser && !user ? "Exit Demo" : "Logout"}
+            </span>
           </button>
         </div>
       </div>
@@ -145,25 +165,36 @@ const Slider_Auth_Mobile = ({ user, onItemClick, onLogout, useFakeUser = true })
 
   // Guest View - Not Logged In
   return (
-    <div 
-      className={`mobile-auth-guest ${isDarkMode ? 'dark' : 'light'}`} 
+    <div
+      className={`mobile-auth-guest border-b transition-colors duration-300 ${theme.background?.section || ""}`}
       dir={direction}
-      style={{ fontFamily: currentFont?.family }}
+      style={{
+        fontFamily: currentFont?.family,
+        borderColor: theme.border?.default || "rgba(0,0,0,0.08)",
+      }}
     >
       <div className="mobile-auth-guest-content">
-        <div className="mobile-auth-guest-icon">
-          <FaUser />
+        <div
+          className={`mobile-auth-guest-icon ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"}`}
+        >
+          <FaUser className="text-white" />
         </div>
         <div className="mobile-auth-guest-text">
-          <div className="mobile-auth-guest-title">Welcome Guest</div>
-          <div className="mobile-auth-guest-subtitle">
+          <div
+            className={`mobile-auth-guest-title ${theme.textColors?.primary || "text-gray-900"}`}
+          >
+            Welcome Guest
+          </div>
+          <div
+            className={`mobile-auth-guest-subtitle ${theme.textColors?.secondary || "text-gray-500"}`}
+          >
             Sign in to continue
           </div>
         </div>
       </div>
       <button
         onClick={() => handleNavigation("/auth/login")}
-        className="mobile-auth-guest-login"
+        className={`mobile-auth-guest-login transition-all font-semibold ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"}`}
       >
         Log In
       </button>
