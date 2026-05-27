@@ -1,6 +1,4 @@
-/* ==========================================================================
-   Simplified Slider Trigger Button Styles      
-   ========================================================================== */
+/* Trigger Button */
 .silder-mobile-trigger-simple {
   display: flex;
   align-items: center;
@@ -12,48 +10,57 @@
   border: none;
   padding: 0;
   border-radius: 8px;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.silder-mobile-trigger-simple:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .silder-mobile-trigger-simple:active {
   transform: scale(0.92);
-  background: rgba(156, 163, 175, 0.12);
 }
 
-/* ==========================================================================
-   Sidebar Drawer Panels (Strict 80% Layout Profile)
-   ========================================================================== */
+/* Sidebar */
 .silder-mobile-sidebar {
   position: fixed;
   top: 0;
-  inset-inline-start: -80%;
-  width: 80%;               
-  max-width: 420px;         
+  left: 0;
+  width: 80%;
+  max-width: 420px;
   height: 100vh;
-  transition: inset-inline-start 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10000;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   box-shadow: 2px 0 20px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(-100%);
 }
 
 .silder-mobile-sidebar.open {
-  inset-inline-start: 0;
+  transform: translateX(0) !important;
 }
 
-/* ==========================================================================
-   Top Header Controls & Relocated Close Mechanism
-   ========================================================================== */
+/* RTL Support */
+[dir="rtl"] .silder-mobile-sidebar {
+  left: auto;
+  right: 0;
+  transform: translateX(100%);
+}
+
+[dir="rtl"] .silder-mobile-sidebar.open {
+  transform: translateX(0) !important;
+}
+
+/* Top Controls */
 .silder-mobile-top-controls {
   display: flex;
   justify-content: flex-end;
-  align-items: center;
-  padding: 12px 16px 4px 16px;
+  padding: 12px 16px 4px;
   flex-shrink: 0;
 }
 
-/* Structural flip adjustment support for RTL setups */
 [dir="rtl"] .silder-mobile-top-controls {
   justify-content: flex-start;
 }
@@ -62,41 +69,34 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 6px;
+  padding: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .header-close-btn-top:hover {
-  background-color: rgba(156, 163, 175, 0.12);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .header-close-btn-top:active {
   transform: scale(0.92);
 }
 
-/* ==========================================================================
-   Structural Section Partitions
-   ========================================================================== */
+/* User Section */
 .silder-mobile-user-section {
   flex-shrink: 0;
-  border-bottom: 1px solid var(--panel-border, rgba(156, 163, 175, 0.15));
+  border-bottom: 1px solid;
   padding-bottom: 4px;
 }
 
-/* ==========================================================================
-   Content Scroller Container Layout
-   ========================================================================== */
+/* Content Wrapper */
 .silder-mobile-content-wrapper {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  display: flex;
-  flex-direction: column;
-  scrollbar-width: thin;
 }
 
 .silder-mobile-content-wrapper::-webkit-scrollbar {
@@ -104,11 +104,11 @@
 }
 
 .silder-mobile-content-wrapper::-webkit-scrollbar-track {
-  background: rgba(156, 163, 175, 0.05);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .silder-mobile-content-wrapper::-webkit-scrollbar-thumb {
-  background: var(--panel-border, rgba(156, 163, 175, 0.15));
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 4px;
 }
 
@@ -116,24 +116,19 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
-/* ==========================================================================
-   Footer Component Structural Configurations
-   ========================================================================== */
+/* Footer */
 .silder-mobile-footer {
   flex-shrink: 0;
   padding: 16px 20px;
-  border-top: 1px solid var(--panel-border, rgba(156, 163, 175, 0.15));
+  border-top: 1px solid;
   text-align: center;
   font-size: 11px;
-  color: var(--panel-secondary-text, inherit);
 }
 
 .silder-mobile-footer p {
-  margin-block: 4px;
-  margin-inline: 0;
+  margin: 4px 0;
 }
 
 .footer-version {
@@ -141,31 +136,31 @@
   opacity: 0.7;
 }
 
-/* ==========================================================================
-   Overlay Glass Background Effect Layer
-   ========================================================================== */
+/* Overlay */
 .silder-mobile-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
   z-index: 9999;
-  aria-hidden: true;
+  animation: fadeIn 0.3s ease;
 }
 
-/* ==========================================================================
-   Mobile Breakpoints & Screen Layer Optimizations
-   ========================================================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile Responsive */
 @media (max-width: 480px) {
   .silder-mobile-sidebar {
-    width: 80%; 
+    width: 85%;
   }
   
   .silder-mobile-top-controls {
-    padding: 8px 12px 2px 12px;
+    padding: 8px 12px 2px;
   }
   
   .silder-mobile-footer {
@@ -174,18 +169,18 @@
   }
 }
 
+/* Focus States */
 .silder-mobile-trigger-simple:focus-visible,
 .header-close-btn-top:focus-visible {
-  outline: 2px solid var(--active-outline, #0ea5e9);
+  outline: 2px solid #0ea5e9;
   outline-offset: 2px;
-  border-radius: 8px;
 }
 
+/* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   .silder-mobile-sidebar,
-  .silder-mobile-overlay,
-  .header-close-btn-top,
-  .silder-mobile-trigger-simple {
+  .silder-mobile-overlay {
     transition: none;
+    animation: none;
   }
 }

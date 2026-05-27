@@ -60,11 +60,11 @@
   background: transparent;
   border: none;
   width: 100%;
-  color: inherit; /* Colors assigned upstream through context wrappers */
+  color: var(--text-primary, inherit);
 }
 
 .menu-content .navbar-mobile-item:hover {
-  background: rgba(156, 163, 175, 0.12);
+  background: var(--hover-bg, rgba(156, 163, 175, 0.12));
 }
 
 .menu-content .navbar-mobile-item:active {
@@ -80,9 +80,9 @@
   width: 24px;
   height: 24px;
   font-size: 18px;
-  margin-inline-end: 12px; /* Automatically shifts from LTR right to RTL left margins */
+  margin-inline-end: 12px;
   flex-shrink: 0;
-  color: inherit;
+  color: var(--text-secondary, inherit);
   opacity: 0.8;
 }
 
@@ -91,7 +91,8 @@
   font-size: 15px;
   font-weight: 500;
   flex: 1;
-  text-align: start; /* Flips text blocks cleanly */
+  text-align: start;
+  color: var(--text-primary, inherit);
 }
 
 /* ==========================================================================
@@ -99,7 +100,7 @@
    ========================================================================== */
 .menu-content .navbar-mobile-item.active {
   background: linear-gradient(90deg, rgba(14, 165, 233, 0.08), rgba(59, 130, 246, 0.02));
-  border-inline-start: 3px solid var(--active-border, #0ea5e9); /* Handles left vs right side indicators without class swaps */
+  border-inline-start: 3px solid var(--active-border, #0ea5e9);
 }
 
 /* ==========================================================================
@@ -118,18 +119,18 @@
   background: transparent;
   border: none;
   width: 100%;
-  color: inherit;
+  color: var(--text-primary, inherit);
 }
 
 .menu-content .navbar-mobile-dropdown-button:hover {
-  background: rgba(156, 163, 175, 0.12);
+  background: var(--hover-bg, rgba(156, 163, 175, 0.12));
 }
 
 .menu-content .navbar-mobile-dropdown-icon {
   width: 24px;
   height: 24px;
   margin-inline-end: 12px;
-  color: inherit;
+  color: var(--text-secondary, inherit);
   opacity: 0.8;
 }
 
@@ -138,11 +139,12 @@
   font-size: 15px;
   font-weight: 500;
   text-align: start;
+  color: var(--text-primary, inherit);
 }
 
 .menu-content .navbar-mobile-dropdown-chevron {
   transition: transform 0.2s ease;
-  color: inherit;
+  color: var(--text-secondary, inherit);
   opacity: 0.7;
 }
 
@@ -167,12 +169,16 @@
   border-radius: 8px;
   margin-block: 4px;
   margin-inline: 8px;
-  color: inherit;
+  color: var(--text-primary, inherit);
   opacity: 0.85;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: calc(100% - 16px);
 }
 
 .menu-content .navbar-mobile-dropdown-item:hover {
-  background: rgba(156, 163, 175, 0.1);
+  background: var(--hover-bg, rgba(156, 163, 175, 0.1));
   transform: translateX(4px);
 }
 
@@ -184,6 +190,13 @@
 .menu-content .navbar-mobile-dropdown-item-icon {
   width: 20px;
   margin-inline-end: 10px;
+  font-size: 14px;
+  color: var(--text-secondary, inherit);
+}
+
+.menu-content .navbar-mobile-dropdown-item-text {
+  flex: 1;
+  text-align: start;
   font-size: 14px;
 }
 
@@ -244,4 +257,13 @@
   outline: 2px solid var(--active-border, #0ea5e9);
   outline-offset: -2px;
   border-radius: 0;
+}
+
+/* ==========================================================================
+   Dark Mode Additional Styles
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  .menu-content .navbar-mobile-item.active {
+    background: linear-gradient(90deg, rgba(14, 165, 233, 0.15), rgba(59, 130, 246, 0.05));
+  }
 }

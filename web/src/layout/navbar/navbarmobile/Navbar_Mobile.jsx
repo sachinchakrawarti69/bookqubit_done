@@ -19,12 +19,15 @@ import "./Navbar_Mobile.css";
 const Navbar_Mobile = () => {
   const router = useRouter();
   const { direction } = useRTL();
-  const { theme } = useTheme();
+  const { theme, themeName } = useTheme(); // Get theme and theme name
   const { currentFont } = useFont();
   const [user, setUser] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [unreadCount] = useState(3);
+  
+  // Check if current theme is dark mode (like in HeroSection)
+  const isDarkMode = themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk";
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -49,18 +52,44 @@ const Navbar_Mobile = () => {
     return displayName.charAt(0).toUpperCase();
   };
 
+  // Enhanced theme variables mapping - following HeroSection patterns
   const themeVars = {
+    // Font family from font context
     fontFamily: currentFont?.family,
-    color: theme.textColors?.primary || "inherit",
-    backgroundColor: theme.background?.navbar || "transparent",
-    "--nav-border-color": theme.border?.default || "rgba(156, 163, 175, 0.15)",
+    
+    // Text colors from theme
+    "--nav-primary-color": theme.textColors?.primary || "inherit",
     "--nav-secondary-color": theme.textColors?.secondary || "inherit",
-    "--nav-btn-bg":
-      theme.buttonColors?.login?.background || "rgba(156, 163, 175, 0.12)",
-    "--nav-btn-text": theme.buttonColors?.login?.text || "inherit",
-    "--nav-avatar-bg":
-      theme.buttonColors?.primaryButton?.background || "#0ea5e9",
-    "--nav-avatar-text": theme.buttonColors?.primaryButton?.text || "#ffffff",
+    "--nav-highlight-color": theme.textColors?.highlight || "#0ea5e9",
+    
+    // Background colors from theme
+    "--nav-bg-color": theme.background?.navbar || theme.background?.section || "transparent",
+    "--nav-hover-bg": theme.background?.hover || "rgba(156, 163, 175, 0.08)",
+    
+    // Border colors from theme
+    "--nav-border-color": theme.border?.default || "rgba(156, 163, 175, 0.15)",
+    
+    // Button colors from theme (like HeroSection)
+    "--nav-btn-bg": theme.buttonColors?.login?.background || 
+                    (isDarkMode ? "rgba(255, 255, 255, 0.1)" : "rgba(156, 163, 175, 0.12)"),
+    "--nav-btn-text": theme.buttonColors?.login?.text || 
+                      theme.textColors?.primary || "inherit",
+    "--nav-btn-hover-bg": theme.buttonColors?.login?.hoverBackground || 
+                          (isDarkMode ? "rgba(255, 255, 255, 0.15)" : "rgba(156, 163, 175, 0.2)"),
+    
+    // Avatar colors following primary button pattern from HeroSection
+    "--nav-avatar-bg": theme.buttonColors?.primaryButton?.background || 
+                       theme.iconColors?.starFilled || "#0ea5e9",
+    "--nav-avatar-text": theme.buttonColors?.primaryButton?.textColor || "#ffffff",
+    
+    // Icon colors from theme
+    "--nav-icon-color": theme.iconColors?.default || theme.textColors?.secondary || "inherit",
+    
+    // Shadow from theme
+    "--nav-shadow": theme.shadow?.container || "0 1px 3px 0 rgba(0, 0, 0, 0.05)",
+    
+    // Logo specific colors (if available in theme)
+    "--nav-logo-color": theme.textColors?.logo || theme.textColors?.primary || "inherit",
   };
 
   if (loading) {
@@ -74,7 +103,7 @@ const Navbar_Mobile = () => {
           <div
             className="skeleton-loader w-8 h-8 opacity-20 rounded"
             style={{
-              backgroundColor: theme.textColors?.primary || "currentColor",
+              backgroundColor: themeVars["--nav-primary-color"],
             }}
           ></div>
         </div>
@@ -82,7 +111,7 @@ const Navbar_Mobile = () => {
           <div
             className="skeleton-logo w-20 h-6 opacity-20 rounded"
             style={{
-              backgroundColor: theme.textColors?.primary || "currentColor",
+              backgroundColor: themeVars["--nav-primary-color"],
             }}
           ></div>
         </div>
@@ -90,13 +119,13 @@ const Navbar_Mobile = () => {
           <div
             className="skeleton-icon w-6 h-6 opacity-20 rounded-full"
             style={{
-              backgroundColor: theme.textColors?.primary || "currentColor",
+              backgroundColor: themeVars["--nav-primary-color"],
             }}
           ></div>
           <div
             className="skeleton-icon w-6 h-6 opacity-20 rounded-full"
             style={{
-              backgroundColor: theme.textColors?.primary || "currentColor",
+              backgroundColor: themeVars["--nav-primary-color"],
             }}
           ></div>
         </div>
@@ -108,14 +137,21 @@ const Navbar_Mobile = () => {
     <nav
       className="navbar-mobile flex items-center justify-between px-3 h-16 sticky top-0 z-50 transition-colors duration-300 w-full max-w-full overflow-hidden box-border"
       dir={direction}
-      style={themeVars}
+      style={{
+        ...themeVars,
+        fontFamily: themeVars.fontFamily,
+        backgroundColor: themeVars["--nav-bg-color"],
+        color: themeVars["--nav-primary-color"],
+        borderBottom: `1px solid ${themeVars["--nav-border-color"]}`,
+        boxShadow: themeVars["--nav-shadow"],
+      }}
     >
       {/* Left Section - Menu Icon */}
       <div className="navbar-mobile-left flex items-center flex-shrink-0">
         <Silder_Mobile user={user} />
       </div>
 
-      {/* Center Section - Logo (with strict text clipping protections) */}
+      {/* Center Section - Logo with theme colors */}
       <div className="navbar-mobile-center flex items-center min-w-0 mx-1">
         <Link
           href="/homepages"
@@ -124,28 +160,35 @@ const Navbar_Mobile = () => {
           <span className="logo-icon text-lg flex-shrink-0">📚</span>
           <span
             className="logo-text font-bold text-base truncate"
-            style={{
-              color: theme.textColors?.logo || theme.textColors?.primary,
-            }}
+            style={{ color: themeVars["--nav-logo-color"] }}
           >
             BookQubit
           </span>
         </Link>
       </div>
 
-      {/* Right Section - Optimized Action Layout Container */}
+      {/* Right Section - Action Buttons */}
       <div className="navbar-mobile-right flex items-center gap-1.5 flex-shrink-0">
         <SearchBar_Mobile />
         <DarkMode_Mobile />
         <Control_Mobile_Slider />
 
-        {/* Notification Icon */}
+        {/* Notification Icon with theme colors */}
         {isLoggedIn && (
           <button
             className="nav-control-btn notification-btn relative p-1.5 rounded-full transition-colors flex-shrink-0"
             onClick={handleNotificationClick}
             aria-label="Notifications"
-            style={{ color: "var(--nav-secondary-color)" }}
+            style={{ 
+              color: themeVars["--nav-icon-color"],
+              transition: "all 0.2s ease" // Like HeroSection transition
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = themeVars["--nav-hover-bg"];
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = "transparent";
+            }}
           >
             <FaBell size={16} />
             {unreadCount > 0 && (
@@ -156,10 +199,10 @@ const Navbar_Mobile = () => {
           </button>
         )}
 
-        {/* Profile Avatar Selection */}
+        {/* Profile Avatar with theme colors */}
         {isLoggedIn && (
           <button
-            className="nav-control-btn profile-btn p-0.5 rounded-full overflow-hidden focus:outline-none flex-shrink-0"
+            className="nav-control-btn profile-btn p-0.5 rounded-full overflow-hidden focus:outline-none flex-shrink-0 transition-all hover:scale-105" // Added hover:scale-105 like HeroSection
             onClick={handleProfileClick}
             aria-label="Profile"
           >
@@ -174,8 +217,8 @@ const Navbar_Mobile = () => {
               <div
                 className="profile-initials w-7 h-7 rounded-full flex items-center justify-center text-[11px] font-bold"
                 style={{
-                  backgroundColor: "var(--nav-avatar-bg)",
-                  color: "var(--nav-avatar-text)",
+                  backgroundColor: themeVars["--nav-avatar-bg"],
+                  color: themeVars["--nav-avatar-text"],
                 }}
               >
                 {getUserInitials()}
@@ -184,14 +227,23 @@ const Navbar_Mobile = () => {
           </button>
         )}
 
-        {/* Login Button */}
+        {/* Login Button with theme colors - following HeroSection button patterns */}
         {!isLoggedIn && (
           <button
-            className="login-btn-nav flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all flex-shrink-0"
+            className="login-btn-nav flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all hover:scale-105 flex-shrink-0"
             onClick={handleLogin}
             style={{
-              backgroundColor: "var(--nav-btn-bg)",
-              color: "var(--nav-btn-text)",
+              backgroundColor: themeVars["--nav-btn-bg"],
+              color: themeVars["--nav-btn-text"],
+              transition: "all 0.2s ease",
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = themeVars["--nav-btn-hover-bg"];
+              e.currentTarget.style.transform = "scale(1.05)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = themeVars["--nav-btn-bg"];
+              e.currentTarget.style.transform = "scale(1)";
             }}
           >
             <FaUser size={11} />
