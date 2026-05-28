@@ -21,6 +21,46 @@ const ComicsImageData = {
 
 
     EmperorSamarChakrawarti:"https://i.pinimg.com/736x/6f/dc/57/6fdc57affa99fd375d0af69192393833.jpg",
+    // Add these to your ComicsImageData object
+DetectiveComics27: "https://m.media-amazon.com/images/I/81aEsM92lnL.jpg",
+ActionComics1: "",
+Flash123: "",
+GiantSizeXMen1: "",
+Watchmen1: "",
+DarkKnightReturns1: "",
+Sandman1: "",
+Nagraj1: "",
+Superman75: "",
+Spawn1: "",
+// Add to your ComicsImageData object
+JourneyIntoMystery83: "",
+TalesOfSuspense39: "",
+StrangeTales110: "",
+HeroesForHire1: "",
+CrisisOnInfiniteEarths1: "",
+InfinityGauntlet1: "",
+CivilWar1: "",
+KillingJoke: "",
+Shakti1: "",
+Tinkle1: "",
+OnePiece1: "",
+Naruto1: "",
+DeathNote1: "",
+DragonBall1: "",
+AttackOnTitan1: "",
+// Add to your ComicsImageData object
+Showcase4: "",
+GreenLantern76: "",
+HouseOfSecrets92: "",
+NewMutants98: "",
+EdgeOfSpiderVerse2: "",
+SuperSons1: "",
+MsMarvel1: "",
+DevilDinosaur1: "",
+ChachaChaudhary1: "",
+DhruvaNagrajCrossover: "",
+DemonSlayer1: "",
+
   };
   
   export default ComicsImageData;

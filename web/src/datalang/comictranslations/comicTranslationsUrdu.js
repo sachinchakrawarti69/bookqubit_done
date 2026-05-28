@@ -329,5 +329,58 @@ export const comicTranslationsUrdu = {
   "comic.settings.right_to_left": "دائیں سے بائیں (مانگا)",
   "comic.settings.vertical": "عمودی",
   "comic.settings.background_color": "پس منظر کا رنگ",
-  "comic.settings.font_size": "فونٹ کا سائز"
+  "comic.settings.font_size": "فونٹ کا سائز",
+
+  // Add these to your comicTranslationsUrdu object
+
+// View and Card Style translations
+"view.card_style": "کارڈ اسٹائل",
+"view.square": "مربع",
+"view.compact": "کومپیکٹ",
+"view.grid_view": "گرڈ منظر",
+"view.list_view": "فہرست منظر",
+"view.view": "منظر",
+
+// Comic Card Labels
+"comic.series_label": "سیریز",
+"comic.characters_label": "کردار",
+"comic.value_label": "قیمت",
+"comic.publisher_label": "ناشر",
+"comic.year_label": "سال",
+"comic.more": "مزید",
+"comic.more_characters": "مزید کردار",
+"comic.view_details_button": "تفصیلات دیکھیں",
+
+// Era translations
+"comic.era.golden": "سنہری دور",
+"comic.era.silver": "چاندی کا دور",
+"comic.era.bronze": "کانسی کا دور",
+"comic.era.modern": "جدید دور",
+"comic.era.indian": "بھارتی دور",
+"comic.era.fantasy": "فنتاسی دور",
+"comic.era.scifi": "سائنس فکشن دور",
+
+// Category Badge Labels
+"comic.badge.golden": "سنہری",
+"comic.badge.silver": "چاندی",
+"comic.badge.bronze": "کانسی",
+"comic.badge.modern": "جدید",
+"comic.badge.indian": "بھارتی",
+"comic.badge.fantasy": "فنتاسی",
+"comic.badge.scifi": "سائنس فکشن",
+
+// Price Label
+"comic.price_label": "قیمت",
+
+// Button Text
+"comic.button.view_details": "تفصیلات دیکھیں",
+
+// Loading States
+"comic.loading.placeholder": "کامک لوڈ ہو رہی ہے...",
+"comic.image.fallback_alt": "کامک کور پلیس ہولڈر",
+
+// Error Messages
+"comic.error.image_load_failed": "کور امیج لوڈ کرنے میں ناکامی",
+"comic.error.data_unavailable": "کامک ڈیٹا دستیاب نہیں",
+
 };

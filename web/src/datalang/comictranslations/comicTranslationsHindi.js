@@ -329,5 +329,70 @@ export const comicTranslationsHindi = {
   "comic.settings.right_to_left": "दाएं से बाएं (मंगा)",
   "comic.settings.vertical": "ऊर्ध्वाधर",
   "comic.settings.background_color": "पृष्ठभूमि का रंग",
-  "comic.settings.font_size": "फ़ॉन्ट आकार"
+  "comic.settings.font_size": "फ़ॉन्ट आकार",
+
+  // Add these to your comicTranslationsHindi object
+
+// View and Card Style translations
+"view.card_style": "कार्ड शैली",
+"view.square": "वर्गाकार",
+"view.compact": "कॉम्पैक्ट",
+"view.grid_view": "ग्रिड दृश्य",
+"view.list_view": "सूची दृश्य",
+"view.view": "दृश्य",
+
+// Comic Card Labels
+"comic.series_label": "श्रृंखला",
+"comic.characters_label": "पात्र",
+"comic.value_label": "मूल्य",
+"comic.publisher_label": "प्रकाशक",
+"comic.year_label": "वर्ष",
+"comic.more": "और",
+"comic.more_characters": "और पात्र",
+"comic.view_details_button": "विवरण देखें",
+
+// Era translations
+"comic.era.golden": "स्वर्ण युग",
+"comic.era.silver": "रजत युग",
+"comic.era.bronze": "कांस्य युग",
+"comic.era.modern": "आधुनिक युग",
+"comic.era.indian": "भारतीय युग",
+"comic.era.fantasy": "फंतासी युग",
+"comic.era.scifi": "विज्ञान कथा युग",
+
+// Category Badge Labels
+"comic.badge.golden": "स्वर्ण",
+"comic.badge.silver": "रजत",
+"comic.badge.bronze": "कांस्य",
+"comic.badge.modern": "आधुनिक",
+"comic.badge.indian": "भारतीय",
+"comic.badge.fantasy": "फंतासी",
+"comic.badge.scifi": "विज्ञान कथा",
+
+// Price Label
+"comic.price_label": "मूल्य",
+
+// Button Text
+"comic.button.view_details": "विवरण देखें",
+
+// Loading States
+"comic.loading.placeholder": "कॉमिक लोड हो रही है...",
+"comic.image.fallback_alt": "कॉमिक कवर प्लेसहोल्डर",
+
+// Error Messages
+"comic.error.image_load_failed": "कवर छवि लोड करने में विफल",
+"comic.error.data_unavailable": "कॉमिक डेटा अनुपलब्ध",
+
+// Hindi translations
+"comic.search_placeholder": "शीर्षक, प्रकाशक, चरित्र या श्रेणी द्वारा खोजें...",
+"comic.search": "खोजें",
+"comic.search_tip": "'स्पाइडर-मैन', 'मार्वल', 'स्वर्ण युग', या चरित्र नामों के लिए खोजें",
+"pagination.show": "दिखाएं",
+"pagination.per_page": "प्रति पृष्ठ",
+"pagination.showing_page": "दिखा रहा है पृष्ठ",
+"pagination.search_results": "खोज परिणाम",
+"filter.search": "खोजें",
+
+
+
 };

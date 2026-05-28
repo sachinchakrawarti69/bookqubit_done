@@ -329,5 +329,68 @@ export const comicTranslationsEnglish = {
   "comic.settings.right_to_left": "Right to Left (Manga)",
   "comic.settings.vertical": "Vertical",
   "comic.settings.background_color": "Background Color",
-  "comic.settings.font_size": "Font Size"
+  "comic.settings.font_size": "Font Size",
+
+  // Add these to your comicTranslationsEnglish object
+
+// View and Card Style translations
+"view.card_style": "Card Style",
+"view.square": "Square",
+"view.compact": "Compact",
+"view.grid_view": "Grid",
+"view.list_view": "List",
+"view.view": "View",
+
+// Comic Card Labels
+"comic.series_label": "Series",
+"comic.characters_label": "Characters",
+"comic.value_label": "Value",
+"comic.publisher_label": "Publisher",
+"comic.year_label": "Year",
+"comic.more": "More",
+"comic.more_characters": "More Characters",
+"comic.view_details_button": "View Details",
+
+// Era translations (if not already present)
+"comic.era.golden": "Golden Age",
+"comic.era.silver": "Silver Age",
+"comic.era.bronze": "Bronze Age",
+"comic.era.modern": "Modern Age",
+"comic.era.indian": "Indian Era",
+"comic.era.fantasy": "Fantasy Era",
+"comic.era.scifi": "Sci-Fi Era",
+
+// Category Badge Labels
+"comic.badge.golden": "Golden",
+"comic.badge.silver": "Silver",
+"comic.badge.bronze": "Bronze",
+"comic.badge.modern": "Modern",
+"comic.badge.indian": "Indian",
+"comic.badge.fantasy": "Fantasy",
+"comic.badge.scifi": "Sci-Fi",
+
+// Price Label
+"comic.price_label": "Value",
+
+// Button Text
+"comic.button.view_details": "View Details",
+
+// Loading States
+"comic.loading.placeholder": "Loading comic...",
+"comic.image.fallback_alt": "Comic cover placeholder",
+
+// Error Messages
+"comic.error.image_load_failed": "Failed to load cover image",
+"comic.error.data_unavailable": "Comic data unavailable",
+// English translations
+"comic.search_placeholder": "Search by title, publisher, character, or category...",
+"comic.search": "Search",
+"comic.search_tip": "Try searching for 'Spider-Man', 'Marvel', 'Golden Age', or character names",
+"pagination.show": "Show",
+"pagination.per_page": "per page",
+"pagination.showing_page": "Showing page",
+"pagination.search_results": "Search results for",
+"filter.search": "Search",
+
+
 };

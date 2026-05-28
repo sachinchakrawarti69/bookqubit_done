@@ -1,19 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import {
   ComicActionButtons,
   ComicButtonGroup,
 } from "@/features/comic/comiclist/components/ComicButton";
 
 const ComicCover = ({ comic, isDarkMode, theme, isWishlisted, onToggleWishlist }) => {
+  const [imageError, setImageError] = useState(false);
+  const fallbackImage = "/placeholder-comic.jpg";
+
   return (
     <>
       <div className={`p-8 rounded-xl ${theme.background?.bookCoverSide || "bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"}`}>
         <img 
-          src={comic.image} 
-          alt={comic.title} 
-          className="w-full h-auto object-contain rounded-lg" 
+          src={imageError ? fallbackImage : (comic.image || fallbackImage)} 
+          alt={comic.title || "Comic cover"} 
+          className="w-full h-auto object-contain rounded-lg"
+          onError={() => setImageError(true)}
           loading="lazy"
         />
       </div>

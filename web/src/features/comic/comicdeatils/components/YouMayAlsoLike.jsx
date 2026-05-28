@@ -7,40 +7,39 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
   const [recommendations, setRecommendations] = useState([]);
+  const [imageErrors, setImageErrors] = useState({});
+
+  const fallbackImage = "/placeholder-comic.jpg";
+
+  const handleImageError = (comicId) => {
+    setImageErrors(prev => ({ ...prev, [comicId]: true }));
+  };
 
   useEffect(() => {
     if (!currentComic || !allComics || allComics.length === 0) return;
 
-    // Recommendation algorithm based on multiple factors
     const getRecommendations = () => {
       const scoredComics = allComics
         .filter(comic => comic.id !== currentComic.id && comic.slug !== currentComic.slug)
         .map(comic => {
           let score = 0;
 
-          // Same category/era (highest weight)
           if (comic.category === currentComic.category) score += 30;
-          
-          // Same publisher
           if (comic.publisher === currentComic.publisher) score += 20;
           
-          // Similar rating (within 2 points)
-          const ratingDiff = Math.abs(comic.rating - currentComic.rating);
+          const ratingDiff = Math.abs((comic.rating || 0) - (currentComic.rating || 0));
           if (ratingDiff <= 2) score += 15;
           else if (ratingDiff <= 4) score += 10;
           
-          // Shared characters
           const sharedCharacters = comic.charactersIntroduced?.filter(
             char => currentComic.charactersIntroduced?.includes(char)
           ) || [];
           score += sharedCharacters.length * 5;
           
-          // Same publication year range
           const comicYear = parseInt(comic.publicationDate?.split(",")[1] || comic.publicationDate?.split(" ")[2] || "0");
           const currentYear = parseInt(currentComic.publicationDate?.split(",")[1] || currentComic.publicationDate?.split(" ")[2] || "0");
           if (Math.abs(comicYear - currentYear) <= 3) score += 10;
           
-          // Same creators
           const sharedWriters = comic.creators?.writersArtists?.filter(
             writer => currentComic.creators?.writersArtists?.includes(writer)
           ) || [];
@@ -49,10 +48,7 @@ const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
           return { ...comic, score };
         });
 
-      // Sort by score and get top 4
-      return scoredComics
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 4);
+      return scoredComics.sort((a, b) => b.score - a.score).slice(0, 4);
     };
 
     setRecommendations(getRecommendations());
@@ -82,7 +78,6 @@ const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
             className="group animate-fadeIn"
           >
             <div className={`${theme.background?.card || (isDarkMode ? "bg-gray-800" : "bg-white")} rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl relative`}>
-              {/* Recommendation badge */}
               <div className="absolute top-2 left-2 z-10">
                 <div className={`px-2 py-1 rounded-full text-xs font-semibold ${isDarkMode ? "bg-sky-600" : "bg-sky-500"} text-white`}>
                   {comic.score >= 40 ? "🔥 Hot Pick" : comic.score >= 25 ? "⭐ Recommended" : "📖 You might like"}
@@ -91,10 +86,11 @@ const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
               
               <div className="relative h-64 overflow-hidden">
                 <img 
-                  src={comic.image} 
-                  alt={comic.title}
+                  src={imageErrors[comic.id] ? fallbackImage : (comic.image || fallbackImage)}
+                  alt={comic.title || "Comic cover"}
                   className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   loading="lazy"
+                  onError={() => handleImageError(comic.id)}
                 />
               </div>
               
@@ -103,23 +99,8 @@ const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
                   {comic.title}
                 </h3>
                 <p className={`text-xs ${theme.textColors?.secondary || (isDarkMode ? "text-gray-400" : "text-gray-600")} mb-2`}>
-                  {comic.publisher} • {comic.category}
+                  {comic.publisher || "Unknown Publisher"} • {comic.category || "Comic"}
                 </p>
-                
-                {/* Match reasons tooltip */}
-                <div className="relative group/tooltip">
-                  <div className={`text-xs ${theme.textColors?.highlight || "text-sky-600 dark:text-sky-400"} cursor-help flex items-center gap-1`}>
-                    <span>ℹ️</span> Why we recommended this
-                  </div>
-                  <div className={`absolute bottom-full left-0 mb-2 hidden group-hover/tooltip:block z-20 ${isDarkMode ? "bg-gray-700" : "bg-gray-100"} p-2 rounded-lg text-xs whitespace-nowrap shadow-lg`}>
-                    <div className={`${theme.textColors?.secondary || (isDarkMode ? "text-gray-300" : "text-gray-700")}`}>
-                      {comic.category === currentComic.category && "• Same category\n"}
-                      {comic.publisher === currentComic.publisher && "• Same publisher\n"}
-                      {Math.abs(comic.rating - currentComic.rating) <= 2 && "• Similar rating\n"}
-                      {comic.creators?.writersArtists?.some(w => currentComic.creators?.writersArtists?.includes(w)) && "• Shared creators"}
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </Link>
