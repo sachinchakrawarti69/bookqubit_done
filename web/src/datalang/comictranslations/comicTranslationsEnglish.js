@@ -126,5 +126,208 @@ export const comicTranslationsEnglish = {
   "comic.category.indian_fantasy": "Indian Fantasy Comics",
   "comic.category.indian_sci_fi": "Indian Science Fiction Comics",
   "comic.category.indian_mythology": "Indian Mythology Comics",
-  "comic.category.indian_historical": "Indian Historical Comics"
+  "comic.category.indian_historical": "Indian Historical Comics",
+
+  // ========== NEW COMIC DETAILS PAGE TRANSLATIONS ==========
+  
+  // Related Comics Sections
+  "comic.related_by_category": "📚 More {category} Comics",
+  "comic.related_by_characters": "🦸‍♂️ Comics with Shared Characters",
+  "comic.related_by_publisher": "🏢 More from {publisher}",
+  "comic.you_may_also_like": "🔍 You May Also Like",
+  "comic.view_all": "View All →",
+  "comic.recommendation_disclaimer": "Recommendations based on your reading preferences",
+  
+  // Recommendation Badges
+  "comic.recommendation.hot_pick": "🔥 Hot Pick",
+  "comic.recommendation.recommended": "⭐ Recommended",
+  "comic.recommendation.might_like": "📖 You might like",
+  
+  // Tooltip Text
+  "comic.recommendation.why": "Why we recommended this",
+  "comic.recommendation.same_category": "Same category",
+  "comic.recommendation.same_publisher": "Same publisher",
+  "comic.recommendation.similar_rating": "Similar rating",
+  "comic.recommendation.shared_creators": "Shared creators",
+  "comic.recommendation.shared_characters": "Shared characters",
+  
+  // Loading States
+  "common.loading": "Loading...",
+  "comic.loading_details": "Loading comic details...",
+  "comic.loading_recommendations": "Finding recommendations for you...",
+  
+  // Error Messages
+  "comic.error.load_failed": "Failed to load comic",
+  "comic.error.try_again": "Try Again",
+  "comic.error.not_found": "Comic not found",
+  
+  // Share Messages
+  "comic.share.title": "Check out this comic!",
+  "comic.share.text": "I found this amazing comic on BookQubit: {title}",
+  
+  // Wishlist Messages
+  "comic.wishlist.added": "Added to wishlist!",
+  "comic.wishlist.removed": "Removed from wishlist",
+  "comic.wishlist.login_prompt": "Please login to add to wishlist",
+  
+  // Read Digital Modal
+  "comic.read_digital.title": "Read {title}",
+  "comic.read_digital.start_reading": "Start Reading",
+  "comic.read_digital.preview": "Preview",
+  "comic.read_digital.full_access": "Get Full Access",
+  
+  // Buy Physical Modal
+  "comic.buy_physical.title": "Purchase {title}",
+  "comic.buy_physical.select_condition": "Select Condition",
+  "comic.buy_physical.near_mint": "Near Mint",
+  "comic.buy_physical.very_fine": "Very Fine",
+  "comic.buy_physical.fine": "Fine",
+  "comic.buy_physical.good": "Good",
+  "comic.buy_physical.proceed_to_checkout": "Proceed to Checkout",
+  
+  // Collector's Guide
+  "comic.collectors_guide.title": "Collector's Guide for {title}",
+  "comic.collectors_guide.grading": "Grading Standards",
+  "comic.collectors_guide.rarity": "Rarity Level",
+  "comic.collectors_guide.market_trend": "Market Trend",
+  "comic.collectors_guide.investment_tips": "Investment Tips",
+  "comic.collectors_guide.common": "Common",
+  "comic.collectors_guide.uncommon": "Uncommon",
+  "comic.collectors_guide.rare": "Rare",
+  "comic.collectors_guide.very_rare": "Very Rare",
+  "comic.collectors_guide.extremely_rare": "Extremely Rare",
+  
+  // Price Guide
+  "comic.price_guide.unslabbed": "Unslabbed",
+  "comic.price_guide.graded_9_8": "Graded 9.8",
+  "comic.price_guide.graded_9_6": "Graded 9.6",
+  "comic.price_guide.graded_9_4": "Graded 9.4",
+  "comic.price_guide.graded_9_0": "Graded 9.0",
+  
+  // Character Section
+  "comic.characters.featured": "Featured Characters",
+  "comic.characters.supporting": "Supporting Characters",
+  "comic.characters.villains": "Villains",
+  "comic.characters.first_appearance": "First Appearance",
+  "comic.characters.significance": "Significance",
+  
+  // Creator Section
+  "comic.creators.writer": "Writer",
+  "comic.creators.artist": "Artist",
+  "comic.creators.inker": "Inker",
+  "comic.creators.colorist": "Colorist",
+  "comic.creators.letterer": "Letterer",
+  "comic.creators.cover_artist": "Cover Artist",
+  
+  // Publication Info
+  "comic.publication.publication_date": "Publication Date",
+  "comic.publication.page_count": "Page Count",
+  "comic.publication.isbn": "ISBN",
+  "comic.publication.upc": "UPC",
+  "comic.publication.print_run": "Print Run",
+  
+  // Actions
+  "comic.actions.share_on_twitter": "Share on Twitter",
+  "comic.actions.share_on_facebook": "Share on Facebook",
+  "comic.actions.copy_link": "Copy Link",
+  "comic.actions.link_copied": "Link copied!",
+  "comic.actions.download_pdf": "Download PDF",
+  "comic.actions.read_online": "Read Online",
+  
+  // Series Info
+  "comic.series.issue_number": "Issue #{number}",
+  "comic.series.volume": "Volume {number}",
+  "comic.series.part_of": "Part of {name}",
+  "comic.series.next_issue": "Next Issue",
+  "comic.series.previous_issue": "Previous Issue",
+  
+  // Rating and Reviews
+  "comic.rating.average": "Average Rating",
+  "comic.rating.total_reviews": "{count} reviews",
+  "comic.rating.write_review": "Write a Review",
+  "comic.rating.your_rating": "Your Rating",
+  "comic.reviews.title": "Reader Reviews",
+  "comic.reviews.no_reviews": "No reviews yet. Be the first to review!",
+  
+  // Age Ratings
+  "comic.age_rating.all_ages": "All Ages",
+  "comic.age_rating.teen": "Teen",
+  "comic.age_rating.mature": "Mature Readers",
+  "comic.age_rating.explicit": "Explicit Content",
+  
+  // Additional Comic Details Page Translations
+  "comic.details.original_title": "Original Title",
+  "comic.details.alternate_titles": "Alternate Titles",
+  "comic.details.language": "Language",
+  "comic.details.original_language": "Original Language",
+  "comic.details.translated_by": "Translated by",
+  
+  // Collection Info
+  "comic.collection.included_in": "Included in",
+  "comic.collection.tpb": "Trade Paperback",
+  "comic.collection.hardcover": "Hardcover Collection",
+  "comic.collection.omnibus": "Omnibus",
+  "comic.collection.absolute_edition": "Absolute Edition",
+  
+  // Awards
+  "comic.awards.won": "Awards Won",
+  "comic.awards.nominated": "Award Nominations",
+  "comic.awards.eisner": "Eisner Award",
+  "comic.awards.harvey": "Harvey Award",
+  "comic.awards.ringo": "Ringo Award",
+  
+  // Adaptations
+  "comic.adaptations.movie": "Movie Adaptation",
+  "comic.adaptations.tv": "TV Series Adaptation",
+  "comic.adaptations.animated": "Animated Series",
+  "comic.adaptations.video_game": "Video Game Appearance",
+  
+  // Related Media
+  "comic.related_media.other_media": "Other Media",
+  "comic.related_media.watch_trailer": "Watch Trailer",
+  "comic.related_media.listen_audio": "Listen to Audio",
+  
+  // Similar Comics
+  "comic.similar.if_you_liked": "If you liked {title}, you'll love:",
+  "comic.similar.readers_also_enjoyed": "Readers also enjoyed",
+  "comic.similar.based_on_your_reading": "Based on your reading history",
+  
+  // Interactive Features
+  "comic.interactive.zoom": "Zoom In",
+  "comic.interactive.fullscreen": "Fullscreen",
+  "comic.interactive.page_turn": "Page Turn",
+  "comic.interactive.panel_view": "Panel View",
+  "comic.interactive.reading_progress": "Reading Progress",
+  
+  // Accessibility
+  "comic.accessibility.text_to_speech": "Text to Speech",
+  "comic.accessibility.high_contrast": "High Contrast",
+  "comic.accessibility.large_text": "Large Text",
+  "comic.accessibility.screen_reader": "Screen Reader Friendly",
+  
+  // Community
+  "comic.community.discussion": "Discussion",
+  "comic.community.join_discussion": "Join the Discussion",
+  "comic.community.view_threads": "View Threads",
+  "comic.community.start_thread": "Start a Thread",
+  
+  // Reading Lists
+  "comic.lists.add_to_list": "Add to List",
+  "comic.lists.create_new_list": "Create New List",
+  "comic.lists.select_list": "Select List",
+  "comic.lists.list_name": "List Name",
+  
+  // Notes and Highlights
+  "comic.notes.add_note": "Add Note",
+  "comic.notes.my_notes": "My Notes",
+  "comic.notes.highlights": "Highlights",
+  "comic.notes.bookmarks": "Bookmarks",
+  
+  // Reading Settings
+  "comic.settings.direction": "Reading Direction",
+  "comic.settings.left_to_right": "Left to Right",
+  "comic.settings.right_to_left": "Right to Left (Manga)",
+  "comic.settings.vertical": "Vertical",
+  "comic.settings.background_color": "Background Color",
+  "comic.settings.font_size": "Font Size"
 };

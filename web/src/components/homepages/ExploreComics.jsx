@@ -157,7 +157,7 @@ const ExploreComics = () => {
                     ))}
                   </div>
                   <Link
-                    href={`/comicslist/${comic.id}`}
+                    href={`/comics/${comic.slug}`}
                     className={`block w-full text-center py-2 px-3 sm:px-4 rounded-lg text-xs sm:text-sm font-medium ${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} transition-all hover:scale-105 mt-auto min-h-[44px] flex items-center justify-center`}
                   >
                     {t("comic.know_more") || "Know More"}
@@ -171,7 +171,7 @@ const ExploreComics = () => {
         {/* CTA */}
         <div className="text-center">
           <Link
-            href="/comicslist"
+            href="/comics"
             className={`${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"} ${theme.buttonColors?.primaryButton?.textColor || "text-white"} ${theme.border?.button || ""} ${theme.shadow?.button || "shadow-md"} px-6 sm:px-8 py-3 text-base sm:text-lg font-medium inline-flex items-center hover:scale-105 transition-all min-h-[44px] rounded-lg`}
           >
             {t("comics.browse_all_comics") || "Browse All Comics"}

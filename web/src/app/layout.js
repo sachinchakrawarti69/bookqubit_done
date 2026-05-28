@@ -27,8 +27,8 @@ export const metadata = {
   description: "Discover books you'll love with BookQubit. Read previews, explore detailed summaries, and find your next great read with confidence.",
 
   keywords: [
-    "books", "book summaries", "book previews", "book discovery", 
-    "reading app", "BookQubit", "ebooks", "novels", "online books", 
+    "books", "book summaries", "book previews", "book discovery",
+    "reading app", "BookQubit", "ebooks", "novels", "online books",
     "book reviews", "book recommendations",
   ],
 
@@ -147,14 +147,6 @@ export const metadata = {
   section: "Book Discovery Platform",
   classification: "Book Discovery & Reading Platform",
   referrer: "strict-origin-when-cross-origin",
-  colorScheme: "light dark",
-
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 5,
-    userScalable: true,
-  },
 
   formatDetection: {
     email: true,
@@ -175,18 +167,25 @@ export const metadata = {
   },
 };
 
+// Separate viewport export (required for Next.js 15+)
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#1a1a1a" },
+  ],
+  colorScheme: "light dark",
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
         {/* Charset */}
         <meta charSet="utf-8" />
-
-        {/* Viewport */}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover"
-        />
 
         {/* Canonical */}
         <link rel="canonical" href="https://bookqubit.com" />
@@ -216,14 +215,6 @@ export default function RootLayout({ children }) {
         <meta
           name="facebook-domain-verification"
           content="your-facebook-verification-code"
-        />
-
-        {/* Theme Colors */}
-        <meta name="theme-color" content="#ffffff" />
-        <meta
-          name="theme-color"
-          content="#1a1a1a"
-          media="(prefers-color-scheme: dark)"
         />
 
         {/* Browser Config */}

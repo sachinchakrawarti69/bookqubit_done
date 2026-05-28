@@ -107,7 +107,7 @@ const getNavigationConfig = (t) => ({
     {
       name: t("nav.comics"),
       icon: <FaBook />,
-      path: "/comicslist",
+      path: "/comics",
       translationKey: "nav.comics",
       dropdown: [
         {

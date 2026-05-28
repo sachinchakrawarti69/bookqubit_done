@@ -5,6 +5,7 @@ import ComicsImageData from './ComicsImageData';
 export const ComicsData = [
   {
     id: 1,
+    slug: "marvel-comics-1",
     title: "Marvel Comics #1",
     publisher: "Timely Publications (Now Marvel Comics)",
     publicationDate: "October 1939",
@@ -40,6 +41,7 @@ export const ComicsData = [
   },
   {
     id: 2,
+    slug: "amazing-fantasy-15",
     title: "Amazing Fantasy #15",
     publisher: "Marvel Comics",
     publicationDate: "August 1962",
@@ -70,6 +72,7 @@ export const ComicsData = [
   },
   {
     id: 3,
+    slug: "incredible-hulk-1",
     title: "The Incredible Hulk #1",
     publisher: "Marvel Comics",
     publicationDate: "May 1962",
@@ -100,6 +103,7 @@ export const ComicsData = [
   },
   {
     id: 4,
+    slug: "avengers-1",
     title: "The Avengers #1",
     publisher: "Marvel Comics",
     publicationDate: "September 1963",
@@ -129,6 +133,7 @@ export const ComicsData = [
   },
   {
     id: 5,
+    slug: "x-men-1",
     title: "The X-Men #1",
     publisher: "Marvel Comics",
     publicationDate: "September 1963",
@@ -163,6 +168,7 @@ export const ComicsData = [
   },
   {
     id: 6,
+    slug: "fantastic-four-1",
     title: "Fantastic Four #1",
     publisher: "Marvel Comics",
     publicationDate: "November 1961",
@@ -195,6 +201,7 @@ export const ComicsData = [
   },
   {
     id: 7,
+    slug: "iron-man-1",
     title: "Iron Man #1",
     publisher: "Marvel Comics",
     publicationDate: "May 1968",
@@ -225,6 +232,7 @@ export const ComicsData = [
   },
   {
     id: 8,
+    slug: "captain-america-comics-1",
     title: "Captain America Comics #1",
     publisher: "Timely Comics",
     publicationDate: "March 1941",
@@ -252,10 +260,9 @@ export const ComicsData = [
     category: "Golden Age",
     rating: 9.7
   },
-
-
   {
     id: 9,
+    slug: "nagraj-aur-miss-killer",
     title: "Nagraj Aur Miss Killer",
     publisher: "Raj Comics",
     publicationDate: "1989",
@@ -274,9 +281,9 @@ export const ComicsData = [
     category: "Indian Superhero Comics",
     rating: 9.2
   },
-
   {
     id: 10,
+    slug: "super-commando-dhruva-pratishodh-ki-jwala",
     title: "Super Commando Dhruva: Pratishodh Ki Jwala",
     publisher: "Raj Comics",
     publicationDate: "1990",
@@ -295,9 +302,9 @@ export const ComicsData = [
     category: "Indian Superhero Comics",
     rating: 9.5
   },
-
   {
     id: 11,
+    slug: "doga-khooni-paheli",
     title: "Doga: Khooni Paheli",
     publisher: "Raj Comics",
     publicationDate: "1993",
@@ -316,9 +323,9 @@ export const ComicsData = [
     category: "Indian Superhero Comics",
     rating: 9.4
   },
-
   {
     id: 12,
+    slug: "bhokal-tilism-ka-rakhwala",
     title: "Bhokal: Tilism Ka Rakhwala",
     publisher: "Raj Comics",
     publicationDate: "1987",
@@ -337,9 +344,9 @@ export const ComicsData = [
     category: "Fantasy Superhero Comics",
     rating: 9.6
   },
-
   {
     id: 13,
+    slug: "parmanu-atomic-hero",
     title: "Parmanu: Atomic Hero",
     publisher: "Raj Comics",
     publicationDate: "1991",
@@ -358,10 +365,9 @@ export const ComicsData = [
     category: "Science Fiction Comics",
     rating: 9.3
   },
-
-
   {
     id: 14,
+    slug: "emperor-samar-chakrawarti",
     title: "Emperor Samar Chakrawarti",
     publisher: "Apex Comics",
     publicationDate: "2026",
@@ -380,6 +386,4 @@ export const ComicsData = [
     category: "Science Fiction Comics",
     rating: 9.3
   },
-
-
 ];

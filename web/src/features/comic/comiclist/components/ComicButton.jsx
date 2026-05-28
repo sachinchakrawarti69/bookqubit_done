@@ -220,9 +220,9 @@ const ComicButton = ({
 
 // Predefined comic-specific buttons for easy use
 export const ComicActionButtons = {
-  ViewDetails: ({ comicId, size = "md", className = "" }) => (
+  ViewDetails: ({ comicSlug, size = "md", className = "" }) => (
     <ComicButton
-      to={`/comicdeatils/${comicId}`}
+      to={`/comics/${comicSlug}`}
       variant="primary"
       size={size}
       icon="preview"
@@ -232,9 +232,9 @@ export const ComicActionButtons = {
     </ComicButton>
   ),
 
-  ReadDigital: ({ comicId, size = "md", className = "" }) => (
+  ReadDigital: ({ comicSlug, size = "md", className = "" }) => (
     <ComicButton
-      to={`/read/comic/${comicId}`}
+      to={`/read/comic/${comicSlug}`}
       variant="digital"
       size={size}
       icon="digital"
@@ -244,9 +244,9 @@ export const ComicActionButtons = {
     </ComicButton>
   ),
 
-  CollectorGuide: ({ comicId, size = "md", className = "" }) => (
+  CollectorGuide: ({ comicSlug, size = "md", className = "" }) => (
     <ComicButton
-      to={`/comics/${comicId}/collectors-guide`}
+      to={`/comics/${comicSlug}/collectors-guide`}
       variant="collector"
       size={size}
       icon="guide"
@@ -257,7 +257,7 @@ export const ComicActionButtons = {
   ),
 
   AddWishlist: ({
-    comicId,
+    comicSlug,
     isWishlisted,
     onToggle,
     size = "md",
@@ -274,9 +274,9 @@ export const ComicActionButtons = {
     </ComicButton>
   ),
 
-  QuickSummary: ({ comicId, size = "md", className = "" }) => (
+  QuickSummary: ({ comicSlug, size = "md", className = "" }) => (
     <ComicButton
-      to={`/comics/${comicId}/summary`}
+      to={`/comics/${comicSlug}/summary`}
       variant="secondary"
       size={size}
       icon="summary"
@@ -298,9 +298,9 @@ export const ComicActionButtons = {
     </ComicButton>
   ),
 
-  ShareComic: ({ comicId, size = "md", className = "" }) => (
+  ShareComic: ({ comicSlug, size = "md", className = "" }) => (
     <ComicButton
-      to={`/share/comic/${comicId}`}
+      to={`/share/comic/${comicSlug}`}
       variant="outline"
       size={size}
       icon="share"

@@ -30,6 +30,7 @@ export const explorepageTranslationsEnglish = {
   "explorepage.authors.all_authors": "All Authors",
   "explorepage.authors.top_authors": "Top Authors",
   
+  
   // Arrow indicator
   "explorepage.arrow": "→"
 };

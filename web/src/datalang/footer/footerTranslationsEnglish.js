@@ -32,5 +32,5 @@ export const footerTranslationsEnglish = {
   "footer.legal.copyright_policy": "Copyright Policy",
   "footer.legal.gdpr": "GDPR Compliance",
   "footer.legal.accessibility": "Accessibility",
-  "explorepage.authors.social_media": "BookQubit Snap",
+  "explorepage.authors.social_media": "Drift (By BookQubit)",
 };

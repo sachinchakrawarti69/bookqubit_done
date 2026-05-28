@@ -23,7 +23,7 @@ const getNavigationConfig = (t) => ({
       icon: FaGraduationCap,
       path: "/academicbooks",
     },
-    { name: t("nav.comics"), icon: FaBook, path: "/comicslist" },
+    { name: t("nav.comics"), icon: FaBook, path: "/comics" },
     { name: t("nav.genre_category"), icon: FaBoxes, path: "/category" },
     { name: t("nav.collections"), icon: FaBoxes, path: "/collections" },
     { name: t("nav.authors"), icon: FaUser, path: "/authors" },
