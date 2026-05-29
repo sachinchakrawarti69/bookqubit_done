@@ -10,7 +10,7 @@ import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control from "./components/Control";
 import LangSwitchDropdown from "./components/LangSwitchDropdown";
-import BookQubitSnapDropdown from "./components/BookQubitSnapDropdown"; // Add this import
+import BookQubitSnapDropdown from "./components/BookQubitSnapDropdown";
 
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -20,7 +20,6 @@ import { useFont } from "@/contexts/FontContext";
 import { getBooksByLanguage } from "@/data/books";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-// Import logo image
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
 import "./Navbar_Desktop_First_Row.css";
 
@@ -35,9 +34,11 @@ const Navbar_Desktop_First_Row = () => {
   const { currentFont } = useFont();
   const { language } = useLanguage();
 
-  // Add ref to prevent duplicate listeners
   const authListenerInitialized = useRef(false);
   const searchInitialized = useRef(false);
+
+  // Following the same pattern as ExploreCollections
+  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
 
   // Load recent searches from localStorage
   useEffect(() => {
@@ -47,7 +48,6 @@ const Navbar_Desktop_First_Row = () => {
     };
     loadRecentSearches();
     
-    // Listen for storage changes
     window.addEventListener("storage", loadRecentSearches);
     return () => window.removeEventListener("storage", loadRecentSearches);
   }, []);
@@ -80,7 +80,7 @@ const Navbar_Desktop_First_Row = () => {
     }
   }, [currentFont]);
 
-  // Listen for Firebase Auth state - ONLY ONCE
+  // Listen for Firebase Auth state
   useEffect(() => {
     if (authListenerInitialized.current) return;
     authListenerInitialized.current = true;
@@ -96,78 +96,80 @@ const Navbar_Desktop_First_Row = () => {
     };
   }, []);
 
-  // Handle search - Pressing Enter or clicking search button
   const handleSearch = useCallback((query, selectedBook = null) => {
-    // Case 1: User clicked on a book suggestion
     if (selectedBook) {
-      console.log("Navigating to book:", selectedBook.title);
       router.push(`/book/${selectedBook.slug || selectedBook.id}`);
     } 
-    // Case 2: User pressed Enter or clicked search with text
     else if (query && query.trim()) {
-      console.log("Searching for:", query);
-      // Navigate to search results page
       router.push(`/search?q=${encodeURIComponent(query.trim())}`);
     }
   }, [router]);
 
-  // Handle clear recent searches
   const handleClearRecent = useCallback((updatedRecent = []) => {
     setRecentSearches(updatedRecent);
   }, []);
 
-  // Dark mode toggle
   const toggleDarkMode = useCallback(() => {
-    if (themeName === "dark") {
+    if (themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk") {
       changeTheme("light");
     } else {
       changeTheme("dark");
     }
   }, [themeName, changeTheme]);
 
-  // Check if current theme is dark mode
-  const isDarkMode =
-    themeName === "dark" ||
-    themeName === "midnight" ||
-    themeName === "cyberpunk";
+  // Get navbar background - using theme object like ExploreCollections
+  const getNavbarBackground = () => {
+    if (theme.background?.section) return theme.background.section;
+    return isDarkMode ? 'bg-gray-900' : 'bg-white';
+  };
 
-  // Get theme-based classes
-  const getButtonClasses = useCallback(() => {
-    return `navbar-desktop-darkmode-button ${isDarkMode ? "darkmode-active" : ""} ${theme.background?.navigationDots || ""} ${theme.border?.button || ""}`;
-  }, [isDarkMode, theme.background?.navigationDots, theme.border?.button]);
+  const getBorderColor = () => {
+    if (theme.border?.default) return theme.border.default;
+    return isDarkMode ? 'border-gray-700' : 'border-gray-200';
+  };
 
-  const getTextHighlightClass = useCallback(
-    () =>
-      theme.textColors?.highlight ||
-      (isDarkMode ? "text-blue-400" : "text-sky-600"),
-    [isDarkMode, theme.textColors?.highlight],
-  );
+  const getTextHighlight = () => {
+    if (theme.textColors?.highlight) return theme.textColors.highlight;
+    return isDarkMode ? 'text-sky-400' : 'text-sky-600';
+  };
 
-  const getTextSecondaryClass = useCallback(
-    () =>
-      theme.textColors?.secondary ||
-      (isDarkMode ? "text-gray-400" : "text-gray-500"),
-    [isDarkMode, theme.textColors?.secondary],
-  );
+  const getTextSecondary = () => {
+    if (theme.textColors?.secondary) return theme.textColors.secondary;
+    return isDarkMode ? 'text-gray-400' : 'text-gray-500';
+  };
 
-  // Show loading state
+  const getButtonBackground = () => {
+    if (theme.background?.navigationDots) return theme.background.navigationDots;
+    return isDarkMode ? 'bg-gray-800' : 'bg-gray-100';
+  };
+
+  const getPrimaryButtonBg = () => {
+    return theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500";
+  };
+
+  const getPrimaryButtonHoverBg = () => {
+    return theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600";
+  };
+
+  const getPrimaryButtonTextColor = () => {
+    return theme.buttonColors?.primaryButton?.textColor || "text-white";
+  };
+
+  // Skeleton / Loading State
   if (loading) {
     return (
       <div
-        className={`navbar-desktop-first-row ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")}`}
+        className={`navbar-desktop-first-row ${getNavbarBackground()}`}
         dir={isRTL ? "rtl" : "ltr"}
-        style={{ fontFamily: currentFont?.family || "inherit" }}
+        style={{ 
+          fontFamily: currentFont?.family || "inherit",
+          borderRadius: 0 // Remove rounded corners
+        }}
       >
         <div className="navbar-desktop-top-row">
           <Link href="/" className="navbar-desktop-logo">
-            <img
-              src={bookqubitLogo.src}
-              alt="BookQubit"
-              className="navbar-desktop-logo-img"
-            />
-            <span
-              className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}
-            >
+            <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-desktop-logo-img" />
+            <span className={`navbar-desktop-logo-text ${getTextHighlight()}`}>
               BookQubit
             </span>
           </Link>
@@ -184,21 +186,18 @@ const Navbar_Desktop_First_Row = () => {
 
   return (
     <div
-      className={`navbar-desktop-first-row ${theme.background?.section || (isDarkMode ? "bg-gray-900" : "bg-white")} ${theme.ringEffect || ""}`}
+      className={`navbar-desktop-first-row ${getNavbarBackground()} ${theme.ringEffect || ""} ${getBorderColor()} border-b`}
       dir={isRTL ? "rtl" : "ltr"}
-      style={{ fontFamily: currentFont?.family || "inherit" }}
+      style={{ 
+        fontFamily: currentFont?.family || "inherit",
+        borderRadius: 0 // Remove rounded corners from both sides
+      }}
     >
       <div className="navbar-desktop-top-row">
         {/* LOGO */}
         <Link href="/" className="navbar-desktop-logo">
-          <img
-            src={bookqubitLogo.src}
-            alt="BookQubit"
-            className="navbar-desktop-logo-img"
-          />
-          <span
-            className={`navbar-desktop-logo-text ${getTextHighlightClass()}`}
-          >
+          <img src={bookqubitLogo.src} alt="BookQubit" className="navbar-desktop-logo-img" />
+          <span className={`navbar-desktop-logo-text ${getTextHighlight()}`}>
             BookQubit
           </span>
         </Link>
@@ -216,7 +215,7 @@ const Navbar_Desktop_First_Row = () => {
           />
         </div>
 
-        {/* BOOKQUBITSNAP DROPDOWN - ADDED AFTER SEARCH BAR */}
+        {/* BOOKQUBITSNAP DROPDOWN */}
         <div className="navbar-desktop-snap-dropdown">
           <BookQubitSnapDropdown />
         </div>
@@ -226,14 +225,21 @@ const Navbar_Desktop_First_Row = () => {
           {/* DARK MODE TOGGLE */}
           <button
             onClick={toggleDarkMode}
-            className={getButtonClasses()}
+            className={`navbar-desktop-darkmode-button ${getButtonBackground()}`}
             aria-label="Toggle dark mode"
             title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            style={{
+              border: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
+              borderRadius: '8px',
+              padding: '8px',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
           >
             {isDarkMode ? (
-              <FaSun className={getTextHighlightClass()} size={18} />
+              <FaSun className={getTextHighlight()} size={18} />
             ) : (
-              <FaMoon className={getTextSecondaryClass()} size={18} />
+              <FaMoon className={getTextSecondary()} size={18} />
             )}
           </button>
 
@@ -246,19 +252,26 @@ const Navbar_Desktop_First_Row = () => {
           {/* AI TOOL BUTTON */}
           <Link
             href="/bookqubitai"
-            className={`navbar-desktop-ai-button ${theme.border?.default || ""}`}
+            className={`navbar-desktop-ai-button ${getBorderColor()} ${getButtonBackground()}`}
             aria-label="AI Assistant"
             title="AI Book Assistant"
+            style={{
+              borderRadius: '8px',
+              padding: '8px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              textDecoration: 'none',
+              transition: 'all 0.2s'
+            }}
           >
-            <FaRobot className={getTextHighlightClass()} size={18} />
-            <span
-              className={`navbar-desktop-ai-text ${getTextHighlightClass()}`}
-            >
+            <FaRobot className={getTextHighlight()} size={18} />
+            <span className={`navbar-desktop-ai-text ${getTextHighlight()}`}>
               AI
             </span>
           </Link>
 
-          {/* NOTIFICATION (ONLY IF LOGGED IN) */}
+          {/* NOTIFICATION */}
           {user && (
             <div className="navbar-desktop-notification">
               <Notification_Dropdown user={user} />
@@ -270,10 +283,15 @@ const Navbar_Desktop_First_Row = () => {
             <Link
               key="login-button"
               href="/auth/login"
-              className={`navbar-desktop-signup-button ${
-                theme.buttonColors?.primaryButton?.background ||
-                "bg-gradient-to-r from-sky-600 to-sky-500"
-              } ${theme.buttonColors?.primaryButton?.hoverBackground || "hover:from-sky-700 hover:to-sky-600"}`}
+              className={`navbar-desktop-signup-button ${getPrimaryButtonBg()} ${getPrimaryButtonHoverBg()} ${getPrimaryButtonTextColor()}`}
+              style={{
+                borderRadius: '8px',
+                padding: '8px 16px',
+                textDecoration: 'none',
+                transition: 'all 0.2s',
+                display: 'inline-flex',
+                alignItems: 'center'
+              }}
             >
               {isRTL ? "داخل ہوں" : "Login"}
             </Link>

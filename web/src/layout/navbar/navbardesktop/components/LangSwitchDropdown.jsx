@@ -20,12 +20,78 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     setLanguage,
     t,
   } = useLanguage();
-  const { theme } = useTheme();
+  const { theme, themeName } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [dropdownPosition, setDropdownPosition] = useState({});
   const buttonRef = useRef(null);
   const dropdownRef = useRef(null);
+
+  // Dynamic theme detection
+  const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
+
+  // Dynamic theme-based styles
+  const getThemeStyles = () => {
+    // Cyberpunk theme
+    if (themeName === 'cyberpunk') {
+      return {
+        background: '#0d0f1a',
+        cardBackground: '#1a1d2e',
+        highlightBackground: '#2d3050',
+        textPrimary: '#00ff9d',
+        textSecondary: '#ff00ff',
+        textHighlight: '#00ff9d',
+        borderColor: '#00ff9d',
+        gradientBackground: 'linear-gradient(135deg, #00ff9d, #ff00ff)',
+        shadow: '0 0 20px rgba(0, 255, 157, 0.2)',
+      };
+    }
+    
+    // Midnight theme
+    if (themeName === 'midnight') {
+      return {
+        background: '#0f172a',
+        cardBackground: '#1e293b',
+        highlightBackground: '#334155',
+        textPrimary: '#f1f5f9',
+        textSecondary: '#94a3b8',
+        textHighlight: '#38bdf8',
+        borderColor: '#334155',
+        gradientBackground: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+        shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
+      };
+    }
+    
+    // Dark theme
+    if (themeName === 'dark') {
+      return {
+        background: '#1f2937',
+        cardBackground: '#374151',
+        highlightBackground: '#4b5563',
+        textPrimary: '#f9fafb',
+        textSecondary: '#9ca3af',
+        textHighlight: '#60a5fa',
+        borderColor: '#374151',
+        gradientBackground: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+        shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.3)',
+      };
+    }
+    
+    // Light theme (default)
+    return {
+      background: '#ffffff',
+      cardBackground: '#f9fafb',
+      highlightBackground: '#f3f4f6',
+      textPrimary: '#111827',
+      textSecondary: '#6b7280',
+      textHighlight: '#3b82f6',
+      borderColor: '#e5e7eb',
+      gradientBackground: 'linear-gradient(135deg, #0ea5e9, #0284c7)',
+      shadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+    };
+  };
+
+  const themeStyles = getThemeStyles();
 
   // Check if current language is RTL
   const isRTL = useMemo(() => {
@@ -33,18 +99,16 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     return rtlLanguages.includes(language);
   }, [language]);
 
-  // Sort languages: English first, then alphabetical by name
+  // Sort languages
   const languages = useMemo(() => {
     return [...originalLanguages].sort((a, b) => {
-      // English always first
       if (a.code === "en") return -1;
       if (b.code === "en") return 1;
-      // Sort alphabetically by name
       return a.name.localeCompare(b.name);
     });
   }, [originalLanguages]);
 
-  // Filter languages based on search term
+  // Filter languages
   const filteredLanguages = useMemo(() => {
     if (!searchTerm.trim()) return languages;
     
@@ -56,50 +120,38 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     );
   }, [languages, searchTerm]);
 
-  // Calculate dropdown position to prevent going off-screen
+  // Calculate dropdown position
   const calculatePosition = () => {
     if (!buttonRef.current || typeof window === "undefined") return {};
     
     const buttonRect = buttonRef.current.getBoundingClientRect();
     const viewportWidth = window.innerWidth;
     const dropdownWidth = 520;
-    const margin = 10; // Small margin from edges
+    const margin = 10;
     
     let position = {};
     
     if (isRTL) {
-      // For RTL languages, align to the LEFT edge of the button and check left side
-      const dropdownLeft = buttonRect.left;
-      
-      // Check if dropdown would go off the LEFT edge
-      if (dropdownLeft - dropdownWidth < 0) {
-        // If goes off left edge, align to left edge of viewport with margin
+      if (buttonRect.left - dropdownWidth < 0) {
         position.left = `${margin}px`;
         position.right = 'auto';
       } else {
-        // Normal RTL positioning - align to left of button
         position.left = '0';
         position.right = 'auto';
       }
       
-      // Also check if it goes off the RIGHT edge (for very wide screens)
       if (buttonRect.left + dropdownWidth > viewportWidth) {
         position.right = `${margin}px`;
         position.left = 'auto';
       }
     } else {
-      // For LTR languages, align to the LEFT edge of button
-      // Check if dropdown would go off the RIGHT edge
       if (buttonRect.left + dropdownWidth > viewportWidth) {
-        // If goes off right edge, align to right edge of viewport
         position.right = `${margin}px`;
         position.left = 'auto';
       } else if (buttonRect.left < 0) {
-        // If goes off left edge, align to left edge
         position.left = `${margin}px`;
         position.right = 'auto';
       } else {
-        // Normal LTR positioning
         position.left = '0';
         position.right = 'auto';
       }
@@ -108,7 +160,7 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     return position;
   };
 
-  // Update position when dropdown opens or window resizes
+  // Update position when dropdown opens
   useEffect(() => {
     if (isOpen) {
       const updatePosition = () => {
@@ -147,89 +199,161 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     return currentLang?.nativeName || "English";
   };
 
+  // Dropdown menu styles
+  const dropdownMenuStyles = {
+    position: 'absolute',
+    top: '100%',
+    marginTop: '8px',
+    minWidth: '520px',
+    zIndex: 1000,
+    backgroundColor: themeStyles.background,
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: themeStyles.borderColor,
+    boxShadow: themeStyles.shadow,
+    borderRadius: '0px',
+    ...dropdownPosition
+  };
+
+  // Language item styles
+  const getLangItemStyles = (isActive) => ({
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '12px',
+    borderWidth: '1px',
+    borderStyle: 'solid',
+    borderColor: themeStyles.borderColor,
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+    width: '100%',
+    borderRadius: '0px',
+    backgroundColor: isActive ? undefined : themeStyles.cardBackground,
+    color: isActive ? '#ffffff' : themeStyles.textPrimary,
+    background: isActive ? themeStyles.gradientBackground : undefined,
+  });
+
+  // Button styles
+  const buttonStyles = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '8px',
+    cursor: 'pointer',
+    padding: '8px 12px',
+    color: themeStyles.textPrimary,
+    borderRadius: '0px',
+    backgroundColor: 'transparent',
+    transition: 'all 0.2s ease',
+  };
+
   // Mobile version
   if (mobile) {
     return (
-      <div className="navbar-mobile-dropdown">
+      <div style={{ width: '100%' }}>
         <div
           onClick={toggleDropdown}
-          className={`navbar-mobile-dropdown-button ${theme.textColors.primary}`}
+          style={buttonStyles}
           dir={isRTL ? "rtl" : "ltr"}
         >
-          <span
-            className={`navbar-mobile-dropdown-icon ${theme.textColors.highlight}`}
-          >
+          <span style={{ color: themeStyles.textHighlight }}>
             <FaLanguage />
           </span>
-          <span className="navbar-mobile-dropdown-text">
-            {t("nav.language")}
-          </span>
-          <span
-            className={`navbar-mobile-dropdown-chevron ${theme.textColors.secondary}`}
-          >
+          <span>{t("nav.language")}</span>
+          <span style={{ color: themeStyles.textSecondary }}>
             {isLanguageMenuOpen ? <FaChevronUp /> : <FaChevronDown />}
           </span>
         </div>
 
         {isLanguageMenuOpen && (
           <div
-            className={`navbar-mobile-dropdown-content ${theme.background.section}`}
             style={{
-              maxHeight: "80vh",
-              overflowY: "auto",
+              maxHeight: '80vh',
+              overflowY: 'auto',
+              backgroundColor: themeStyles.background,
+              border: `1px solid ${themeStyles.borderColor}`,
+              borderRadius: '0px',
+              marginTop: '8px',
             }}
             dir={isRTL ? "rtl" : "ltr"}
           >
-            {/* Search Bar for Mobile */}
-            <div className="p-3 border-b" style={{ borderColor: theme.border?.default || "#e5e7eb" }}>
-              <div className="relative">
-                <FaSearch className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-gray-400`} size={14} />
+            {/* Search Bar */}
+            <div style={{ padding: '12px', borderBottom: `1px solid ${themeStyles.borderColor}` }}>
+              <div style={{ position: 'relative' }}>
+                <FaSearch 
+                  style={{
+                    position: 'absolute',
+                    ...(isRTL ? { right: '12px' } : { left: '12px' }),
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    color: themeStyles.textSecondary,
+                    fontSize: '14px',
+                  }}
+                />
                 <input
                   type="text"
                   placeholder={t("nav.searchLanguages") || "Search languages..."}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`w-full ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'} py-2 rounded-lg border ${theme.background.card} ${theme.textColors.primary} ${theme.border.default} focus:outline-none focus:ring-2 focus:ring-sky-500`}
+                  style={{
+                    width: '100%',
+                    paddingTop: '8px',
+                    paddingBottom: '8px',
+                    ...(isRTL ? { paddingRight: '36px', paddingLeft: '12px' } : { paddingLeft: '36px', paddingRight: '12px' }),
+                    backgroundColor: themeStyles.cardBackground,
+                    color: themeStyles.textPrimary,
+                    border: `1px solid ${themeStyles.borderColor}`,
+                    outline: 'none',
+                    borderRadius: '0px',
+                  }}
                   dir={isRTL ? "rtl" : "ltr"}
                 />
               </div>
             </div>
-            <div className={`grid grid-cols-2 gap-2 p-3 ${isRTL ? 'text-right' : 'text-left'}`}>
+            
+            {/* Languages Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', padding: '12px' }}>
               {filteredLanguages.length > 0 ? (
-                filteredLanguages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      handleLanguageChange(lang.code);
-                    }}
-                    className={`flex items-center gap-2 p-3 rounded-lg border transition-all duration-200 hover:scale-105 ${
-                      language === lang.code
-                        ? `${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} text-white border-transparent`
-                        : `${theme.background?.card || "bg-white"} ${theme.textColors?.primary || "text-gray-900"} ${theme.border?.default || "border-gray-200"} hover:${theme.background?.highlight || "bg-gray-50"}`
-                    } ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
-                    style={{
-                      width: "100%",
-                      textAlign: isRTL ? "right" : "left",
-                    }}
-                    dir={lang.code === 'ur' ? 'rtl' : 'ltr'}
-                  >
-                    <span className="text-xl order-1">{lang.flagEmoji || lang.flag}</span>
-                    <div className="flex-1">
-                      <div 
-                        className={`text-sm font-medium ${lang.code === 'ur' ? 'font-urdu' : ''}`}
-                        style={{ fontFamily: lang.code === "ur" ? "'Noto Nastaliq Urdu', serif" : "inherit" }}
-                      >
-                        {lang.nativeName}
+                filteredLanguages.map((lang) => {
+                  const isActive = language === lang.code;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      style={getLangItemStyles(isActive)}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = themeStyles.highlightBackground;
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = themeStyles.cardBackground;
+                        }
+                      }}
+                      dir={lang.code === 'ur' ? 'rtl' : 'ltr'}
+                    >
+                      <span style={{ fontSize: '20px', flexShrink: 0 }}>{lang.flagEmoji || lang.flag}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          fontWeight: 500,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          ...(lang.code === 'ur' && { fontFamily: "'Noto Nastaliq Urdu', serif" })
+                        }}>
+                          {lang.nativeName}
+                        </div>
+                        <div style={{ fontSize: '11px', opacity: 0.7, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {lang.name}
+                        </div>
                       </div>
-                      <div className="text-xs opacity-70">{lang.name}</div>
-                    </div>
-                    {language === lang.code && (
-                      <FaCheck size={14} className={`text-white flex-shrink-0 ${isRTL ? 'order-3' : ''}`} />
-                    )}
-                  </button>
-                ))
+                      {isActive && <FaCheck style={{ fontSize: '12px', flexShrink: 0 }} />}
+                    </button>
+                  );
+                })
               ) : (
-                <div className="col-span-2 text-center py-8 text-gray-500">
+                <div style={{ gridColumn: 'span 2', textAlign: 'center', padding: '32px', color: themeStyles.textSecondary }}>
                   {t("nav.noLanguagesFound") || "No languages found"}
                 </div>
               )}
@@ -240,27 +364,23 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
     );
   }
 
-  // Desktop version - Grid layout with boxes
+  // Desktop version
   return (
     <div
-      className="navbar-desktop-dropdown-container relative inline-block"
+      style={{ position: 'relative', display: 'inline-block' }}
       onMouseEnter={() => setIsOpen(true)}
       onMouseLeave={() => setIsOpen(false)}
     >
       <div
         ref={buttonRef}
-        className={`navbar-desktop-dropdown-button ${theme.textColors.primary} flex items-center gap-2 cursor-pointer`}
+        style={buttonStyles}
         dir={isRTL ? "rtl" : "ltr"}
       >
-        <span
-          className={`navbar-desktop-dropdown-icon ${theme.textColors.highlight}`}
-        >
+        <span style={{ color: themeStyles.textHighlight }}>
           <FaLanguage />
         </span>
         <span>{getCurrentLanguageName()}</span>
-        <span
-          className={`navbar-desktop-dropdown-chevron ${theme.textColors.secondary}`}
-        >
+        <span style={{ color: themeStyles.textSecondary }}>
           {isOpen ? <FaChevronUp /> : <FaChevronDown />}
         </span>
       </div>
@@ -268,71 +388,88 @@ const LangSwitchDropdown = ({ mobile = false, onItemClick }) => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className={`navbar-desktop-dropdown-menu ${theme.background.section} ${theme.border.default} ${theme.shadow.container}`}
-          style={{ 
-            minWidth: "520px", 
-            padding: "0",
-            position: "absolute",
-            top: "100%",
-            marginTop: "8px",
-            zIndex: 1000,
-            ...dropdownPosition
-          }}
+          style={dropdownMenuStyles}
           dir={isRTL ? "rtl" : "ltr"}
         >
           {/* Search Bar */}
-          <div className="p-3 border-b" style={{ borderColor: theme.border?.default || "#e5e7eb" }}>
-            <div className="relative">
-              <FaSearch className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-gray-400`} size={14} />
+          <div style={{ padding: '12px', borderBottom: `1px solid ${themeStyles.borderColor}` }}>
+            <div style={{ position: 'relative' }}>
+              <FaSearch 
+                style={{
+                  position: 'absolute',
+                  ...(isRTL ? { right: '12px' } : { left: '12px' }),
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  color: themeStyles.textSecondary,
+                  fontSize: '14px',
+                }}
+              />
               <input
                 type="text"
                 placeholder={t("nav.searchLanguages") || "Search languages..."}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full ${isRTL ? 'pr-9 pl-3' : 'pl-9 pr-3'} py-2 rounded-lg border ${theme.background.card} ${theme.textColors.primary} ${theme.border.default} focus:outline-none focus:ring-2 focus:ring-sky-500`}
+                style={{
+                  width: '100%',
+                  paddingTop: '8px',
+                  paddingBottom: '8px',
+                  ...(isRTL ? { paddingRight: '36px', paddingLeft: '12px' } : { paddingLeft: '36px', paddingRight: '12px' }),
+                  backgroundColor: themeStyles.cardBackground,
+                  color: themeStyles.textPrimary,
+                  border: `1px solid ${themeStyles.borderColor}`,
+                  outline: 'none',
+                  borderRadius: '0px',
+                }}
                 dir={isRTL ? "rtl" : "ltr"}
               />
             </div>
           </div>
           
-          <div style={{ padding: "12px", maxHeight: "400px", overflowY: "auto" }}>
-            <div className={`grid grid-cols-4 gap-2 ${isRTL ? 'text-right' : 'text-left'}`}>
+          {/* Languages Grid */}
+          <div style={{ padding: '12px', maxHeight: '400px', overflowY: 'auto' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
               {filteredLanguages.length > 0 ? (
-                filteredLanguages.map((lang) => (
-                  <button
-                    key={lang.code}
-                    onClick={() => {
-                      handleLanguageChange(lang.code);
-                    }}
-                    className={`flex items-center gap-2 p-3 rounded-lg border transition-all duration-200 hover:scale-105 ${
-                      language === lang.code
-                        ? `${theme.buttonColors?.primaryButton?.background || "bg-gradient-to-r from-sky-600 to-sky-500"} text-white border-transparent shadow-md`
-                        : `${theme.background?.card || "bg-white"} ${theme.textColors?.primary || "text-gray-900"} ${theme.border?.default || "border-gray-200"} hover:${theme.background?.highlight || "bg-gray-50"} hover:shadow-sm`
-                    } ${isRTL ? 'flex-row-reverse' : 'flex-row'}`}
-                    style={{
-                      width: "100%",
-                      textAlign: isRTL ? "right" : "left",
-                      cursor: "pointer",
-                    }}
-                    dir={lang.code === 'ur' ? 'rtl' : 'ltr'}
-                  >
-                    <span className="text-xl order-1">{lang.flagEmoji || lang.flag}</span>
-                    <div className="flex-1 min-w-0">
-                      <div 
-                        className={`text-sm font-medium truncate ${lang.code === 'ur' ? 'font-urdu' : ''}`}
-                        style={{ fontFamily: lang.code === "ur" ? "'Noto Nastaliq Urdu', serif" : "inherit" }}
-                      >
-                        {lang.nativeName}
+                filteredLanguages.map((lang) => {
+                  const isActive = language === lang.code;
+                  return (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      style={getLangItemStyles(isActive)}
+                      onMouseEnter={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = themeStyles.highlightBackground;
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        if (!isActive) {
+                          e.currentTarget.style.backgroundColor = themeStyles.cardBackground;
+                        }
+                      }}
+                      dir={lang.code === 'ur' ? 'rtl' : 'ltr'}
+                    >
+                      <span style={{ fontSize: '20px', flexShrink: 0 }}>{lang.flagEmoji || lang.flag}</span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ 
+                          fontSize: '13px', 
+                          fontWeight: 500,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          ...(lang.code === 'ur' && { fontFamily: "'Noto Nastaliq Urdu', serif" })
+                        }}>
+                          {lang.nativeName}
+                        </div>
+                        <div style={{ fontSize: '11px', opacity: 0.7, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {lang.name}
+                        </div>
                       </div>
-                      <div className="text-xs opacity-70 truncate">{lang.name}</div>
-                    </div>
-                    {language === lang.code && (
-                      <FaCheck size={12} className={`flex-shrink-0 ${isRTL ? 'order-3' : ''}`} />
-                    )}
-                  </button>
-                ))
+                      {isActive && <FaCheck style={{ fontSize: '12px', flexShrink: 0 }} />}
+                    </button>
+                  );
+                })
               ) : (
-                <div className="col-span-4 text-center py-8 text-gray-500">
+                <div style={{ gridColumn: 'span 4', textAlign: 'center', padding: '32px', color: themeStyles.textSecondary }}>
                   {t("nav.noLanguagesFound") || "No languages found"}
                 </div>
               )}
