@@ -175,7 +175,7 @@ const CollectionsDetails = () => {
                   {/* View Details Button */}
                   <div className="mt-auto pt-3">
                     <Link
-                      href={`/bookdeatils/${book.slug || book.id}`}
+                      href={`/books/${book.slug || book.id}`}
                       className={`block w-full text-center py-2 px-4 text-xs sm:text-sm font-medium rounded-lg ${theme.buttonColors?.primaryButton?.background || 'bg-gradient-to-r from-sky-600 to-sky-500'} ${theme.buttonColors?.primaryButton?.hoverBackground || 'hover:from-sky-700 hover:to-sky-600'} text-white transition-all hover:scale-105 min-h-[44px] flex items-center justify-center`}
                     >
                       {t("book.view_details") || "View Details"}
