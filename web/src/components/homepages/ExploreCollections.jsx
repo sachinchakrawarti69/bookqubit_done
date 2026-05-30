@@ -216,7 +216,7 @@ const ExploreCollections = () => {
                     <div className="space-y-4 mb-4 flex-grow">
                       {collectionBooks.map((book) => (
                         <Link
-                          href={book.buttons?.knowMore || `/bookdeatils/${book.slug || book.id}`}
+                          href={book.buttons?.knowMore || `/books/${book.slug || book.id}`}
                           key={book.id}
                           className={`flex items-start group hover:${isDarkMode ? "bg-gray-700" : "bg-gray-50"} rounded-lg p-2 transition-colors`}
                         >

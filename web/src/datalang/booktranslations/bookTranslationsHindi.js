@@ -214,4 +214,14 @@ export const bookTranslationsHindi = {
 "collections.no_collections_found_title": "कोई संग्रह नहीं मिला",
 "collections.no_collections_found_message": "हमें इस समय कोई पुस्तक संग्रह नहीं मिला।",
 "collections.browse_all_books": "सभी पुस्तकें देखें",
+
+"collections.showing": "दिखाए जा रहे हैं",
+"collections.of": "में से", 
+"collections.collections": "कलेक्शन",
+"pagination.previous": "पीछे",
+"pagination.next": "आगे",
+"pagination.page": "पेज",
+"pagination.of": "का",
+"pagination.jump_to": "पेज पर जाएं:",
+"pagination.go": "जाओ",
 };

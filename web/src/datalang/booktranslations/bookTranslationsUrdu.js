@@ -215,4 +215,14 @@ export const bookTranslationsUrdu = {
 "collections.no_collections_found_title": "کوئی مجموعہ نہیں ملا",
 "collections.no_collections_found_message": "ہمیں اس وقت کوئی کتابی مجموعہ نہیں ملا۔",
 "collections.browse_all_books": "تمام کتابیں براؤز کریں",
+
+"collections.showing": "دکھائے جا رہے ہیں",
+"collections.of": "میں سے",
+"collections.collections": "کلکشنز",
+"pagination.previous": "پچھلا صفحہ",
+"pagination.next": "اگلا صفحہ", 
+"pagination.page": "صفحہ نمبر",
+"pagination.of": "کا",
+"pagination.jump_to": "صفحہ پر جائیں:",
+"pagination.go": "جائیں",
 };

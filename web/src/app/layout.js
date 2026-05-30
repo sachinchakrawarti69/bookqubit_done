@@ -135,11 +135,11 @@ export const metadata = {
     yandex: "3413ce67b7b5bd51",
     bing: "79A82530E831502EBB89097AE87D6AE9",
     pinterest: "16cbeead871ab4c02072d92867663687",
-    facebook: "facebook-domain-verification-code",
+    facebook: "fcawf09giaubqtu62k97gw1qo81uu0", // ✅ Fixed: Added actual Facebook verification code
     other: {
       "msvalidate.01": "79A82530E831502EBB89097AE87D6AE9",
       "p:domain_verify": "16cbeead871ab4c02072d92867663687",
-      "facebook-domain-verification": "your-facebook-verification-code",
+      "facebook-domain-verification": "fcawf09giaubqtu62k97gw1qo81uu0", // ✅ Fixed: Replaced placeholder with actual code
     },
   },
 
@@ -226,10 +226,10 @@ export default function RootLayout({ children }) {
         <meta name="p:domain_verify" content="16cbeead871ab4c02072d92867663687" />
         <meta name="pinterest" content="16cbeead871ab4c02072d92867663687" />
 
-        {/* Facebook Verification */}
+        {/* Facebook Verification - ✅ FIXED with actual code */}
         <meta
           name="facebook-domain-verification"
-          content="your-facebook-verification-code"
+          content="fcawf09giaubqtu62k97gw1qo81uu0"
         />
 
         {/* Browser Config */}

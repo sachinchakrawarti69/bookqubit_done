@@ -216,4 +216,16 @@ export const bookTranslationsEnglish = {
 "collections.no_collections_found_title": "No Collections Found",
 "collections.no_collections_found_message": "We couldn't find any book collections at this time.",
 "collections.browse_all_books": "Browse All Books",
+ "collections.showing": "Showing",
+  "collections.of": "of",
+  "collections.collections": "collections",
+  
+  "pagination.previous": "Previous",
+  "pagination.next": "Next",
+  "pagination.page": "Page",
+  "pagination.of": "of",
+  "pagination.jump_to": "Jump to page:",
+  "pagination.go": "Go",
+
+
 };
