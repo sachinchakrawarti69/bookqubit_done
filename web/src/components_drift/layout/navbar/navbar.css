@@ -1,0 +1,165 @@
+/* Add to existing navbar.css */
+
+/* Mobile Top Bar */
+.drift-mobile-top-bar {
+  display: none;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1024px) {
+  .drift-mobile-top-bar {
+    display: block;
+  }
+}
+
+.drift-mobile-top-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+}
+
+.drift-mobile-logo h1 {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0284c7, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.drift-mobile-logo span {
+  font-size: 10px;
+  color: #64748b;
+  display: block;
+  margin-top: 2px;
+}
+
+.drift-mobile-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.drift-mobile-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+}
+
+/* Mobile Menu Drawer */
+.drift-mobile-menu-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 80%;
+  max-width: 320px;
+  background: #ffffff;
+  z-index: 46;
+  transform: translateX(100%);
+  animation: slideInRight 0.3s ease forwards;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideInRight {
+  to {
+    transform: translateX(0);
+  }
+}
+
+.drift-mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 24px 20px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.drift-mobile-user-info img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.drift-mobile-user-info h4 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.drift-mobile-user-info p {
+  margin: 0;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.drift-mobile-menu-items {
+  padding: 8px 0;
+}
+
+.drift-mobile-menu-item {
+  display: block;
+  padding: 14px 20px;
+  color: #334155;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background 0.2s ease;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.drift-mobile-menu-item:hover {
+  background: #f8fafc;
+}
+
+.drift-mobile-menu-item.premium {
+  color: #d97706;
+  font-weight: 500;
+}
+
+.drift-mobile-menu-item.logout {
+  color: #dc2626;
+  border-top: 1px solid #f1f5f9;
+  margin-top: 8px;
+}
+
+/* Mobile Overlay */
+.drift-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 45;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Adjust body padding for mobile */
+@media (max-width: 1024px) {
+  body {
+    padding-bottom: 70px;
+  }
+}
