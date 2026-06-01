@@ -8,19 +8,31 @@ import ScrollToTop from "@/utils/ScrollToTop";
 
 export default function PublicLayout({ children }) {
   const pathname = usePathname();
-  
-  // Check if current route should hide navbar and footer
-  const isSocialApp = pathname === "/drift" || pathname.startsWith("/drift/");
-  
+
+  const isSocialApp = pathname.includes("/drift");
+
   return (
     <>
-      <ScrollToTop behavior="smooth" onMount={true} onRouteChange={true} />
-      {!isSocialApp && <Navbar />}
-      <main className={isSocialApp ? "no-navbar-footer" : ""}>
+      <ScrollToTop
+        behavior="smooth"
+        onMount={true}
+        onRouteChange={true}
+      />
+
+      <Navbar hideSecondRow={isSocialApp} />
+
+      <main>
         {children}
       </main>
+
       {!isSocialApp && <Footer />}
-      {!isSocialApp && <GoToUp showAfter={300} smooth={true} />}
+
+      {!isSocialApp && (
+        <GoToUp
+          showAfter={300}
+          smooth={true}
+        />
+      )}
     </>
   );
 }

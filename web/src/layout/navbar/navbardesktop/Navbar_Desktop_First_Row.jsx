@@ -10,7 +10,7 @@ import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
 import Notification_Dropdown from "@/components/notification/Desktop_Notification_Dropdown";
 import Control from "./components/Control";
 import LangSwitchDropdown from "./components/LangSwitchDropdown";
-import BookQubitSnapDropdown from "./components/BookQubitSnapDropdown";
+import DiscoveryDriftBar from "./components/DiscoveryDriftBar";
 
 import { auth } from "@/config/firebase";
 import { onAuthStateChanged } from "firebase/auth";
@@ -163,7 +163,7 @@ const Navbar_Desktop_First_Row = () => {
         dir={isRTL ? "rtl" : "ltr"}
         style={{ 
           fontFamily: currentFont?.family || "inherit",
-          borderRadius: 0 // Remove rounded corners
+          borderRadius: 0
         }}
       >
         <div className="navbar-desktop-top-row">
@@ -190,7 +190,7 @@ const Navbar_Desktop_First_Row = () => {
       dir={isRTL ? "rtl" : "ltr"}
       style={{ 
         fontFamily: currentFont?.family || "inherit",
-        borderRadius: 0 // Remove rounded corners from both sides
+        borderRadius: 0
       }}
     >
       <div className="navbar-desktop-top-row">
@@ -215,10 +215,8 @@ const Navbar_Desktop_First_Row = () => {
           />
         </div>
 
-        {/* BOOKQUBITSNAP DROPDOWN */}
-        <div className="navbar-desktop-snap-dropdown">
-          <BookQubitSnapDropdown />
-        </div>
+        {/* DISCOVERY / DRIFT SWITCHER */}
+        <DiscoveryDriftBar />
 
         {/* USER ACTIONS */}
         <div className="navbar-desktop-user-actions">
