@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaRobot, FaMoon, FaSun } from "react-icons/fa";
+import { FaRobot } from "react-icons/fa";
 
 import SearchBar_Desktop from "@/components/searchbar/searchbar_desktop/SearchBar_Desktop";
 import UserDropDown from "@/components/auth/Dasktop_Profile_Dropdown";
@@ -29,7 +29,7 @@ const Navbar_Desktop_First_Row = () => {
   const [loading, setLoading] = useState(true);
   const [recentSearches, setRecentSearches] = useState([]);
   const [bookSuggestions, setBookSuggestions] = useState([]);
-  const { theme, themeName, changeTheme } = useTheme();
+  const { theme, themeName } = useTheme();
   const { isRTL } = useRTL();
   const { currentFont } = useFont();
   const { language } = useLanguage();
@@ -108,14 +108,6 @@ const Navbar_Desktop_First_Row = () => {
   const handleClearRecent = useCallback((updatedRecent = []) => {
     setRecentSearches(updatedRecent);
   }, []);
-
-  const toggleDarkMode = useCallback(() => {
-    if (themeName === "dark" || themeName === "midnight" || themeName === "cyberpunk") {
-      changeTheme("light");
-    } else {
-      changeTheme("dark");
-    }
-  }, [themeName, changeTheme]);
 
   // Get navbar background - using theme object like ExploreCollections
   const getNavbarBackground = () => {
@@ -220,27 +212,6 @@ const Navbar_Desktop_First_Row = () => {
 
         {/* USER ACTIONS */}
         <div className="navbar-desktop-user-actions">
-          {/* DARK MODE TOGGLE */}
-          <button
-            onClick={toggleDarkMode}
-            className={`navbar-desktop-darkmode-button ${getButtonBackground()}`}
-            aria-label="Toggle dark mode"
-            title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            style={{
-              border: `1px solid ${isDarkMode ? '#374151' : '#e5e7eb'}`,
-              borderRadius: '8px',
-              padding: '8px',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-          >
-            {isDarkMode ? (
-              <FaSun className={getTextHighlight()} size={18} />
-            ) : (
-              <FaMoon className={getTextSecondary()} size={18} />
-            )}
-          </button>
-
           {/* LANGUAGE SWITCHER */}
           <LangSwitchDropdown />
 
