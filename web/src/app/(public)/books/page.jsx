@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { getBooksByLanguage } from "@/data/books";
+import { useBooks } from '@/hooks/useBooks';
 import BookSquareCard from "@/features/book/booklist/ui/BookSquareCard";
 import BookRectangleCard from "@/features/book/booklist/ui/BookRectangleCard";
 import BookCompactCard from "@/features/book/booklist/ui/BookCompactCard";
@@ -18,10 +18,8 @@ const BooksPage = () => {
   const { t, language } = useLanguage();
   const { currentFont } = useFont();
   
-  // Get books based on current language
-  const booksData = useMemo(() => {
-    return getBooksByLanguage(language);
-  }, [language]);
+  // Get books based on current language via hook
+  const { books: booksData, loading } = useBooks();
 
   // State for search and display
   const [searchTerm, setSearchTerm] = useState("");

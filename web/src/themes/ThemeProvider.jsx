@@ -30,23 +30,20 @@ const themes = {
 
 export const ThemeProvider = ({ children }) => {
   const [currentTheme, setCurrentTheme] = useState('light');
-  const [mounted, setMounted] = useState(false);
 
   // Load saved theme from localStorage on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme');
-    if (savedTheme && themes[savedTheme]) {
+
+    if (savedTheme && themes[savedTheme] && savedTheme !== currentTheme) {
       setCurrentTheme(savedTheme);
     }
-    setMounted(true);
   }, []);
 
   // Save theme to localStorage whenever it changes
   useEffect(() => {
-    if (mounted) {
-      localStorage.setItem('theme', currentTheme);
-    }
-  }, [currentTheme, mounted]);
+    localStorage.setItem('theme', currentTheme);
+  }, [currentTheme]);
 
   const changeTheme = (themeName) => {
     if (themes[themeName]) {
@@ -60,11 +57,6 @@ export const ThemeProvider = ({ children }) => {
     changeTheme,
     availableThemes: Object.keys(themes),
   };
-
-  // Prevent hydration mismatch by not rendering until mounted
-  if (!mounted) {
-    return null;
-  }
 
   return (
     <ThemeContext.Provider value={value}>

@@ -82,7 +82,7 @@ const AuthorDetails = () => {
               alt={author.name}
               className="w-full rounded-2xl shadow-2xl"
               onError={(e) => {
-                e.target.src = '/placeholder-author.jpg';
+                e.target.src = '/placeholder-author.svg';
               }}
             />
             

@@ -34,7 +34,7 @@ const BookwormTrendDashboard = () => {
     {
       id: 1,
       name: "Sachin Chakrawarti",
-      avatar: "https://i.pinimg.com/1200x/70/a6/d3/70a6d3030900b5e209e15e6077bde3e0.jpg",
+      avatar: "/placeholder-author.svg",
       booksRead: 247,
       readingTime: "1,284 hours",
       favoriteGenre: "Fantasy",
@@ -47,7 +47,7 @@ const BookwormTrendDashboard = () => {
     {
       id: 2,
       name: "Shraddha Kapoor",
-      avatar: "https://i.pinimg.com/736x/a3/c2/de/a3c2de268d38b8e92c92efef4c64e31b.jpg",
+      avatar: "/placeholder-author.svg",
       booksRead: 198,
       readingTime: "982 hours",
       favoriteGenre: "Science Fiction",
@@ -60,7 +60,7 @@ const BookwormTrendDashboard = () => {
     {
       id: 3,
       name: "Priyal Shrivastava",
-      avatar: "https://i.pinimg.com/1200x/83/f2/76/83f276814edfe54b4a1345ce3ab0e869.jpg",
+      avatar: "/placeholder-author.svg",
       booksRead: 176,
       readingTime: "876 hours",
       favoriteGenre: "Classics",
@@ -200,7 +200,7 @@ const BookwormTrendDashboard = () => {
                     className="w-24 h-24 rounded-full object-cover border-4 border-sky-500 shadow-lg transition-transform group-hover:scale-105"
                     onError={(e) => {
                       e.target.onerror = null;
-                      e.target.src = "https://via.placeholder.com/96x96?text=User";
+                      e.target.src = "/placeholder-author.svg";
                     }}
                   />
                   <div className="absolute -bottom-2 -right-2 bg-sky-500 rounded-full p-1.5 border-2 border-white dark:border-gray-800">

@@ -33,7 +33,7 @@ const SearchBookCard_Desktop = ({
     themeName === "midnight" ||
     themeName === "cyberpunk";
 
-  const placeholderImage = "/placeholder-book.jpg";
+  const placeholderImage = "/placeholder-book.svg";
   const bookImage =
     !imageError && book.imageUrl ? book.imageUrl : placeholderImage;
 

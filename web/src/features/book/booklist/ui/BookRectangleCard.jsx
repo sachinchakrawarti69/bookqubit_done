@@ -94,8 +94,8 @@ const BookRectangleCard = ({ book, onTagClick }) => {
         flex items-center justify-center p-5 flex-shrink-0 relative group`}
       >
         <img
-          src={book.imageUrl}
-          alt={book.title}
+          src={book.imageUrl || "/default-book-cover.jpg"}
+          alt={book.title || "Book cover"}
           className="h-full w-full object-contain max-h-full max-w-full transition-transform duration-500 group-hover:scale-105"
           onError={(e) => {
             e.target.src = "/default-book-cover.jpg";

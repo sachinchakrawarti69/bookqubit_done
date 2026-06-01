@@ -60,7 +60,7 @@ const SearchSuggestionItem = ({ suggestion, index, isSelected, onClick, isDarkMo
               loading="lazy"
               onError={(e) => {
                 e.target.onerror = null;
-                e.target.src = '/placeholder-book-small.jpg';
+                e.target.src = '/placeholder-book-small.svg';
               }}
             />
           </div>

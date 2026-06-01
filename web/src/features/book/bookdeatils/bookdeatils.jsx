@@ -5,7 +5,8 @@ import { useParams, useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { useBook } from '@/hooks/useBooks';
+import { getBooks } from '@/lib/api';
 
 // Import components
 import BookNotFound from "@/features/book/bookdeatils/components/BookNotFound";
@@ -56,13 +57,30 @@ const BookDetailsPage = ({ initialBook, initialSlug, initialLanguage }) => {
   const [relatedTags, setRelatedTags] = useState([]);
   const [categorizedTags, setCategorizedTags] = useState({});
 
-  // Load books based on language (only if initialBook not provided)
+  // Load books list for related suggestions
   useEffect(() => {
-    if (!initialBook) {
-      const books = getBooksByLanguage(language);
-      setBooksData(books);
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const booksArray = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooksData(booksArray);
+      } catch (e) {
+        // ignore
+        setBooksData([]);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [language]);
+
+  // If no initialBook, use the client hook to fetch the book by slug
+  const { book: fetchedBook, loading: fetchedLoading } = useBook(slug);
+  useEffect(() => {
+    if (!initialBook && fetchedBook) {
+      setBook(fetchedBook);
     }
-  }, [language, initialBook]);
+  }, [fetchedBook, initialBook]);
 
   // Scroll to top when component mounts or slug changes
   useEffect(() => {

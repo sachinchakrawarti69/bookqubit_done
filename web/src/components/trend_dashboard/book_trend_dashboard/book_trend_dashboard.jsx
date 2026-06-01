@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
@@ -29,8 +29,22 @@ const BookTrendDashboard = () => {
   const [sortBy, setSortBy] = useState("trending");
   const [hoveredBook, setHoveredBook] = useState(null);
 
-  const booksData = useMemo(() => {
-    return getBooksByLanguage(language);
+  const [booksData, setBooksData] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const arr = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooksData(arr);
+      } catch (e) {
+        if (!mounted) return;
+        setBooksData([]);
+      }
+    })();
+    return () => { mounted = false; };
   }, [language]);
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
@@ -59,7 +73,7 @@ const BookTrendDashboard = () => {
         id: book.id || index + 1,
         title: book.title,
         author: book.author,
-        cover: book.imageUrl || book.coverImage || "https://via.placeholder.com/100x150?text=Book+Cover",
+        cover: book.imageUrl || book.coverImage || "/placeholder-book-small.svg",
         slug: book.slug || book.id,
         rating: book.rating || 4.5,
         category: book.category || "General",
@@ -213,7 +227,7 @@ const BookTrendDashboard = () => {
                   loading="lazy"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/300x200?text=No+Cover";
+                    e.target.src = "/placeholder-book.svg";
                   }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

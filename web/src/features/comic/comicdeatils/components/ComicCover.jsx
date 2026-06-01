@@ -8,7 +8,7 @@ import {
 
 const ComicCover = ({ comic, isDarkMode, theme, isWishlisted, onToggleWishlist }) => {
   const [imageError, setImageError] = useState(false);
-  const fallbackImage = "/placeholder-comic.jpg";
+  const fallbackImage = "/placeholder-comic.svg";
 
   return (
     <>

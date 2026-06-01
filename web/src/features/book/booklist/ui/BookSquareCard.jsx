@@ -27,7 +27,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
   const handleImageError = (e) => {
     const target = e.target;
     target.onerror = null;
-    target.src = "/placeholder-book.jpg";
+    target.src = "/placeholder-book.svg";
   };
 
   // Helper to ensure category is always an array
@@ -64,7 +64,7 @@ const BookSquareCard = ({ book, onTagClick }) => {
         className={`relative aspect-[3/4] ${isDarkMode ? "bg-gray-800" : "bg-gray-50"} flex items-center justify-center group overflow-hidden`}
       >
         <img
-          src={book.imageUrl || "/placeholder-book.jpg"}
+          src={book.imageUrl || "/placeholder-book.svg"}
           alt={`${t("book.cover_of") || "Cover of"} ${book.title}`}
           className="w-full h-full object-contain p-4 transition-transform duration-500 group-hover:scale-110"
           onError={handleImageError}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600" role="img" aria-label="Author placeholder">
+  <rect width="600" height="600" rx="48" fill="#1f2937"/>
+  <circle cx="300" cy="220" r="96" fill="#94a3b8"/>
+  <path d="M140 520c18-102 92-150 160-150s142 48 160 150" fill="#94a3b8"/>
+  <circle cx="300" cy="220" r="64" fill="#cbd5e1"/>
+  <text x="300" y="560" fill="#e5e7eb" font-family="Arial, Helvetica, sans-serif" font-size="34" text-anchor="middle">Author</text>
+</svg>

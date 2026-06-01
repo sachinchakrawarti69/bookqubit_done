@@ -1,14 +1,18 @@
-import BooksData from '@/data/books/BooksData'
-import AuthorsData from '@/data/authors/AuthorsData'
-import PublicationsData from '@/data/publications/PublicationsData'
+import { getBooks } from '@/lib/api'
 
 const BASE_URL = 'https://www.bookqubit.com'
 
-export default function sitemap() {
-  // Add safety check to prevent build failure if data is undefined
-  const booksData = BooksData || []
-  const authorsData = AuthorsData || []
-  const publicationsData = PublicationsData || []
+export default async function sitemap() {
+  // fetch books from API for sitemap
+  let booksData = []
+  try {
+    const res = await getBooks();
+    booksData = Array.isArray(res) ? res : (res && res.books) || [];
+  } catch (e) {
+    booksData = [];
+  }
+  const authorsData = []
+  const publicationsData = []
 
   // Static pages
   const staticPages = [

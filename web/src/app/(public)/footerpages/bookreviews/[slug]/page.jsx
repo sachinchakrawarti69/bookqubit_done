@@ -33,7 +33,7 @@ const bookReviewsData = [
     slug: "the-midnight-library-review",
     bookTitle: "The Midnight Library",
     bookAuthor: "Matt Haig",
-    bookCover: "https://images.pexels.com/photos/256450/pexels-photo-256450.jpeg?w=400&h=600&fit=crop",
+    bookCover: "/placeholder-book.svg",
     rating: 4.8,
     excerpt: "A captivating exploration of regret, choices, and the infinite possibilities of life.",
     content: `
@@ -57,7 +57,7 @@ const bookReviewsData = [
       <p>The Midnight Library is a must-read for anyone who has ever wondered "what if." It's a reminder that no life is perfect, but every life has value. Highly recommended for fans of literary fiction and philosophical novels.</p>
     `,
     reviewer: "Sarah Johnson",
-    reviewerImage: "https://randomuser.me/api/portraits/women/1.jpg",
+    reviewerImage: "/placeholder-author.svg",
     reviewerBio: "Sarah is a book reviewer and literary critic with over 10 years of experience. She specializes in contemporary fiction and self-help books.",
     date: "2024-05-15",
     category: "Fiction",

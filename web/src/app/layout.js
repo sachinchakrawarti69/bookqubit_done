@@ -182,7 +182,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         {/* Google Tag Manager - Main Script (placed high in <head>) */}
         <Script
@@ -403,7 +403,7 @@ export default function RootLayout({ children }) {
         />
       </head>
 
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         {/* Google Tag Manager (noscript) - Immediately after opening <body> */}
         <noscript>
           <iframe

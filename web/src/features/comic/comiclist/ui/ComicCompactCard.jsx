@@ -44,7 +44,7 @@ const ComicCompactCard = ({
       : getCollectionsAsArray(comic.collection || comic.series);
 
   // Fallback image
-  const fallbackImage = "/placeholder-comic.jpg";
+  const fallbackImage = "/placeholder-comic.svg";
 
   // Handle card click - navigate to comic details
   const handleCardClick = () => {

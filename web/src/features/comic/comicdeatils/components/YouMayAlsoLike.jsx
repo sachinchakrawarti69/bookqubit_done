@@ -9,7 +9,7 @@ const YouMayAlsoLike = ({ currentComic, allComics, isDarkMode, theme, t }) => {
   const [recommendations, setRecommendations] = useState([]);
   const [imageErrors, setImageErrors] = useState({});
 
-  const fallbackImage = "/placeholder-comic.jpg";
+  const fallbackImage = "/placeholder-comic.svg";
 
   const handleImageError = (comicId) => {
     setImageErrors(prev => ({ ...prev, [comicId]: true }));

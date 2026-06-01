@@ -33,7 +33,7 @@ const ThirdPartyAD = () => {
     price: "$12.99",
     rating: 4.8,
     description: "A unique philosophical and spiritual expression of true love — Shraddhuism is Sachin Chakrawarti's lifelong devotion to Shraddha Kapoor since 2013.",
-    imageUrl: "https://i.pinimg.com/736x/c4/90/2b/c4902b3a05912f217a7c8a1508259892.jpg",
+    imageUrl: "/placeholder-book.svg",
   };
 
   return (

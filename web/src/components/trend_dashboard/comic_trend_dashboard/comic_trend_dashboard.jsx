@@ -62,7 +62,7 @@ const ComicTrendDashboard = () => {
         title: comic.title ?? "Untitled Comic",
         publisher: comic.publisher ?? "Independent",
         issue: comic.issue ?? `#${comic.id ?? index + 1}`,
-        cover: comic.image || comic.cover || "https://via.placeholder.com/100x150?text=Comic+Cover",
+        cover: comic.image || comic.cover || "/placeholder-comic.svg",
         slug: comic.slug ?? comic.id ?? index + 1,
         category: comic.category ?? "Comic",
         publicationDate: comic.publicationDate ?? "2024",
@@ -238,7 +238,7 @@ const ComicTrendDashboard = () => {
                         loading="lazy"
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = "https://via.placeholder.com/160x220?text=Comic+Cover";
+                          e.target.src = "/placeholder-comic.svg";
                         }}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

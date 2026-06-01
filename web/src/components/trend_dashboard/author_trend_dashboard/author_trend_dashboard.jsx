@@ -45,7 +45,7 @@ const AuthorTrendDashboard = () => {
       return {
         id: author.id || index + 1,
         name: author.name,
-        avatar: author.image || author.avatar || "https://via.placeholder.com/80?text=Author",
+        avatar: author.image || author.avatar || "/placeholder-author.svg",
         slug: author.slug,
         topBook: author.topBook || author.books?.[0]?.title || "Various Books",
         bio: author.bio,
@@ -150,7 +150,7 @@ const AuthorTrendDashboard = () => {
                   loading="lazy"
                   onError={(e) => {
                     e.target.onerror = null;
-                    e.target.src = "https://via.placeholder.com/80?text=Author";
+                    e.target.src = "/placeholder-author.svg";
                   }}
                 />
                 <div className="author-info">

@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRouter } from "next/navigation";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { useFont } from "@/contexts/FontContext"; // Import font context
 
 const HeroSection = () => {
@@ -36,8 +36,19 @@ const HeroSection = () => {
 
   // Load books based on language
   useEffect(() => {
-    const booksData = getBooksByLanguage(language);
-    setBooks(booksData);
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const arr = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooks(arr);
+      } catch (e) {
+        if (!mounted) return;
+        setBooks([]);
+      }
+    })();
+    return () => { mounted = false; };
   }, [language]);
 
   // Filter books - moved before conditional return
@@ -209,10 +220,14 @@ const HeroSection = () => {
                 className={`relative max-w-xs w-full aspect-[2/3] ${theme.shadow?.book || "shadow-2xl"} rounded-lg overflow-hidden transition-transform duration-300 hover:scale-105`}
               >
                 <img
-                  src={currentBook.imageUrl}
-                  alt={currentBook.title}
+                  src={currentBook?.imageUrl || "/placeholder-book.svg"}
+                  alt={currentBook?.title || "Book cover"}
                   className="w-full h-full object-cover"
                   loading="eager"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = "/placeholder-book.svg";
+                  }}
                 />
               </div>
             </div>
@@ -300,7 +315,7 @@ const HeroSection = () => {
                     {t("book.key_features") || "Key Features"}
                   </h3>
                   <ul className="space-y-2 sm:space-y-3">
-                    {currentBook.keyPoints?.map((point, index) => (
+                    {(Array.isArray(currentBook.keyPoints) ? currentBook.keyPoints : []).map((point, index) => (
                       <li key={index} className="flex items-start">
                         <span
                           className={`${theme.textColors?.highlight || "text-sky-600 dark:text-sky-400"} mr-2 sm:mr-3 mt-0.5`}

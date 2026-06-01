@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { 
   FaSearch, 
   FaTimes, 
@@ -87,7 +87,8 @@ const SearchPage_Mobile = ({ onClose, initialQuery = "" }) => {
     
     await new Promise(resolve => setTimeout(resolve, 300));
     
-    const books = getBooksByLanguage(language);
+    const booksRes = await getBooks(language);
+    const books = Array.isArray(booksRes) ? booksRes : (booksRes && booksRes.books) || [];
     let results = books.filter((book) => {
       const searchLower = searchTerm.toLowerCase();
       return (

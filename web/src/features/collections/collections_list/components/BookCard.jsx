@@ -19,7 +19,7 @@ const BookCard = ({ book, theme, isDarkMode, t }) => {
               alt={book.title}
               className="w-24 h-36 object-cover rounded-lg shadow-md"
               onError={(e) => {
-                e.target.src = "/placeholder-book.jpg";
+                e.target.src = "/placeholder-book.svg";
               }}
             />
           </div>

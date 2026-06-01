@@ -9,7 +9,7 @@ const newsData = [
     date: "2024-03-15",
     readTime: "5 min read",
     author: "Sarah Chen",
-    image: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["AI", "Technology", "Reading"],
     featured: true,
     content: `
@@ -35,7 +35,7 @@ const newsData = [
     date: "2024-03-10",
     readTime: "7 min read",
     author: "Michael Rodriguez",
-    image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Audiobooks", "Trends", "Industry"],
     featured: true,
     content: `
@@ -61,7 +61,7 @@ const newsData = [
     date: "2024-03-05",
     readTime: "10 min read",
     author: "James Wilson",
-    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Interview", "Authors", "Writing"],
     featured: false,
     content: `
@@ -83,7 +83,7 @@ const newsData = [
     date: "2024-03-01",
     readTime: "8 min read",
     author: "David Park",
-    image: "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Writing", "Tips", "How-to"],
     featured: false,
     content: `
@@ -113,7 +113,7 @@ const newsData = [
     date: "2024-02-25",
     readTime: "6 min read",
     author: "Lisa Thompson",
-    image: "https://images.unsplash.com/photo-1532012197267-da84d127e765?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Community", "Book Clubs", "Features"],
     featured: true,
     content: `
@@ -138,7 +138,7 @@ const newsData = [
     date: "2024-02-20",
     readTime: "9 min read",
     author: "Robert Kim",
-    image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Publishing", "Future", "Technology"],
     featured: false,
     content: `
@@ -163,7 +163,7 @@ const newsData = [
     date: "2024-02-15",
     readTime: "6 min read",
     author: "Maria Gonzalez",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Reading", "Habits", "Productivity"],
     featured: false,
     content: `
@@ -190,7 +190,7 @@ const newsData = [
     date: "2024-02-10",
     readTime: "7 min read",
     author: "Thomas Reed",
-    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "/placeholder-book.svg",
     tags: ["Review", "Science Fiction", "Books"],
     featured: true,
     content: `

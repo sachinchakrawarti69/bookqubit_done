@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -60,10 +60,21 @@ const Category = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 6;
 
-  // Load books based on language
+  // Load books based on language via API
   React.useEffect(() => {
-    const booksData = getBooksByLanguage(language);
-    setBooks(booksData);
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const booksArray = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooks(booksArray);
+      } catch (e) {
+        if (!mounted) return;
+        setBooks([]);
+      }
+    })();
+    return () => { mounted = false; };
   }, [language]);
 
   // Guard against undefined theme
@@ -382,7 +393,7 @@ const Category = () => {
                                   alt={book.title}
                                   className="w-24 h-36 object-cover rounded-lg shadow-md"
                                   onError={(e) => {
-                                    e.target.src = "/placeholder-book.jpg";
+                                    e.target.src = "/placeholder-book.svg";
                                   }}
                                 />
                               </div>

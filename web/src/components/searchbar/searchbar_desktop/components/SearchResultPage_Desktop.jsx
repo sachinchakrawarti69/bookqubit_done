@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import SearchBookCard_Desktop from "./SearchBookCard_Desktop";
 import {
   FaSearch,
@@ -63,7 +63,8 @@ const SearchResultPage_Desktop = ({ initialQuery, onClose }) => {
       // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      const books = getBooksByLanguage(language);
+      const res = await getBooks(language);
+      const books = Array.isArray(res) ? res : (res && res.books) || [];
       const results = books.filter((book) => {
         const searchLower = searchTerm.toLowerCase();
         return (

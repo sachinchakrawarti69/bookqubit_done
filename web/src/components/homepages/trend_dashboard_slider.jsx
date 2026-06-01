@@ -8,7 +8,7 @@ import "slick-carousel/slick/slick-theme.css";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { FaFire, FaEye, FaChartLine, FaArrowRight, FaBook, FaUser, FaFilm } from "react-icons/fa";
 
 const TrendDashboardSlider = () => {
@@ -21,7 +21,23 @@ const TrendDashboardSlider = () => {
   const [trendingItems, setTrendingItems] = useState([]);
 
   const isDarkMode = themeName === 'dark' || themeName === 'midnight' || themeName === 'cyberpunk';
-  const booksData = getBooksByLanguage(language);
+  const [booksData, setBooksData] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const arr = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooksData(arr);
+      } catch (e) {
+        if (!mounted) return;
+        setBooksData([]);
+      }
+    })();
+    return () => { mounted = false; };
+  }, [language]);
 
   useEffect(() => {
     if (booksData && booksData.length > 0) {
@@ -33,7 +49,7 @@ const TrendDashboardSlider = () => {
           type: "book",
           title: book.title,
           author: book.author,
-          cover: book.imageUrl || book.coverImage || "https://via.placeholder.com/120x180?text=Book",
+          cover: book.imageUrl || book.coverImage || "/placeholder-book-small.svg",
           trendScore: Math.floor(Math.random() * 30) + 70,
           growth: `+${Math.floor(Math.random() * 50) + 20}%`,
           link: `/books/${book.slug || book.id}`,
@@ -53,7 +69,7 @@ const TrendDashboardSlider = () => {
           type: "author",
           title: author.name,
           author: author.title,
-          cover: "https://via.placeholder.com/120x180?text=Author",
+          cover: "/placeholder-author.svg",
           trendScore: author.trendScore,
           growth: author.growth,
           link: `/authors/${author.slug}`,
@@ -72,7 +88,7 @@ const TrendDashboardSlider = () => {
           type: "comic",
           title: comic.title,
           author: comic.publisher,
-          cover: "https://via.placeholder.com/120x180?text=Comic",
+          cover: "/placeholder-comic.svg",
           trendScore: comic.trendScore,
           growth: comic.growth,
           link: `/comics/${comic.slug}`,
@@ -194,7 +210,7 @@ const TrendDashboardSlider = () => {
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = "https://via.placeholder.com/300x200?text=No+Image";
+                            e.target.src = "/placeholder-book.svg";
                           }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>

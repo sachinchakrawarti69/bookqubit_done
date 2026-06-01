@@ -1,15 +1,15 @@
 // src/hooks/useCategories.js
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 // Adjust the import path to match your actual data file location.
 // If you use the @ alias pointing to src/, this works:
-import booksData from "@/data/books/BooksData";
+import { getBooks } from '@/lib/api';
 
 /**
  * Extracts unique country names from booksData.
  */
-const getUniqueCountries = () => {
+const getUniqueCountriesFromArray = (booksArray) => {
   const countries = new Set();
-  booksData.forEach((book) => {
+  (booksArray || []).forEach((book) => {
     if (book.geography?.country) {
       countries.add(book.geography.country);
     }
@@ -273,24 +273,33 @@ const staticCategories = [
 ];
 
 export const useCategories = () => {
-  const countryCategory = useMemo(() => {
-    const countries = getUniqueCountries();
-    return {
-      id: "country",
-      title: "Books by Country",
-      items: countries.map((name) => ({
-        name,
-        path: `/books/country/${toSlug(name)}`, // adjust pattern if needed
-      })),
-      viewAllPath: "/books/by-country",
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks();
+        const booksArray = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setCountries(getUniqueCountriesFromArray(booksArray));
+      } catch (e) {
+        // ignore
+      }
+    })();
+    return () => {
+      mounted = false;
     };
   }, []);
 
-  const categories = useMemo(() => {
-    // Place the dynamic country category at the beginning
-    return [countryCategory, ...staticCategories];
-    // Or at the end: return [...staticCategories, countryCategory];
-  }, [countryCategory]);
+  const countryCategory = useMemo(() => ({
+    id: 'country',
+    title: 'Books by Country',
+    items: countries.map((name) => ({ name, path: `/books/country/${toSlug(name)}` })),
+    viewAllPath: '/books/by-country',
+  }), [countries]);
+
+  const categories = useMemo(() => [countryCategory, ...staticCategories], [countryCategory]);
 
   return categories;
 };

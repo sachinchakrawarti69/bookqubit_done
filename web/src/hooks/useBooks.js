@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { getBooksByLanguage, getBookBySlug } from '@/data/books';
+import { getBooks, getBookBySlug } from '@/lib/api';
 
 export const useBooks = () => {
   const { language } = useLanguage();
@@ -10,10 +10,16 @@ export const useBooks = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadBooks = () => {
-      const booksData = getBooksByLanguage(language);
-      setBooks(booksData);
-      setLoading(false);
+    const loadBooks = async () => {
+      setLoading(true);
+      try {
+        const booksData = await getBooks(language);
+        setBooks(Array.isArray(booksData) ? booksData : (booksData && booksData.books) || []);
+      } catch (err) {
+        setBooks([]);
+      } finally {
+        setLoading(false);
+      }
     };
 
     loadBooks();
@@ -28,13 +34,19 @@ export const useBook = (slug) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadBook = () => {
-      const bookData = getBookBySlug(slug, language);
-      setBook(bookData);
-      setLoading(false);
+    const loadBook = async () => {
+      setLoading(true);
+      try {
+        const bookData = await getBookBySlug(slug, language);
+        setBook(bookData);
+      } catch (err) {
+        setBook(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    loadBook();
+    if (slug) loadBook();
   }, [slug, language]);
 
   return { book, loading, language };

@@ -57,7 +57,7 @@ const Authors = () => {
                 className="w-full h-64 object-cover"
                 loading="lazy"
                 onError={(e) => {
-                  e.target.src = '/placeholder-author.jpg';
+                  e.target.src = '/placeholder-author.svg';
                 }}
               />
 

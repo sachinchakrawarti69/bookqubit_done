@@ -1,5 +1,5 @@
 import BookDetailsPage from "@/features/book/bookdeatils/bookdeatils";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks, getBookBySlug } from "@/lib/api";
 
 import { cookies } from "next/headers";
 
@@ -11,8 +11,10 @@ export async function generateMetadata({ params }) {
   const cookieStore = cookies();
   const language = cookieStore.get("language")?.value || "en";
 
-  const books = getBooksByLanguage(language);
-  const book = books?.find((b) => b.slug === slug);
+  const serverBook = await getBookBySlug(slug, language);
+  const books = await getBooks(language);
+  const booksArray = Array.isArray(books) ? books : (books && books.books) || [];
+  const book = serverBook || booksArray?.find((b) => b.slug === slug);
 
   if (!book) {
     return {
@@ -126,9 +128,10 @@ export async function generateStaticParams() {
   const allParams = [];
 
   for (const lang of languages) {
-    const books = getBooksByLanguage(lang);
-    if (books && books.length > 0) {
-      const params = books.map((book) => ({
+    const books = await getBooks(lang);
+    const booksArray = Array.isArray(books) ? books : (books && books.books) || [];
+    if (booksArray && booksArray.length > 0) {
+      const params = booksArray.map((book) => ({
         slug: book.slug,
       }));
       allParams.push(...params);
@@ -151,8 +154,10 @@ export default async function BookPage({ params }) {
   const { slug } = params;
 
   // Fetch book data for structured data
-  const books = getBooksByLanguage(language);
-  const book = books?.find((b) => b.slug === slug);
+  const serverBook = await getBookBySlug(slug, language);
+  const books = await getBooks(language);
+  const booksArray = Array.isArray(books) ? books : (books && books.books) || [];
+  const book = serverBook || booksArray?.find((b) => b.slug === slug);
 
   if (!book) {
     return <BookDetailsPage initialLanguage={language} initialSlug={slug} />;

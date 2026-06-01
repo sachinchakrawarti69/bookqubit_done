@@ -44,7 +44,7 @@ const BookCompactCard = ({
       : getCollectionsAsArray(book.collection);
 
   // Fallback image
-  const fallbackImage = "/placeholder-book.jpg";
+  const fallbackImage = "/placeholder-book.svg";
 
   // Handle card click - navigate to book details
   const handleCardClick = () => {

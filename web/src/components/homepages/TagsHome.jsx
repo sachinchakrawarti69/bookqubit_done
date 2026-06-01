@@ -453,7 +453,7 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import {
   getAllTags,
   getPopularTags,
@@ -519,32 +519,47 @@ const TagsHome = ({
 
   // Load tags
   useEffect(() => {
-    const books = getBooksByLanguage(language);
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const books = Array.isArray(res) ? res : (res && res.books) || [];
 
-    if (usePredefined) {
-      // Use predefined tags
-      setPredefinedTags(PREDEFINED_TAGS);
-      setTags(PREDEFINED_TAGS.slice(0, limit));
-      setFilteredTags(PREDEFINED_TAGS.slice(0, limit));
+        if (!mounted) return;
 
-      // Get popular and trending tags
-      const popular = getPopularPredefinedTags(12);
-      setPopularTags(popular);
+        if (usePredefined) {
+          // Use predefined tags
+          setPredefinedTags(PREDEFINED_TAGS);
+          setTags(PREDEFINED_TAGS.slice(0, limit));
+          setFilteredTags(PREDEFINED_TAGS.slice(0, limit));
 
-      // Trending tags (based on popularity > 80)
-      const trending = PREDEFINED_TAGS.filter(
-        (tag) => tag.popularity >= 80,
-      ).slice(0, 12);
-      setTrendingTags(trending);
-    } else {
-      // Use dynamic tags from books
-      const allTags = getAllTags(books);
-      setTags(allTags);
-      setFilteredTags(allTags.slice(0, limit));
-      setPopularTags(getPopularTags(books, 12));
-    }
+          // Get popular and trending tags
+          const popular = getPopularPredefinedTags(12);
+          setPopularTags(popular);
 
-    setIsLoading(false);
+          // Trending tags (based on popularity > 80)
+          const trending = PREDEFINED_TAGS.filter(
+            (tag) => tag.popularity >= 80,
+          ).slice(0, 12);
+          setTrendingTags(trending);
+        } else {
+          // Use dynamic tags from books
+          const allTags = getAllTags(books);
+          setTags(allTags);
+          setFilteredTags(allTags.slice(0, limit));
+          setPopularTags(getPopularTags(books, 12));
+        }
+      } catch (e) {
+        if (!mounted) return;
+        setTags([]);
+        setFilteredTags([]);
+        setPopularTags([]);
+        setTrendingTags([]);
+      } finally {
+        if (mounted) setIsLoading(false);
+      }
+    })();
+    return () => { mounted = false; };
   }, [language, limit, usePredefined]);
 
   // Filter tags based on search, letter, and category

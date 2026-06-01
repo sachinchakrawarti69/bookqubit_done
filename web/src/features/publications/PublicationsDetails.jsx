@@ -83,7 +83,7 @@ const PublicationsDetails = () => {
                 alt={`${publisher.name} logo`}
                 className="max-h-40 w-full object-contain"
                 onError={(e) => {
-                  e.target.src = "https://via.placeholder.com/300x150?text=Logo+Not+Found";
+                  e.target.src = "/placeholder-author.svg";
                 }}
               />
             </div>
@@ -300,11 +300,11 @@ const PublicationsDetails = () => {
                 >
                   <div className="aspect-[2/3] mb-3 overflow-hidden rounded-lg bg-gray-200 dark:bg-gray-700">
                     <img
-                      src={book.imageUrl || "https://via.placeholder.com/300x450?text=No+Cover"}
+                      src={book.imageUrl || "/placeholder-book.svg"}
                       alt={book.title}
                       className="w-full h-full object-cover"
                       onError={(e) => {
-                        e.target.src = "https://via.placeholder.com/300x450?text=No+Cover";
+                        e.target.src = "/placeholder-book.svg";
                       }}
                     />
                   </div>

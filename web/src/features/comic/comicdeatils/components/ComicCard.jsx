@@ -7,7 +7,7 @@ import StarRating from "./StarRating";
 
 const ComicCard = ({ comic, variant = "default", isDarkMode, theme, t }) => {
   const [imageError, setImageError] = useState(false);
-  const fallbackImage = "/placeholder-comic.jpg";
+  const fallbackImage = "/placeholder-comic.svg";
 
   const getImageSrc = () => {
     if (imageError) return fallbackImage;

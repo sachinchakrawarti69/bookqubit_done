@@ -12,7 +12,7 @@ const blogData = [
     author: "Eleanor Vance",
     authorRole: "Reading Specialist",
     image:
-      "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Reading", "Mindfulness", "Self-Improvement"],
     featured: true,
     content: `
@@ -55,7 +55,7 @@ const blogData = [
     author: "Marcus Thorne",
     authorRole: "Library Curator",
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Collection", "Organization", "Home Library"],
     featured: true,
     content: `
@@ -101,7 +101,7 @@ const blogData = [
     author: "Sofia Ramirez",
     authorRole: "Digital Reading Expert",
     image:
-      "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["E-books", "Physical Books", "Technology"],
     featured: false,
     content: `
@@ -140,7 +140,7 @@ const blogData = [
     author: "David Chen",
     authorRole: "Book Designer",
     image:
-      "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Design", "Psychology", "Marketing"],
     featured: false,
     content: `
@@ -177,7 +177,7 @@ const blogData = [
     author: "Isabella Rossi",
     authorRole: "Interior Designer",
     image:
-      "https://images.unsplash.com/photo-1589998059171-988d887df646?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Interior Design", "Comfort", "Productivity"],
     featured: true,
     content: `
@@ -224,7 +224,7 @@ const blogData = [
     author: "Dr. Benjamin Carter",
     authorRole: "Sleep Specialist",
     image:
-      "https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Sleep", "Health", "Routine"],
     featured: false,
     content: `
@@ -262,7 +262,7 @@ const blogData = [
     author: "Professor Angela Mitchell",
     authorRole: "Cognitive Scientist",
     image:
-      "https://images.unsplash.com/photo-1455390582262-044cdead277a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Memory", "Learning", "Productivity"],
     featured: false,
     content: `
@@ -310,7 +310,7 @@ const blogData = [
     author: "Jamal Washington",
     authorRole: "Literary Critic",
     image:
-      "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      "/placeholder-book.svg",
     tags: ["Diversity", "Culture", "Inclusion"],
     featured: true,
     content: `

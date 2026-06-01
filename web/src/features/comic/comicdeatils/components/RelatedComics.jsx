@@ -10,7 +10,7 @@ const RelatedComics = ({ comics, currentComicId, title, isDarkMode, theme, t }) 
 
   if (!comics || comics.length === 0) return null;
 
-  const fallbackImage = "/placeholder-comic.jpg";
+  const fallbackImage = "/placeholder-comic.svg";
 
   const handleImageError = (comicId) => {
     setImageErrors(prev => ({ ...prev, [comicId]: true }));

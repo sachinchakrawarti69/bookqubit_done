@@ -17,7 +17,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useTheme } from "@/themes/useTheme";
 import { useRTL } from "@/contexts/RTLContext";
 import { useFont } from "@/contexts/FontContext";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { useLanguage } from "@/contexts/LanguageContext";
 
 import bookqubitLogo from "@/assets/logo/bookqubitlogo.png";
@@ -55,18 +55,28 @@ const Navbar_Desktop_First_Row = () => {
   // Load book suggestions based on language
   useEffect(() => {
     if (!searchInitialized.current) {
-      const books = getBooksByLanguage(language);
-      const suggestions = books.map((book) => ({
-        id: book.id,
-        title: book.title,
-        author: book.author,
-        slug: book.slug,
-        imageUrl: book.imageUrl,
-        category: book.category,
-        tags: book.tags,
-      }));
-      setBookSuggestions(suggestions);
-      searchInitialized.current = true;
+      let mounted = true;
+      (async () => {
+        try {
+          const res = await getBooks(language);
+          const books = Array.isArray(res) ? res : (res && res.books) || [];
+          if (!mounted) return;
+          const suggestions = books.map((book) => ({
+            id: book.id,
+            title: book.title,
+            author: book.author,
+            slug: book.slug,
+            imageUrl: book.imageUrl,
+            category: book.category,
+            tags: book.tags,
+          }));
+          setBookSuggestions(suggestions);
+          searchInitialized.current = true;
+        } catch (e) {
+          // ignore
+        }
+      })();
+      return () => { mounted = false; };
     }
   }, [language]);
 

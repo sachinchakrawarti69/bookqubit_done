@@ -13,7 +13,7 @@ import {
 import { useTheme } from "@/themes/useTheme";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useRouter } from "next/navigation";
-import { getBooksByLanguage } from "@/data/books";
+import { getBooks } from '@/lib/api';
 import { useFont } from "@/contexts/FontContext";
 
 const HeroSectionSliderMobile = () => {
@@ -34,8 +34,19 @@ const HeroSectionSliderMobile = () => {
 
   // Load books based on language
   useEffect(() => {
-    const booksData = getBooksByLanguage(language);
-    setBooks(booksData);
+    let mounted = true;
+    (async () => {
+      try {
+        const res = await getBooks(language);
+        const arr = Array.isArray(res) ? res : (res && res.books) || [];
+        if (!mounted) return;
+        setBooks(arr);
+      } catch (e) {
+        if (!mounted) return;
+        setBooks([]);
+      }
+    })();
+    return () => { mounted = false; };
   }, [language]);
 
   // Filter books
@@ -184,10 +195,14 @@ const HeroSectionSliderMobile = () => {
                   className={`relative w-full aspect-[2/3] rounded-lg overflow-hidden ${theme.shadow?.book || "shadow-md"}`}
                 >
                   <img
-                    src={currentBook.imageUrl}
-                    alt={currentBook.title}
+                    src={currentBook?.imageUrl || "/placeholder-book.svg"}
+                    alt={currentBook?.title || "Book cover"}
                     className="w-full h-full object-cover"
                     loading="eager"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src = "/placeholder-book.svg";
+                    }}
                   />
                 </div>
 
